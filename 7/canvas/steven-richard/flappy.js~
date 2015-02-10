@@ -1,0 +1,16 @@
+var c = document.getElementById("c");
+var b = document.getElementById("b");
+var ctx = c.getContext("2d");
+
+var makePipe = function(x, w, h1, h2, ctx) { //Creates a pipe starting at an x-coordinate of x, with a width of w, the bottom pipe goes up h1 pixels, the top pipe goes down h2 pixels.
+    return {
+	x : x,
+	w : w,
+	h1 : h1,
+	h2 : h2,
+	ctx : ctx
+	draw : function() {
+	    ctx.fillStyle = "#008000";
+	    ctx.fillRect(this.x, this.
+	}
+}
