@@ -9,14 +9,14 @@ var makeBlock = function(x,y,w,h,ctx) {
 				h : h,
 				ctx : ctx,
 				color : "#ff0000",
-				dx : 2,
+				dx : 1,
 				draw : function() {
 						ctx.fillStyle = this.color;
 						ctx.fillRect(this.x,this.y,this.w,this.h);
 				},
 				move : function() {
 						this.x = this.x + this.dx;
-						// this.y = this.y + 2*Math.random() - 1;
+						this.y = this.y + 2*Math.random() - 1;
 						if (this.x < 10 || this.x > 580){
 								this.dx = this.dx * -1;
 						}
@@ -27,17 +27,6 @@ var makeBlock = function(x,y,w,h,ctx) {
 						
 				
 		};
-};
-
-var makeDrop = function(x,y,w,h,ctx) {
-    return {
-	x : x,
-	y : y,
-	w : w,
-	h : h,
-	ctx : ctx,
-	color : "#0000ff"
-    }
 };
 
 var update = function() {
