@@ -8,10 +8,10 @@ var img = new Image();
 img.src="http://3.bp.blogspot.com/-9hHsA2J18Sk/Uvfbls191cI/AAAAAAAAXUw/q841reaU3Lo/s1600/Flappy+Birds+high+res+transparent+background+png+animated+(1).png"
 
 var bird = {
-    y: 200,
+    y: 150,
     yvel : 0,
     draw : function(){
-	ctx.drawImage(img,100,200,100,100);
+	ctx.drawImage(img,10,this.y,150,100);
     }
 }
 
