@@ -1,10 +1,6 @@
 var c = document.getElementById("c");
 var ctx = c.getContext("2d");
-var e = e || window.event;
-cursor = { x : 0, y : 0 };
-cursor.x = e.pageX;
-cursor.y = e.pageY;
-
+var mouse = {x: 0, y: 0};
 var blocks = [];
 var makeTarget = function(x,y,w,h,ctx) {
     return {
@@ -52,7 +48,7 @@ var makeBlock = function(x,y,w,h,ctx) {
 	    if ( this.x > 450){
 		//this.dx = this.dx * -1;
 		if( this.y < blocks[0].y  && this.y > blocks[0].y - 40)
-		    blocks[0].color = "#00ff00";
+		    blocks[1].color = "#00ff00";
 		this.hit = true
 	    }
 	    /*if (this.y < 20 || this.y > 580){
@@ -65,6 +61,8 @@ var makeBlock = function(x,y,w,h,ctx) {
 };
 var makeShip = function(w,h,ctx,e) {
     return {
+	x : 0,
+	y : 0,
 	w : w,
 	h : h,
 	ctx : ctx,
@@ -74,23 +72,28 @@ var makeShip = function(w,h,ctx,e) {
 	    ctx.fillStyle = this.color;
 	    ctx.fillRect(this.x,this.y,this.w,this.h);
 	},
-	move : function() {
-
-	    if( cursor.x < 200 && cursor.y<500){
-		this.x= cursor.x;
-		this.y= cursor.y;
-	    }
+	move : function(x1,y1) {
+	    console.log("here:")
+	    console.log(x1);
+	    console.log(y1)
+	    //if( cursor.x < 200 && cursor.y<500){
+	    this.x= x1;
+	    this.y= y1;
+	    //}
 	}
 	
     };
 };
 
-var update = function() {
+var update = function(e) {
     ctx.fillStyle = "#ffffff";
     ctx.fillRect(0,0,600,600);
-    cursor.x = e.pageX;
-    cursor.y = e.pageY;
-    for (var i = 0; i < blocks.length; i++){
+    var x = mouse.x;
+    var y = mouse.y;
+    
+    blocks[0].move(x, y);
+    blocks[0].draw();
+    for (var i = 1; i < blocks.length; i++){
 	if (blocks[i].hit){
 	    blocks.splice(i,1);
 	}
@@ -110,9 +113,14 @@ var clicked = function(e){
     blocks.push(makeBlock(x,y,w,h,ctx));
 };
 
+document.addEventListener('mousemove', function(e){ 
+    mouse.x = e.clientX || e.pageX; 
+    mouse.y = e.clientY || e.pageY 
+}, false);
+
 c.addEventListener("click",clicked);
-blocks.push(makeTarget(450,150,30,40,ctx));
 blocks.push(makeShip(40,15,ctx));
+blocks.push(makeTarget(450,150,30,40,ctx));
 blocks.push(makeBlock(50,100,30,15,ctx));
 blocks.push(makeBlock(100,200,30,15,ctx));
 window.requestAnimationFrame(update);
