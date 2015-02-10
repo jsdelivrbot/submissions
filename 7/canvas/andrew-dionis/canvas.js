@@ -43,15 +43,19 @@ var makeBall = function(x,y,w,h,ctx) {
 	    if (this.y < 7 || this.y > 593){
 		this.dy = this.dy * -1;;
 	    }
+	    for (var i=0; i < blocks.length; i++){
+		blockY=blocks[i].y;
+		block
+		if(this.y == blocks[i].y+blocks[i].w/2 && this.x == blocks[i].x){
+		    this.y
+	    }
 	}
     };
 };
 var update = function(){
     ctx.fillStyle = "#ffffff";
     ctx.fillRect(0,0,600,600);
-    for (var i=0; i < blocks.length; i++){
-	blocks[i].move();
-    }
+    ball.update()
     window.requestAnimationFrame(update);
 }
 
@@ -67,6 +71,4 @@ var addBlock = function(e){
 c.addEventListener("click",addBlock);
 
 var blocks = [];
-blocks.push(makeBlock(50,100,30,15,ctx));
-blocks.push(makeBlock(100,200,30,15,ctx));
 window.requestAnimationFrame(update);
