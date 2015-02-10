@@ -1,0 +1,35 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <link type="text/css" rel="stylesheet" href="stylesheet.css"/>
+    <style>
+      body {
+        margin: 0px;
+        padding: 0px;
+      }
+    </style>
+        <script data-require="jquery" data-semver="2.1.1" src="jquery.js"></script>
+		<script src = "script.js"></script>
+
+  </head>
+  <body>
+
+
+    <form>
+      <select id="Painting">
+	<option value="Washington">Washington Crosing the Deleware</option>
+	<option value= "Reflection">Relection In Mirror</option>
+	<option value= "SelfPortrait">Self Portrait</option>
+	<option value= "StandingFN">Standing Female Nude</option>
+	<option value= "StillBottle">Still Life With A Bottle of Rum</option>
+	<option value= "SoupDress">The Souper Dress</option>
+	<option value= "Ugolino">Ugolino And His Sons </option>
+	<option value= "YoungPitcher">Young Woman With A Water Pitcher</option>
+      </select>
+    </form>
+
+    <canvas id="myCanvas"  style = "display:none"></canvas>
+   
+    <pre id="consoleFake" style="font-size:1px";></pre>
+  </body>
+</html>      
