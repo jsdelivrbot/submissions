@@ -1,29 +1,33 @@
 var c = document.getElementById("c");
 var ctx = c.getContext("2d");
+var mouse = {x: 0, y: 0};
 
-var makeBlock = function(x,y,w,h,ctx){
+
+var makeDot = function(ctx){
     return {
-	x : x,
-	y : y,
-	w : w,
-	h : h,
+	x : 100 + 800*Math.random(),
+	y : 500,
+	r : 15,
 	ctx : ctx,
-	dx : 1,
+	dx : -1,
+	dy : -1,
 	color : "#ff0000",
-	draw : function() {
-	    ctx.fillStyle=this.color;
-	    ctx.fillRect(this.x,this.y,this.w,this.h);
+	spawn : function() {
+	    e.preventDefault();
+	    ctx.arc(x,y,r,0,2*Math.PI);
+	    ctx.fillStyle= color;
 	    ctx.stroke();
+	    ctx.fill();
 	},
 	move : function() {
-	    this.x = this.x + this.dx;
-	    this.y = this.y + 2*Math.random() -1;
-	    if (this.x < 10 || this.x > 580){
-		this.dx = this.dx * -1;
-	    }
-	    if (this.y < 20 || this.y > 580){
-		this.y = 100 + 400*Math.random();
-	    }
+	    this.x = this.x + dx;
+	    this.y = this.y + dy;
+	}
+	checkCollide : function() {
+	    return (Math.pow(mouse.x - this.x, 2) + Math.pow(mouse.y - this.y, 2) <= Math.pow(this.r,2)); 
+	}
+	inBounds : function() {
+	    return (this.x > 0 && this.y > 0);
 	}
     };
 };
@@ -31,27 +35,31 @@ var makeBlock = function(x,y,w,h,ctx){
 
 var update = function() {
     ctx.fillStyle="#ffffff";
-    ctx.fillRect(0,0,600,600);
-    for (var i = 0; i < blocks.length; i++){
-	blocks[i].move();
-	blocks[i].draw();
+    var b = makeDot(ctx);
+    dots.push(b);
+    for (var i = 0; i < dots.length; i++){
+	dots[i].move();
+	dots[i].spawn();
+	if (dot[i].checkCollide()) {
+	    console.log ("NOOB. GET BETTER");
+	}
+	if (!(dot[i].inBounds())) {
+	    dots.pop(dot[i]);
+	}
     }
     window.requestAnimationFrame(update);
 };
 
 
-var clicked = function(e) {
-    var x = e.offsetX;
-    var y = e.offsetY;
-    var w = 10+Math.random()*40;
-    var h = 5+Math.random()*40;
-    var b = makeBlock(x,y,w,h,ctx);
-    blocks.push(b);
-}; 
+document.addEventListener('mousemove', function(e){ 
+    mouse.x = e.clientX || e.pageX; 
+    mouse.y = e.clientY || e.pageY;
+}, false);
 
 
-var blocks = [];
-blocks.push(makeBlock(50,100,30,15,ctx));
-blocks.push(makeBlock(100,200,30,15,ctx));
+
+var dots = [];
+dots.push(makeDot(50,100,30,15,ctx));
+dots.push(makeDot(100,200,30,15,ctx));
 c.addEventListener("click",clicked);
 window.requestAnimationFrame(update);
