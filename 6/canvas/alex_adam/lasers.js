@@ -1,6 +1,37 @@
 var c = document.getElementById("c");
 var ctx = c.getContext("2d");
+var e = e || window.event;
+cursor = { x : 0, y : 0 };
+cursor.x = e.pageX;
+cursor.y = e.pageY;
 
+var blocks = [];
+var makeTarget = function(x,y,w,h,ctx) {
+    return {
+	x : x,
+	y : y,
+	w : w,
+	h : h,
+	ctx : ctx,
+	color : "#0000ff",
+	dy : 2,
+	hit : false,
+	draw : function() {
+	    ctx.fillStyle = this.color;
+	    ctx.fillRect(this.x,this.y,this.w,this.h);
+	},
+	move : function() {
+	    this.y = this.y + this.dy;
+	    //this.y = this.y + 2*Math.random() - 1;
+	    
+	    if (this.y < 10 || this.y > 490){
+		this.dy = this.dy * -1;
+	      }
+	}
+	
+	
+    };
+};
 var makeBlock = function(x,y,w,h,ctx) {
     return {
 	x : x,
@@ -18,8 +49,10 @@ var makeBlock = function(x,y,w,h,ctx) {
 	move : function() {
 	    this.x = this.x + this.dx;
 	    //this.y = this.y + 2*Math.random() - 1;
-	    if ( this.x > 200){
+	    if ( this.x > 450){
 		//this.dx = this.dx * -1;
+		if( this.y < blocks[0].y  && this.y > blocks[0].y - 40)
+		    blocks[0].color = "#00ff00";
 		this.hit = true
 	    }
 	    /*if (this.y < 20 || this.y > 580){
@@ -30,10 +63,33 @@ var makeBlock = function(x,y,w,h,ctx) {
 	
     };
 };
+var makeShip = function(w,h,ctx,e) {
+    return {
+	w : w,
+	h : h,
+	ctx : ctx,
+	color : "#ffff00",
+
+	draw : function() {
+	    ctx.fillStyle = this.color;
+	    ctx.fillRect(this.x,this.y,this.w,this.h);
+	},
+	move : function() {
+
+	    if( cursor.x < 200 && cursor.y<500){
+		this.x= cursor.x;
+		this.y= cursor.y;
+	    }
+	}
+	
+    };
+};
 
 var update = function() {
     ctx.fillStyle = "#ffffff";
     ctx.fillRect(0,0,600,600);
+    cursor.x = e.pageX;
+    cursor.y = e.pageY;
     for (var i = 0; i < blocks.length; i++){
 	if (blocks[i].hit){
 	    blocks.splice(i,1);
@@ -55,7 +111,8 @@ var clicked = function(e){
 };
 
 c.addEventListener("click",clicked);
-var blocks = [];
+blocks.push(makeTarget(450,150,30,40,ctx));
+blocks.push(makeShip(40,15,ctx));
 blocks.push(makeBlock(50,100,30,15,ctx));
 blocks.push(makeBlock(100,200,30,15,ctx));
 window.requestAnimationFrame(update);
