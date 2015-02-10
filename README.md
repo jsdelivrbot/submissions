@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 submissions
 ===========
 
@@ -18,3 +19,6 @@ Using decorators to simplify login project
 #### introProj02
 *Not required to submit*  
 Email validator using regexp
+=======
+# submissions
+>>>>>>> 850f4cd3e2d8f1773cc0114bd757ba5d357d58d8
