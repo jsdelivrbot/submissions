@@ -4,6 +4,8 @@ var vendorUrl = window.URL || window.webkitURL;
 var canvas = document.getElementById('c');
 var ctx = canvas.getContext('2d');
 var radius=0;
+var savedVideo= document.getElementById("saved");
+
 var video = document.getElementById("video");
 navigator.getMedia = navigator.getUserMedia || navigator.webkitGetUserMedia;
 navigator.getMedia({
@@ -18,12 +20,17 @@ navigator.getMedia({
 
 
 document.getElementById('capture').addEventListener("click",function(){
-    ctx.drawImage(video,0,0,750,450);
+    ctx.drawImage(video,0,0,700,500);
+    
+    savedVideo.src = canvas.toDataURL('image/png')
 });
 
 
 var lipstick = document.getElementById("lipstick");
 var eyeshadow = document.getElementById("eyeshadow");
+var blush = document.getElementById("blush");
+var eyeliner = document.getElementById("eyeliner");
+
 var myState= this;
 var clear = document.getElementById("clear");
 var mouseDown = 0;
@@ -53,14 +60,26 @@ draw = function (e) {
 }
 
 lipstick.addEventListener("click",function(e){
-    ctx.fillStyle ="rgba(255, 0, 0, 0.02)";
+    ctx.fillStyle ="rgba(255, 0, 0, 0.03)";
     radius= 7;
     console.log("Hello World!");
 });
 
 eyeshadow.addEventListener("click",function(e){
-    ctx.fillStyle ="rgba(0, 100, 255, 0.05)";
+    ctx.fillStyle ="rgba(0, 100, 255, 0.03)";
     radius =5;
+    console.log("Hello World!");
+});
+
+blush.addEventListener("click",function(e){
+    ctx.fillStyle ="rgba(200, 0, 0, 0.008)";
+    radius =20;
+    console.log("Hello World!");
+});
+
+eyeliner.addEventListener("click",function(e){
+    ctx.fillStyle ="rgba(0, 0, 0, 0.4)";
+    radius =1.5;
     console.log("Hello World!");
 });
 
@@ -72,6 +91,6 @@ canvas.addEventListener('mousemove', function(e) {
     }
 });
 clear.addEventListener("click", function() {
-    
+    ctx.drawImage(savedVideo,0,0,700,500);
     
 });
