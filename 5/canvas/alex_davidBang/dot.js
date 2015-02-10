@@ -1,7 +1,8 @@
 var c = document.getElementById("c");
 var ctx = c.getContext("2d");
-var mouse = {x: 0, y: 0};
+var mouse = {x: -1, y: -1};
 var dots = [];
+var lost = false;
 
 var makeDot = function(ctx){
     return {
@@ -9,8 +10,8 @@ var makeDot = function(ctx){
 	    y : -15,
 	    r : 15,
 	    ctx : ctx,
-	    dx : -2,
-	    dy : 2,
+	    dx : -3 + 2*Math.random(),
+	    dy : 2 + 2*Math.random(),
 	    color : "#ff0000",
 	    spawn : function() {
             ctx.beginPath();
@@ -33,28 +34,31 @@ var makeDot = function(ctx){
 };
 
 var update = function() {
-    ctx.fillStyle="#ffffff";
-    ctx.fillRect(0,0,900,500);
-    if (dots.length < 25){
-        dots.push(makeDot(ctx));
-    };
-    for (var i = 0; i < dots.length; i++){
-	    dots[i].move();
-	    dots[i].spawn();
-	    /*if (dots[i].checkCollide()) {
-	        console.log("NOOB. GET BETTER");
-	    }*/
-	    if (!(dots[i].inBounds())) {
-	        dots.splice(i,1);
-	    }
+    if (!(lost || mouse.x < 0 || mouse.x > 900 || mouse.y < 0 || mouse.y > 500)){
+        ctx.fillStyle="#ffffff";
+        ctx.fillRect(0,0,900,500);
+        if (dots.length < 20){
+            dots.push(makeDot(ctx));
+        };
+        for (var i = 0; i < dots.length; i++){
+	        dots[i].move();
+	        dots[i].spawn();
+	        if (dots[i].checkCollide()) {
+                lost = true;
+	            console.log("NOOB. GET BETTER");
+	        }
+	        if (!(dots[i].inBounds())) {
+	            dots.splice(i,1);
+	        }
+        };
     };
     window.requestAnimationFrame(update);
 };
 
 
-document.addEventListener('mousemove', function(e){ 
-    mouse.x = e.clientX || e.pageX; 
-    mouse.y = e.clientY || e.pageY;
+document.addEventListener('mousemove', function(e){
+    mouse.x = e.clientX - c.offsetLeft;//e.clientX || e.pageX; 
+    mouse.y = e.clientY - c.offsetTop;
 }, false);
 
 //dots.push(makeDot(ctx));
