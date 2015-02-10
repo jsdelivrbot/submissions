@@ -9,7 +9,12 @@ var makeDough = function (x,y,w,h, ctx){
 	ctx : ctx,
 	dx : 1,
 	draw : function(){
-	    ctx.drawImage(img[Math.random(4)],w,h);
+	    //create donut image
+	    var don = document.createElement("img");
+	    don.src = "/static/"+pics[rand(pics.length-1)];
+	    doughs.add(don);
+//	    	    ctx.drawImage(img[Math.random(4)],w,h);
+
 	},
 	move : function(){
 
