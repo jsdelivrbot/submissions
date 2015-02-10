@@ -1,1 +1,0 @@
-Simple javascript game that requires the player to scare away flies.
