@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<style>
+#c {border : 1px solid black}
+</style>
+<h1>Foooootballz</h1>
+<div>
+<canvas height="500" width="500" id="c">
+
+
+</canvas>
+Click this when you are satisfied with your formation<button id="done">Done</button>
+</div>
+<script>
+var done = 0;
+var c = document.getElementById("c");
+var ctx = c.getContext("2d");
+ctx.beginPath();
+ctx.arc(250,250,50,0, 2 * Math.PI);
+ctx.stroke();
+ctx.closePath();
+var h = document.getElementById("done");
+h.addEventListener("click", function() {
+done = done + 1;
+});
+</script>
+</html>

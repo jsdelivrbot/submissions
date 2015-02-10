@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html>
+  <style>
+    #c {border : 1px solid black}
+  </style>
+  <h1>Cartoon Emotions</h1>
+<div>
+  <canvas height="1000" width="1000" id="pics">
+  </canvas>
+</div>
+<script src="picture.js"></script>
+</html>
