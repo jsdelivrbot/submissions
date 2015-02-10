@@ -9,7 +9,7 @@ img.src="http://3.bp.blogspot.com/-9hHsA2J18Sk/Uvfbls191cI/AAAAAAAAXUw/q841reaU3
 
 var bird = {
     y: 150,
-    yvel : 0,
+    dy : 0,
     draw : function(){
 	ctx.drawImage(img,10,this.y,150,100);
     }
@@ -38,6 +38,10 @@ var update = function() {
     }
     ctx.fillStyle = "#ffffff";
     ctx.fillRect(0, 0, 500, 400);
+    pipes[0] = 0;
+    if (pipes[0].x <= -100){
+	pipes.shift(); //queue
+    }
     for (var i = 0;i < pipes.length;i++) {
 	pipes[i].x = pipes[i].x - 1;
 	pipes[i].draw();
