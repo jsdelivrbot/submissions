@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html>
+  <style>
+    #c {border : 1px solid black}
+  </style>
+  <h1>Claire and Rebecca's Animation</h1>
+  <div>
+    <canvas height="500" width="500" id="c">
+    </canvas>
+  </div>
+  <script src="animation.js"></script>
+
+</html>
