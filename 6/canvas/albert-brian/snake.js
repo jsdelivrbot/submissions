@@ -1,7 +1,6 @@
 var c = document.getElementById("c");
 var message = document.getElementById("message");
 var bStart = document.getElementById("start");
-var bPause = document.getElementById("pause");
 var ctx = c.getContext("2d");
 var frameDrag = 9, counter = 0;
 var squareLen = 20;
@@ -9,6 +8,8 @@ var snake = [];
 var food = null;
 var pause = false;
 var forceLose = false;
+var buttons = document.getElementById("buttons");
+var stop = false;
 
 /* 0 Up, 1 Right, 2 Down, 3 Left */
 
@@ -52,29 +53,31 @@ var makeSnakePiece = function(x,y,ctx){
 		    ctx.fillStyle = this.color;
 		    ctx.fillRect(this.x,this.y,this.w,this.h);
 		},
-		move : function(){
-			if (this.x>579 || this.x == 0 || this.y == 0 || this.y >579){
-				forceLose = true;
-			}
-		    if (this.nextDir != -1){
-				this.dir = this.nextDir;
-				this.nextDir = -1;
-		    }
-		    switch(this.dir){
-			    case 0:
-				this.y -= squareLen;
-				break;
-			    case 1:
-				this.x += squareLen;
-				break;
-			    case 2:
-				this.y += squareLen;
-				break;
-			    case 3:
-				this.x -= squareLen;
-				break;
-		    }
-		}
+	move : function(){
+	    /*
+	    if (this.x>579 || this.x == 0 || this.y == 0 || this.y >579){
+		forceLose = true;
+	    }
+	    */
+	    if (this.nextDir != -1){
+		this.dir = this.nextDir;
+		this.nextDir = -1;
+	    }
+	    switch(this.dir){
+	    case 0:
+		this.y -= squareLen;
+		break;
+	    case 1:
+		this.x += squareLen;
+		break;
+	    case 2:
+		this.y += squareLen;
+		break;
+	    case 3:
+		this.x -= squareLen;
+		break;
+	    }
+	}
     };
 };
 
@@ -117,7 +120,8 @@ var update = function(){
     }
 
     checkGameOver();
-        
+    if (!stop) return;
+    
     //clear screen
     ctx.fillStyle = "#fff";
     ctx.fillRect(0,0,600,600);
@@ -181,12 +185,45 @@ window.addEventListener('keydown', function(e){
 
 });
 
-bPause.addEventListener('click',function(e){
-    pause = !pause;
-    if (!pause) window.requestAnimationFrame(update);    
-});
-bStart.addEventListener("click",function(e){
-	forceLose = false;
+var reset = function(){
+    snake = [];
+    food = null;
+    pause = true;
+    message.innerHTML = "Snake Game";
+    buttons.innerHTML = '<button id="start">Start</button>';
+    stop = false;
+    console.log("RESETTING");
+    snake.push(makeSnakePiece(300,300,ctx));
+    snake[0].dir = 1;
+    ctx.fillStyle="#ffffff";
+    ctx.fillRect(0,0,600,600);
+}
+
+document.getElementById("start").addEventListener("click",function(e){
+    if (stop){
+	reset()
+    }
+    else{
+	buttons.innerHTML = '<button id="start">Stop</button> <button id="pause">Pause</button>';
+	document.getElementById("start").addEventListener("click",function(e){
+	    forceLose = false;
+	    if (stop){
+		reset();
+	    }
+	});
+	document.getElementById("pause").addEventListener('click',function(e){
+	    pause = !pause;
+	    document.getElementById("pause").innerHTML="Play";
+	    if (!pause){
+		document.getElementById("pause").innerHTML="Pause";
+		window.requestAnimationFrame(update);
+	    }
+	});
+    }
+    console.log("beforestopchange");
+    console.log(stop);
+    stop = !stop;
+    console.log(stop);
     window.requestAnimationFrame(update);    
 });
 
