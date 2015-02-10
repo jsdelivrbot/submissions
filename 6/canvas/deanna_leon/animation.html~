@@ -1,6 +1,0 @@
-<!DOCTYPE html>
-<html>
-  <h1> Latin Is Awesome </h1>
-  <div>
-    <canvas height="800" width="800" id="canvas">
-      </canvas>
