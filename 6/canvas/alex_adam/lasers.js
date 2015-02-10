@@ -47,7 +47,7 @@ var makeBlock = function(x,y,w,h,ctx) {
 	    //this.y = this.y + 2*Math.random() - 1;
 	    if ( this.x > 450){
 		//this.dx = this.dx * -1;
-		if( this.y < blocks[0].y  && this.y > blocks[0].y - 40)
+		if( this.y < blocks[1].y  && this.y > blocks[1].y - 40)
 		    blocks[1].color = "#00ff00";
 		this.hit = true
 	    }
@@ -73,13 +73,11 @@ var makeShip = function(w,h,ctx,e) {
 	    ctx.fillRect(this.x,this.y,this.w,this.h);
 	},
 	move : function(x1,y1) {
-	    console.log("here:")
-	    console.log(x1);
-	    console.log(y1)
-	    //if( cursor.x < 200 && cursor.y<500){
-	    this.x= x1;
-	    this.y= y1;
-	    //}
+	   
+	    if( x1 < 150 && y1<500){
+		this.x= x1-w;
+		this.y= y1-h;
+	    }
 	}
 	
     };
@@ -108,14 +106,14 @@ var update = function(e) {
 var clicked = function(e){
     var x = e.offsetX;
     var y = e.offsetY;
-    var w = 10+Math.random()*40;
-    var h = 10+Math.random()*20;
+    var w = 10;
+    var h = 3;
     blocks.push(makeBlock(x,y,w,h,ctx));
 };
 
 document.addEventListener('mousemove', function(e){ 
-    mouse.x = e.clientX || e.pageX; 
-    mouse.y = e.clientY || e.pageY 
+    mouse.x =  e.offsetX; 
+    mouse.y =  e.offsetY; 
 }, false);
 
 c.addEventListener("click",clicked);
