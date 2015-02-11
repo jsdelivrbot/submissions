@@ -32,7 +32,7 @@ var makeCircle = function(x, y, r,ctx){
 	    this.x = this.x + this.dx;
 	    this.y = this.y + this.dy;
 	    if (this.r <= 5){
-		dr = dr * -1;
+		this.dr = this.dr * -1;
 	    }
 	    if (this.x <= 10 || this.x > 1290){
 		this.dx = this.dx * -1;
@@ -84,10 +84,7 @@ var change = function(e) {
 
 c.addEventListener("click", clicked);
 var balls = [];
-<<<<<<< HEAD
 window.requestAnimationFrame(update);
-=======
->>>>>>> a1e2818d88a17e07b7b928586d3313ec365021dc
     
 var b = document.getElementById("butt");
 b.addEventListener("click", clear);
@@ -95,8 +92,5 @@ b.addEventListener("click", clear);
 var b2 = document.getElementById("butt2");
 b2.addEventListener("click", change);
 
-
-<<<<<<< HEAD
-=======
 window.requestAnimationFrame(update);
->>>>>>> a1e2818d88a17e07b7b928586d3313ec365021dc
+
