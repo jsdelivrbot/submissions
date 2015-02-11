@@ -1,6 +1,8 @@
 var c = document.getElementById("c");
 var score = document.getElementById("score");
 var s=0;
+var lasers = document.getElementById("lasers");
+var bullets=300;
 var ctx = c.getContext("2d");
 var mouse = {x: 0, y: 0};
 var blocks = [];
@@ -122,12 +124,21 @@ var update = function(e) {
 
 var clicked = function(e){
     //if( mouse.x < 150){
-	var x = blocks[0].x+blocks[0].w;//e.offsetX;
-	var y = blocks[0].y+(blocks[0].h/2);//e.offsetY;
-	var w = 10;
-	var h = 3;
+    var x = blocks[0].x+blocks[0].w;//e.offsetX;
+    var y = blocks[0].y+(blocks[0].h/2);//e.offsetY;
+    var w = 10;
+    var h = 3;
+    if(bullets>0){
 	blocks.push(makeBlock(x,y,w,h,ctx));
-    //}
+	bullets--;
+	lasers.innerHTML="Lasers: "+bullets.toString();
+    }else{
+	if(s>39){
+	    lasers.innerHTML="You Win!";
+	}else{
+	    lasers.innerHTML="Game Over";
+	}
+    }
 };
 
 document.addEventListener('mousemove', function(e){ 

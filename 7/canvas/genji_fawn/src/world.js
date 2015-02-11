@@ -1,15 +1,15 @@
 
 
 Portal.world = (function() {
-	var width;
-	var heigth;
-	var color;
+	var WIDTH	 = 800,
+		HEIGHT	 = 400,
+		COLOR	 = "#E6E6E6";
 
 	var elements = [];
 
-	function draw() {
-
-
+	function draw(ctx) {
+		ctx.fillStyle = COLOR;		
+		ctx.fillRect(0, 0, WIDTH, HEIGHT );
 	}
 
 	function setDimensions(canvas) {
