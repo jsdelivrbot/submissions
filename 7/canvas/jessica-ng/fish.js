@@ -3,6 +3,8 @@ var c = document.getElementById("c");
 var b = document.getElementById("b");
 var ctx = c.getContext("2d");
 
+
+
 ctx.strokeStyle = "black";
 ctx.fillStyle = "black";
 ctx.fillRect (0, 0, 600, 600);
@@ -28,7 +30,7 @@ function empty() {
     ctx.closePath();
 };
 
-function draw (x, y, r) {
+function draw (x, y, r, c) {
     /*ctx.strokeStyle = "black";
     ctx.fillStyle = "black";
     ctx.fillRect (0, 0, 600, 600);
@@ -41,7 +43,7 @@ function draw (x, y, r) {
     ctx.closePath();*/
     ctx.beginPath();
     ctx.arc(x, y,r,0,2*Math.PI);
-    ctx.strokeStyle = "black";
+    ctx.strokeStyle = c;
     ctx.stroke();
     ctx.closePath();
 };
@@ -49,18 +51,18 @@ function draw (x, y, r) {
 var clicked = function(e){
     e.preventDefault();
     //draw (e.offsetX, e.offsetY, 5);
-    for (var i = 5; i <= 15; i++) {
+    for (var i = 5; i <= 30; i++) {
 	var tick = function(i) {
             return function() {
 		console.log(i);
 		empty();
-		if (i < 15) {
-		    draw (e.offsetX, e.offsetY, i);
+		if (i < 25) {
+		    draw (e.offsetX, e.offsetY, i, "black");
 		}
-		if (i > 8) {
-		    draw (e.offsetX, e.offsetY, i - 3);
+		if (i > 10) {
+		    draw (e.offsetX, e.offsetY, i - 5, "black");
 		}
-		if (i == 15) {
+		if (i == 30) {
 		    empty();
 		}
             }
