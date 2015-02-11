@@ -1,6 +1,6 @@
 var c = document.getElementById("can");
 var ctx = c.getContext("2d");
-
+ctx.fillStyle = "#ffffff"
 
 
 //ctx.beginPath();
@@ -21,7 +21,6 @@ var makeCircle = function(x, y, r,ctx){
 	dr : 1,
 
 	draw : function() {
-
 	    ctx.beginPath();
 	    ctx.arc(this.x, this.y, this.r, 0, 2*Math.PI);
 	    ctx.fillStyle = this.color;
@@ -32,7 +31,7 @@ var makeCircle = function(x, y, r,ctx){
 	    this.x = this.x + this.dx;
 	    this.y = this.y + this.dy;
 	    if (this.r <= 5){
-		dr = dr * -1;
+		this.dr = this.dr * -1;
 	    }
 	    if (this.x <= 10 || this.x > 1290){
 		this.dx = this.dx * -1;
@@ -40,14 +39,14 @@ var makeCircle = function(x, y, r,ctx){
 	    }
 	    if (this.y < 10 || this.y > 590){
 		this.dy = this.dy * -1;
-		this.r = this.r - this.dr;
+		this.r = Math.abs(this.r - this.dr);
 	    }
 	},
     };
 };
 
 var update = function(){
-    ctx.fillStyle = "#ffffff";
+//    ctx.fillStyle = "#ffffff";
     ctx.fillRect(0,0,1300,600);
     for (var i = 0; i < balls.length; i++){
 	balls[i].move();
@@ -84,10 +83,7 @@ var change = function(e) {
 
 c.addEventListener("click", clicked);
 var balls = [];
-<<<<<<< HEAD
 window.requestAnimationFrame(update);
-=======
->>>>>>> a1e2818d88a17e07b7b928586d3313ec365021dc
     
 var b = document.getElementById("butt");
 b.addEventListener("click", clear);
@@ -95,8 +91,5 @@ b.addEventListener("click", clear);
 var b2 = document.getElementById("butt2");
 b2.addEventListener("click", change);
 
-
-<<<<<<< HEAD
-=======
 window.requestAnimationFrame(update);
->>>>>>> a1e2818d88a17e07b7b928586d3313ec365021dc
+
