@@ -15,13 +15,62 @@ ctx.stroke();
 ctx.fill();
 ctx.closePath();
 
+function empty() {
+    ctx.strokeStyle = "black";
+    ctx.fillStyle = "black";
+    ctx.fillRect (0, 0, 600, 600);
+    ctx.beginPath();
+    ctx.strokeStyle = "white";
+    ctx.fillStyle = "white";
+    ctx.arc(300, 300, 300, 0, Math.PI*2);
+    ctx.stroke();
+    ctx.fill();
+    ctx.closePath();
+};
+
+function draw (x, y, r) {
+    /*ctx.strokeStyle = "black";
+    ctx.fillStyle = "black";
+    ctx.fillRect (0, 0, 600, 600);
+    ctx.beginPath();
+    ctx.strokeStyle = "white";
+    ctx.fillStyle = "white";
+    ctx.arc(300, 300, 300, 0, Math.PI*2);
+    ctx.stroke();
+    ctx.fill();
+    ctx.closePath();*/
+    ctx.beginPath();
+    ctx.arc(x, y,r,0,2*Math.PI);
+    ctx.strokeStyle = "black";
+    ctx.stroke();
+    ctx.closePath();
+};
+
 var clicked = function(e){
     e.preventDefault();
-    ctx.beginPath();
-    ctx.arc(e.offsetX, e.offsetY,
-	    15,0,2*Math.PI);
-    ctx.strokeStyle = "black";
-    ctx.stroke(); 
+    //draw (e.offsetX, e.offsetY, 5);
+    for (var i = 5; i <= 15; i++) {
+	var tick = function(i) {
+            return function() {
+		console.log(i);
+		empty();
+		if (i < 15) {
+		    draw (e.offsetX, e.offsetY, i);
+		}
+		if (i > 8) {
+		    draw (e.offsetX, e.offsetY, i - 3);
+		}
+		if (i == 15) {
+		    empty();
+		}
+            }
+	};
+	setTimeout(tick(i), 100 * i);
+    }
+    //while (d < 15) {
+//	draw (e.offsetX, e.offsetY, d);
+//	d = d + 1;
+//    }
 };
 var clear = function(e) { 
     e.preventDefault();
