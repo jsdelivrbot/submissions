@@ -15,7 +15,7 @@ var mouse_down = function(e){
 	t = setTimeout(repeat,1);
 	ctx.fillStyle=color;
 	ctx.fill();
-
+	
 	//need to draw a line using these vars
 	lastx=x;
 	lasty=y;
@@ -40,6 +40,7 @@ var clear = function(e){
 c.addEventListener("mousedown",mouse_down);
 c.addEventListener("mouseup",mouse_up);
 c.addEventListener("mousemove",getMouseXY);
+c.addEventListener("mouseout",mouse_up);
 
 var b = document.getElementById("b");
 b.addEventListener("click",clear);
