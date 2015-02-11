@@ -41,14 +41,14 @@ var makePinwheel = function(x,y,w,h,ctx, quarters) {
 	ctx : ctx,
 	quarters : quarters,
 	draw : function() {
-	    for (i = 0; i < 4; i++) {
+	    for (var i = 0; i < 4; i++) {
 		quarters[i].draw;
 	    }
 	},
 	move : function() {
 	    var dx = Math.random(10);
 	    var dy = Math.random(10);
-	    for (i = 0; i < 4; i++) {	   
+	    for (var i = 0; i < 4; i++) {	   
 		quarters[i].x = x + dx;
 		quarters[i].y = y + dy;
 	    }
@@ -57,7 +57,7 @@ var makePinwheel = function(x,y,w,h,ctx, quarters) {
 	    var x = e.offsetX;
 	    var y = e.offsetY;
 	    if (Math.abs(this.x - x) < this.rad && Math.abs(this.y - y) < this.rad) {
-		for (i = 0; i < 4; i++) {
+		for (var i = 0; i < 4; i++) {
 		    quarters[i].broken = true;
 		}
 	    }
@@ -65,8 +65,22 @@ var makePinwheel = function(x,y,w,h,ctx, quarters) {
     };
 };
 
+var update = function(){
+    ctx.fillStyle = "#ffffff";
+    ctx.fillRect(0,0,600,600);
+    for (var i=0; i < pinwheels.length; i++){
+	pinwheels[i].move();
+	pinwheels[i].draw();
+    }
+    window.requestAnimationFrame(update);
+};
+
+var split = function() {
+};
+
+
 var quarters = [];
-for (i = 0; i < 4; i++) {	   
+for (var i = 0; i < 4; i++) {	   
     quarters.push(makeQuarter(50,100,30,15,ctx));
 }
 var pinwheels = [];

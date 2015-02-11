@@ -29,7 +29,45 @@ var makePerson = function(x,y,w,h,ctx) {
             // There's a TURN_PROBABILITY chance of going left, and the same probability of going right
         move : function() {
             if (this.isOnIntersection()) {
-                // do probability
+                var rand = Math.random();
+		//Turn right
+		if (rand < TURN_PROBABILITY){
+		    if (dx == 0.1){
+			dx = 0;
+			dy = -0.1;
+		    }		
+		    else if (dx == -0.1){
+			dx = 0;
+			dy = 0.1;
+		    }
+		    else if (dy == 0.1){
+			dy = 0;
+			dx = 0.1;
+		    }
+		    else if (dy = -0.1){
+			dy = 0;
+			dx = -0.1;
+		    }
+		}	
+		//Turn Left
+		else if (rand < 2*TURN_PROBABILITY){
+		    if (dx == 0.1){
+			dx = 0;
+			dy = 0.1;
+		    }		
+		    else if (dx == -0.1){
+			dx = 0;
+			dy = -0.1;
+		    }
+		    else if (dy == 0.1){
+			dy = 0;
+			dx = -0.1;
+		    }
+		    else if (dy = -0.1){
+			dy = 0;
+			dx = 0.1;
+		    }
+		}
             }
 
             // If taking a step would run us into a wall, turn around
@@ -40,7 +78,7 @@ var makePerson = function(x,y,w,h,ctx) {
                 this.dx = this.dx * -1;
             }
             if (this.y < 20 || this.y > 580){
-            this.y = 100+400*Math.random();
+                this.y = 100+400*Math.random();
             }
         },
         isOnPerson : function(person) {
@@ -55,7 +93,12 @@ var makePerson = function(x,y,w,h,ctx) {
         // If the next step would take this person across the intersection's center,
         // the person is on the intersection
         isOnIntersection : function() {
-            
+            //for (var i = 0; i < gridIntersections.length; i++) {
+            //	if (this.x > gridIntersections[i].x && this.x < (gridIntersections[i].x + width) && this.y > gridIntersections[i].y && this.y < (gridIntersections[i].y 	    //        + height){
+	    //        return True;
+	    //	}
+    	    //}
+	    //return False;
         }
     };
 };
