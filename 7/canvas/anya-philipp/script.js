@@ -7,12 +7,12 @@ var BLOCK_SIZE = STREET_SIZE + SPACE_BETWEEN_STREETS;
 
 var STREET_COLOR = "#000000";
 
-var TURN_PROBABILITY = 0.10;
+var TURN_PROBABILITY = 0.15;
 var PERSON_SIZE = (3 / 4) * STREET_SIZE;
-
 var PERSON_SPEED = 1;
+var INITIAL_INFECTION_PROBABILITY = 0.10;
 
-var makePerson = function(x,y,w,h,dx,dy, ctx) {
+var makePerson = function(x,y,w,h,dx,dy, healthStatus, people, ctx) {
     return {
         x : x,
         y : y,
@@ -21,7 +21,8 @@ var makePerson = function(x,y,w,h,dx,dy, ctx) {
         ctx : ctx,
         dx : dx,
         dy : dy,
-        healthStatus : "alive",
+        healthStatus : healthStatus,
+        people : people,
         color : "#ff0000",
 
         draw : function() {
@@ -92,17 +93,16 @@ var makePerson = function(x,y,w,h,dx,dy, ctx) {
             return (this.x == person.x && this.y == person.y);
         },
 	checkForInfections : function(people) {
-	    if (this.healthStatus == "infected"){
-	        for (var i = 0; i < people.length; i++) {
-		    if (people[i].healthStatus != "immune" && people[i].healthStatus != "dead") {
-		        if (this.x >= people[i].x && this.x <= (people[i].x + people[i].width) && this.y >= people[i].y && this.y <= (people[i].y + people[i].height)
-			    || people[i].x >= this.x && people[i].x <= (this.x + this.width) && people[i].y >= this.y && people[i].y <= (this.y + this.height)){
-			    people[i].healthStatus = "infected";
-			}
- 		    }
-		}
+	    if (this.healthStatus == "infected") {
+	        for (var i = 0; i < this.people.length; i++) {
+                if (this.people[i].healthStatus != "immune" && this.people[i].healthStatus != "dead") {
+                    if ((this.x >= this.people[i].x && this.x <= (this.people[i].x + this.people[i].w) && this.y >= this.people[i].y && this.y <= (this.people[i].y + this.people[i].h))
+                    || ((this.people[i].x >= this.x && this.people[i].x <= (this.x + this.w) && this.people[i].y >= this.y && this.people[i].y <= (this.y + this.h))))
+                        this.people[i].healthStatus = "infected";
+                }
+            }
 	    }
-	    return people;
+	    return this.people;
 	},
         // This function returns a function.
         // Every time we're checking intersections we call this function,
@@ -308,9 +308,13 @@ var spawnPeople = function() {
         else if (rand <= 0.75)
             dy = -PERSON_SPEED;
         else
-            dy = PERSON_SPEED
+            dy = PERSON_SPEED;
 
-        var newPerson = makePerson(newX, newY, PERSON_SIZE, PERSON_SIZE, dx, dy, ctx);
+        var healthStatus = "alive";
+        if (rand < INITIAL_INFECTION_PROBABILITY)
+            healthStatus = "infected";
+
+        var newPerson = makePerson(newX, newY, PERSON_SIZE, PERSON_SIZE, dx, dy, healthStatus, people, ctx);
         people.push(newPerson);
     }
 }
