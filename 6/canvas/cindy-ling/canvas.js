@@ -16,9 +16,9 @@ var makeCircle = function(x, y, r,ctx){
 	r : r,
 	color : '#'+Math.floor(Math.random()*16777215).toString(16),
 	ctx : ctx,
-	dx : Math.random()*2,
-	dy : Math.random()*2,
-	dr : 1,
+	dx : Math.random()*3 - 1.5,
+	dy : Math.random()*3 - 1.5,
+	dr : 0,
 
 	draw : function() {
 	    ctx.beginPath();
@@ -39,7 +39,7 @@ var makeCircle = function(x, y, r,ctx){
 	    }
 	    if (this.y < 10 || this.y > 590){
 		this.dy = this.dy * -1;
-		this.r = Math.abs(this.r - this.dr);
+		this.r = this.r - this.dr;
 	    }
 	},
     };
@@ -92,4 +92,3 @@ var b2 = document.getElementById("butt2");
 b2.addEventListener("click", change);
 
 window.requestAnimationFrame(update);
-
