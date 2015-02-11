@@ -1,62 +1,65 @@
-var c = document.getElementById("c");
-var ctx = c.getContext("2d");
+var canvas = document.getElementById("c");
+var ctx = canvas.getContext("2d");
+var dx = 5;
+var dy = 5;
+var x = 300;
+var y = 300;
+var width = 600;
+var height = 600;
 
-var newPad = function(x,y,w,h,ctx) {
-    return {
-	x : x,
-	y : y,
-	w : w,
-	h : h,
-	ctx : ctx,
-	color : "#ff0000",
-	dx : 1,
-	draw : function() {
-	    ctx.fillStyle = this.color;
-	    ctx.fillRect(this.x,this.y,this.w,this.h);
-	}
-    }
-};
+function circle(x,y,r) {
+ctx.beginPath();
+ctx.moveTo(x-20, y-30);
+ctx.lineTo(x, y-20);
+ctx.lineTo(x+20, y-30);
+ctx.lineTo(x, y+30);
+ctx.lineTo(x-20, y-30);
+ctx.lineWidth = 1;
+ctx.stroke();
+}
 
 
-var update = function() {
-		ctx.fillStyle = "#ffffff";
-		ctx.fillRect(0,0,600,600);
-		for (var i = 0; i < blocks.length; i++){
-			
-				blocks[i].draw();
-		}
-		window.requestAnimationFrame(update);
-};
+function clear() {
+ctx.clearRect(0, 0, width, height);
+}
 
-//Place a new block
-var placeBlock = function(e){
-		var x = e.offsetX;
-		var y = e.offsetY;
-		var w = 50;
-		var h = 50;
-		blocks.push(newPad(x,y,w,h,ctx));
-};
+function init() {
+return setInterval(draw, .0001);
+}
 
-c.addEventListener("click", placeBlock);
-var blocks = [];
-blocks.push(newPad(0,0,24,24,ctx));
-blocks.push(newPad(25,0,24,24,ctx));
-window.requestAnimationFrame(update);
-						
-var xMax = canvas.width;
-var yMax = canvas.height;
-
-var fill = function(e){
-    var width = xMax;
-    var len = yMax;
-    var xLoc = 0;
-    var yLoc = 0;
-    //also need number of pads in each dir
-    while (width!=0 && len!=0){
-	//something like if pad width is at the end,
-	blocks.push(newPad(xLoc,yLoc,24,24,ctx));
-	xLoc += 25;
-	yLoc += 25;
-    }
+function doKeyDown(evt){
+switch (evt.keyCode) {
+case 38:  /* Up arrow was pressed */
+if (y - dy > 0){
+y -= dy;
 
 }
+break;
+case 40:  /* Down arrow was pressed */
+if (y + dy < height){
+y += dy;
+}
+break;
+case 37:  /* Left arrow was pressed */
+if (x - dx > 0){
+x -= dx;
+}
+break;
+case 39:  /* Right arrow was pressed */
+if (x + dx < width){
+x += dx;
+}
+break;
+}
+}
+
+function draw() {
+clear();
+ctx.fillStyle = "white";
+ctx.strokeStyle = "black";
+ctx.fillStyle = "black";
+circle(x, y, 10);
+}
+
+init();
+window.addEventListener('keydown',doKeyDown,true);
