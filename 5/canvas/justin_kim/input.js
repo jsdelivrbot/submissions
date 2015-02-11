@@ -29,3 +29,6 @@ var keyUp = function(event) {
     if (key == APP.K_LEFT)  APP.I_LEFT = false;
     if (key == APP.K_RIGHT) APP.I_RIGHT = false;
 }
+
+document.addEventListener("keydown", keyDown);
+document.addEventListener("keyup", keyUp);

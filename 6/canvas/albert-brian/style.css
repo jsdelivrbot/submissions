@@ -1,0 +1,22 @@
+body{
+    background-color: #d6d6d6;
+    margin: 0px;
+    padding: 0px;
+    font-family: "Arial Verdana", Arial, sans-serif;
+    text-align: center;
+}
+#c{
+    float: left;
+    margin-left: 10px;
+    border: 3px solid #006;
+}
+#buttons {
+    float: left;
+    padding: 2px;
+    width: 100px;
+    border: 2px solid #006;
+    border-left: none;
+}
+button{
+    width: 60px;
+}
