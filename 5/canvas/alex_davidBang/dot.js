@@ -4,7 +4,7 @@ var mouse = {x: -1, y: -1};
 var dots = [];
 var lost = false;
 var score = 0;
-var i = 0;
+var n = 0;
 
 var makeDot = function(ctx){
     return {
@@ -38,19 +38,13 @@ var makeDot = function(ctx){
 var setup = function(){
     ctx.fillStyle="#000000";
     ctx.fillRect(0,0,900,500);
-    while (dots.length < 30){
+    while (dots.length < 35){
             dots.push(makeDot(ctx));
     };
-}
+};
 
 var update = function() {
     if (!(lost || mouse.x < 0 || mouse.x > 900 || mouse.y < 0 || mouse.y > 500)){
-        //i++;
-        console.log(i);
-        if (dots.length < 40 + score / 500){
-            dots.push(makeDot(ctx));
-            //i = 0;
-        };
         ctx.fillStyle="#000000";
         ctx.fillRect(0,0,900,500);
         for (var i = 0; i < dots.length; i++){
@@ -73,6 +67,13 @@ var update = function() {
             ctx.fillText("Game Over!",180,265);
         };
         score += 1;
+        n += 1;
+        if (dots.length < 35){
+            dots.push(makeDot(ctx));
+        }else if (dots.length < 45 + score / 500 && n > 15){
+            dots.push(makeDot(ctx));
+            n = 0;
+        };
     };
     window.requestAnimationFrame(update);
 };
