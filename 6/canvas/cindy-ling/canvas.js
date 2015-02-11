@@ -39,7 +39,7 @@ var makeCircle = function(x, y, r,ctx){
 	    }
 	    if (this.y < 10 || this.y > 590){
 		this.dy = this.dy * -1;
-		this.r = this.r - this.dr;
+		this.r = Math.abs(this.r - this.dr);
 	    }
 	},
     };
