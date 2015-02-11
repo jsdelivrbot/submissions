@@ -41,8 +41,8 @@ var makeCircle = function(x, y, r,ctx){
 		this.r = this.r - dr;
 	    }
 	}
-    }
-}
+    };
+};
 
 var update = function(){
     ctx.fillStyle = "#ffffff";
@@ -52,7 +52,7 @@ var update = function(){
 	balls[i].draw();
     }
     window.requestAnimationFrame(update);
-}
+};
 
 var clicked = function(e) {
     e.preventDefault();
@@ -67,17 +67,17 @@ var clicked = function(e) {
     //ctx.fillStyle = "red";
     //ctx.fill();
     //ctx.stroke();
-}
+};
 	       
 var clear = function(e) {
     ctx.fillStyle = "#ffffff";
     ctx.fillRect(0,0,1300,600);
-}
+};
 
 var change = function(e) {
     ctx.fillStyle = '#'+Math.floor(Math.random()*16777215).toString(16);
     ctx.fillRect(0,0,1300,600);
-}
+};
 
 c.addEventListener("click", clicked);
 var balls = [];
