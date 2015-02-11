@@ -14,15 +14,11 @@ Portal.world = (function() {
 		ctx.fillStyle = COLOR;		
 		ctx.fillRect(0, 0, WIDTH, HEIGHT );
 		//blue
-		ctx.strokeStyle("#00ffff")
-		ctx.lineWidth = 5;
-		ctx.moveTo(0, HEIGHT * 0.5 - PORTALHEIGHT);
-		ctx.lineTo(0, HEIGHT * 0.5 + PORTALHEIGHT);
+		ctx.fillStyle = "#00ffff";
+		ctx.fillRect(0, (HEIGHT * 0.5) - PORTALHEIGHT, 5, (HEIGHT * 0.5) + PORTALHEIGHT);
 		//orange
-		ctx.strokeStyle("#ffa500")
-		ctx.lineWidth = 5;
-		ctx.moveTo(WIDTH, HEIGHT * 0.5 - PORTALHEIGHT);
-		ctx.lineTo(WIDTH, HEIGHT * 0.5 + PORTALHEIGHT);
+		ctx.fillStyle = "#ffa500";
+		ctx.fillRect(WIDTH - 5, (HEIGHT * 0.5) - PORTALHEIGHT, WIDTH, (HEIGHT * 0.5) + PORTALHEIGHT);
 	}
 
 	function setDimensions(canvas) {
