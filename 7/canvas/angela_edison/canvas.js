@@ -69,7 +69,7 @@ var update = function(){
     ctx.fillRect(0,0,width,height);
     healthBar();
     for (var i=0; i < skulls.length; i++){
-	if (skulls[i].y > height - 10){
+	if (skulls[i].y > height - 50){
 	    //make disappear
 	    playerHealth = playerHealth - 1;
 	    skulls[i].remove();
@@ -83,11 +83,10 @@ var update = function(){
 }
 
 var addPirate = function(){
-    var x = Math.random()*width;
+    var x = 0;
     var y = 1;
     skulls.push(spawnPirate(x,y));    
     window.requestAnimationFrame(addPirate);
-
 };
 
 var removePirate = function(e){
