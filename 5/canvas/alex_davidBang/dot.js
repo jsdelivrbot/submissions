@@ -1,16 +1,19 @@
 var c = document.getElementById("c");
 var ctx = c.getContext("2d");
-var mouse = {x: 0, y: 0};
+var mouse = {x: -1, y: -1};
 var dots = [];
+var lost = false;
+var score = 0;
+var n = 0;
 
 var makeDot = function(ctx){
     return {
 	    x : 20 + 1200*Math.random(),
 	    y : -15,
-	    r : 15,
+	    r : 12 + 6*Math.random(),
 	    ctx : ctx,
-	    dx : -2,
-	    dy : 2,
+	    dx : -3 + 2*Math.random(),
+	    dy : 2 + 2*Math.random(),
 	    color : "#ff0000",
 	    spawn : function() {
             ctx.beginPath();
@@ -32,32 +35,54 @@ var makeDot = function(ctx){
     };
 };
 
-var update = function() {
-    ctx.fillStyle="#ffffff";
+var setup = function(){
+    ctx.fillStyle="#000000";
     ctx.fillRect(0,0,900,500);
-    if (dots.length < 25){
-        dots.push(makeDot(ctx));
+    while (dots.length < 35){
+            dots.push(makeDot(ctx));
     };
-    for (var i = 0; i < dots.length; i++){
-	    dots[i].move();
-	    dots[i].spawn();
-	    /*if (dots[i].checkCollide()) {
-	        console.log("NOOB. GET BETTER");
-	    }*/
-	    if (!(dots[i].inBounds())) {
-	        dots.splice(i,1);
-	    }
+};
+
+var update = function() {
+    if (!(lost || mouse.x < 0 || mouse.x > 900 || mouse.y < 0 || mouse.y > 500)){
+        ctx.fillStyle="#000000";
+        ctx.fillRect(0,0,900,500);
+        for (var i = 0; i < dots.length; i++){
+	        dots[i].move();
+	        dots[i].spawn();
+	        if (dots[i].checkCollide()) {
+                lost = true;
+	        }
+	        if (!(dots[i].inBounds())) {
+	            dots.splice(i,1);
+	        }
+        };
+        ctx.font="20px Arial";
+        ctx.fillStyle="#ffffff";
+        ctx.fillText("Score: ",760,490);
+        ctx.fillText(score,830,490);
+        if (lost){
+	        ctx.font="90px Georgia";
+            ctx.fillStyle="#ffffff";
+            ctx.fillText("Game Over!",180,265);
+        };
+        score += 1;
+        n += 1;
+        if (dots.length < 35){
+            dots.push(makeDot(ctx));
+        }else if (dots.length < 45 + score / 500 && n > 15){
+            dots.push(makeDot(ctx));
+            n = 0;
+        };
     };
     window.requestAnimationFrame(update);
 };
 
 
-document.addEventListener('mousemove', function(e){ 
-    mouse.x = e.clientX || e.pageX; 
-    mouse.y = e.clientY || e.pageY;
+document.addEventListener('mousemove', function(e){
+    mouse.x = e.clientX - c.offsetLeft;//e.clientX || e.pageX; 
+    mouse.y = e.clientY - c.offsetTop;
 }, false);
 
-//dots.push(makeDot(ctx));
-//dots.push(makeDot(ctx));
-//c.addEventListener("click",clicked);
+setup();
 window.requestAnimationFrame(update);
