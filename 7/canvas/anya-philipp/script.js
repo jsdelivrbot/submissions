@@ -18,6 +18,7 @@ var makePerson = function(x,y,w,h,ctx) {
         ctx : ctx,
         dx : 0.1,
         dy : 0,
+	status : "alive";
         color : "#ff0000",
 
         draw : function() {
@@ -84,7 +85,19 @@ var makePerson = function(x,y,w,h,ctx) {
         isOnPerson : function(person) {
             return (this.x == person.x && this.y == person.y);
         },
-
+	checkForInfections : function(people) {
+	    if (this.status == "infected"){
+	        for (var i = 0; i < people.length; i++) {
+		    if (people[i].status != "immune" && people[i].status != "dead") {
+		        if (this.x >= people[i].x && this.x <= (people[i].x + people[i].width) && this.y >= people[i].y && this.y <= (people[i].y + people[i].height)
+			    || people[i].x >= this.x && people[i].x <= (this.x + this.width) && people[i].y >= this.y && people[i].y <= (this.y + this.height)){
+			    people[i].status = "infected";
+			}
+ 		    }
+		}
+	    }
+	    return people;
+	}
         // This function returns a function.
         // Every time we're checking intersections we call this function,
         // and it returns a function suitable for our direction.
@@ -182,10 +195,6 @@ var makeIntersection = function(x, y, width, height) {
         width : width,
         height : height
     }
-}
-
-var checkForInfections = function(people) {
-    return people;
 }
 
 var update = function(){
