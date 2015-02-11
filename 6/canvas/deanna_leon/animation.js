@@ -12,13 +12,6 @@ var images = ["https://scontent-a-lga.xx.fbcdn.net/hphotos-xap1/v/t1.0-9/943410_
 var pictures = [];
 console.log("fuck this");
 
-<<<<<<< HEAD
-var makeThings = function(x,y,w,h,ctx, place){
-=======
-
-
->>>>>>> 7aa631ace023cfbc68a7fac99adac24136e958c8
-
 var makeThing = function(x,y,w,h,ctx, place){
     return{
 	x : x,
