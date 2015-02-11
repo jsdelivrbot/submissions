@@ -17,7 +17,7 @@ var makeQuarter = function(x,y,w,h,ctx) {
 	    ctx.fillRect(this.x,this.y,this.w,this.h);
 	},
 	move : function() {
-	    if (broken) {
+	    if (this.broken) {
 		this.x = this.x + this.dx;
 		this.y = this.y + 2*Math.random() - 1;
 		if (this.x < 20 || this.x > 580){
@@ -41,14 +41,14 @@ var makePinwheel = function(x,y,w,h,ctx, quarters) {
 	ctx : ctx,
 	quarters : quarters,
 	draw : function() {
-	    for (i = 0, i < 4, i++) {
+	    for (i = 0; i < 4; i++) {
 		quarters[i].draw;
 	    }
 	},
 	move : function() {
-	    var dx = Math.random(10)
-	    var dy = Math.random(10)
-	    for (i = 0, i < 4, i++) {	   
+	    var dx = Math.random(10);
+	    var dy = Math.random(10);
+	    for (i = 0; i < 4; i++) {	   
 		quarters[i].x = x + dx;
 		quarters[i].y = y + dy;
 	    }
@@ -57,7 +57,7 @@ var makePinwheel = function(x,y,w,h,ctx, quarters) {
 	    var x = e.offsetX;
 	    var y = e.offsetY;
 	    if (Math.abs(this.x - x) < this.rad && Math.abs(this.y - y) < this.rad) {
-		for (i = 0, i < 4, i++) {
+		for (i = 0; i < 4; i++) {
 		    quarters[i].broken = true;
 		}
 	    }
@@ -66,7 +66,7 @@ var makePinwheel = function(x,y,w,h,ctx, quarters) {
 };
 
 var quarters = [];
-for (i = 0, i < 4, i++) {	   
+for (i = 0; i < 4; i++) {	   
     quarters.push(makeQuarter(50,100,30,15,ctx));
 }
 var pinwheels = [];
