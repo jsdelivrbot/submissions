@@ -14,7 +14,7 @@ var makeCircle = function(x, y, r,ctx){
 	x : x,
 	y : y,
 	r : r,
-	color : "#FA9961",
+	color : '#'+Math.floor(Math.random()*16777215).toString(16);
 	ctx : ctx,
 	dx : 1,
 	dy : 1,
@@ -29,7 +29,7 @@ var makeCircle = function(x, y, r,ctx){
 	move : function(){
 	    this.x = this.x + this.dx;
 	    this.y = this.y + this.dy;
-	    if (this.r <= 0){
+	    if (this.r <= 5){
 		dr = dr * -1;
 	    }
 	    if (this.x <= 10 || this.x > 1290){
@@ -74,6 +74,11 @@ var clear = function(e) {
     ctx.fillRect(0,0,1300,600);
 }
 
+var change = function(e) {
+    ctx.fillStyle = '#'+Math.floor(Math.random()*16777215).toString(16);
+    ctx.fillRect(0,0,1300,600);
+}
+
 c.addEventListener("click", clicked);
 var balls = [];
 window.requestAnimationFrame(update);
@@ -82,3 +87,5 @@ window.requestAnimationFrame(update);
 var b = document.getElementById("butt");
 b.addEventListener("click", clear);
 
+var b2 = document.getElementById("butt2");
+b2.addEventListener("click", change);
