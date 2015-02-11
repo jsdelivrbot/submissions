@@ -1,5 +1,5 @@
 var c = document.getElementById("c");
-var b = document.getElementById("b");
+var b = document.getElementById("s");
 var ctx = c.getContext("2d");
 
 var makeQuarter = function(x,y,w,h,ctx) {
@@ -40,16 +40,15 @@ var makePinwheel = function(x,y,w,h,ctx, quarters) {
 	h : h,
 	ctx : ctx,
 	quarters : quarters,
-
-/*	draw : function() {
-	    ctx.fillStyle = this.color;
-	    ctx.fillRect(this.x,this.y,this.w,this.h);
-	},*/
-
+	draw : function() {
+	    for (i = 0, i < 4, i++) {
+		quarters[i].draw;
+	    }
+	},
 	move : function() {
 	    var dx = Math.random(10)
 	    var dy = Math.random(10)
-	    for (i = 0, i < 4, i++) {
+	    for (i = 0, i < 4, i++) {	   
 		quarters[i].x = x + dx;
 		quarters[i].y = y + dy;
 	    }
@@ -66,8 +65,12 @@ var makePinwheel = function(x,y,w,h,ctx, quarters) {
     };
 };
 
-
-
+var quarters = [];
+for (i = 0, i < 4, i++) {	   
+    quarters.push(makeQuarter(50,100,30,15,ctx));
+}
+var pinwheels = [];
+pinwheels.push(makePinwheel(50,100,30,15,ctx,quarters));
 
 c.addEventListener("click",split);
 window.requestAnimationFrame(update);
