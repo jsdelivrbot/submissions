@@ -28,7 +28,27 @@ Portal.Ball = function(x, y, color, r, vx, vy, isPlayer) {
 	}
 
 	this.update = function() {
+
+		this.insertCollisions();
+		this.updatePosition();
+	}
+
+	/* Wall collision detecting */
+	this.insertCollisions = function() {
+		if(this.x + this.vx + this.r > Portal.world.width ||
+			this.x + this.vx - this.r < 0) {
+			this.vx *= -1;
+		}
+		if( this.y + this.vy + this.r > Portal.world.height || 
+				this.y + this.vy - this.r < 0 ) {
+			this.vy *= -1;
+		}
+	}
+
+	/* Update positions */
+	this.updatePosition = function() {
 		this.x += this.vx;
 		this.y += this.vy;
 	}
+
 };
