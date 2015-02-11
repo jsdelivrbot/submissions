@@ -1,8 +1,8 @@
 var canvas = document.getElementById("canvas");
 var ctx = canvas.getContext("2d");
 
-var maxRainCount = 50;
-
+var maxRainCount = 80;
+var paused = false;
 
 var makeRain = function(x,y,ctx){
 		return{
@@ -12,10 +12,25 @@ var makeRain = function(x,y,ctx){
 				dy : 2,
 				color : "#33A1DE",
 				draw : function(){
+						/* Circular raindrops
 						ctx.fillStyle=this.color;
 						ctx.beginPath();
 						ctx.arc(this.x,this.y,5,0,2*Math.PI);
 						ctx.fill();
+						*/
+
+						// Credits for Bezier curve raindrops: http://hernan.amiune.com/labs/particle-system/hello-world.html
+						ctx.fillStyle=this.color;
+						ctx.beginPath();
+						ctx.save(); // save canvas state before translation to restore later
+						ctx.translate(this.x,this.y); // translates canvas by remapping (0,0) to (this.x, this.y)
+						ctx.bezierCurveTo(0,2.5, 0,5, 2.5,7.5);
+						ctx.bezierCurveTo(5,10, 6,13, 5,15);
+						ctx.bezierCurveTo(3,20, -3,20, -5,15);
+						ctx.bezierCurveTo(-6,13, -5,10, -2.5,7.5);
+						ctx.bezierCurveTo(0,5, 0,2.5, 0,0);
+						ctx.fill();
+						ctx.restore();
 				},
 				move : function(){
 						this.y+= + this.dy;
@@ -25,14 +40,16 @@ var makeRain = function(x,y,ctx){
 
 var autoRain = function(){
 		var x = canvas.width*Math.random();
-		var y = 50*Math.random();
+		var y = 35*Math.random();
 		if (rain.length < maxRainCount){
 				rain.push(makeRain(x,y,ctx));
 		}
 };
 
 var start = function(){
-		rainEvent = window.setInterval(autoRain, 100);
+		if (paused)
+				paused = false;
+		rainEvent = window.setInterval(autoRain, 70);
 };
 
 var stop = function(){
@@ -40,6 +57,10 @@ var stop = function(){
 };
 
 var update = function(){
+		if (paused){
+ 				window.requestAnimationFrame(update);
+				return;
+		}
 		ctx.fillStyle="#ffffff";
 		ctx.fillRect(0,0,canvas.width,canvas.height);
 		for (var i = 0; i < rain.length; i++){
@@ -61,11 +82,14 @@ var clicked = function(e){
 
 var rain = [];
 var rainEvent;
-var startButton = document.getElementById("start");
-var stopButton = document.getElementById("stop");
+var startB = document.getElementById("start");
+var stopB = document.getElementById("stop");
+var pauseB = document.getElementById("pause");
 
-startButton.addEventListener("click", start);
-stopButton.addEventListener("click", stop);
+
+startB.addEventListener("click", start);
+stopB.addEventListener("click", stop);
+pauseB.addEventListener("click", function(){ paused = !paused; });
 canvas.addEventListener("click", clicked);
 
 window.requestAnimationFrame(update);
