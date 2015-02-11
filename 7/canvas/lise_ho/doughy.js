@@ -52,7 +52,6 @@ var addDough = function(e){
     //size of parent container
     var x = e.offsetX; 
     var y = e.offsetY;
-    console.log(y);
     var w = 20 + Math.random(70);
     var h = 10 + Math.random(30);
     doughs.push(makeDough(x,y,w,h,ctx,getRandColor()));
@@ -80,7 +79,6 @@ var makeSnake = function(x,y,ctx,img){
 var update = function(){
     ctx.fillStyle = "#ffffff";
     ctx.fillRect(0,0,600,600);
-    console.log(doughs);
     var del = [];
     for (var i=0; i<doughs.length; i++){
 	doughs[i].move();
