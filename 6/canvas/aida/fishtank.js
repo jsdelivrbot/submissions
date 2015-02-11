@@ -11,11 +11,16 @@ var fishSize = 50;
 //Fishes locations is a 2D array of y values, with a list of fishes at that y value
 //
 var drawTank = function() {
-	ctx.clearRect(0,0,500,500);
+    ctx.clearRect(0,0,500,500);
     ctx.fillStyle = "#00FFFF";
     ctx.fillRect(0,0,500,500);
     ctx.fillStyle = "#CD9B1D";
     ctx.fillRect(0,400,500,100);
+    var img = new Image();
+    img.src = "Sunken_ship_prow.png";
+    img.onload = function() {
+	ctx.drawImage(img, 300,250,170,200);
+    };
 };
 
 var loadFishImage = function(fish) {
@@ -103,7 +108,7 @@ var update = function() {
 	// is a more efficient way to draw images. 
 	setTimeout( function() {
 		window.requestAnimationFrame(update);
-	}, 70);
+	}, 150);
 };
 
 var clicked = function(e) {
