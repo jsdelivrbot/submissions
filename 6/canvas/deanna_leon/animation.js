@@ -20,8 +20,8 @@ var makeThing = function(x,y,w,h,ctx, place){
 	h : h,
 	ctx : ctx,
 	color : "#ff0000", //we wont need color eventually
-	dx : 10,
-	dy : 10,
+	dx : 1,
+	dy : 1,
 	place : place,
 	ctx : ctx,
 	draw : function(){
