@@ -25,37 +25,52 @@ var clicked = function(e){
     var w = 10;
     var h = 10;
     blocks.push(makeBlock(x,y,w,h,ctx));
-    update();
-    console.log("ASDAS");
+    //update();
+    //console.log("ASDAS");
 };
 
 
 var update = function() {
-    console.log(blocks.length);
+    //console.log(blocks.length);
+    ctx.fillStyle = "#ffffff";
+    ctx.fillRect(0,0,600,600);  
+    ctx.lineJoin = "round";
+    ctx.lineWidth = 5;    
     for (var i = 0; i < blocks.length; i++){
-	blocks[i].draw();
+        blocks[i].draw();
+        //ctx.moveTo(blocks[i-1]["x"],blocks[i-1]["y"]);
+        //ctx.lineTo(blocks[i]["x"],blocks[i]["y"]);
+        //ctx.closePath();
+        //ctx.stroke();
     }
-    
+        
 };
 
-var myevent;
-function startit(e) {
-    myevent = setInterval(clicked(e),10);
-}
 
-function stopit() {
-    window.clearTimeout(myevent);
-}
-
-
-var mousedown = false;
+var mousedown;
 
 function mousedown(e){
     mousedown = true;
+    clicked(e);
+    update();
 }
 
-c.addEventListener("mousedown",mousedown);
-c.addEventListener("mouseup",stopit);
-var blocks = [];
+function move(e){
+    if (mousedown){
+        clicked(e);
+        update();
+    }
+}
 
-blocks.push(makeBlock(10,10,10,10,ctx));
+function mouseup(e) {
+    mousedown = false;
+}
+
+var blocks = [];
+c.addEventListener("mousedown",mousedown);
+c.addEventListener("mousemove",move);
+c.addEventListener("mouseup",mouseup);
+
+mousedown = false;
+//blocks.push(makeBlock(10,10,10,10,ctx));
+window.requestAnimationFrame(update);
