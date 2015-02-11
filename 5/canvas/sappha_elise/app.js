@@ -92,9 +92,9 @@ function move() {
     else if (direction == 'left')
 	x--;
     else if (direction == 'top')
-	y++;
-    else if (direction == 'bottom')
 	y--;
+    else if (direction == 'bottom')
+	y++;
     //tail becomes head
     var tail = snake.pop();
     tail.x = x;
