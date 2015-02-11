@@ -6,7 +6,7 @@ var globalMouse = null;
 
 // Black background
 context.beginPath();
-context.rect(0, 0, 600, 600);
+context.rect(0, 0, 500, 500);
 context.fillStyle = "black";
 context.fill();
 context.closePath();
@@ -34,7 +34,7 @@ var makeDot = function(x, y, radius, context){
 		move : function() {
 			if (this.spread) {
 				this.realX += this.velocity;
-				this.color = 'red';
+				this.color = 'green';
 			}
 			else if (this.original && this.realX != x) {
 				this.realX -= this.velocity;
@@ -46,9 +46,9 @@ var makeDot = function(x, y, radius, context){
 	};
 };
 
-for (var i = 8; i < 600; i+=8) {
-	for (var k = 8; k < 600; k+=8) {
-		dots.push(makeDot(i, k, 1, context));
+for (var i = 10; i < 500; i+=10) {
+	for (var k = 10; k < 500; k+=10) {
+		dots.push(makeDot(i, k, 2, context));
 	};
 };
 
@@ -97,7 +97,7 @@ var spreadDots = function(e) {
 // Update
 var update = function(){
 	context.fillStyle = "black";
-	context.fillRect(0,0,600,600);
+	context.fillRect(0, 0, 500, 500);
 	for (var i=0; i < dots.length; i++){
 		if (globalMouse != null) {
 			if (distance(dots[i].realX, globalMouse.x, dots[i].realY, globalMouse.y) > 50) {
@@ -128,7 +128,7 @@ window.requestAnimationFrame(update);
 // 	e.preventDefault();
 // 	context.clearRect(0, 0, c.width, c.height);
 // 	context.beginPath();
-// 	context.rect(0, 0, 600, 600);
+// 	context.rect(0, 0, 500, 500);
 // 	context.fillStyle = "black";
 // 	context.fill();
 // 	context.closePath();
