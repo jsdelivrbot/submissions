@@ -21,17 +21,27 @@ var makeThing = function(x,y,w,h,ctx, place){
 	ctx : ctx,
 	color : "#ff0000", //we wont need color eventually
 	dx : 1,
+	dy : 1,
+	place : place,
+	ctx : ctx,
 	draw : function(){
 	    var img = new Image();
-    
-	    img.src = images[place];
-	    ctx.drawImage(img, x, y, w, h); //this is bad
+	    img.src = images[this.place];
+	    ctx.drawImage(img, this.x, this.y, this.w, this.h);
 //	    img.addEventListener("load", function(){
 //		canvas.drawImage(img, x, y, w, h); //this is bad
 //	    });	
 	},
 	move: function(){
-	    // add the moving functionality that we want it to have
+	    console.log("getting there");
+	    this.x = this.x + this.dx;
+	    this.y = this.y + this.dy;
+	    if (this.x < 1 || this.x > 545){
+		this.dx = this.dx * -1;
+	    }
+	    if (this.y < 1 || this.y > 550){
+		this.dy = this.dy * -1;
+	    }
 	}
     };
 };
@@ -42,7 +52,7 @@ var update = function(){
     console.log("hope")
     for (var i=0; i<pictures.length; i++){
 	console.log(pictures.length)
-//	pictures[i].move();
+	pictures[i].move();
 	pictures[i].draw();
     }
     window.requestAnimationFrame(update);
