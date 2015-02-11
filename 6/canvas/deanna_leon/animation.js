@@ -12,10 +12,14 @@ var images = ["https://scontent-a-lga.xx.fbcdn.net/hphotos-xap1/v/t1.0-9/943410_
 var pictures = [];
 console.log("fuck this");
 
+<<<<<<< HEAD
+var makeThings = function(x,y,w,h,ctx, place){
+=======
 
 
 
 var makeThing = function(x,y,w,h,ctx, place){
+>>>>>>> 2d73be6f288bb5a65c7f5378d2c50c3eff1113d0
     return{
 	x : x,
 	y : y,
@@ -63,4 +67,4 @@ var clicked = function(){
 
 canvas.addEventListener("click", clicked);
 window.requestAnimationFrame(update);
-    
+   
