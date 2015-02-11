@@ -2,11 +2,10 @@
 
 Portal.world = (function() {
 
-	var WIDTH	 		= 800,
-		HEIGHT	 		= 400,
+	var WIDTH	 		= 300,
+		HEIGHT	 		= 150,
 		COLOR			= "#E6E6E6",
 		PORTALHEIGHT 	= 50;
-
 
 	var elements = [];
 
@@ -14,12 +13,12 @@ Portal.world = (function() {
 		ctx.fillStyle = COLOR;		
 		ctx.fillRect(0, 0, WIDTH, HEIGHT );
 		//blue
-		ctx.strokeStyle("#00ffff")
+		ctx.strokeStyle = "#00ffff";
 		ctx.lineWidth = 5;
 		ctx.moveTo(0, HEIGHT * 0.5 - PORTALHEIGHT);
 		ctx.lineTo(0, HEIGHT * 0.5 + PORTALHEIGHT);
 		//orange
-		ctx.strokeStyle("#ffa500")
+		ctx.strokeStyle = "#ffa500";
 		ctx.lineWidth = 5;
 		ctx.moveTo(WIDTH, HEIGHT * 0.5 - PORTALHEIGHT);
 		ctx.lineTo(WIDTH, HEIGHT * 0.5 + PORTALHEIGHT);
@@ -42,7 +41,9 @@ Portal.world = (function() {
 		setWidth 		: setWidth,
 		setHeight		: setHeight,
 		setDimensions	: setDimensions,
-		draw			: draw
+		draw			: draw,
+		width 			: WIDTH,
+		height			: HEIGHT
 	}
 
 })();
