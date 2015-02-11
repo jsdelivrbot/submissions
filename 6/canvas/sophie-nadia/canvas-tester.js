@@ -1,5 +1,8 @@
 var c = document.getElementById("c");
+var l = document.getElementById("l");
 var ctx = c.getContext("2d");
+ctx.font="30px Verdana";
+
 
 function getRandomColor() {
     var letters = '0123456789ABCDEF'.split('');
@@ -20,7 +23,7 @@ var makeBall = function(x,y,ctx) {
         dy : Math.random()*10-5,
         //dy : 1,
         ctx : ctx,
-    state: "bouncing",
+        state: "bouncing",
         color : getRandomColor(),
         counter : 50,
         setState : function (s) {
@@ -65,22 +68,47 @@ var makeBall = function(x,y,ctx) {
     };
 };
 
-var inRadius = function(e){
-    /*for each (var item in obj) {
-     sum += item;
-     }*/
-    var x = e.offsetX;
-    var y = e.offsetY;
-    
-    for (i = 0; i < balls.length; i++){
-        var distance = Math.sqrt( Math.pow(balls[i].x - x, 2) + Math.pow(balls[i].y - y, 2) );
-        if (distance < balls[i].r){
-            return i;
+
+var makeGame = function(){
+    return {
+        ballsperLevel : [5, 10, 15, 20], //balls created at start
+        ballsneeded : [1, 2, 4, 6], //balls needed to beat level
+        numballs : 0, //number of balls that have been exploded
+        level : 1,
+        b : null, //last ball to start growing
+        ctx : ctx,
+        initial : false, //only one initial ball can be created with click
+        inBetween : false,
+        hasWon : false,
+        msg : "",
+        levelup : function(){
+            if (this.ballsneeded[this.level-1] <= this.numballs){
+                
+                if (this.level < 4){
+                    this.level++;
+                    this.numballs = 0;
+                    this.initial = false;
+                    //this.inBetween = false;
+                    this.msg = "You beat the level";
+                } else {
+                    this.hasWon = true;
+                    this.msg = "You won!";
+                }
+                l.innerHTML = "Level " + game.level;
+            } else {
+                this.msg = "You did not beat the level";
+            }
+            
         }
-    }
-    return null;
+       
     
-};
+    }
+    
+    
+}
+
+
+
 
 var overlap = function(ball) {
     // ball inputed is growing, big, or shrinking
@@ -94,11 +122,17 @@ var overlap = function(ball) {
             var distance = Math.sqrt( Math.pow(b.x - x, 2) + Math.pow(b.y - y, 2) )
             if (distance < r + b.r){
                 b.state = "growing";
+                game.numballs++;
+                game.b = b;
             }
         }
     }
 };
 
+var inBetweenScreen = function(){
+    ctx.fillText(game.msg,10,90);
+    if (
+}
 
 var update = function() {
     ctx.beginPath();
@@ -114,44 +148,58 @@ var update = function() {
         balls[i].draw();
     }
     
+    if (b.r == 0 && game.initial){
+        game.levelup();
+        inBetweenScreen();
+    }
+    
     window.requestAnimationFrame(update);
 };
 
+
 var clicked = function(e){
-    var x = e.offsetX;
-    var y = e.offsetY;
-    var newB = makeBall(x,y,ctx);
-    newB.setState("growing");
-    balls.push(newB );
+    if (!game.initial){ //if initial ball hasn't been created yet
+        var x = e.offsetX;
+        var y = e.offsetY;
+        var newB = makeBall(x,y,ctx);
+        newB.setState("growing");
+        balls.push(newB);
+        game.b = newB;
+        game.initial = true;
+    }
 };
 
 /*
- var clicked = function(e){
- if (inRadius(e)) {
- var pos = inRadius(e);
- balls[pos].color = "#0000ff";
- } else {
- var x = e.offsetX;
- var y = e.offsetY;
- balls.push(makeBall(x,y,ctx));
- }
- };
+var clicked = function(e){
+    if (inRadius(e)) {
+        var pos = inRadius(e);
+        balls[pos].color = "#0000ff";
+    } else {
+        var x = e.offsetX;
+        var y = e.offsetY;
+        balls.push(makeBall(x,y,ctx));
+    }
+};
  */
 
 c.addEventListener("click",clicked);
+//c.addEventListener("keydown",)
 
 var b = document.getElementById("b");
 
-
+ 
 var balls = [];
+var game = makeGame();
 
 var reset = function() {
-    balls = []
+    balls = [];
+    game = makeGame();
     ctx.beginPath();
     ctx.fillStyle = "#ffffff";
     ctx.fillRect(0,0,640,480);
+    l.innerHTML = "Level " + game.level;
     ctx.closePath();
-    for ( i=0; i<20; i++) {
+    for ( var i=0; i<game.ballsperLevel[game.level-1]; i++) {
         balls.push(makeBall(320,240,ctx));
     }
 }
@@ -162,4 +210,5 @@ b.addEventListener("click",reset);
 
 reset();
 window.requestAnimationFrame(update);
+
 

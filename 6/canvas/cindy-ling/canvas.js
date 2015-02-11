@@ -1,6 +1,6 @@
 var c = document.getElementById("can");
 var ctx = c.getContext("2d");
-
+ctx.fillStyle = "#ffffff"
 
 
 //ctx.beginPath();
@@ -16,12 +16,11 @@ var makeCircle = function(x, y, r,ctx){
 	r : r,
 	color : '#'+Math.floor(Math.random()*16777215).toString(16),
 	ctx : ctx,
-	dx : Math.random()*2,
-	dy : Math.random()*2,
-	dr : 1,
+	dx : Math.random()*2 - 1,
+	dy : Math.random()*2 - 1,
+	dr : 0,
 
 	draw : function() {
-
 	    ctx.beginPath();
 	    ctx.arc(this.x, this.y, this.r, 0, 2*Math.PI);
 	    ctx.fillStyle = this.color;
@@ -35,7 +34,8 @@ var makeCircle = function(x, y, r,ctx){
 		this.dr = this.dr * -1;
 	    }
 	    if (this.x <= 10 || this.x > 1290){
-		this.dx = this.dx * -1;
+		this.dx = this.dx * -1 * Math.random()*1;
+		console.log(this.r-this.dr);
 		this.r = this.r - this.dr;
 	    }
 	    if (this.y < 10 || this.y > 590){
@@ -47,7 +47,7 @@ var makeCircle = function(x, y, r,ctx){
 };
 
 var update = function(){
-    ctx.fillStyle = "#ffffff";
+//    ctx.fillStyle = "#ffffff";
     ctx.fillRect(0,0,1300,600);
     for (var i = 0; i < balls.length; i++){
 	balls[i].move();
