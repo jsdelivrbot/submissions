@@ -1,0 +1,2 @@
+APP.setup();
+APP.run();
