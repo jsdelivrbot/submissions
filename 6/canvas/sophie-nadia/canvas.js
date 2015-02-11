@@ -120,10 +120,13 @@ var clicked = function(e){
 
 c.addEventListener("click",clicked);
 
+var b = document.getElementById("b");
+
  
 var balls = [];
 
-var setup = function() {
+var reset = function() {
+    balls = []
     ctx.beginPath();
     ctx.fillStyle = "#ffffff";
     ctx.fillRect(0,0,640,480);
@@ -133,7 +136,11 @@ var setup = function() {
     }
 }
 
-setup();
+b.addEventListener("click",reset);
+
+
+
+reset();
 window.requestAnimationFrame(update);
 
 
