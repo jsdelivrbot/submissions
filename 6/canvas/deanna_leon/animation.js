@@ -11,9 +11,6 @@ var images = ["https://scontent-a-lga.xx.fbcdn.net/hphotos-xap1/v/t1.0-9/943410_
 
 var pictures = []
 
-
-
-
 var makeThings = function(x,y,w,h,ctx, place){
     return{
 	x : x,
@@ -56,4 +53,4 @@ var clicked = function(){
 
 c.addEventListener("click", clicked);
 window.requestAnimationFrame(update);
-    
+   
