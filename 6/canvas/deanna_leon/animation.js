@@ -20,7 +20,8 @@ var makeThing = function(x,y,w,h,ctx, place){
 	h : h,
 	ctx : ctx,
 	color : "#ff0000", //we wont need color eventually
-	dx : 100,
+	dx : 10,
+	dy : 10,
 	place : place,
 	ctx : ctx,
 	draw : function(){
@@ -34,12 +35,12 @@ var makeThing = function(x,y,w,h,ctx, place){
 	move: function(){
 	    console.log("getting there");
 	    this.x = this.x + this.dx;
-	    this.y = this.y + 2*Math.random() - 1;
-	    if (this.x < 10 || this.x > 580){
+	    this.y = this.y + this.dy;
+	    if (this.x < 1 || this.x > 545){
 		this.dx = this.dx * -1;
 	    }
-	    if (this.y < 20 || this.y > 580){
-		this.y = 100 + 400 * Math.random();
+	    if (this.y < 1 || this.y > 550){
+		this.dy = this.dy * -1;
 	    }
 	}
     };
