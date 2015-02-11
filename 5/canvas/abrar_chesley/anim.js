@@ -193,8 +193,8 @@ var teleportBallOutOfWallY = function(ball, wall) {
 }
 
 var handleMousedown = function(e) {
-    startX = e.offsetX;
-    startY = e.offsetY;
+    startX = getOffsetX(e);
+    startY = getOffsetY(e);
     for (var i = 0;i < balls.length;i++) {
         if (inBall(balls[i], startX, startY)) {
             startTime = new Date().getTime();
@@ -208,6 +208,8 @@ var handleMousedown = function(e) {
 
 var handleMouseup = function(e) {
     if (currentBall != -1) {
+        e.offsetX = getOffsetX(e);
+        e.offsetY = getOffsetY(e);
         var elapsed = new Date().getTime() - startTime;
         var vx = FLING_MULTIPLIER * (e.offsetX - startX) / elapsed;
         var vy = FLING_MULTIPLIER * (e.offsetY - startY) / elapsed;
@@ -219,6 +221,15 @@ var handleMouseup = function(e) {
         // Y velocity is reversed to account for axes starting at the top left
         display.innerText = "Velocity: x=" + vx.toString() + " y=" + (-vy).toString();
     }
+}
+
+var getOffsetX = function(e) {
+    // Firefox compatibility
+    return (e.offsetX === undefined) ? e.layerX - c.offsetLeft : e.offsetX;
+}
+var getOffsetY = function(e) {
+    // Firefox compatibility
+    return (e.offsetY === undefined) ? e.layerY - c.offsetTop : e.offsetY;
 }
 
 var setup = function() {
