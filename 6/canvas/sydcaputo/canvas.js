@@ -3,13 +3,17 @@
 var c= document.getElementById("c");
 var ctx = c.getContext("2d");
 
+#ctx.fillRect(x,y,h,w)
 
-
-var clear = function(e){
-		ctx.fillStyle = "#ffffff";
-		ctx.fillRect(0,0,600,600);
-		ctx.beginPath();
+var setup = function(){
+	ctx.beginPath();
+   	var img = new Image();
+    img.src = 'dog.jpeg';
+    img.onload = function() {
+		ctx.drawImage(img, 0,0);
+    }
 };
-c.addEventListener("click",clicked);
-var b = document.getElementById("b");
-b.addEventListener("click",clear);
+setup();
+#c.addEventListener("click",clicked);
+#var b = document.getElementById("b");
+#b.addEventListener("click",clear);
