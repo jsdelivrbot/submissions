@@ -158,9 +158,9 @@ function getMousePos(canvas,event) {
 function mousedown(e) {
     e.preventDefault();
     mpos = getMousePos(canvas,e);
-    if(e.buttons==1 && !mdown) {
+    if(e.which==1 && !mdown) {
         world.addStar(mpos.x, mpos.y);
-    } else if (e.buttons==2 && (!mdown || curframe-lastrclick>5)) {
+    } else if (e.which==3 && (!mdown || curframe-lastrclick>5)) {
         //tfw hold mouse doesn't work
         console.log("RT");
         world.addPlanet(mpos.x, mpos.y);

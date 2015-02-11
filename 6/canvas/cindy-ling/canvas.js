@@ -1,6 +1,6 @@
 var c = document.getElementById("can");
 var ctx = c.getContext("2d");
-
+ctx.fillStyle = "#ffffff"
 
 
 //ctx.beginPath();
@@ -21,7 +21,6 @@ var makeCircle = function(x, y, r,ctx){
 	dr : 1,
 
 	draw : function() {
-
 	    ctx.beginPath();
 	    ctx.arc(this.x, this.y, this.r, 0, 2*Math.PI);
 	    ctx.fillStyle = this.color;
@@ -40,14 +39,14 @@ var makeCircle = function(x, y, r,ctx){
 	    }
 	    if (this.y < 10 || this.y > 590){
 		this.dy = this.dy * -1;
-		this.r = this.r - this.dr;
+		this.r = Math.abs(this.r - this.dr);
 	    }
 	},
     };
 };
 
 var update = function(){
-    ctx.fillStyle = "#ffffff";
+//    ctx.fillStyle = "#ffffff";
     ctx.fillRect(0,0,1300,600);
     for (var i = 0; i < balls.length; i++){
 	balls[i].move();

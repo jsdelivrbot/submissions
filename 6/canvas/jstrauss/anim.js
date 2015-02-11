@@ -11,7 +11,7 @@ var makeBlock = function(x,y,w,h,ctx) {
 		h : h,
 		ctx : ctx,
 		color : "#ff0000",
-		dx : 2,
+		dx : 2 + Math.random(),
 		draw : function() {
 			ctx.fillStyle = this.color;
 			ctx.fillRect(this.x,this.y,this.w,this.h);
@@ -52,12 +52,6 @@ var makeDrop = function(x,y,w,h,ctx) {
 				console.log(score);
 			}
 		}
-		// getx : function() {
-		// 	return this.x;
-		// },
-		// gety : function() {
-		// 	return this.y;
-		// }
 	};
 };
 
@@ -73,19 +67,20 @@ var update = function() {
 				drops[i].draw();
 				for (var j = 0; j < blocks.length; j++) {
 					if ((Math.abs(drops[i].x - blocks[j].x) < 15) && (Math.abs(drops[i].y - blocks[j].y) < 10)) {
-						blocks[j].changeColor();
-						score ++;
-						drops[i].y = 700;
+						if (blocks[j].color == "#0000ff") {
+							if (confirm("Game over! Your final score is " + score)){
+						        location.reload();
+						    }
+						}
+						else {
+							blocks[j].changeColor();
+							score ++;
+							drops[i].y = 700;
+						}
 					}
 				}
-				// xnow = drops[i].getx();
-				// ynow = drops[i].gety();
-				//console.log(drops[i].x);
-				//console.log(drops[i].y);
-				// for (var i = 0; i < blocks.length; i++){
-				// 	if (drops[i].getx <)
 		}
-		document.getElementById("points").value = "1";//score.toString();
+		document.getElementById("points").innerHTML = score.toString();
 		window.requestAnimationFrame(update);
 };
 
@@ -93,21 +88,12 @@ var clicked = function(e){
 		var x = e.offsetX;
 		var y = e.offsetY;
 		drops.push(makeDrop(x,y,10,10,ctx));
-		// var w = 10+Math.random()*40;
-		// var h = 10+Math.random()*20;
-		// blocks.push(makeBlock(x,y,w,h,ctx));
 };
 
 c.addEventListener("click",clicked);
 var blocks = [];
 var drops = [];
-blocks.push(makeBlock(500,100,30,15,ctx));
-blocks.push(makeBlock(300,150,30,15,ctx));
-blocks.push(makeBlock(150,200,30,15,ctx));
-blocks.push(makeBlock(450,250,30,15,ctx));
-blocks.push(makeBlock(100,300,30,15,ctx));
-blocks.push(makeBlock(550,350,30,15,ctx));
-blocks.push(makeBlock(200,400,30,15,ctx));
-blocks.push(makeBlock(350,450,30,15,ctx));
-blocks.push(makeBlock(250,500,30,15,ctx));
+for (var x = 100; x < 600; x += 50){
+	blocks.push(makeBlock(600*Math.random(),x,30,15,ctx));
+}
 window.requestAnimationFrame(update);

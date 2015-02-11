@@ -113,23 +113,3 @@ var update = function(){
 
 c.addEventListener('mousemove', spreadDots, false);
 window.requestAnimationFrame(update);
-
-
-
-
-
-
-
-
-
-// b.addEventListener("click",clear)
-
-// var clear = function(e) { 
-// 	e.preventDefault();
-// 	context.clearRect(0, 0, c.width, c.height);
-// 	context.beginPath();
-// 	context.rect(0, 0, 500, 500);
-// 	context.fillStyle = "black";
-// 	context.fill();
-// 	context.closePath();
-// };
