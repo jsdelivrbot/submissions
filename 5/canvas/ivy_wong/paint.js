@@ -80,17 +80,27 @@ var changeColor = function(e){
     console.log("Current color: " + currColor);
 };
 
+var save = function(){
+    var dataURL = c.toDataURL("image/png");
+    saveBtn.href = dataURL;
+    console.log("saved?");
+};
+
 c.addEventListener("mousemove",paint);
 c.addEventListener("mousedown",onMouseDown);
 c.addEventListener("mouseup",onMouseUp);
 
 var clr = document.getElementById("clear");
+var saveBtn = document.getElementById("save");
+
 var szup = document.getElementById("size-up");
 var szdown = document.getElementById("size-down");
 var colors = document.getElementById("colors");
 
 clr.addEventListener("click",clear);
+saveBtn.addEventListener("click",save);
 szup.addEventListener("click",inc);
 szdown.addEventListener("click",dec);
 colors.addEventListener("click",changeColor);
 
+clear();

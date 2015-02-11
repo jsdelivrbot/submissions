@@ -3,6 +3,15 @@
 <html>
     <style>
     #c {border:1px solid red }
+    .button {
+        font: bold 11px Arial;
+        text-decoration: none;
+        background-color: #EEEEEE;
+        color: #333333;
+        padding: 3px 8px;
+        border-radius: 1px;
+        border: 1px solid #aeaeae;
+    }
     </style>
     <h1>MS Paint, Web Version</h1>
     <p id="colors">
@@ -24,6 +33,7 @@
         <canvas height="500" width="800" id="c">
         </canvas>
     </div>
+    <a href="#" class="button" id="save" download="image.png">Save</a>
     <button id="clear">Clear</button>
     <script src="paint.js"></script>
 </html>
