@@ -21,11 +21,12 @@ var makeThing = function(x,y,w,h,ctx, place){
 	ctx : ctx,
 	color : "#ff0000", //we wont need color eventually
 	dx : 100,
+	place : place,
+	ctx : ctx,
 	draw : function(){
 	    var img = new Image();
-    
-	    img.src = images[place];
-	    ctx.drawImage(img, x, y, w, h); //this is bad
+	    img.src = images[this.place];
+	    ctx.drawImage(img, this.x, this.y, this.w, this.h);
 //	    img.addEventListener("load", function(){
 //		canvas.drawImage(img, x, y, w, h); //this is bad
 //	    });	
