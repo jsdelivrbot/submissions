@@ -1,11 +1,11 @@
 Portal.sprites = (function() {
 	this.balls = [];
-
 	this.numPlayers = 0;
 
 	function draw(ctx) {
 		for (i in balls) {
-			//console.log(balls[i]);
+			if (i == 1)
+				console.log(balls[i]);
 		
 			/* Draw the ball */
 			balls[i].draw(ctx);
@@ -26,6 +26,7 @@ Portal.sprites = (function() {
 				console.log("A player was already created.");
 			}
 		}
+		console.log(x);
 		balls.push(new Portal.Ball(x, y, color, r, vx, vy, false));
 	}
 

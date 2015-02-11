@@ -1,14 +1,30 @@
-var width = 1000;
-var height = 667;
-
+var width = 800;
+var height = 600;
 //random number between min and max
 var randNum = function(min, max) {
     return Math.floor(Math.random() * (max-min+1)) + min;
 }
 
+var mx=0;
+var my=0;
+//amount of kernels
+var k=randNum(5,25);
+var done=false;
+
 //canvas
 var canvas = document.getElementById("c");
 var ctx = canvas.getContext("2d");
+
+<<<<<<< HEAD
+=======
+//MOUSE LOCATION?? YES DAMMIT
+function getMousePos(canvas, evt) {
+    var rect = canvas.getBoundingClientRect();
+    return {
+	x: evt.clientX - rect.left,
+	y: evt.clientY - rect.top
+    };
+}
 
 /*
 var image = new Image();
@@ -29,6 +45,9 @@ var drawLine = function(x1,y1,x2,y2) {
 }
 */
 
+
+
+>>>>>>> ce887ebe2468217168548164f58776e9cecbff1f
 //kernel "class"
 function kernel(x,y) {
     var self = this;
@@ -39,15 +58,17 @@ function kernel(x,y) {
     self.kernelW = 40;
     self.kernelH = 36;
     self.pos = [x,y];
-    self.v = 0;
     self.acc = 1;
     self.heat = 0;
     self.popped = false;
-    self.move = function() {
+<<<<<<< HEAD
+=======
+    self.move = function(e) {
 	if (!self.popped) {
-	    //move
+
 	}
     }
+>>>>>>> ce887ebe2468217168548164f58776e9cecbff1f
     self.pop = function() {
 	self.popped = true;
 	self.image.src = 'popcorn.png';
@@ -57,31 +78,67 @@ function kernel(x,y) {
 	    ctx.drawImage(self.image,self.pos[0]-self.kernelW/2, self.pos[1]-self.kernelH/2);
 	}
 	else {
-	    ctx.drawImage(self.image,self.pos[0]-self.popcornW/2, self.pos[1]-self.popcornH/2);
+	    ctx.drawImage(self.image,self.pos[0]-self.popcornW/2-10, self.pos[1]-self.popcornH/2);
 	}
     }
 }
 
 var kernels = [];
 
-//spawn 25 random kernels
-for (var i=0;i<25;i++) {
-    var x = randNum(250,750);
-    var y = randNum(170,510);
+//spawn k random kernels
+for (var i=0;i<k;i++) {
+    var x = randNum(50,750);
+    var y = randNum(50,550);
     kernels.push(new kernel(x,y));
 }
+<<<<<<< HEAD
 
-var update = function() {
+canvas.onclick = function(e){
+    mx = e.offsetX;
+    my = e.offsetY;
+    for (var i=0;i<k;i++){
+	if ((kernels[i].pos[0] - mx >-20 && kernels[i].pos[0] - mx <20)
+	    && (kernels[i].pos[1] - my >-20 && kernels[i].pos[1] - my <20)){
+	    kernels[i].pop();
+	    console.log(kernels[i]);
+	}
+    }
+}
+
+var update = function(e) {
+    ctx.fillStyle = "#000f000";
+
+    //there's a pretty good reason that these loops are separate, but that reason doesn't really apply here... just keep it like this
+
+=======
+var mousePos;
+var update = function(e) {
     ctx.fillStyle = "#ffffff";
     //there's a pretty good reason that these loops are separate, but that reason doesn't really apply here... just keep it like this
-    for (var i=0;i<kernels.length;i++) {
-	kernels[i].move();
-    }
+    mousePos = getMousePos(canvas, e);
+    console.log(mousePos.x);
+    //console.log(mousePos.y);
+    //for (var i=0;i<kernels.length;i++) {
+	//kernels[i].move();
+    //}
+>>>>>>> ce887ebe2468217168548164f58776e9cecbff1f
     for (var i=0;i<kernels.length;i++) {
 	kernels[i].draw();
+    }
+    var finished = true;
+    for (var i=0;i<k;i++){
+	finished = finished && kernels[i].popped;
+    }
+    if (finished && !done){
+	alert("YOU POPPED THEM ALL!");
+	done = true;
     }
     window.requestAnimationFrame(update);
 }
 
-canvas.addEventListener("mouseover",update);
+<<<<<<< HEAD
+canvas.addEventListener("click",update); //do NOT change it to mousemove unless you deleted mousePos.
+=======
+canvas.addEventListener("mouseover",update); //do NOT change it to mousemove unless you deleted mousePos.
+>>>>>>> ce887ebe2468217168548164f58776e9cecbff1f
 window.requestAnimationFrame(update);
