@@ -1,9 +1,12 @@
 var canvas = document.getElementById("canvas");
 var ctx = canvas.getContext("2d");
 
+var maxRainCount = 50;
+
+
 var makeRain = function(x,y,ctx){
-		return {
-				x : x,//800*Math.random(),
+		return{
+				x : x,
 				y : y,
 				ctx : ctx,
 				dy : 2,
@@ -15,17 +18,38 @@ var makeRain = function(x,y,ctx){
 						ctx.fill();
 				},
 				move : function(){
-						this.y = this.y + this.dy;
+						this.y+= + this.dy;
+						if (y >= canvas.height)
+								rain.shift();
 				}
 		};
 };
 
+var autoRain = function(){
+		var x = canvas.width*Math.random();
+		var y = canvas.height*Math.random()/4;
+		if (rain.length < maxRainCount){
+				rain.push(makeRain(x,y,ctx));
+		}
+};
+
+var start = function(){
+		rainEvent = window.setInterval(autoRain, 100);
+};
+
+var stop = function(){
+		window.clearInterval(rainEvent);
+};
+
 var update = function(){
 		ctx.fillStyle="#ffffff";
-		ctx.fillRect(0,0,800,600);
+		ctx.fillRect(0,0,canvas.width,canvas.height);
 		for (var i = 0; i < rain.length; i++){
 				rain[i].move();
-				rain[i].draw();
+				if (rain[i].y >= canvas.height)
+						rain.splice(i,1);
+				else
+						rain[i].draw();
 		}
 		window.requestAnimationFrame(update);
 };
@@ -38,6 +62,12 @@ var clicked = function(e){
 };
 
 var rain = [];
-rain.push(makeRain(100,100,ctx));
+var rainEvent;
+var startButton = document.getElementById("start");
+var stopButton = document.getElementById("stop");
+
+startButton.addEventListener("click", start);
+stopButton.addEventListener("click", stop);
 canvas.addEventListener("click", clicked);
+
 window.requestAnimationFrame(update);
