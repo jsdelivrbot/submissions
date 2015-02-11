@@ -51,22 +51,18 @@ var makeBlock = function(x,y,w,h,ctx) {
 		    blocks[1].color = "#00ff00";
 		    this.hit = true;
 		}
-		
-		
 	    }
 	    if (this.x > 470)
 		this.hit = true;
 	}
-	
-	
     };
 };
-var makeShip = function(w,h,ctx,e) {
+var makeShip = function(w,h,ctx,e) { 
     return {
 	x : 0,
 	y : 0,
-	w : w,
-	h : h,
+	w : w, //40
+	h : h, //15
 	ctx : ctx,
 	color : "#ffff00",
 
@@ -75,11 +71,12 @@ var makeShip = function(w,h,ctx,e) {
 	    ctx.fillRect(this.x,this.y,this.w,this.h);
 	},
 	move : function(x1,y1) {
-	   
-	    if( x1 < 150 && y1<500){
-		this.x= x1-w;
-		this.y= y1-h;
+	    if(x1-w>=0 && x1-w<150){
+		this.x=x1-w;
 	    }
+	    if(y1-h>=0 && y1-h<500-h){
+		this.y=y1-h;
+	    } 
 	}
 	
     };
@@ -106,13 +103,13 @@ var update = function(e) {
 };
 
 var clicked = function(e){
-    if( mouse.x < 150){
-	var x = e.offsetX;
-	var y = e.offsetY;
+    //if( mouse.x < 150){
+	var x = blocks[0].x+blocks[0].w;//e.offsetX;
+	var y = blocks[0].y+(blocks[0].h/2);//e.offsetY;
 	var w = 10;
 	var h = 3;
 	blocks.push(makeBlock(x,y,w,h,ctx));
-    }
+    //}
 };
 
 document.addEventListener('mousemove', function(e){ 
