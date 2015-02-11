@@ -7,7 +7,7 @@ var BLOCK_SIZE = STREET_SIZE + SPACE_BETWEEN_STREETS;
 
 var STREET_COLOR = "#000000";
 
-var TURN_PROBABILITY = 0.0;
+var TURN_PROBABILITY = 0.10;
 var PERSON_SIZE = (3 / 4) * STREET_SIZE;
 
 var PERSON_SPEED = 1;
@@ -82,11 +82,11 @@ var makePerson = function(x,y,w,h,dx,dy, ctx) {
             // If taking a step would run us into a wall, turn around
 
             this.x = this.x + this.dx;
-            this.y = this.y + 2*Math.random() - 1;
+            this.y = this.y + this.dy;
             if (this.x <= 0 || this.x >= CANVAS_WIDTH)
                 this.dx = this.dx * -1;
             if (this.y <= 0 || this.y >= CANVAS_HEIGHT)
-                this.y = 100+400*Math.random();
+                this.dy = this.dy * -1;
         },
         isOnPerson : function(person) {
             return (this.x == person.x && this.y == person.y);

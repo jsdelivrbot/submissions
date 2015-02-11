@@ -22,15 +22,15 @@ document.getElementById('capture').addEventListener("click",function(){
     savedVideo.src = canvas.toDataURL('image/png')
 });
 
-
-
-document.getElementById('submit').addEventListener("click",function(){
-    var imgsrc = document.getElementById('url').value;    
+/*
+document.getElementById('add').addEventListener("click",function(){
     var img = new Image();
-    ctx.drawImage(img,0,0,700,500);
+    var imgsrc = document.getElementById('url').value;
     img.src = imgsrc;
+    ctx.drawImage(img,0,0,700,500);
+    console.log(imgsrc);
 });
- 
+*/ 
 
 
 var lipstick = document.getElementById("lipstick");
