@@ -2,14 +2,20 @@
   <style>
     #c {
     border: 1px solid black;
-    background-color: #00FFFF;
     }
   </style>
   <body>
     <div>
       <h1>Fishtank</h1>
-      <canvas width="600" height="600" id="c"></canvas>
+      <canvas width="500" height="500" id="c"></canvas>
+      <form id="b">
+		<input type="radio" name="fishType" value="a"/><img src="a.png" width="50"/>
+		<input type="radio" name="fishType" value="b"/><img src="b.png" width="50"/>
+		<input type="radio" name="fishType" value="c"/><img src="c.png" width="50"/>
+	  </form>
+	  <button type="button"id="f">Feed Mode Switch</button><br>
+	  <label for"size">Fish Size</label><input type="range" id="size"/>
     </div>
-    <script src="fishtank.js"></script>
+    <script src="fishtank.js" min="30" max="80"></script>
   </body>
 </html>
