@@ -2,11 +2,10 @@
 
 Portal.world = (function() {
 
-	var WIDTH	 		= 800,
-		HEIGHT	 		= 400,
+	var WIDTH	 		= 300,
+		HEIGHT	 		= 150,
 		COLOR			= "#E6E6E6",
 		PORTALHEIGHT 	= 50;
-
 
 	var elements = [];
 
@@ -38,7 +37,9 @@ Portal.world = (function() {
 		setWidth 		: setWidth,
 		setHeight		: setHeight,
 		setDimensions	: setDimensions,
-		draw			: draw
+		draw			: draw,
+		width 			: WIDTH,
+		height			: HEIGHT
 	}
 
 })();
