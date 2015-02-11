@@ -4,12 +4,26 @@
     <style>
     #c {border:1px solid red }
     </style>
-    <h1>MS Paint</h1>
-    <p><small>An even worse drawing app for the web.</small></p>
+    <h1>MS Paint, Web Version</h1>
+    <p id="colors">
+        <button id="red">Red</button>
+        <button id="orange">Orange</button>
+        <button id="yellow">Yellow</button>
+        <button id="blue">Blue</button>
+        <button id="green">Green</button>
+        <button id="purple">Purple</button>
+        <button id="brown">Brown</button>
+        <button id="gray">Gray</button>
+        <button id="black">Black</button>
+    </p>
+    <p>
+        <button id="size-up">Size +</button>
+        <button id="size-down">Size -</button>
+    </p>
     <div>
         <canvas height="500" width="800" id="c">
         </canvas>
     </div>
-    <button id="b" type="submit">Clear</button>
+    <button id="clear">Clear</button>
     <script src="paint.js"></script>
 </html>
