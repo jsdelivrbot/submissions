@@ -1,5 +1,7 @@
 <!DOCTYPE html>
 <html>
+  <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+  
 <style>
 #c {border : 1px solid black}
 </style>
@@ -65,6 +67,51 @@ ctx.fillText("X", 480, 408);
 ctx.font = "bold 22px Arial";
 ctx.fillText("X", 700, 438);
 
+
+
+var down = 0;
+c.addEventListener("mousedown", function(e){
+var g =  $(window).scrollTop();
+
+var p = c.getBoundingClientRect();
+var x = e.pageX- p.left;
+var y = e.pageY - p.top - g;
+if (down == 0) {
+ctx.beginPath();
+ctx.moveTo(x,y);
+ctx.fillStyle = "#000000";
+down =1;
+console.log(g);
+}
+})
+c.addEventListener("mousemove", function(e){
+var g =  $(window).scrollTop();
+
+var p = c.getBoundingClientRect();
+var x = e.pageX- p.left;
+var y = e.pageY - p.top - g;
+
+if (down ==1) {
+ctx.lineTo(x,y);
+ctx.stroke();
+
+}
+});
+c.addEventListener("mouseup", function(e){
+if (down == 1){
+var g =  $(window).scrollTop();
+
+var p = c.getBoundingClientRect();
+var x = e.pageX- p.left;
+var y = e.pageY - p.top - g;
+
+
+ctx.lineTo(x,y);
+ctx.stroke();
+ctx.closePath();
+down =0;
+}
+});
 
 var h = document.getElementById("done");
 h.addEventListener("click", function() {
