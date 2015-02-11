@@ -22,8 +22,8 @@ var makeBlock = function(x,y,w,h,ctx) {
 var clicked = function(e){
     var x = e.offsetX;
     var y = e.offsetY;
-    var w = 10;
-    var h = 10;
+    var w = 3*size;
+    var h = 3*size;
     blocks.push(makeBlock(x,y,w,h,ctx));
     //update();
     //console.log("ASDAS");
@@ -47,7 +47,7 @@ var update = function() {
 };
 
 
-var mousedown;
+
 
 function mousedown(e){
     mousedown = true;
@@ -66,10 +66,43 @@ function mouseup(e) {
     mousedown = false;
 }
 
+//Change size
+
+function small(){
+    size = 1;
+}
+
+function medium(){
+    size = 2;
+}
+
+function large(){
+    size = 4;
+}
+
+function clear(){
+    ctx.fillStyle = "#ffffff";
+    ctx.fillRect(0,0,600,600);  
+    blocks = [];
+}
+
 var blocks = [];
+var mousedown;
+var size = 2;
+
+
 c.addEventListener("mousedown",mousedown);
 c.addEventListener("mousemove",move);
 c.addEventListener("mouseup",mouseup);
+
+var s = document.getElementById("s");
+s.addEventListener("click",small);
+var m = document.getElementById("m");
+m.addEventListener("click",medium);
+var l = document.getElementById("l");
+l.addEventListener("click",large);
+var e = document.getElementById("e");
+e.addEventListener("click",clear);
 
 mousedown = false;
 //blocks.push(makeBlock(10,10,10,10,ctx));
