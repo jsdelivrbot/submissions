@@ -44,9 +44,8 @@ function kernel(x,y) {
     self.heat = 0;
     self.popped = false;
     self.move = function() {
-	if (!popped) {
-	    heat += 1;
-	    
+	if (!self.popped) {
+	    //move
 	}
     }
     self.pop = function() {
