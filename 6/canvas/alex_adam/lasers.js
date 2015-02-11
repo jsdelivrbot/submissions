@@ -36,7 +36,7 @@ var makeBlock = function(x,y,w,h,ctx) {
 	h : h,
 	ctx : ctx,
 	color : "#ff0000",
-	dx : 1,
+	dx : 5,
 	hit : false,
 	draw : function() {
 	    ctx.fillStyle = this.color;
