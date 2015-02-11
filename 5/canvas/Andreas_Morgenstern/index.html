@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<style>
+#c {border : 1px solid black}
+</style>
+<h1>Foooootballz</h1>
+<div>
+<canvas height="600" width="800" id="c">
+
+
+</canvas>
+<br>Click this when you are satisfied with your formation<button id="done">Done</button>
+</div>
+<script type="text/javascript">
+var done = 0;
+var c = document.getElementById("c");
+var ctx = c.getContext("2d");
+ctx.fillStyle = "#00CC00";
+ctx.fillRect(0,0,800,600);
+
+ctx.fillStyle = "#0000FF";
+ctx.fillRect(0,375, 800,10);
+
+ctx.fillStyle = "#FFFFFF";
+
+ctx.beginPath();
+ctx.arc(400,400,10,0, 2 * Math.PI);
+ctx.stroke();
+ctx.fill();
+ctx.closePath();
+
+ctx.beginPath();
+ctx.arc(370,400,10,0, 2 * Math.PI);
+ctx.stroke();
+ctx.fill();
+ctx.closePath();
+
+ctx.beginPath();
+ctx.arc(340,400,10,0, 2 * Math.PI);
+ctx.stroke();
+ctx.fill();
+ctx.closePath();
+
+ctx.beginPath();
+ctx.arc(430,400,10,0, 2 * Math.PI);
+ctx.stroke();
+ctx.fill();
+ctx.closePath();
+
+ctx.beginPath();
+ctx.arc(460,400,10,0, 2 * Math.PI);
+ctx.stroke();
+ctx.fill();
+ctx.closePath();
+
+ctx.font = "bold 22px Arial";
+ctx.fillText("X", 75, 438);
+
+ctx.font = "bold 22px Arial";
+ctx.fillText("X", 305, 408);
+
+ctx.font = "bold 22px Arial";
+ctx.fillText("X", 480, 408);
+
+ctx.font = "bold 22px Arial";
+ctx.fillText("X", 700, 438);
+
+
+var h = document.getElementById("done");
+h.addEventListener("click", function() {
+done = done + 1;
+});
+</script>
+</html>
