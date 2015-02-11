@@ -3,7 +3,7 @@
  *
  */
 
-Portal.Ball = (function(x, y, color, r, isPlayer) {
+Portal.Ball = function(x, y, color, r, isPlayer) {
 	this.x 			= x			? x		: X_DEFAULT;
 	this.x			= y			? y		: Y_DEFAULT;
 	this.r 			= r			? r		: R_DEFAULT;
@@ -15,19 +15,4 @@ Portal.Ball = (function(x, y, color, r, isPlayer) {
 	var R_DEFAULT = 10;
 	var C_DEFAULT = "#0066FF";
 
-	/*
-	 * Draws the ball. Used recursively.
-	 *
-	 */
-	function draw(ctx) {
-		ctx.beginPath();
-		ctx.arc(X, Y, R, 0, 2*Math.PI);
-		ctx.fillStyle(COLOR);
-		ctx.fill();
-		ctx.closePath();
-	}
-
-	return {
-		draw		: draw,
-	}
-})();
+};
