@@ -84,5 +84,5 @@ document.addEventListener('mousemove', function(e){
     mouse.y = e.clientY - c.offsetTop;
 }, false);
 
-//setup();
+setup();
 window.requestAnimationFrame(update);
