@@ -1,6 +1,8 @@
 JavaScript Expression Evaluator
 ===============================
 
+Site: http://silentmatt.com/javascript-expression-evaluator/
+
 Description
 -----------
 
