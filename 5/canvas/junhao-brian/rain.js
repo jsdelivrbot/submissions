@@ -19,15 +19,13 @@ var makeRain = function(x,y,ctx){
 				},
 				move : function(){
 						this.y+= + this.dy;
-						if (y >= canvas.height)
-								rain.shift();
 				}
 		};
 };
 
 var autoRain = function(){
 		var x = canvas.width*Math.random();
-		var y = canvas.height*Math.random()/4;
+		var y = 50*Math.random();
 		if (rain.length < maxRainCount){
 				rain.push(makeRain(x,y,ctx));
 		}
@@ -46,7 +44,7 @@ var update = function(){
 		ctx.fillRect(0,0,canvas.width,canvas.height);
 		for (var i = 0; i < rain.length; i++){
 				rain[i].move();
-				if (rain[i].y >= canvas.height)
+				if (rain[i].y+5 >= canvas.height) //+5 accounts for circle radius
 						rain.splice(i,1);
 				else
 						rain[i].draw();
