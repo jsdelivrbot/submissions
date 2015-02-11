@@ -20,7 +20,7 @@ var makeThing = function(x,y,w,h,ctx, place){
 	h : h,
 	ctx : ctx,
 	color : "#ff0000", //we wont need color eventually
-	dx : 1,
+	dx : 100,
 	draw : function(){
 	    var img = new Image();
     
@@ -31,7 +31,15 @@ var makeThing = function(x,y,w,h,ctx, place){
 //	    });	
 	},
 	move: function(){
-	    // add the moving functionality that we want it to have
+	    console.log("getting there");
+	    this.x = this.x + this.dx;
+	    this.y = this.y + 2*Math.random() - 1;
+	    if (this.x < 10 || this.x > 580){
+		this.dx = this.dx * -1;
+	    }
+	    if (this.y < 20 || this.y > 580){
+		this.y = 100 + 400 * Math.random();
+	    }
 	}
     };
 };
@@ -42,7 +50,7 @@ var update = function(){
     console.log("hope")
     for (var i=0; i<pictures.length; i++){
 	console.log(pictures.length)
-//	pictures[i].move();
+	pictures[i].move();
 	pictures[i].draw();
     }
     window.requestAnimationFrame(update);
