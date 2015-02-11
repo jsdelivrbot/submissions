@@ -1,7 +1,6 @@
 var canvas = document.getElementById("canvas");
 var ctx = canvas.getContext("2d");
 
-var maxRainCount = 80;
 var paused = false;
 
 var makeRain = function(x,y,ctx){
@@ -40,20 +39,23 @@ var makeRain = function(x,y,ctx){
 
 var autoRain = function(){
 		var x = canvas.width*Math.random();
-		var y = 35*Math.random();
-		if (rain.length < maxRainCount){
-				rain.push(makeRain(x,y,ctx));
-		}
+		var y = 10*Math.random();
+		rain.push(makeRain(x,y,ctx));
 };
 
 var start = function(){
 		if (paused)
 				paused = false;
-		rainEvent = window.setInterval(autoRain, 70);
+		rainEvent = window.setInterval(autoRain, 50);
 };
 
 var stop = function(){
 		window.clearInterval(rainEvent);
+};
+
+var pause = function(){
+		paused = !paused;
+		stop();
 };
 
 var update = function(){
@@ -89,7 +91,7 @@ var pauseB = document.getElementById("pause");
 
 startB.addEventListener("click", start);
 stopB.addEventListener("click", stop);
-pauseB.addEventListener("click", function(){ paused = !paused; });
+pauseB.addEventListener("click", pause);
 canvas.addEventListener("click", clicked);
 
 window.requestAnimationFrame(update);
