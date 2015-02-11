@@ -82,6 +82,23 @@ var inRadius = function(e){
     
 };
 
+var overlap = function(ball) {
+    // ball inputed is growing, big, or shrinking
+    var x = ball.x;
+    var y = ball.y;
+    var r = ball.r;
+    for (var i = 0; i < balls.length; i++){
+        b = balls[i];
+        if (b.state == "bouncing"){
+            //distance between centers
+            var distance = Math.sqrt( Math.pow(b.x - x, 2) + Math.pow(b.y - y, 2) )
+            if (distance < r + b.r){
+                b.state = "growing";
+            }
+        }
+    }
+};
+
 
 var update = function() {
     ctx.beginPath();
@@ -90,6 +107,9 @@ var update = function() {
     ctx.closePath();
     
     for (var i = 0; i < balls.length; i++){
+        if (balls[i].state != "bouncing"){
+            overlap(balls[i]);
+        }
         balls[i].move();
         balls[i].draw();
     }
@@ -120,20 +140,27 @@ var clicked = function(e){
 
 c.addEventListener("click",clicked);
 
+var b = document.getElementById("b");
+
  
 var balls = [];
 
-var setup = function() {
+var reset = function() {
+    balls = []
     ctx.beginPath();
     ctx.fillStyle = "#ffffff";
     ctx.fillRect(0,0,640,480);
     ctx.closePath();
-    for ( i=0; i<100; i++) {
+    for ( i=0; i<20; i++) {
         balls.push(makeBall(320,240,ctx));
     }
 }
 
-setup();
+b.addEventListener("click",reset);
+
+
+
+reset();
 window.requestAnimationFrame(update);
 
 

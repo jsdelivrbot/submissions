@@ -47,13 +47,15 @@ var makeBlock = function(x,y,w,h,ctx) {
 	    //this.y = this.y + 2*Math.random() - 1;
 	    if ( this.x > 450){
 		//this.dx = this.dx * -1;
-		if( this.y < blocks[0].y  && this.y > blocks[0].y - 40)
+		if( this.y < blocks[1].y + 40  && this.y > blocks[1].y ){
 		    blocks[1].color = "#00ff00";
-		this.hit = true
+		    this.hit = true;
+		}
+		
+		
 	    }
-	    /*if (this.y < 20 || this.y > 580){
-	      this.y = 100 + 400 * Math.random();
-	      }*/
+	    if (this.x > 470)
+		this.hit = true;
 	}
 	
 	
@@ -73,13 +75,11 @@ var makeShip = function(w,h,ctx,e) {
 	    ctx.fillRect(this.x,this.y,this.w,this.h);
 	},
 	move : function(x1,y1) {
-	    console.log("here:")
-	    console.log(x1);
-	    console.log(y1)
-	    //if( cursor.x < 200 && cursor.y<500){
-	    this.x= x1;
-	    this.y= y1;
-	    //}
+	   
+	    if( x1 < 150 && y1<500){
+		this.x= x1-w;
+		this.y= y1-h;
+	    }
 	}
 	
     };
@@ -106,21 +106,21 @@ var update = function(e) {
 };
 
 var clicked = function(e){
-    var x = e.offsetX;
-    var y = e.offsetY;
-    var w = 10+Math.random()*40;
-    var h = 10+Math.random()*20;
-    blocks.push(makeBlock(x,y,w,h,ctx));
+    if( mouse.x < 150){
+	var x = e.offsetX;
+	var y = e.offsetY;
+	var w = 10;
+	var h = 3;
+	blocks.push(makeBlock(x,y,w,h,ctx));
+    }
 };
 
 document.addEventListener('mousemove', function(e){ 
-    mouse.x = e.clientX || e.pageX; 
-    mouse.y = e.clientY || e.pageY 
+    mouse.x =  e.offsetX; 
+    mouse.y =  e.offsetY; 
 }, false);
 
 c.addEventListener("click",clicked);
 blocks.push(makeShip(40,15,ctx));
 blocks.push(makeTarget(450,150,30,40,ctx));
-blocks.push(makeBlock(50,100,30,15,ctx));
-blocks.push(makeBlock(100,200,30,15,ctx));
 window.requestAnimationFrame(update);
