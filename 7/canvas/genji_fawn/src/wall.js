@@ -1,0 +1,10 @@
+
+
+Portal.wall = (function() {
+
+
+
+
+})();
+
+
