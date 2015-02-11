@@ -6,14 +6,10 @@ var ctx = c.getContext("2d");
 #ctx.fillRect(x,y,h,w)
 
 var setup = function(){
-	ctx.beginPath();
    	var img = new Image();
-    img.src = 'dog.jpeg';
+    img.src = 'dog.png';
     img.onload = function() {
-		ctx.drawImage(img, 0,0);
+		ctx.drawImage(img,50,50);
     }
 };
 setup();
-#c.addEventListener("click",clicked);
-#var b = document.getElementById("b");
-#b.addEventListener("click",clear);
