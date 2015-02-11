@@ -17,8 +17,8 @@ navigator.getMedia({
 });
 
 
-document.getElementById('capture').addEventListener("click",function(){
-    ctx.drawImage(video,0,0,700,500);
+document.getElementById('capture').addEventListener("click",function(){ 
+    ctx.drawImage(video,0,0, 600,450);
     savedVideo.src = canvas.toDataURL('image/png')
 });
 
@@ -60,7 +60,7 @@ draw = function (e) {
 }
 
 lipstick.addEventListener("click",function(e){
-    ctx.fillStyle ="rgba(255, 0, 0, 0.03)";
+    ctx.fillStyle ="rgba(255, 0, 0, 0.02)";
     radius= 7;
     //console.log("Hello World!");
 });
@@ -91,6 +91,6 @@ canvas.addEventListener('mousemove', function(e) {
     }
 });
 clear.addEventListener("click", function() {
-    ctx.drawImage(savedVideo,0,0,700,500);
+    ctx.drawImage(savedVideo,0,0,600,450);
     
 });
