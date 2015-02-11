@@ -1,39 +1,61 @@
 <!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">
 <html> <head>
-<title></title>
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+    <title></title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
 
-</head>
-
-<body>
-<div class="container">
-<center><h1>MakeOver Party!</h1></center>
-
-
-
-<canvas style="border:3px solid" id="c" width="700"
-  height="500"></canvas> <video width="250" height= "150" id="video"
-  autoplay></video>
-  <button class= "btn btn-danger" id="capture">Take Photo</button>
-<img
-src="http://thumbs.ebaystatic.com/d/l96/m/mhnMDL98DJ6S85a0PtEbcBw.jpg"
-id="lipstick" width= "100">
-<img
-  src="http://www.makeupandbeautyblog.com/wp-content/uploads/2011/04/Milani-Baked-Eyeshadow-Swatches-baked-shadows.jpg"
-  id="eyeshadow" width= "100"> 
-<img
-  src =
-  "http://ecx.images-amazon.com/images/I/41-SN1ejbBL._SX425_.jpg"
-  id="blush" width ="100">
-  
- <img
-  src =
-  "http://www.kinnelonconserves.net/liquid_eyeliner.jpg"
-  id="eyeliner" width ="100">
-  
-<button id="clear">Clear</button>
-  </div>
-  <img hidden src="#" id="saved">
-<script src="canvas.js"></script>
+  </head>
+  <body>
+    <div class="container">
+      <div class="panel panel-primary">
+	<div class="panel-heading">
+	  <center><h1>MakeOver Party!</h1></center>
+	</div>
+	<div class="panel-body">
+	  <ul class="list-group">
+	    <li class="list-group-item">
+	      <center><h3>Add a photo!</h3></center><br>
+	      <div class="row">
+		<div class="col-lg-6">
+		  <video width="250" height= "150" id="video" autoplay></video><br>
+		  <button class= "btn btn-danger" id="capture">Take Photo</button>
+		</div>
+		<div class="col-lg-6">
+		  <form>
+		    <input type="text" class="form-control" id="url" placeholder="Put the URL of a picture here"><br>
+		    <button class="btn btn-primary" id="submit">Submit</button>
+		  </form>
+		</div>
+	      </div>
+	    </li>
+	    <li class="list-group-item">
+	      <br><br>
+	      <center><canvas style="border:3px solid" id="c" width="700" height="500"></canvas></center>
+	    </li>
+	    <li class="list-group-item">
+	      <center>
+		<div class="well well-sm">
+		  <img 
+		     src="http://thumbs.ebaystatic.com/d/l96/m/mhnMDL98DJ6S85a0PtEbcBw.jpg" 
+		     id="lipstick" width="100">
+		  <img
+		     src="http://ecx.images-amazon.com/images/I/61%2Bn2PG1w1L._SX450_.jpg"
+		     id="eyeshadow" width="100"> 
+		  <img
+		     src="http://yeswecoupon.com/wp-content/uploads/2012/08/blush11.jpg"
+		     id="blush" width="100">
+		  
+		  <img
+		     src="http://www.kinnelonconserves.net/liquid_eyeliner.jpg"
+		     id="eyeliner" width="100">
+		  <button class="btn" id="clear">Clear</button>
+		</div>
+	      </center>
+	    </li>
+	    
+	</div>
+      </div>
+    </div>
+    <img hidden src="#" id="saved">
+    <script src="canvas.js"></script>
 
 </body> </html>
