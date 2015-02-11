@@ -35,10 +35,10 @@ Portal.init = function() {
 	
 	/* Create the player sprite, a blue circle. */
 	Portal.sprites.createBall(
-		Portal.world.width/2,
-		Portal.world.height/2,
+		100, 100,
 		"#0000FF",
-		20,
+		3,
+		1, 1, 
 		true
 	);
 

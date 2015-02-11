@@ -8,6 +8,7 @@ var makeSpike = function(x,y,w,h,ctx){
 	w:w,
 	h:h,
 	ctx:ctx,
+	count:0,
 	dx : 1,
 	dy : 1,
 	color : "#f00000",
@@ -16,6 +17,7 @@ var makeSpike = function(x,y,w,h,ctx){
 	    ctx.fillRect(this.x,this.y,this.w,this.h);
 	},
 	move : function() {
+	    this.count = this.count+1;
 	    this.x = this.x + this.dx;
 	    this.y = this.y + this.dy;
 	    if (this.x < 0 || this.x > 380) {
@@ -50,6 +52,7 @@ var makeBalloon = function(x,y,r,b,ctx){
 	move: function() {
 	    if (this.grow == true) {
 		this.r = this.r + 1;
+		rad = rad + 1;
 	    }
 	    else if (this.y < 590 - (this.r)  && this.mv==true) {
 		this.y = this.y + this.dy;
@@ -74,7 +77,7 @@ var addSpike = function() {
 var mkBal = function(e) {
     var x = e.offsetX;
     var y = e.offsetY;
-    var r = 10;
+    var r = rad;
     balloons.push(makeBalloon(x,y,r,true,ctx));
 }
 
@@ -95,13 +98,18 @@ var checkBounce = function() {
 	    }
 	}
 	for (var j=0; j<balloons.length;j++) {
-	    if (spikes[i].x + 20>= balloons[j].x - balloons[j].r -2  && spikes[i].x <= (balloons[j].x + balloons[j].r + 2)  && spikes[i].y >= balloons[j].y - balloons[j].r -2&& spikes[i].y <= (balloons[j].y + balloons[j].r +2)) {
+	    if (spikes[i].x + 20 >= balloons[j].x - balloons[j].r -2  && spikes[i].x <= (balloons[j].x + balloons[j].r + 2)  && spikes[i].y >= balloons[j].y - balloons[j].r -2&& spikes[i].y <= (balloons[j].y + balloons[j].r +2)) {
 		//collision
 		if (balloons[j].grow == true) {
-		    console.log("game over");
+		    console.log(over);
+		    over = true;
 		}
 		else {
+		    if (spikes[i].count>25) {
 		    spikes[i].dx = spikes[i].dx * -1;
+		    spikes[i].dy = -1
+		    spikes[i].count = 0;
+			}
 		}
 	    }
 	}
@@ -120,9 +128,17 @@ var checkCircs = function() {
 }
 
 var update = function(){
+	if (!over) {
+	ctx.fillStyle = "#ffffff";
+	console.log("hello");
+    
     ctx.fillStyle = "#ffffff";
     ctx.fillRect(0,0,600,800);
     ctx.fillStyle ="#000000";
+
+    
+		
+   // rad = balloons[balloons.length - 1].r;
 
     for (var i=0;i<spikes.length;i++){
 	spikes[i].move();
@@ -135,6 +151,7 @@ var update = function(){
     checkBounce();
     window.requestAnimationFrame(update);
 }
+}
 
 
 c.addEventListener("mousedown", mkBal);
@@ -146,5 +163,9 @@ addSpike();
 var balloons = [];
 
 var clicked = false;
+
+var over = false;
+
+var rad = 10;
 
 window.requestAnimationFrame(update);

@@ -1,117 +1,96 @@
 <!DOCTYPE html>
 <html>
-    
     <head>
-        
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootswatch/3.2.0/flatly/bootstrap.min.css"/>
-        
-        
         <style>
-            #canvas {border: 1px solid black }
+          #canvas {border: 1px solid black }
         </style>
-        <!-- -->
     </head>
     
-    <body onload="clear">
-        
-        <center>
-            <h1>Hair time!</h1>
-        </center>
-        
-        <div class="container">
-            
-            <div class="row">
+    <body>
+      <center>
+        <h1>Hair time!</h1>
+      </center>
+      
+      <div class="container">
+        <div class="row">
+          <div class="col-md-6">
+            <center>
+              <div class="panel panel-primary">
                 
-                <div class="col-md-6">
-                    <center>
-                        
-                        <div class="panel panel-primary">
-                            <div class="panel-heading">
-                                <h3>
-                                    Face!
-                                </h3>
-                            </div> <!-- /panel-heading -->
-                            
-                            <div class="panel-body">
-                                
-                                <canvas height="480" width="400" id="canvas"/>
-                                
-                            </div> <!-- /panel-body -->
-                        </div> <!-- /panel -->
-                        
-                    </center>
-                    
-                </div> <!-- /col -->
+		<div class="panel-heading">
+                  <h3>
+                    Face!
+                  </h3>
+                </div> <!-- /panel-heading -->
                 
-                <div class="col-md-offset-6">
-                    
-                    <center>
-                        
-                        <div class="panel panel-primary">
-                            
-                            <div class="panel-heading">
-                                <h3>
-                                    Buttons
-                                </h3>
-                            </div> <!-- /panel-heading -->
-                            
-                            <div class="panel-body">
-                                
-                                <button class="btn btn-primary" id="button_clear">
-                                    Clear
-                                </button>
-                                
-                                <center>
-                                    <h4>
-                                        Hair Color
-                                    </h4>
-                                    
-                                    <ul class="list-group">
-                                        <li class="list-group-item">
-                                            <button class="btn btn-primary" id="button_black">
-                                                Black
-                                            </button>
-                                        </li>
-                                        
-                                        <li class="list-group-item">
-                                            <button class="btn btn-primary" id="button_brown">
-                                                Brown
-                                            </button>
-                                        </li>
-                                        
-                                        <li class="list-group-item">
-                                            <button class="btn btn-primary" id="button_red">
-                                                Red
-                                            </button>
-                                        </li>
-                                        
-                                        <li class="list-group-item">
-                                            <button class="btn btn-primary" id="button_blonde">
-                                                Blonde
-                                            </button>
-                                        </li>
-                                        
-                                        <li class="list-group-item">
-                                            <button class="btn btn-primary" id="button_blue">
-                                                Blue
-                                            </button>
-                                        </li>
-                                    </ul>
-                                    
-                                </center>
-                                
-                            </div> <!-- /panel-body -->
-                            
-                        </div> <!-- /panel -->
-                        
-                    </center>
-                    
-                </div> <!-- /col -->
+		<div class="panel-body">
+                  <canvas height="480" width="400" id="canvas"/>
+                </div> <!-- /panel-body -->
+		
+	      </div> <!-- /panel -->
+            </center>
+          </div> <!-- /col -->
+          
+          <div class="col-md-offset-6">
+            <center>
+              <div class="panel panel-primary">
                 
-            </div> <!-- /row -->
-            
-        <script src="facedraw.js"/>
-        
+		<div class="panel-heading">
+                  <h3>
+                    Buttons
+                  </h3>
+                </div> <!-- /panel-heading -->
+                
+                <div class="panel-body">
+                  <button class="btn btn-primary" id="button_clear">
+                    Clear
+                  </button>
+
+                  <h4>
+                    Hair Color
+                  </h4>
+                  
+                  <ul class="list-group">
+                    <li class="list-group-item">
+                      <button class="btn btn-primary" id="button_black">
+                        Black
+                      </button>
+                    </li>
+                    
+                    <li class="list-group-item">
+                      <button class="btn btn-primary" id="button_brown">
+                        Brown
+                      </button>
+                    </li>
+                    
+                    <li class="list-group-item">
+                      <button class="btn btn-primary" id="button_red">
+                        Red
+                      </button>
+                    </li>
+                    
+                    <li class="list-group-item">
+                      <button class="btn btn-primary" id="button_blonde">
+                        Blonde
+                      </button>
+                    </li>
+                    
+                    <li class="list-group-item">
+                      <button class="btn btn-primary" id="button_blue">
+                        Blue
+                      </button>
+                    </li>
+                  </ul>
+                  
+                </div> <!-- /panel-body -->
+              </div> <!-- /panel -->
+            </center>
+          </div> <!-- /col -->
+        </div> <!-- /row -->
+	
+	<script src="facedraw.js">
+	</script>
+
     </body>
-    
 </html>

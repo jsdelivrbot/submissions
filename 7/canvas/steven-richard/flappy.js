@@ -2,8 +2,9 @@ var c = document.getElementById("c");
 var b = document.getElementById("b");
 var ctx = c.getContext("2d");
 var jumping = 0;
+var hitbox = 0;
 var pipes = [];
-var frames = 0;
+var frames = 195;
 var alive = 1;
 var img = new Image();
 img.src="http://3.bp.blogspot.com/-9hHsA2J18Sk/Uvfbls191cI/AAAAAAAAXUw/q841reaU3Lo/s1600/Flappy+Birds+high+res+transparent+background+png+animated+(1).png"
@@ -14,10 +15,12 @@ var makeBird = function(){
 	dy : 0,
 	draw : function(){
 	    ctx.drawImage(img,10,this.y,150,100);
-	    ctx.beginPath();
-	    ctx.arc(88, this.y + 40, 20, 0, 2 * Math.PI);
-	    ctx.strokeStyle = "#000000";
-	    ctx.stroke();
+	    if (hitbox) {
+		ctx.beginPath();
+		ctx.arc(88, this.y + 40, 20, 0, 2 * Math.PI);
+		ctx.strokeStyle = "#000000";
+		ctx.stroke();
+	    }
 	},
 	move : function(){
 	    this.y += this.dy;
@@ -89,6 +92,7 @@ var collision = function(pipe) {
 	hscore.innerHTML = score.innerHTML;
     }
     alive = 0;
+    alert("You Lost! Hit Start to play again!");
 }
 var longConditional = function(pipe){
     var pipePoint;
@@ -159,10 +163,16 @@ var wipe = function(){
     bird = makeBird();
     pipes = [];
     alive = 1;
-    frames = 0;
+    frames = 195;
     var score = document.getElementById("s");
     score.innerHTML = 0;
     update();
 }
 //b.addEventListener("click", window.requestAnimationFrame(wipe));
 b.addEventListener("click", wipe);
+h.addEventListener("click", function() {
+    if (hitbox == 0) {
+	hitbox = 1; } else {
+	hitbox = 0;
+    }
+});
