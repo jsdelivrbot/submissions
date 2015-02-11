@@ -28,7 +28,8 @@ Portal.world = (function() {
 	return {
 		setWidth 		: setWidth,
 		setHeight		: setHeight,
-		setDimensions	: setDimensions
+		setDimensions	: setDimensions,
+		draw			: draw
 	}
 
 })();
