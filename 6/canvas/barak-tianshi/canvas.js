@@ -9,13 +9,14 @@ var randNum = function(min, max) {
 var canvas = document.getElementById("c");
 var ctx = canvas.getContext("2d");
 
-//MOUSE LOCATION??
-var mouse = {x: 0, y: 0};
-
-document.addEventListener('mousemove', function(e){ 
-    mouse.x = e.clientX || e.pageX; 
-    mouse.y = e.clientY || e.pageY 
-}, false);
+//MOUSE LOCATION?? YES DAMMIT
+function getMousePos(canvas, evt) {
+    var rect = canvas.getBoundingClientRect();
+    return {
+	x: evt.clientX - rect.left,
+	y: evt.clientY - rect.top
+    };
+}
 
 /*
 var image = new Image();
@@ -52,9 +53,8 @@ function kernel(x,y,mouseX,mouseY) {
     self.acc = 1;
     self.heat = 0;
     self.popped = false;
-    self.move = function() {
+    self.move = function(e) {
 	if (!self.popped) {
-
 
 	}
     }
@@ -80,18 +80,21 @@ for (var i=0;i<25;i++) {
     var y = randNum(170,510);
     kernels.push(new kernel(x,y));
 }
-
-var update = function() {
+var mousePos;
+var update = function(e) {
     ctx.fillStyle = "#ffffff";
     //there's a pretty good reason that these loops are separate, but that reason doesn't really apply here... just keep it like this
-    for (var i=0;i<kernels.length;i++) {
-	kernels[i].move();
-    }
+    mousePos = getMousePos(canvas, e);
+    console.log(mousePos.x);
+    //console.log(mousePos.y);
+    //for (var i=0;i<kernels.length;i++) {
+	//kernels[i].move();
+    //}
     for (var i=0;i<kernels.length;i++) {
 	kernels[i].draw();
     }
     window.requestAnimationFrame(update);
 }
 
-canvas.addEventListener("mousemove",update);
+canvas.addEventListener("mouseover",update); //do NOT change it to mousemove unless you deleted mousePos.
 window.requestAnimationFrame(update);
