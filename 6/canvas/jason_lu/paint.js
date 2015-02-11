@@ -22,40 +22,88 @@ var makeBlock = function(x,y,w,h,ctx) {
 var clicked = function(e){
     var x = e.offsetX;
     var y = e.offsetY;
-    var w = 10;
-    var h = 10;
+    var w = 3*size;
+    var h = 3*size;
     blocks.push(makeBlock(x,y,w,h,ctx));
-    update();
-    console.log("ASDAS");
+    //update();
+    //console.log("ASDAS");
 };
 
 
 var update = function() {
-    console.log(blocks.length);
+    //console.log(blocks.length);
+    ctx.fillStyle = "#ffffff";
+    ctx.fillRect(0,0,600,600);  
+    ctx.lineJoin = "round";
+    ctx.lineWidth = 5;    
     for (var i = 0; i < blocks.length; i++){
-	blocks[i].draw();
+        blocks[i].draw();
+        //ctx.moveTo(blocks[i-1]["x"],blocks[i-1]["y"]);
+        //ctx.lineTo(blocks[i]["x"],blocks[i]["y"]);
+        //ctx.closePath();
+        //ctx.stroke();
     }
-    
+        
 };
 
-var myevent;
-function startit(e) {
-    myevent = setInterval(clicked(e),10);
-}
-
-function stopit() {
-    window.clearTimeout(myevent);
-}
 
 
-var mousedown = false;
 
 function mousedown(e){
     mousedown = true;
+    clicked(e);
+    update();
 }
 
-c.addEventListener("mousedown",mousedown);
-c.addEventListener("mouseup",stopit);
-var blocks = [];
+function move(e){
+    if (mousedown){
+        clicked(e);
+        update();
+    }
+}
 
-blocks.push(makeBlock(10,10,10,10,ctx));
+function mouseup(e) {
+    mousedown = false;
+}
+
+//Change size
+
+function small(){
+    size = 1;
+}
+
+function medium(){
+    size = 2;
+}
+
+function large(){
+    size = 4;
+}
+
+function clear(){
+    ctx.fillStyle = "#ffffff";
+    ctx.fillRect(0,0,600,600);  
+    blocks = [];
+}
+
+var blocks = [];
+var mousedown;
+var size = 2;
+
+
+c.addEventListener("mousedown",mousedown);
+c.addEventListener("mousemove",move);
+c.addEventListener("mouseup",mouseup);
+
+var s = document.getElementById("s");
+s.addEventListener("click",small);
+var m = document.getElementById("m");
+m.addEventListener("click",medium);
+var l = document.getElementById("l");
+l.addEventListener("click",large);
+var e = document.getElementById("e");
+e.addEventListener("click",clear);
+
+mousedown = false;
+//blocks.push(makeBlock(10,10,10,10,ctx));
+window.requestAnimationFrame(update);

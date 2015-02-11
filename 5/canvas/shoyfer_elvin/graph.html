@@ -1,0 +1,54 @@
+<!doctype html>
+<html>
+
+<head>
+	<title>Graphing</title>
+	<script src="js-expression-eval-master/parser.js"></script>
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+
+	<!-- Optional theme -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
+
+	<!-- Latest compiled and minified JavaScript -->
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+
+</head>
+
+<body>
+
+
+	<div class="container">
+		<div class="header">
+			<nav>
+				<ul class="nav nav-pills pull-right">
+					<li role="presentation" class="active"><a href="./graph.html">Home</a></li>
+				</ul>
+			</nav>
+			<h3 class="text-muted">Grapher</h3>
+		</div>
+		<br>
+		<div style="text-align: center" class="jumbotron">
+			<h1>Grapher</h1>
+			<p class="lead">TI-84 begone!</p>
+			<canvas id="a" style="background-color: white;" width="500" height="500"></canvas>
+			<br><br>
+			<div class="input-group">
+				<div class="input-group-addon">f(x)</div>
+				<input type="text" type="text" class="form-control" name="function">
+			</div>
+			<br>
+			<small>Enter a valid function of x.</small>
+			<br><br>
+			<button class="btn btn-success" onclick="input()">Graph</button>
+			<button class="btn btn-info" onclick="init()">Reset</button>
+		</div>
+		<footer class="footer">
+			<p>&copy; Elvin Shoyfer 2014</p>
+		</footer>
+	</div>	
+
+	<script src="graph.js"></script>
+	
+</body>
+</html>
