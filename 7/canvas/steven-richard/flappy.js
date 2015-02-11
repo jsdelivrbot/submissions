@@ -3,7 +3,7 @@ var b = document.getElementById("b");
 var ctx = c.getContext("2d");
 var jumping = 0;
 var pipes = [];
-var frames = 0;
+var frames = 195;
 var alive = 1;
 var img = new Image();
 img.src="http://3.bp.blogspot.com/-9hHsA2J18Sk/Uvfbls191cI/AAAAAAAAXUw/q841reaU3Lo/s1600/Flappy+Birds+high+res+transparent+background+png+animated+(1).png"
@@ -159,7 +159,7 @@ var wipe = function(){
     bird = makeBird();
     pipes = [];
     alive = 1;
-    frames = 0;
+    frames = 195;
     var score = document.getElementById("s");
     score.innerHTML = 0;
     update();
