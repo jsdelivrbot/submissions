@@ -18,7 +18,7 @@ var makeDough = function (x,y,w,h,ctx, color){
 	color : color,
 	ctx : ctx,
 	r: 8,
-	R: 16,
+	R: 20,
 	dy: -2,
 	clear: false,
 	draw : function(){
@@ -32,11 +32,10 @@ var makeDough = function (x,y,w,h,ctx, color){
 	    ctx.arc(this.x,this.y,this.r,0,2*Math.PI,false);
 	    ctx.fillStyle="white";
 	    ctx.fill();
-	    //ctx.drawImage(img[Math.random(4)],w,h);
 	},
 	move : function(){
 	    this.y = this.y - this.dy;
-	    if (this.y > 550 && Math.abs(snake.x-this.x)<10 ){
+	    if (this.y > 540 && Math.abs(snake.x-this.x)<10 ){
 		//removeDough();
 		ctx.fillStyle ="#ffffff";
 		ctx.arc(this.x,this.y,this.R, 0, 2*Math.PI,false);
