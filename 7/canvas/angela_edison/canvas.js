@@ -82,11 +82,11 @@ var update = function(){
     }
 }
 
-var addPirate = function(e){
+var addPirate = function(){
     var x = Math.random()*width;
     var y = 1;
     skulls.push(spawnPirate(x,y));    
-    window.requestAnimationFrame(update);
+    window.requestAnimationFrame(addPirate);
 
 };
 
@@ -108,4 +108,5 @@ var skulls = [];
 skulls.push(spawnPirate(50,100));
 skulls.push(spawnPirate(100,200));
 window.requestAnimationFrame(update);
+window.requestAnimationFrame(addPirate);
 
