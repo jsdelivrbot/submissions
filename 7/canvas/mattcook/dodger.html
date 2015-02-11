@@ -1,19 +1,41 @@
 <!DOCTYPE html>
 <html>
+<head>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+
 		<style>
 		 #c {
 		 border: 1px solid black;
-		 	cursor: url(square.ico),no-drop;
+		 	cursor: pointer;
+		 }
+		 #score {
+		 //position: fixed;
+		 //top: 300px;
+		 //right: 400px;
 		 }
 		 
 		</style>
-		<h1>Anim world!</h1>
-		<h2>Demo</h2>
-		<div>
+</head>
+<title id="t">BD Score=0</title>
+<center>
+		<h1>BALL DODGER</h1>
+		<h3>Instructions</h3>
+		
+		<body>
+		  Once you enter the canvas, you <i> are </i> the pointer.<br>
+		  Your score is determined by how many balls are on the screen. <br>
+		  You may say, <i>"But Matthew, I don't see any balls on the screen"</i><br>.
+		  At the moment, your sissy self may be right. But click once, and you will add a ball to the screen. <br>
+		  As you go, you must move your mouse to survive the onslaught of balls, and simultaneously keep adding more to increase your score.<br>
+		  This is the paradox of
+		  <h4> BALL DODGER </h4>
+		<div id="score"><u>Score</u><div id="status"></div></div>
+		  <div>
 				<canvas height="600" width="600" id="c">
 				</canvas>
 		</div>
-		<button id="b">Clearish</button>
-		<script src="dodger.js">
+		</center>
+	<script src="dodger.js">
 		</script>
+		
 </html>

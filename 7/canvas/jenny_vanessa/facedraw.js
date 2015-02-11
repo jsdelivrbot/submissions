@@ -16,6 +16,14 @@ var fillstyle = "#000000";
 var face1 = document.createElement("img");
 face1.src = "http://www.beautyramp.com/wp-content/uploads/2012/07/round_face_tdnn9.jpg";
 
+//ASSORTED SETUP
+var mouseDown = 0;
+document.body.onmousedown = function() {
+    ++mouseDown;
+}
+document.body.onmouseup = function() {
+    --mouseDown;
+}
 
 //DRAWING AND RESETTING
 var draw = function (e) {
@@ -55,9 +63,15 @@ var setBlue = function(){
 
 face1.onload = reset;
 
-canvas.addEventListener("click",draw)
+//canvas.addEventListener("click",draw)
 clear.addEventListener("click",reset);
 
+canvas.addEventListener('mousemove', function(e) {
+                        if(mouseDown) {
+                            console.log("drag");
+                            draw(e);
+                        }
+                    });
 
 black.addEventListener("click", setBlack);
 brown.addEventListener("click", setBrown);
