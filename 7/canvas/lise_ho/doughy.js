@@ -99,19 +99,14 @@ var update = function(){
     snake.draw();
 
     ctx.font = "50px Arial Black";
-    ctx.fillStyle = "black";
+    ctx.fillStyle = "purple";
     var stringy = "Thluffy ate " + counter + " DONUTS!!!"
-    ctx.fillText(stringy,10,60);
+    ctx.fillText(stringy,30,60);
     window.requestAnimationFrame(update);
 };
 
 c.addEventListener("click",addDough);
 
-/*
-window.addEventListener("load",function(e){
-myevent = setInterval(addDough,300);
-});
-*/
 var counter = 0;
 var img = new Image();
 var doughs = [];
