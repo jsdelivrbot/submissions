@@ -7,18 +7,20 @@ var BLOCK_SIZE = STREET_SIZE + SPACE_BETWEEN_STREETS;
 
 var STREET_COLOR = "#000000";
 
-var TURN_PROBABILITY = 0.25;
+var TURN_PROBABILITY = 0.0;
 var PERSON_SIZE = (3 / 4) * STREET_SIZE;
 
-var makePerson = function(x,y,w,h,ctx) {
+var PERSON_SPEED = 1;
+
+var makePerson = function(x,y,w,h,dx,dy, ctx) {
     return {
         x : x,
         y : y,
         w : w,
         h : h,
         ctx : ctx,
-        dx : 0.1,
-        dy : 0,
+        dx : dx,
+        dy : dy,
         healthStatus : "alive",
         color : "#ff0000",
 
@@ -39,40 +41,40 @@ var makePerson = function(x,y,w,h,ctx) {
                 var rand = Math.random();
 		//Turn right
 		if (rand < TURN_PROBABILITY){
-		    if (dx == 0.1){
+		    if (dx == PERSON_SPEED){
 			dx = 0;
-			dy = -0.1;
+			dy = -PERSON_SPEED;
 		    }		
-		    else if (dx == -0.1){
+		    else if (dx == -PERSON_SPEED){
 			dx = 0;
-			dy = 0.1;
+			dy = PERSON_SPEED;
 		    }
-		    else if (dy == 0.1){
+		    else if (dy == PERSON_SPEED){
 			dy = 0;
-			dx = 0.1;
+			dx = PERSON_SPEED;
 		    }
-		    else if (dy = -0.1){
+		    else if (dy = -PERSON_SPEED){
 			dy = 0;
-			dx = -0.1;
+			dx = -PERSON_SPEED;
 		    }
 		}	
 		//Turn Left
 		else if (rand < 2*TURN_PROBABILITY){
-		    if (dx == 0.1){
+		    if (dx == PERSON_SPEED){
 			dx = 0;
-			dy = 0.1;
+			dy = PERSON_SPEED;
 		    }		
-		    else if (dx == -0.1){
+		    else if (dx == -PERSON_SPEED){
 			dx = 0;
-			dy = -0.1;
+			dy = -PERSON_SPEED;
 		    }
-		    else if (dy == 0.1){
+		    else if (dy == PERSON_SPEED){
 			dy = 0;
-			dx = -0.1;
+			dx = -PERSON_SPEED;
 		    }
-		    else if (dy = -0.1){
+		    else if (dy = -PERSON_SPEED){
 			dy = 0;
-			dx = 0.1;
+			dx = PERSON_SPEED;
 		    }
 		}
             }
@@ -81,12 +83,10 @@ var makePerson = function(x,y,w,h,ctx) {
 
             this.x = this.x + this.dx;
             this.y = this.y + 2*Math.random() - 1;
-            if (this.x < 20 || this.x > 580){
+            if (this.x <= 0 || this.x >= CANVAS_WIDTH)
                 this.dx = this.dx * -1;
-            }
-            if (this.y < 20 || this.y > 580){
+            if (this.y <= 0 || this.y >= CANVAS_HEIGHT)
                 this.y = 100+400*Math.random();
-            }
         },
         isOnPerson : function(person) {
             return (this.x == person.x && this.y == person.y);
@@ -205,7 +205,7 @@ var makeIntersection = function(x, y, width, height) {
 
 var update = function(){
     ctx.fillStyle = "#ffffff";
-    ctx.fillRect(0,0,600,600);
+    ctx.fillRect(0,0,CANVAS_WIDTH, CANVAS_HEIGHT);
 
     for (var i = 0; i < people.length; i++) {
         people[i].move();
@@ -296,8 +296,21 @@ var spawnPeople = function() {
         var offsetX = (STREET_SIZE - PERSON_SIZE) / 2;
         var offsetY = offsetX;
         var newX = intersection.x + offsetX;
-        var newY = intersection.Y + offsetY;
-        var newPerson = makePerson(newX, newY, PERSON_SIZE, PERSON_SIZE, ctx);
+        var newY = intersection.y + offsetY;
+
+        var rand = Math.random();
+        var dx = 0;
+        var dy = 0;
+        if (rand <= 0.25)
+            dx = -PERSON_SPEED;
+        else if (rand <= 0.50)
+            dx = PERSON_SPEED;
+        else if (rand <= 0.75)
+            dy = -PERSON_SPEED;
+        else
+            dy = PERSON_SPEED
+
+        var newPerson = makePerson(newX, newY, PERSON_SIZE, PERSON_SIZE, dx, dy, ctx);
         people.push(newPerson);
     }
 }
