@@ -3,10 +3,12 @@
  *
  */
 
-Portal.Ball = (function(x, y, color, r, isPlayer) {
+Portal.Ball = function(x, y, color, r, vx, vy, isPlayer) {
 	this.x 			= x			? x		: X_DEFAULT;
-	this.x			= y			? y		: Y_DEFAULT;
+	this.y			= y			? y		: Y_DEFAULT;
 	this.r 			= r			? r		: R_DEFAULT;
+	this.vx 		= vx		? vx	: R_DEFAULT;
+	this.vy			= vy		? vy	: R_DEFAULT;
 	this.color 		= color		? color	: C_DEFAULT;	
 	this.isPlayer	= isPlayer	? isPlayer:false;
 	
@@ -14,20 +16,39 @@ Portal.Ball = (function(x, y, color, r, isPlayer) {
 	var Y_DEFAULT = Portal.height/2;
 	var R_DEFAULT = 10;
 	var C_DEFAULT = "#0066FF";
+	var VX_DEFAULT = 0;
+	var VY_DEFAULT = 0;
 
-	/*
-	 * Draws the ball. Used recursively.
-	 *
-	 */
-	function draw(ctx) {
+	this.draw = function(ctx) {	
 		ctx.beginPath();
-		ctx.arc(X, Y, R, 0, 2*Math.PI);
-		ctx.fillStyle(COLOR);
+		ctx.arc(this.x, this.y, this.r, 0, 2*Math.PI);
+		ctx.fillStyle = this.color;
 		ctx.fill();
 		ctx.closePath();
 	}
 
-	return {
-		draw		: draw,
+	this.update = function() {
+
+		this.insertCollisions();
+		this.updatePosition();
 	}
-})();
+
+	/* Wall collision detecting */
+	this.insertCollisions = function() {
+		if(this.x + this.vx + this.r > Portal.world.width ||
+			this.x + this.vx - this.r < 0) {
+			this.vx *= -1;
+		}
+		if( this.y + this.vy + this.r > Portal.world.height || 
+				this.y + this.vy - this.r < 0 ) {
+			this.vy *= -1;
+		}
+	}
+
+	/* Update positions */
+	this.updatePosition = function() {
+		this.x += this.vx;
+		this.y += this.vy;
+	}
+
+};

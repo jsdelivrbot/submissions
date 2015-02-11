@@ -7,20 +7,30 @@ var BLOCK_SIZE = STREET_SIZE + SPACE_BETWEEN_STREETS;
 
 var STREET_COLOR = "#000000";
 
-var TURN_PROBABILITY = 0.25;
+var TURN_PROBABILITY = 0.15;
+var PERSON_SIZE = (3 / 4) * STREET_SIZE;
+var PERSON_SPEED = 1;
+var INITIAL_INFECTION_PROBABILITY = 0.10;
 
-var makePerson = function(x,y,w,h,ctx) {
+var makePerson = function(x,y,w,h,dx,dy, healthStatus, people, ctx) {
     return {
         x : x,
         y : y,
         w : w,
         h : h,
         ctx : ctx,
-        dx : 0.1,
-        dy : 0,
+        dx : dx,
+        dy : dy,
+        healthStatus : healthStatus,
+        people : people,
         color : "#ff0000",
 
         draw : function() {
+            if (this.healthStatus == "alive")
+                this.color = "#00ff00";
+            else if (this.healthStatus == "infected")
+                this.color = "#ff0000";
+
             ctx.fillStyle = this.color;
             ctx.fillRect(this.x,this.y,this.w,this.h);
         },
@@ -32,40 +42,40 @@ var makePerson = function(x,y,w,h,ctx) {
                 var rand = Math.random();
 		//Turn right
 		if (rand < TURN_PROBABILITY){
-		    if (dx == 0.1){
+		    if (dx == PERSON_SPEED){
 			dx = 0;
-			dy = -0.1;
+			dy = -PERSON_SPEED;
 		    }		
-		    else if (dx == -0.1){
+		    else if (dx == -PERSON_SPEED){
 			dx = 0;
-			dy = 0.1;
+			dy = PERSON_SPEED;
 		    }
-		    else if (dy == 0.1){
+		    else if (dy == PERSON_SPEED){
 			dy = 0;
-			dx = 0.1;
+			dx = PERSON_SPEED;
 		    }
-		    else if (dy = -0.1){
+		    else if (dy = -PERSON_SPEED){
 			dy = 0;
-			dx = -0.1;
+			dx = -PERSON_SPEED;
 		    }
 		}	
 		//Turn Left
 		else if (rand < 2*TURN_PROBABILITY){
-		    if (dx == 0.1){
+		    if (dx == PERSON_SPEED){
 			dx = 0;
-			dy = 0.1;
+			dy = PERSON_SPEED;
 		    }		
-		    else if (dx == -0.1){
+		    else if (dx == -PERSON_SPEED){
 			dx = 0;
-			dy = -0.1;
+			dy = -PERSON_SPEED;
 		    }
-		    else if (dy == 0.1){
+		    else if (dy == PERSON_SPEED){
 			dy = 0;
-			dx = -0.1;
+			dx = -PERSON_SPEED;
 		    }
-		    else if (dy = -0.1){
+		    else if (dy = -PERSON_SPEED){
 			dy = 0;
-			dx = 0.1;
+			dx = PERSON_SPEED;
 		    }
 		}
             }
@@ -73,16 +83,71 @@ var makePerson = function(x,y,w,h,ctx) {
             // If taking a step would run us into a wall, turn around
 
             this.x = this.x + this.dx;
-            this.y = this.y + 2*Math.random() - 1;
-            if (this.x < 20 || this.x > 580){
+            this.y = this.y + this.dy;
+            if (this.x <= 0 || this.x >= CANVAS_WIDTH)
                 this.dx = this.dx * -1;
-            }
-            if (this.y < 20 || this.y > 580){
-                this.y = 100+400*Math.random();
-            }
+            if (this.y <= 0 || this.y >= CANVAS_HEIGHT)
+                this.dy = this.dy * -1;
         },
         isOnPerson : function(person) {
             return (this.x == person.x && this.y == person.y);
+        },
+	checkForInfections : function(people) {
+	    if (this.healthStatus == "infected") {
+	        for (var i = 0; i < this.people.length; i++) {
+                if (this.people[i].healthStatus != "immune" && this.people[i].healthStatus != "dead") {
+                    if ((this.x >= this.people[i].x && this.x <= (this.people[i].x + this.people[i].w) && this.y >= this.people[i].y && this.y <= (this.people[i].y + this.people[i].h))
+                    || ((this.people[i].x >= this.x && this.people[i].x <= (this.x + this.w) && this.people[i].y >= this.y && this.people[i].y <= (this.y + this.h))))
+                        this.people[i].healthStatus = "infected";
+                }
+            }
+	    }
+	    return this.people;
+	},
+        // This function returns a function.
+        // Every time we're checking intersections we call this function,
+        // and it returns a function suitable for our direction.
+        // The function that it returns takes an intersection as parameter
+        // and tells us if we're on it.
+        // We check three things: If we're not yet through the intersection's
+        // middle, if we'll be through the middle after movement, and if
+        // we're approximately on the same level
+        generateIntersectionFunction : function() {
+            var intersectionFunction;
+
+            // Moving right
+            if (this.dx > 0 && this.dy == 0) {
+                intersectionFunction = function(intersection) {
+                    return this.x < intersection.x && 
+                        this.x + dx >= intersection.x &&
+                        Math.abs(this.y - intersection.y) < STREET_SIZE;
+                };
+            }
+            // Moving left
+            else if (this.dx < 0 && this.dy == 0) {
+                intersectionFunction = function(intersection) {
+                    return this.x > intersection.x && 
+                        this.x + dx <= intersection.x &&
+                        Math.abs(this.y - intersection.y) < STREET_SIZE;
+                };
+            }
+            // Moving up
+            else if (this.dx == 0 && this.dy < 0) {
+                intersectionFunction = function(intersection) {
+                    return this.y > intersection.y && 
+                        this.y + dy >= intersection.y &&
+                        Math.abs(this.x - intersection.x) < STREET_SIZE;
+                };
+            }
+            // Moving down
+            else if (this.dx == 0&& this.dy > 0) {
+                intersectionFunction = function(intersection) {
+                    return this.y < intersection.y && 
+                        this.y + dy <= intersection.y &&
+                        Math.abs(this.x - intersection.x) < STREET_SIZE;
+                };
+            }
+            return intersectionFunction;
         },
 
         // People can't just turn when they *intersect* with an intersection.
@@ -93,12 +158,14 @@ var makePerson = function(x,y,w,h,ctx) {
         // If the next step would take this person across the intersection's center,
         // the person is on the intersection
         isOnIntersection : function() {
-            //for (var i = 0; i < gridIntersections.length; i++) {
-            //	if (this.x > gridIntersections[i].x && this.x < (gridIntersections[i].x + width) && this.y > gridIntersections[i].y && this.y < (gridIntersections[i].y 	    //        + height){
-	    //        return True;
-	    //	}
-    	    //}
-	    //return False;
+            // Generate an intersection function that is made just for our
+            // specific dy and x
+            var doesIntersect = this.generateIntersectionFunction();
+            for (var i = 0; i < gridIntersections.length; i++) {
+                if (doesIntersect(gridIntersections[i]))
+                    return true;
+	    	}
+	    return false;
         }
     };
 };
@@ -136,26 +203,22 @@ var makeIntersection = function(x, y, width, height) {
     }
 }
 
-var checkForInfections = function(people) {
-    return people;
-}
-
 var update = function(){
     ctx.fillStyle = "#ffffff";
-    ctx.fillRect(0,0,600,600);
+    ctx.fillRect(0,0,CANVAS_WIDTH, CANVAS_HEIGHT);
 
     for (var i = 0; i < people.length; i++) {
         people[i].move();
+        people[i].checkForInfections();
     }
 
-    people = checkForInfections(people);
+    for (var i = 0; i < gridRectangles.length; i++) {
+        gridRectangles[i].draw(); 
+    }
 
     for (var i = 0; i < people.length; i++) {
         people[i].draw();
     }
-
-    for (var i = 0; i < gridRectangles.length; i++) {
-        gridRectangles[i].draw(); }
 
     window.requestAnimationFrame(update);
 }
@@ -227,10 +290,40 @@ var generateGrid = function() {
     return [intersections, allStreets];
 }
 
+var spawnPeople = function() {
+    for (var i = 0; i < gridIntersections.length; i++) {
+        var intersection = gridIntersections[i];
+        var offsetX = (STREET_SIZE - PERSON_SIZE) / 2;
+        var offsetY = offsetX;
+        var newX = intersection.x + offsetX;
+        var newY = intersection.y + offsetY;
+
+        var rand = Math.random();
+        var dx = 0;
+        var dy = 0;
+        if (rand <= 0.25)
+            dx = -PERSON_SPEED;
+        else if (rand <= 0.50)
+            dx = PERSON_SPEED;
+        else if (rand <= 0.75)
+            dy = -PERSON_SPEED;
+        else
+            dy = PERSON_SPEED;
+
+        var healthStatus = "alive";
+        if (rand < INITIAL_INFECTION_PROBABILITY)
+            healthStatus = "infected";
+
+        var newPerson = makePerson(newX, newY, PERSON_SIZE, PERSON_SIZE, dx, dy, healthStatus, people, ctx);
+        people.push(newPerson);
+    }
+}
+
 var startGame  = function(e) {
     var grid = generateGrid();
     gridIntersections = grid[0];
     gridRectangles = grid[1];
+    var people = spawnPeople();
     window.requestAnimationFrame(update);
 }
 
