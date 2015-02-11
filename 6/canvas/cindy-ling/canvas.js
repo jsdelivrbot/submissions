@@ -81,11 +81,12 @@ var change = function(e) {
 
 c.addEventListener("click", clicked);
 var balls = [];
-window.requestAnimationFrame(update);
-    
     
 var b = document.getElementById("butt");
 b.addEventListener("click", clear);
 
 var b2 = document.getElementById("butt2");
 b2.addEventListener("click", change);
+
+
+window.requestAnimationFrame(update);
