@@ -34,20 +34,32 @@ function kernel(x,y) {
     var self = this;
     self.image = new Image();
     self.image.src = 'kernel.png';
+    self.popcornW = 70;
+    self.popcornH = 65;
+    self.kernelW = 40;
+    self.kernelH = 36;
     self.pos = [x,y];
     self.v = 0;
     self.acc = 1;
     self.heat = 0;
     self.popped = false;
     self.move = function() {
-
+	if (!popped) {
+	    heat += 1;
+	    
+	}
     }
     self.pop = function() {
 	self.popped = true;
 	self.image.src = 'popcorn.png';
     }
     self.draw = function() {
-
+	if (!self.popped) {
+	    ctx.drawImage(self.image,self.pos[0]-self.kernelW/2, self.pos[1]-self.kernelH/2);
+	}
+	else {
+	    ctx.drawImage(self.image,self.pos[0]-self.popcornW/2, self.pos[1]-self.popcornH/2);
+	}
     }
 }
 
@@ -56,12 +68,19 @@ var kernels = [];
 //spawn 25 random kernels
 for (var i=0;i<25;i++) {
     var x = randNum(250,750);
-    var y = randNum(200,400);
+    var y = randNum(170,510);
     kernels.push(new kernel(x,y));
 }
 
 var update = function() {
     ctx.fillStyle = "#ffffff";
+    //there's a pretty good reason that these loops are separate, but that reason doesn't really apply here... just keep it like this
+    for (var i=0;i<kernels.length;i++) {
+	kernels[i].move();
+    }
+    for (var i=0;i<kernels.length;i++) {
+	kernels[i].draw();
+    }
     window.requestAnimationFrame(update);
 }
 
