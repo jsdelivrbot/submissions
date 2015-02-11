@@ -1,6 +1,6 @@
 var c = document.getElementById("can");
 var ctx = c.getContext("2d");
-
+ctx.fillStyle = "#ffffff"
 
 
 //ctx.beginPath();
@@ -21,7 +21,6 @@ var makeCircle = function(x, y, r,ctx){
 	dr : 1,
 
 	draw : function() {
-
 	    ctx.beginPath();
 	    ctx.arc(this.x, this.y, this.r, 0, 2*Math.PI);
 	    ctx.fillStyle = this.color;
@@ -47,7 +46,7 @@ var makeCircle = function(x, y, r,ctx){
 };
 
 var update = function(){
-    ctx.fillStyle = "#ffffff";
+//    ctx.fillStyle = "#ffffff";
     ctx.fillRect(0,0,1300,600);
     for (var i = 0; i < balls.length; i++){
 	balls[i].move();
