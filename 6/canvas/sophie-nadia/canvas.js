@@ -20,7 +20,7 @@ var makeBall = function(x,y,ctx) {
         dy : Math.random()*10-5,
         //dy : 1,
         ctx : ctx,
-        state: "bouncing",
+    state: "bouncing",
         color : getRandomColor(),
         counter : 50,
         setState : function (s) {
@@ -67,11 +67,11 @@ var makeBall = function(x,y,ctx) {
 
 var inRadius = function(e){
     /*for each (var item in obj) {
-        sum += item;
-    }*/
+     sum += item;
+     }*/
     var x = e.offsetX;
     var y = e.offsetY;
-   
+    
     for (i = 0; i < balls.length; i++){
         var distance = Math.sqrt( Math.pow(balls[i].x - x, 2) + Math.pow(balls[i].y - y, 2) );
         if (distance < balls[i].r){
@@ -82,6 +82,23 @@ var inRadius = function(e){
     
 };
 
+var overlap = function(ball) {
+    // ball inputed is growing, big, or shrinking
+    var x = ball.x;
+    var y = ball.y;
+    var r = ball.r;
+    for (var i = 0; i < balls.length; i++){
+        b = balls[i];
+        if (b.state == "bouncing"){
+            //distance between centers
+            var distance = Math.sqrt( Math.pow(b.x - x, 2) + Math.pow(b.y - y, 2) )
+            if (distance < r + b.r){
+                b.state = "growing";
+            }
+        }
+    }
+};
+
 
 var update = function() {
     ctx.beginPath();
@@ -90,10 +107,13 @@ var update = function() {
     ctx.closePath();
     
     for (var i = 0; i < balls.length; i++){
+        if (balls[i].state != "bouncing"){
+            overlap(balls[i]);
+        }
         balls[i].move();
         balls[i].draw();
     }
-     
+    
     window.requestAnimationFrame(update);
 };
 
@@ -106,34 +126,40 @@ var clicked = function(e){
 };
 
 /*
-var clicked = function(e){
-    if (inRadius(e)) {
-        var pos = inRadius(e);
-        balls[pos].color = "#0000ff";
-    } else {
-        var x = e.offsetX;
-        var y = e.offsetY;
-        balls.push(makeBall(x,y,ctx));
-    }
-};
+ var clicked = function(e){
+ if (inRadius(e)) {
+ var pos = inRadius(e);
+ balls[pos].color = "#0000ff";
+ } else {
+ var x = e.offsetX;
+ var y = e.offsetY;
+ balls.push(makeBall(x,y,ctx));
+ }
+ };
  */
 
 c.addEventListener("click",clicked);
 
- 
+var b = document.getElementById("b");
+
+
 var balls = [];
 
-var setup = function() {
+var reset = function() {
+    balls = []
     ctx.beginPath();
     ctx.fillStyle = "#ffffff";
     ctx.fillRect(0,0,640,480);
     ctx.closePath();
-    for ( i=0; i<100; i++) {
+    for ( i=0; i<20; i++) {
         balls.push(makeBall(320,240,ctx));
     }
 }
 
-setup();
-window.requestAnimationFrame(update);
+b.addEventListener("click",reset);
 
+
+
+reset();
+window.requestAnimationFrame(update);
 

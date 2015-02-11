@@ -2,13 +2,14 @@ var c = document.getElementById("c");
 var b = document.getElementById("b");
 var ctx = c.getContext("2d");
 
-var createBlock = function(x,y,r,ctx) {
+var createBlock = function(r,ctx) {
 		return {
-				x : x,
-				y : y,
+				x : getRandomInt(21,579),
+				y : getRandomInt(21,579),
 		                r : r,
  				ctx : ctx,
-				dx : 1,
+				dx : getRandomDirection(),
+		    dy : getRandomDirection(),
 				color : getRandomColor(),
 				draw : function() {
 				    ctx.fillStyle=this.color;
@@ -20,17 +21,25 @@ var createBlock = function(x,y,r,ctx) {
 				},
 				move : function() {
 						this.x = this.x + 4*this.dx;
-						this.y = this.y + 2*Math.random() - 1;
-						if (this.x < 5 || this.x > 580){
-								this.dx = this.dx * -1;
+						this.y = this.y + 4*this.dy;
+						if (this.x < 20 || this.x > 580){
+								this.dx = this.dx * -1.001;
 						}
 						if (this.y < 20 || this.y > 580){
-								this.y = 100+400*Math.random();
+
+								this.dy = this.dy*-1.001;
 						}
 				}
 		};
 };
 
+function getRandomDirection() {
+    var dir=getRandomInt(0,1);
+    if (dir ==0){
+	dir=-1;
+    }
+    return dir;
+}
 
 
 
@@ -56,12 +65,51 @@ var update = function(){
 var addBlock = function(e){
 		var x = e.offsetX;
 		var y = e.offsetY;
-		var r = 20+Math.random(40);
-		blocks.push(createBlock(x,y,r,ctx));
+		var r = 5+Math.random()*40;
+    
+		blocks.push(createBlock(r,ctx));
 		
 };
 
-
+$('#c').mousemove(function(e) {
+    var pos = findPos(this);
+    var x = e.pageX - pos.x;
+    var y = e.pageY - pos.y;
+    var coord = "x=" + x + ", y=" + y;
+    var c = this.getContext('2d');
+    var p = c.getImageData(x, y, 1, 1).data; 
+    var hex = "#" + ("000000" + rgbToHex(p[0], p[1], p[2])).slice(-6);
+//    $('#status').html(coord + "<br>" + hex);
+    $('#status').html(blocks.length);
+    $('#t').html("BD Score="+blocks.length);
+    if (hex != "#ffffff"){
+	console.log("off");
+	var score=blocks.length;
+	blocks=[];
+	$('#status').html(0);
+    $('#t').html("BD Score="+0);
+	alert("You lost! Your score was " + score);
+    }
+});
+function findPos(obj) {
+    var curleft = 0, curtop = 0;
+    if (obj.offsetParent) {
+        do {
+            curleft += obj.offsetLeft;
+            curtop += obj.offsetTop;
+        } while (obj = obj.offsetParent);
+        return { x: curleft, y: curtop };
+    }
+    return undefined;
+}
+function rgbToHex(r, g, b) {
+    if (r > 255 || g > 255 || b > 255)
+        throw "Invalid color component";
+    return ((r << 16) | (g << 8) | b).toString(16);
+}
+function getRandomInt(min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+}
 
 
 
