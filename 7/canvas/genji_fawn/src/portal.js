@@ -33,15 +33,18 @@ Portal.draw = function(ctx) {
 
 Portal.init = function() {
 	
-	/* Create the player sprite, a blue circle. */
-	Portal.sprites.createBall(
-		100, 100,
-		"#0000FF",
-		3,
-		1, 1, 
-		true
-	);
+	// /* Create the player sprite, a blue circle. */
+	// Portal.sprites.createBall(
+	// 	20, 100,
+	// 	"#0000FF",
+	// 	3,
+	// 	1, 1, 
+	// 	false
+	// );
 
+	for (i = 0; i < 20; i ++) {
+		Portal.sprites.createBall(Math.random() * 200 + 50, Math.random() * 100 + 25,"#0000FF", 3, 1, 1, false);
+	}
 };
 		
 
