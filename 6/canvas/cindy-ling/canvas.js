@@ -16,9 +16,9 @@ var makeCircle = function(x, y, r,ctx){
 	r : r,
 	color : '#'+Math.floor(Math.random()*16777215).toString(16),
 	ctx : ctx,
-	dx : Math.random()*2,
-	dy : Math.random()*2,
-	dr : 1,
+	dx : Math.random()*2 - 1,
+	dy : Math.random()*2 - 1,
+	dr : 0,
 
 	draw : function() {
 	    ctx.beginPath();
@@ -34,12 +34,13 @@ var makeCircle = function(x, y, r,ctx){
 		this.dr = this.dr * -1;
 	    }
 	    if (this.x <= 10 || this.x > 1290){
-		this.dx = this.dx * -1;
+		this.dx = this.dx * -1 * Math.random()*1;
+		console.log(this.r-this.dr);
 		this.r = this.r - this.dr;
 	    }
 	    if (this.y < 10 || this.y > 590){
 		this.dy = this.dy * -1;
-		this.r = Math.abs(this.r - this.dr);
+		this.r = this.r - this.dr;
 	    }
 	},
     };
