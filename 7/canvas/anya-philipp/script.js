@@ -1,51 +1,61 @@
-var c = document.getElementById("c");
-var start = document.getElementById("start");
-var reset = document.getElemnetById("reset");
-var ctx = c.getContext("2d");
+var CANVAS_WIDTH = 1200;
+var CANVAS_HEIGHT = 600;
 
-var makePerson = function(x,y,,h,ctx) {
+var makePerson = function(x,y,w,h,ctx) {
     return {
-	x : x,
-	y : y,
-	w : w,
-	h : h,
-	ctx : ctx,
-	dx : 1,
-	color : "#ff0000",
-	draw : function() {
-	    ctx.fillStyle = this.color;
-	    ctx.fillRect(this.x,this.y,this.w,this.h);
-	},
-	//We have to change the way the people move
-	//People must "bounce" off walls
-	move : function() {
-	    this.x = this.x + this.dx;
-	    this.y = this.y + 2*Math.random() - 1;
-	    if (this.x < 20 || this.x > 580){
-		this.dx = this.dx * -1;
-	    }
-	    if (this.y < 20 || this.y > 580){
-		this.y = 100+400*Math.random();
-	    }
-	},
-	infect : function() {
-	},
-	checkInfection : function() {
-	}
+        x : x,
+        y : y,
+        w : w,
+        h : h,
+        ctx : ctx,
+        dx : 0,
+        dy: 0,
+        color : "#ff0000",
+
+        draw : function() {
+            ctx.fillStyle = this.color;
+            ctx.fillRect(this.x,this.y,this.w,this.h);
+        },
+
+        //We have to change the way the people move
+        //People must "bounce" off walls
+        move : function() {
+            this.x = this.x + this.dx;
+            this.y = this.y + 2*Math.random() - 1;
+            if (this.x < 20 || this.x > 580){
+            this.dx = this.dx * -1;
+            }
+            if (this.y < 20 || this.y > 580){
+            this.y = 100+400*Math.random();
+            }
+        },
+        isOnPerson: function(person) {
+            return (this.x == person.x && this.y == person.y);
+        }
     };
 };
+
+var checkForInfections = function(people) {
+    return people;
+}
 
 var update = function(){
     ctx.fillStyle = "#ffffff";
     ctx.fillRect(0,0,600,600);
+
+    for (var i = 0; i < people.length; i++) {
+        people[i].move();
+    }
+
+    people = checkForInfections(people);
+
     for (var i = 0; i < people.length; i++){
-	people[i].move();
-	people[i].draw();
+        people[i].draw();
     }
     window.requestAnimationFrame(update);
 }
 
-var addPerson = function(e){
+var addRandomPerson = function(e){
     var x = e.offsetX;
     var y = e.offsetY;
     var w = 10+Math.random(20);
@@ -54,9 +64,25 @@ var addPerson = function(e){
     
 };
 
-//c.addEventListener("click", addBlock);
+var startGame  = function(e) {
+
+    window.requestAnimationFrame(update);
+}
+
+var resetGame = function(e) {
+    location.reload();
+}
 
 var people = [];
-//blocks.push(makeBlock(50,100,30,15,ctx));
-//blocks.push(makeBlock(100,200,30,15,ctx));
-window.requestAnimationFrame(update);
+
+var c = document.getElementById("game-canvas");
+c.width = CANVAS_WIDTH;
+c.height = CANVAS_HEIGHT;
+
+var start = document.getElementById("start-button");
+start.addEventListener("click", startGame);
+
+var reset = document.getElementById("reset-button");
+reset.addEventListener("click", resetGame);
+
+var ctx = c.getContext("2d");
