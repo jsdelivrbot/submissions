@@ -14,10 +14,10 @@ Portal.world = (function() {
 		ctx.fillRect(0, 0, WIDTH, HEIGHT );
 		//blue
 		ctx.fillStyle = "#00ffff";
-		ctx.fillRect(0, PORTALHEIGHT, 5, (HEIGHT * 0.5) + PORTALHEIGHT);
+		ctx.fillRect(0, PORTALHEIGHT, 2, (HEIGHT * 0.5) + PORTALHEIGHT);
 		//orange
 		ctx.fillStyle = "#ffa500";
-		ctx.fillRect(WIDTH - 5, PORTALHEIGHT, WIDTH, (HEIGHT * 0.5) + PORTALHEIGHT);
+		ctx.fillRect(WIDTH - 2, PORTALHEIGHT, WIDTH, (HEIGHT * 0.5) + PORTALHEIGHT);
 	}
 
 	function setDimensions(canvas) {
@@ -39,7 +39,8 @@ Portal.world = (function() {
 		setDimensions	: setDimensions,
 		draw			: draw,
 		width 			: WIDTH,
-		height			: HEIGHT
+		height			: HEIGHT,
+		portalHeight 	: PORTALHEIGHT,
 	}
 
 })();
