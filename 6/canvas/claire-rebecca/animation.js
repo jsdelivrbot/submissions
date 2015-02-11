@@ -11,7 +11,7 @@ var draw = function(e){
     var red = document.getElementById("red").checked;
     var blue = document.getElementById("blue").checked;
     var yellow = document.getElementById("yellow").checked;
-    var erase = document.getElementById("erase").checked;
+  
     
     var circle = document.getElementById("circle").checked;
     var rectangle = document.getElementById("rectangle").checked;
@@ -31,8 +31,6 @@ var draw = function(e){
 	color="#0000FF";
     else if (yellow)
 	color="#FFFF00";
-    else
-	color="#FFFFFF";
  
     if (circle) {
 	if(small)
@@ -59,3 +57,10 @@ var draw = function(e){
 
 
 c.addEventListener("mousedown", draw)
+
+/*things to add:
+erasing
+
+My original idea was to have a shape be dragged (with its shadow) to draw a shape. so if you made a circle, you could drag your mouse and the lots of repeated circles would create some sort of line. I wasn't able to get this to work, but if you could that would be really great!
+
+*/ 
