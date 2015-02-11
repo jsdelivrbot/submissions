@@ -19,11 +19,8 @@ var makeBlock = function(x,y,w,h,ctx) {
 		move : function() {
 			this.x = this.x + this.dx;
 			// this.y = this.y + 2*Math.random() - 1;
-			if (this.x < 10 || this.x > 580){
+			if (this.x < 10 || this.x > 590){
 				this.dx = this.dx * -1;
-			}
-			if (this.y < 20 || this.y > 580){
-				this.y = 100 + 400 * Math.random();
 			}
 		},
 		changeColor : function() {
@@ -58,6 +55,17 @@ var makeDrop = function(x,y,w,h,ctx) {
 var update = function() {
 		ctx.fillStyle = "#ffffff";
 		ctx.fillRect(0,0,600,600);
+
+		ctx.beginPath();
+		ctx.moveTo(0,50);
+		ctx.lineTo(600,50);
+		ctx.stroke();
+
+		ctx.fillStyle="#000000";
+		ctx.font = "20px arial";
+		ctx.fillText("The Clouds: Water Droplet Launch Zone",125,25);
+		ctx.stroke();
+
 		for (var i = 0; i < blocks.length; i++){
 				blocks[i].move();
 				blocks[i].draw();
@@ -87,13 +95,15 @@ var update = function() {
 var clicked = function(e){
 		var x = e.offsetX;
 		var y = e.offsetY;
-		drops.push(makeDrop(x,y,10,10,ctx));
+		if (y < 50) {
+			drops.push(makeDrop(x,y,10,10,ctx));
+		}
 };
 
 c.addEventListener("click",clicked);
 var blocks = [];
 var drops = [];
 for (var x = 100; x < 600; x += 50){
-	blocks.push(makeBlock(600*Math.random(),x,30,15,ctx));
+	blocks.push(makeBlock(580*Math.random()+10,x,30,15,ctx));
 }
 window.requestAnimationFrame(update);
