@@ -2,6 +2,7 @@ var c = document.getElementById("c");
 var b = document.getElementById("b");
 var ctx = c.getContext("2d");
 var jumping = 0;
+var hitbox = 0;
 var pipes = [];
 var frames = 195;
 var alive = 1;
@@ -14,10 +15,12 @@ var makeBird = function(){
 	dy : 0,
 	draw : function(){
 	    ctx.drawImage(img,10,this.y,150,100);
-	    ctx.beginPath();
-	    ctx.arc(88, this.y + 40, 20, 0, 2 * Math.PI);
-	    ctx.strokeStyle = "#000000";
-	    ctx.stroke();
+	    if (hitbox) {
+		ctx.beginPath();
+		ctx.arc(88, this.y + 40, 20, 0, 2 * Math.PI);
+		ctx.strokeStyle = "#000000";
+		ctx.stroke();
+	    }
 	},
 	move : function(){
 	    this.y += this.dy;
@@ -89,6 +92,7 @@ var collision = function(pipe) {
 	hscore.innerHTML = score.innerHTML;
     }
     alive = 0;
+    alert("You Lost! Hit Start to play again!");
 }
 var longConditional = function(pipe){
     var pipePoint;
@@ -166,3 +170,9 @@ var wipe = function(){
 }
 //b.addEventListener("click", window.requestAnimationFrame(wipe));
 b.addEventListener("click", wipe);
+h.addEventListener("click", function() {
+    if (hitbox == 0) {
+	hitbox = 1; } else {
+	hitbox = 0;
+    }
+});
