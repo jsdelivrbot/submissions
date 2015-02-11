@@ -5,56 +5,72 @@ APP.setConsts({
 
     // Colors
     C_BACKGROUND : "rgb(100, 120, 100)",
-    C_PLAYER : "rgb(0, 0, 0)",
-
-    player_x : 100,
-    player_y : 100,
-    player_radius : 20
+    C_OBSTACLE : "rgb(200, 200, 200)",
+    C_PLAYER : "rgb(0, 0, 0)"
 });
 
-var setup = function() {
-    APP.setConsts({
-        ctx : APP.canvas.getContext("2d"),
-    });
+APP.setConsts({
+    ctx : APP.canvas.getContext("2d")
+});
 
-    APP.canvas.height = APP.CANVAS_HEIGHT;
-    APP.canvas.width = APP.CANVAS_WIDTH;
+APP.Rendering = (function() {
+    var canvas = APP.canvas,
+        height = APP.CANVAS_HEIGHT,
+        width = APP.CANVAS_WIDTH;
 
-    document.getElementById("game").appendChild(APP.canvas);
+    canvas.height = height;
+    canvas.width = width;
 
-    document.addEventListener("keydown", keyDown);
-    document.addEventListener("keyup", keyUp);
-}
+    // Draw the world to the canvas
+    var draw = function() {
+        // Clear screen
+        APP.ctx.fillStyle = APP.C_BACKGROUND;
+        APP.ctx.fillRect(0, 0, APP.CANVAS_WIDTH, APP.CANVAS_HEIGHT);
 
-var step = function() {
-    if (APP.running) {
-        window.requestAnimationFrame(step);
+        drawObstacles();
+        drawShadows();
+        drawPlayer();
     }
-    tick();
-    draw();
-}
 
-// Update the state of the world according to user input
-var tick = function() {
-    if (APP.I_UP) APP.player_y -= 4;
-    if (APP.I_DOWN) APP.player_y += 4;
-    if (APP.I_LEFT) APP.player_x -= 4;
-    if (APP.I_RIGHT) APP.player_x += 4;
-}
+    var drawPlayer = function() {
+        // Draw player
+        APP.ctx.fillStyle = APP.C_PLAYER;
+        APP.ctx.beginPath();
+        APP.ctx.arc(APP.player.x, APP.player.y, APP.player.radius, 0, 2 * Math.PI);
+        APP.ctx.closePath();
+        APP.ctx.fill();
+    }
 
-// Draw the world to the canvas
-var draw = function() {
-    // Clear screen
-    APP.ctx.fillStyle = APP.C_BACKGROUND;
-    APP.ctx.fillRect(0, 0, APP.CANVAS_WIDTH, APP.CANVAS_HEIGHT);
+    var drawObstacles = function() {
+        for (var i = 0; i < APP.obstacles.length; i++) {
+            drawObstacle(APP.obstacles[i]);
+        }
+    }
 
-    // Draw player
-    APP.ctx.fillStyle = APP.C_PLAYER;
-    APP.ctx.beginPath();
-    APP.ctx.arc(APP.player_x, APP.player_y, APP.player_radius, 0, 2 * Math.PI);
-    APP.ctx.closePath();
-    APP.ctx.fill();
-}
+    var drawObstacle = function(obstacle) {
+        APP.ctx.fillStyle = APP.C_OBSTACLE;
+        APP.ctx.beginPath();
+        APP.ctx.arc(obstacle.x, obstacle.y, obstacle.radius, 0, 2 * Math.PI);
+        APP.ctx.closePath();
+        APP.ctx.fill();
+    }
 
-setup();
-window.requestAnimationFrame(step);
+    var drawShadows = function() {
+        for (var i = 0; i < APP.obstacles.length; i++) {
+            drawShadow(APP.obstacles[i]);
+        }
+    }
+
+    var drawShadow = function(obstacle) {
+        var px = APP.player.x,
+            py = APP.player.y,
+            x = obstacle.x,
+            y = obstacle.y;
+
+        var dist = APP.Doodah.distance(APP.player, obstacle);
+    }
+
+    return {
+        draw : draw,
+    }
+})();
