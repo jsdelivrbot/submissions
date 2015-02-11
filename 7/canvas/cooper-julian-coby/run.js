@@ -73,7 +73,11 @@ var update = function(){
 	pinwheels[i].draw();
     }
     window.requestAnimationFrame(update);
-}
+};
+
+var split = function() {
+};
+
 
 var quarters = [];
 for (var i = 0; i < 4; i++) {	   
