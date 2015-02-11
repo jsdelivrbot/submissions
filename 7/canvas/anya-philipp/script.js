@@ -85,6 +85,52 @@ var makePerson = function(x,y,w,h,ctx) {
             return (this.x == person.x && this.y == person.y);
         },
 
+        // This function returns a function.
+        // Every time we're checking intersections we call this function,
+        // and it returns a function suitable for our direction.
+        // The function that it returns takes an intersection as parameter
+        // and tells us if we're on it.
+        // We check three things: If we're not yet through the intersection's
+        // middle, if we'll be through the middle after movement, and if
+        // we're approximately on the same level
+        generateIntersectionFunction : function() {
+            var intersectionFunction;
+
+            // Moving right
+            if (this.dx > 0 && this.dy == 0) {
+                intersectionFunction = function(intersection) {
+                    return this.x < intersection.x && 
+                        this.x + dx >= intersection.x &&
+                        Math.abs(this.y - intersection.y) < STREET_SIZE;
+                };
+            }
+            // Moving left
+            else if (this.dx > 0 && this.dy == 0) {
+                intersectionFunction = function(intersection) {
+                    return this.x > intersection.x && 
+                        this.x + dx <= intersection.x &&
+                        Math.abs(this.y - intersection.y) < STREET_SIZE;
+                };
+            }
+            // Moving up
+            else if (this.dx > 0 && this.dy == 0) {
+                intersectionFunction = function(intersection) {
+                    return this.y > intersection.y && 
+                        this.y + dy >= intersection.y &&
+                        Math.abs(this.x - intersection.x) < STREET_SIZE;
+                };
+            }
+            // Moving down
+            else if (this.dx > 0 && this.dy == 0) {
+                intersectionFunction = function(intersection) {
+                    return this.y < intersection.y && 
+                        this.y + dy <= intersection.y &&
+                        Math.abs(this.x - intersection.x) < STREET_SIZE;
+                };
+            }
+            return intersectionFunction;
+        },
+
         // People can't just turn when they *intersect* with an intersection.
         // They need to be *on* the intersection.
         // Of course we might set up movement in a way that a person is never exactly on 
@@ -93,12 +139,14 @@ var makePerson = function(x,y,w,h,ctx) {
         // If the next step would take this person across the intersection's center,
         // the person is on the intersection
         isOnIntersection : function() {
-            //for (var i = 0; i < gridIntersections.length; i++) {
-            //	if (this.x > gridIntersections[i].x && this.x < (gridIntersections[i].x + width) && this.y > gridIntersections[i].y && this.y < (gridIntersections[i].y 	    //        + height){
-	    //        return True;
-	    //	}
-    	    //}
-	    //return False;
+            // Generate an intersection function that is made just for our
+            // specific dy and x
+            var doesIntersect = this.generateIntersectionFunction();
+            for (var i = 0; i < gridIntersections.length; i++) {
+                if (doesIntersect(gridIntersections[i]))
+                    return True;
+	    	}
+	    return False;
         }
     };
 };
