@@ -1,6 +1,5 @@
 var width = 1000;
 var height = 667;
-
 //random number between min and max
 var randNum = function(min, max) {
     return Math.floor(Math.random() * (max-min+1)) + min;
@@ -9,6 +8,14 @@ var randNum = function(min, max) {
 //canvas
 var canvas = document.getElementById("c");
 var ctx = canvas.getContext("2d");
+
+//MOUSE LOCATION??
+var mouse = {x: 0, y: 0};
+
+document.addEventListener('mousemove', function(e){ 
+    mouse.x = e.clientX || e.pageX; 
+    mouse.y = e.clientY || e.pageY 
+}, false);
 
 /*
 var image = new Image();
@@ -29,8 +36,10 @@ var drawLine = function(x1,y1,x2,y2) {
 }
 */
 
+
+
 //kernel "class"
-function kernel(x,y) {
+function kernel(x,y,mouseX,mouseY) {
     var self = this;
     self.image = new Image();
     self.image.src = 'kernel.png';
@@ -45,7 +54,8 @@ function kernel(x,y) {
     self.popped = false;
     self.move = function() {
 	if (!self.popped) {
-	    //move
+
+
 	}
     }
     self.pop = function() {
@@ -83,5 +93,5 @@ var update = function() {
     window.requestAnimationFrame(update);
 }
 
-canvas.addEventListener("mouseover",update);
+canvas.addEventListener("mousemove",update);
 window.requestAnimationFrame(update);
