@@ -1,3 +1,4 @@
+
 var c = document.getElementByID("c");
 var ctx = c.getContext("2d");
 
@@ -29,3 +30,4 @@ var clicked = function() {
 var raindrops = [];
 c.addEventListener("click",clicked);
 window.requestAnimationFrame(update);
+
