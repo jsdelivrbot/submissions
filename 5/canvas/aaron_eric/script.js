@@ -29,13 +29,14 @@ var makeDonger = function(x,y,size,ctx,id,parts){
 	font : size+"px Comic Sans MS",
 	text : text,
 	ctx : ctx,
-	dx : Math.floor((Math.random() * 10) + 1),
-	dy : Math.floor((Math.random() * 10) + 1),
+	dx : Math.floor((Math.random() * 5) + 1),
+	dy : Math.floor((Math.random() * 5) + 1),
 	width : width,
 	size : size,
 	id : id,
 
 	draw : function() {
+	    ctx.textAlign="center";
 	    ctx.fillStyle="#000000";
 	    ctx.font = this.font;
 	    ctx.fillText(this.text,this.x,this.y);
@@ -60,20 +61,22 @@ var makeDonger = function(x,y,size,ctx,id,parts){
 		    this.dx = Math.abs(this.dx) ;
 		}		
 		
-		if ((this.y+this.size >= otherY) && (this.y+this.size <= otherY+otherSize) && (this.x+this.width >= otherX) && (otherX+otherWidth >= this.x)){ //top
+		if ((this.y+this.size >= otherY) && (this.y+this.size <= otherY+otherSize) && (this.x+(this.width/2) >= otherX) && (otherX+(otherWidth/2) >= this.x)){ //top
 		    this.dy = Math.abs(this.dy)*-1;
 		}
-		if ((otherY+otherSize >= this.y) && (otherY+otherSize <= this.y+this.size) && (this.x+this.width >= otherX) && (otherX+otherWidth >= this.x)){ //bottom
+		if ((otherY+otherSize >= this.y) && (otherY+otherSize <= this.y+this.size) && (this.x+(this.width/2) >= otherX) && (otherX+(otherWidth/2) >= this.x)){ //bottom
 		    this.dy = Math.abs(this.dy) ;
 		}
 	    }
 	},
 	
 	move : function() {
-	    if (this.x < width){ //left
+	    if (this.x < width/2){ //left
+		console.log(this.x);
 		this.dx = Math.abs(this.dx);
 	    }
-	    if (this.x > c.width-width){ //right
+	    if (this.x > c.width-(width/2)){ //right
+		console.log(this.x);
 		this.dx = Math.abs(this.dx) * -1;
 	    }
 	    if (this.y < size){ //top

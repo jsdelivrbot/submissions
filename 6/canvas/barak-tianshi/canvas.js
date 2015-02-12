@@ -15,8 +15,7 @@ var done=false;
 var canvas = document.getElementById("c");
 var ctx = canvas.getContext("2d");
 
-<<<<<<< HEAD
-=======
+
 //MOUSE LOCATION?? YES DAMMIT
 function getMousePos(canvas, evt) {
     var rect = canvas.getBoundingClientRect();
@@ -27,12 +26,12 @@ function getMousePos(canvas, evt) {
 }
 
 /*
-var image = new Image();
+  var image = new Image();
 
-image.onload = function() {
-    ctx.drawImage(image,0,0);
-}
-image.src = 'image.jpg';
+  image.onload = function() {
+  ctx.drawImage(image,0,0);
+  }
+  image.src = 'image.jpg';
 
 
 var drawLine = function(x1,y1,x2,y2) {
@@ -47,7 +46,6 @@ var drawLine = function(x1,y1,x2,y2) {
 
 
 
->>>>>>> ce887ebe2468217168548164f58776e9cecbff1f
 //kernel "class"
 function kernel(x,y) {
     var self = this;
@@ -61,14 +59,11 @@ function kernel(x,y) {
     self.acc = 1;
     self.heat = 0;
     self.popped = false;
-<<<<<<< HEAD
-=======
     self.move = function(e) {
 	if (!self.popped) {
 
 	}
     }
->>>>>>> ce887ebe2468217168548164f58776e9cecbff1f
     self.pop = function() {
 	self.popped = true;
 	self.image.src = 'popcorn.png';
@@ -91,7 +86,6 @@ for (var i=0;i<k;i++) {
     var y = randNum(50,550);
     kernels.push(new kernel(x,y));
 }
-<<<<<<< HEAD
 
 canvas.onclick = function(e){
     mx = e.offsetX;
@@ -106,13 +100,6 @@ canvas.onclick = function(e){
 }
 
 var update = function(e) {
-    ctx.fillStyle = "#000f000";
-
-    //there's a pretty good reason that these loops are separate, but that reason doesn't really apply here... just keep it like this
-
-=======
-var mousePos;
-var update = function(e) {
     ctx.fillStyle = "#ffffff";
     //there's a pretty good reason that these loops are separate, but that reason doesn't really apply here... just keep it like this
     mousePos = getMousePos(canvas, e);
@@ -121,7 +108,6 @@ var update = function(e) {
     //for (var i=0;i<kernels.length;i++) {
 	//kernels[i].move();
     //}
->>>>>>> ce887ebe2468217168548164f58776e9cecbff1f
     for (var i=0;i<kernels.length;i++) {
 	kernels[i].draw();
     }
@@ -136,9 +122,6 @@ var update = function(e) {
     window.requestAnimationFrame(update);
 }
 
-<<<<<<< HEAD
 canvas.addEventListener("click",update); //do NOT change it to mousemove unless you deleted mousePos.
-=======
 canvas.addEventListener("mouseover",update); //do NOT change it to mousemove unless you deleted mousePos.
->>>>>>> ce887ebe2468217168548164f58776e9cecbff1f
 window.requestAnimationFrame(update);
