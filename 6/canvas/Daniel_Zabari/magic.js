@@ -1,6 +1,7 @@
+var CSSCOLORS = ["AliceBlue","AntiqueWhite","Aqua","Aquamarine","Azure","Beige","Bisque","Black","BlanchedAlmond","Blue","BlueViolet","Brown","BurlyWood","CadetBlue","Chartreuse","Chocolate","Coral","CornflowerBlue","Cornsilk","Crimson","Cyan","DarkBlue","DarkCyan","DarkGoldenRod","DarkGray","DarkGrey","DarkGreen","DarkKhaki","DarkMagenta","DarkOliveGreen","Darkorange","DarkOrchid","DarkRed","DarkSalmon","DarkSeaGreen","DarkSlateBlue","DarkSlateGray","DarkSlateGrey","DarkTurquoise","DarkViolet","DeepPink","DeepSkyBlue","DimGray","DimGrey","DodgerBlue","FireBrick","FloralWhite","ForestGreen","Fuchsia","Gainsboro","GhostWhite","Gold","GoldenRod","Gray","Grey","Green","GreenYellow","HoneyDew","HotPink","IndianRed","Indigo","Ivory","Khaki","Lavender","LavenderBlush","LawnGreen","LemonChiffon","LightBlue","LightCoral","LightCyan","LightGoldenRodYellow","LightGray","LightGrey","LightGreen","LightPink","LightSalmon","LightSeaGreen","LightSkyBlue","LightSlateGray","LightSlateGrey","LightSteelBlue","LightYellow","Lime","LimeGreen","Linen","Magenta","Maroon","MediumAquaMarine","MediumBlue","MediumOrchid","MediumPurple","MediumSeaGreen","MediumSlateBlue","MediumSpringGreen","MediumTurquoise","MediumVioletRed","MidnightBlue","MintCream","MistyRose","Moccasin","NavajoWhite","Navy","OldLace","Olive","OliveDrab","Orange","OrangeRed","Orchid","PaleGoldenRod","PaleGreen","PaleTurquoise","PaleVioletRed","PapayaWhip","PeachPuff","Peru","Pink","Plum","PowderBlue","Purple","Red","RosyBrown","RoyalBlue","SaddleBrown","Salmon","SandyBrown","SeaGreen","SeaShell","Sienna","Silver","SkyBlue","SlateBlue","SlateGray","SlateGrey","Snow","SpringGreen","SteelBlue","Tan","Teal","Thistle","Tomato","Turquoise","Violet","Wheat","White","WhiteSmoke","Yellow","YellowGreen"];
 var canvas = document.getElementById("c");
 var ctx = canvas.getContext("2d");
-var circles=[];
+var circles = [];
 function ayy(){
 
 	
@@ -20,32 +21,43 @@ var Circ = function(x,y, r, ctx) {
 				y : y,
 				r : r,
 				ctx : ctx,
-				color : "#ff0000",
+				color : "blue",
 				draw : function() {
-						ctx.fillStyle = this.color;
-						ctx.fill(this.x,this.y,this.w,this.h);
-				},
-				move : function() {
-						this.x = this.x + this.dx;
-						this.y = this.y + 2*Math.random() - 1;
-						if (this.x < 10 || this.x > 580){
-								this.dx = this.dx * -1;
-						}
-						if (this.y < 20 || this.y > 580){
-								this.y = 100 + 400 * Math.random();
-						}
-				}
 						
-				
-		};
+						ctx.arc(x,y, r,0,2 * Math.PI,false);
+						ctx.fillStyle = this.color;
+						ctx.fill();
+						ctx.closePath();
+				}
+			}
+
 };
 
 
+
+function recolor(color) {
+	//console.log(color);
+	ctx.fillStyle=color;
+	ctx.fill();
+	ctx.closePath();
+}
 canvas.addEventListener('click', function(e) {
-		ctx.arc(e.offsetX,e.offsetY, 6, 0, 2 * Math.PI, false);
+
 		//alert("ayy");
-		ctx.strokeStyle="blue";
-		ctx.stroke();
-		circles.push(
+		//ctx.strokeStyle="blue";
+		//ctx.stroke();
+
+		circles.push(Circ(e.offsetX,e.offsetY,6,ctx));
+		
+		circles[circles.length-1].draw();
+		
+		if (circles.length > 0){
+			var i=Math.floor(Math.random()*circles.length);
+			var color=CSSCOLORS[i];
+			recolor(color);
+			//console.log(color);
+		}
 					 });
+
+
 window.onload=ayy;
