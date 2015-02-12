@@ -17,6 +17,14 @@ ctx.stroke();
 ctx.fill();
 ctx.closePath();
 
+var imageObj = new Image();
+
+imageObj.onload = function() {
+    ctx.drawImage(imageObj, 300, 300);
+};
+imageObj.src = 'static/fish.gif';
+
+  
 function empty() {
     ctx.strokeStyle = "black";
     ctx.fillStyle = "black";
