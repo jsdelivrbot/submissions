@@ -2,4 +2,7 @@ submissions
 ===========
 
 ##Projects
-#### Canvas
+----
+* Canvas
+* SVG
+
