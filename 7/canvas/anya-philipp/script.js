@@ -7,7 +7,7 @@ var BLOCK_SIZE = STREET_SIZE + SPACE_BETWEEN_STREETS;
 
 var STREET_COLOR = "#000000";
 
-var TURN_PROBABILITY = 0.15;
+var TURN_PROBABILITY = 0.25;
 var PERSON_SIZE = (3 / 4) * STREET_SIZE;
 var PERSON_SPEED = 1;
 var INITIAL_INFECTION_PROBABILITY = 0.10;
@@ -41,22 +41,23 @@ var makePerson = function(x,y,w,h,dx,dy, healthStatus, people, ctx) {
             if (this.isOnIntersection()) {
                 var rand = Math.random();
 		//Turn right
-		if (rand < TURN_PROBABILITY){
-		    if (dx == PERSON_SPEED){
-			dx = 0;
-			dy = -PERSON_SPEED;
+		//if (rand < TURN_PROBABILITY){
+		if (true){
+		    if (this.dx == PERSON_SPEED){
+                this.dx = 0;
+                this.dy = -1 * PERSON_SPEED;
 		    }		
-		    else if (dx == -PERSON_SPEED){
-			dx = 0;
-			dy = PERSON_SPEED;
+		    else if (this.dx == -1 * PERSON_SPEED){
+                this.dx = 0;
+                this.dy = PERSON_SPEED;
 		    }
-		    else if (dy == PERSON_SPEED){
-			dy = 0;
-			dx = PERSON_SPEED;
+		    else if (this.dy == PERSON_SPEED){
+                this.dy = 0;
+                this.dx = PERSON_SPEED;
 		    }
-		    else if (dy = -PERSON_SPEED){
-			dy = 0;
-			dx = -PERSON_SPEED;
+		    else if (this.dy == -1 * PERSON_SPEED){
+                this.dy = 0;
+                this.dx = -1 * PERSON_SPEED;
 		    }
 		}	
 		//Turn Left
@@ -65,15 +66,15 @@ var makePerson = function(x,y,w,h,dx,dy, healthStatus, people, ctx) {
 			dx = 0;
 			dy = PERSON_SPEED;
 		    }		
-		    else if (dx == -PERSON_SPEED){
+		    else if (dx == -1 * PERSON_SPEED){
 			dx = 0;
-			dy = -PERSON_SPEED;
+			dy = -1 * PERSON_SPEED;
 		    }
 		    else if (dy == PERSON_SPEED){
 			dy = 0;
-			dx = -PERSON_SPEED;
+			dx = -1 * PERSON_SPEED;
 		    }
-		    else if (dy = -PERSON_SPEED){
+		    else if (dy == -1 * PERSON_SPEED){
 			dy = 0;
 			dx = PERSON_SPEED;
 		    }
@@ -135,7 +136,7 @@ var makePerson = function(x,y,w,h,dx,dy, healthStatus, people, ctx) {
             else if (this.dx == 0 && this.dy < 0) {
                 intersectionFunction = function(intersection) {
                     return this.y > intersection.y && 
-                        this.y + dy >= intersection.y &&
+                        this.y + dy <= intersection.y &&
                         Math.abs(this.x - intersection.x) < STREET_SIZE;
                 };
             }
@@ -143,7 +144,7 @@ var makePerson = function(x,y,w,h,dx,dy, healthStatus, people, ctx) {
             else if (this.dx == 0&& this.dy > 0) {
                 intersectionFunction = function(intersection) {
                     return this.y < intersection.y && 
-                        this.y + dy <= intersection.y &&
+                        this.y + dy >= intersection.y &&
                         Math.abs(this.x - intersection.x) < STREET_SIZE;
                 };
             }
@@ -199,7 +200,11 @@ var makeIntersection = function(x, y, width, height) {
         x : x,
         y : y,
         width : width,
-        height : height
+        height : height,
+        draw : function() {
+            ctx.fillStyle = "#0000ff";
+            ctx.fillRect(this.x, this.y, this.width, this.height);
+        }
     }
 }
 
@@ -219,6 +224,10 @@ var update = function(){
     for (var i = 0; i < people.length; i++) {
         people[i].draw();
     }
+
+    //for (var i = 0; i < gridIntersections.length; i++) {
+    //    gridIntersections[i].draw(); 
+    //}
 
     window.requestAnimationFrame(update);
 }
