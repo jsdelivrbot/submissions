@@ -1,0 +1,28 @@
+var c = document.getElementById("c");
+var ctx = c.getContext("2d");
+
+var makeBlock = function(x,y,w,h,ctx) {
+    return {
+	x : x,
+	y : y,
+	w : w,
+	h : h,
+	ctx : ctx,
+	color : "#ff0000",
+	dx : 1,
+	draw : function() {
+	    ctx.fillStyle = this.color;
+	    ctx.fillRect(this.x,this.y,this.w,this.h);
+	}	
+	
+    };
+};
+
+
+
+var update = function() {
+    
+    
+};
+
+c.addEventListener("mousedown",update);

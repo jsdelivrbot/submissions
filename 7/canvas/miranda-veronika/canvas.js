@@ -1,5 +1,3 @@
-
-
 var vendorUrl = window.URL || window.webkitURL;
 var canvas = document.getElementById('c');
 var ctx = canvas.getContext('2d');
@@ -19,11 +17,20 @@ navigator.getMedia({
 });
 
 
-document.getElementById('capture').addEventListener("click",function(){
-    ctx.drawImage(video,0,0,700,500);
-    
+document.getElementById('capture').addEventListener("click",function(){ 
+    ctx.drawImage(video,0,0, 600,450);
     savedVideo.src = canvas.toDataURL('image/png')
 });
+
+/*
+document.getElementById('add').addEventListener("click",function(){
+    var img = new Image();
+    var imgsrc = document.getElementById('url').value;
+    img.src = imgsrc;
+    ctx.drawImage(img,0,0,700,500);
+    console.log(imgsrc);
+});
+*/ 
 
 
 var lipstick = document.getElementById("lipstick");
@@ -46,13 +53,6 @@ window.onload = function() {
 };
 
 
-clickity = function(){
-    console.log("clickity");
-}
-
-
-
-
 draw = function (e) { 
     ctx.beginPath();
     ctx.arc(e.offsetX, e.offsetY, radius, 0,2*Math.PI);
@@ -60,37 +60,37 @@ draw = function (e) {
 }
 
 lipstick.addEventListener("click",function(e){
-    ctx.fillStyle ="rgba(255, 0, 0, 0.03)";
+    ctx.fillStyle ="rgba(255, 0, 0, 0.02)";
     radius= 7;
-    console.log("Hello World!");
+    //console.log("Hello World!");
 });
 
 eyeshadow.addEventListener("click",function(e){
     ctx.fillStyle ="rgba(0, 100, 255, 0.03)";
     radius =5;
-    console.log("Hello World!");
+    //console.log("Hello World!");
 });
 
 blush.addEventListener("click",function(e){
     ctx.fillStyle ="rgba(200, 0, 0, 0.008)";
     radius =20;
-    console.log("Hello World!");
+    //console.log("Hello World!");
 });
 
 eyeliner.addEventListener("click",function(e){
     ctx.fillStyle ="rgba(0, 0, 0, 0.4)";
     radius =1.5;
-    console.log("Hello World!");
+    //console.log("Hello World!");
 });
 
 
 canvas.addEventListener('mousemove', function(e) {
     if (mouseDown){
-	console.log("drag");
+	//console.log("drag");
 	draw(e);
     }
 });
 clear.addEventListener("click", function() {
-    ctx.drawImage(savedVideo,0,0,700,500);
+    ctx.drawImage(savedVideo,0,0,600,450);
     
 });
