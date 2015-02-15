@@ -2,6 +2,12 @@ var s = document.getElementById("s");
 var sec = document.getElementById("seconds");
 var min = document.getElementById("minutes");
 var hrs = document.getElementById("hours");
+var player = document.getElementById("player");
+var food = null;
+var pause = true;
+var shootout = false;
+var game = false;
+var bonus = 0;
 
 var dist = function(x1,y1,x2,y2){
     return Math.sqrt(Math.pow(x2-x1,2)+Math.pow(y2-y1,2));
@@ -69,12 +75,21 @@ var checkHandOverlap = function(){
     var my = min.getAttribute("y2");
     var hx = hrs.getAttribute("x2");
     var hy = hrs.getAttribute("y2");
-    //console.log(dist(sx,sy,mx,my));
-    if(dist(sx,sy,mx,my)<2.6){
+    var b=false;
+    if(shootout || dist(sx,sy,mx,my)<2.6+bonus || dist(sx,sy,hx,hy)<2.6+bonus){
 	var k = dist(0,0,sx-200.0,sy-200.0);
 	bullet(sx,sy,(sx-200.0)/k,(sy-200.0)/k);
-	//console.log(((sx-200.0)/k)+','+((sy-200.0)/k));
-	//console.log(k);
+	b = true;
+	if (shootout) shootout = false;
+    }
+    if(dist(mx,my,hx,hy)<2.6+bonus){
+	if(b){
+	    shootout = true;
+	}
+	else{
+	    var k = dist(0,0,mx-200.0,my-200.0);
+	    bullet(mx,my,(mx-200.0)/k,(my-200.0)/k);
+	}
     }
 };
 
@@ -92,17 +107,87 @@ var moveBullets = function(){
     }
 };
 
+var updatePlayer = function(e){
+//    if (game){
+	var sRect = s.getBoundingClientRect();
+	player.setAttribute('cx',parseFloat(e.x)-sRect.left);
+	player.setAttribute('cy',parseFloat(e.y)-sRect.top);
+//    }
+};
+
+var checkCollision = function(){
+    var bullets = document.getElementsByClassName("bullet");
+    for (var i=0; i<bullets.length; i++){
+	var x1 = player.getAttribute('cx');
+	var y1 = player.getAttribute('cy');
+	var x2 = bullets[i].getAttribute('cx');
+	var y2 = bullets[i].getAttribute('cy');
+	if(dist(x1,y1,x2,y2)<15){
+	    console.log("DIE");
+	    s.innerHTML = '';
+	    var t = document.createElementNS("http://www.w3.org/2000/svg","text");
+	    t.setAttribute('x',0);
+	    t.setAttribute('y',100);
+	    t.setAttribute('font-size','100');
+	    t.appendChild(document.createTextNode('Score: '+(bonus*10)));
+	    s.appendChild(t);
+	    pause = true;
+	}
+    }
+};
+
+var handleFood = function(){
+    if(food==null){
+	var f = document.createElementNS("http://www.w3.org/2000/svg","circle");
+	var x = Math.random()*400;
+	var y = Math.random()*400;
+	while(dist(x,y,200,200)<60){
+	    x = Math.random()*400;
+	    y = Math.random()*400;
+	}
+	f.setAttribute('cx',x);
+	f.setAttribute('cy',y);
+	f.setAttribute('r',10);
+	f.setAttribute('stroke','green');
+	f.setAttribute('fill','green');
+	food = f;
+	s.appendChild(f);
+    }else{
+	var x1 = player.getAttribute('cx');
+	var y1 = player.getAttribute('cy');
+	var x2 = food.getAttribute('cx');
+	var y2 = food.getAttribute('cy');
+	if (dist(x1,y1,x2,y2)<20){
+	    bonus+=0.1;
+	    console.log(bonus);
+	    s.removeChild(food);
+	    food = null;
+	}
+    }
+};
+
 var go = function(){
+    if (pause) return;
     moveSec();
     moveMin();
     moveHrs();
     checkHandOverlap();
     moveBullets();
+    handleFood();
+    checkCollision();
 };
-/*
-window.setInterval(moveSec,100);
-window.setInterval(moveMin,100);
-window.setInterval(moveHrs,100);
-window.setInterval(moveBullets,100);
- */
+
+window.addEventListener("keydown",function(e){
+    console.log(e.keyCode);
+    switch(e.keyCode){
+    case 32:
+	//pause = false;
+	pause = !pause;
+	game = true;
+	break;
+    }
+});
+
+s.addEventListener("mousemove",updatePlayer);
+
 window.setInterval(go,10);
