@@ -18,12 +18,13 @@ var spawnPirate = function(x,y) {
 	dx: Math.random()+1,
 	draw : function() {
 	    var svgimg = document.createElementNS('http://www.w3.org/2000/svg','image');
-	    svgimg.setAttributeNS(null,'height','900');
-	    svgimg.setAttributeNS(null,'width','200');
+	    svgimg.setAttributeNS(null,'height','50');
+	    svgimg.setAttributeNS(null,'width','50');
 	    svgimg.setAttributeNS('http://www.w3.org/1999/xlink','href', 'pirate.gif');
 	    svgimg.setAttributeNS(null,'x',x);
 	    svgimg.setAttributeNS(null,'y',y);
 	    svgimg.setAttributeNS(null, 'visibility', 'visible');
+	    svgimg.addEventListener('click', pClicked);
 	    s.appendChild(svgimg);
 	},
 	remove : function(){
@@ -45,3 +46,21 @@ var spawnPirate = function(x,y) {
     };
 };
 
+
+var pClicked = function(e){
+    e.preventDefault();
+    console.log("clicked a pirate!");
+}
+
+var addPirate = function(e){
+    var x = Math.random()*width;
+    var y = Math.random()*height;
+    var newP = spawnPirate(x,y);
+    newP.draw();
+    skulls.push(newP);    
+    window.requestAnimationFrame(addPirate);
+};
+
+var p1 = spawnPirate(100,100);
+p1.draw();
+window.requestAnimationFrame(addPirate);
