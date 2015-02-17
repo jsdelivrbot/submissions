@@ -60,10 +60,10 @@ var go = function(e){
 };
         
 var s = document.getElementById("s");
-var p1 = addPlanet(s,150,300,50,'red',10);
+var p1 = addPlanet(s,350,300,50,'red',100);
 p1.create();
-var p2 = addPlanet(s,300,200,50,'blue',10);
+var p2 = addPlanet(s,350,100,20,'blue',10);
 p2.create();
-p1.parent = p2;
 p2.parent = p1;
+p2.dx = -Math.sqrt(100 / 200); //v = sqrt(parent.mass / distance)
 s.addEventListener("click",go);
