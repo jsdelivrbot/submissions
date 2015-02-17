@@ -11,7 +11,6 @@ var getRandColor = function(){
 
 var addBlock = function(s,x,y,w,h){
     console.log(x,y);
-    var c = getRandColor();
     var rec = document.createElementNS("http://www.w3.org/2000/svg","rect");
     rec.setAttribute("x", x);
     rec.setAttribute("y", y);
@@ -19,9 +18,7 @@ var addBlock = function(s,x,y,w,h){
     //rec.setAttribute("ry", 10);
     rec.setAttribute("width", w);
     rec.setAttribute("height", h);
-    rec.setAttribute("fill", "blue");
-    rec.setAttribute("stroke", "black");
-    rec.setAttribute("stroke-width", "2");
+    rec.setAttribute("class", "rect"); //rect class in html file; all blocks should be of similar style
     s.appendChild(rec);
 }
 var addPlayer = function(s,x,y){
@@ -33,7 +30,6 @@ var addPlayer = function(s,x,y){
     cir.setAttribute("r","20");
     cir.setAttribute("fill",c);
     s.appendChild(cir);
-
 }
 addPlayer(svg,30,250);
 addBlock(svg,300,200,60,60);
