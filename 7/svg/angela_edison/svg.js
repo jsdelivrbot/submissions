@@ -4,13 +4,21 @@ var width = 800;
 var height = 800;
 var score = 0;
 var spawnTimer = 0;
-var spawnIt = 10;
+var spawnIt = 30;
 var MAX_HEALTH = 100;
 var playerHealth = 100;
 var skulls = [];
 var s1 = document.getElementById("s1");
 
-
+var scoreThing = function(){
+    var sc = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+    sc.setAttributeNS(null,'x', '700');
+    sc.setAttributeNS(null, 'y', '18');
+    sc.setAttributeNS(null, 'font-size', '20px');
+    sc.setAttributeNS(null, 'fill', "black");
+    sc.textContent = "SCORE: "+score;
+    document.getElementById('s').appendChild(sc);
+}
 var healthBar = function(){
     while (s1.lastChild) {
 	s1.removeChild(s1.lastChild);
@@ -32,6 +40,24 @@ var healthBar = function(){
     document.getElementById('s1').appendChild(rect);
 }
 healthBar();
+scoreThing();
+
+
+//removal of pirates via clicking
+var removePirate = function(e){
+    var x = e.offsetX;
+    var y = e.offsetY;
+    for (var i=0; i < skulls.length; i++){
+	//console.log("skull x:"+skulls[i].x);
+	//console.log("mouse x:"+x);
+	if ((Math.abs(skulls[i].x - x) <= 60) && (Math.abs(skulls[i].y - y) <= 60)){ 
+	    skulls[i].remove();
+	    score = score + 1;
+	} 
+    }
+}
+
+s.addEventListener("click", removePirate);
 
 //spawns a pirate
 var spawnPirate = function(x,y) {
@@ -39,7 +65,9 @@ var spawnPirate = function(x,y) {
 	x : x,
 	y : y,
 	dir: 0,
-	dy: 3,
+	jiggleTime: 20,
+	jiggleCount: 0,
+	dy: 5,
 	dx: Math.random()+1,
 	draw : function() {
 	    var svgimg = document.createElementNS('http://www.w3.org/2000/svg','image');
@@ -49,7 +77,6 @@ var spawnPirate = function(x,y) {
 	    svgimg.setAttributeNS(null,'x',this.x);
 	    svgimg.setAttributeNS(null,'y',this.y);
 	    svgimg.setAttributeNS(null, 'visibility', 'visible');
-	    svgimg.addEventListener('click', pClicked);
 	    s.appendChild(svgimg);
 	},
 	remove : function(){
@@ -57,26 +84,34 @@ var spawnPirate = function(x,y) {
 	    skulls.splice(index, 1);
 	},
 	jiggle : function(){
-	    if (this.dir == 0){
-		this.dir = 1;
-		this.dy = -1;
+	    if(this.jiggleCount == this.jiggleTime){
+		if (this.dir == 0){
+		    this.dir = 1;
+		    this.dy = -5;
+		}
+		else {
+		    this.dir = 0;
+		    this.dy = 5;
+		}
+		this.y = this.y + this.dy;
+		this.jiggleCount = 0;
+		playerHealth = playerHealth - 1;
 	    }
-	    else {
-		this.dir = 0;
-		this.dy = 1;
+	    else{
+		this.jiggleCount = this.jiggleCount + 1;
 	    }
 	},
 	move : function() {
-/*
+
 	    if (this.dir == 0){
 		this.dir = 1;
 		this.dy = -1;
 	    }
 	    else {
 		this.dir = 0;
-		this.dy = 3;
+		this.dy = 5;
 	    }
-*/
+
 	    if (Math.random() > 0.5 && this.x < width - 10){
 		this.x = this.x + this.dx;	    
 	    }
@@ -91,12 +126,36 @@ var spawnPirate = function(x,y) {
     };
 };
 
-var pClicked = function(e){
-    e.preventDefault();
-    console.log("clicked a pirate!");
-    playerHealth = playerHealth - 10;
-    if (playerHealth > 0)
+var update = function(){
+    while (s.lastChild) {
+	s.removeChild(s.lastChild);
+    }
+    if (playerHealth > 0){
 	healthBar();
+	scoreThing();
+    
+	for (var i = 0; i < skulls.length; i++){
+	    if (skulls[i].y > height - 60){
+		
+		//make jiggle
+		skulls[i].jiggle();
+		skulls[i].draw();
+	    }
+	    else {
+		skulls[i].move();
+		skulls[i].draw();
+	    }
+	}
+	if (spawnTimer != spawnIt){
+	    spawnTimer = spawnTimer + 1;
+	}
+	else{
+	    skulls.push(spawnPirate(Math.random() * 760 + 10,0));
+	    spawnTimer = 0;
+	}
+	
+	window.requestAnimationFrame(update);
+    }
     else { 
 	//draw game over screen
 	while (s1.lastChild) {
@@ -109,31 +168,6 @@ var pClicked = function(e){
 }
 
 
-var update = function(){
-    for (var i = 0; i < skulls.length; i++){
-	if (skulls[i].y > height - 10){
-	    //make disappear
-	    playerHealth = playerHealth - 1;
-	    //make jiggle
-	    skulls[i].jiggle();
-	}
-	else {
-	    skulls[i].move();
-	    skulls[i].draw();
-	}
-    }
-    if (spawnTimer != spawnIt){
-	spawnTimer = spawnTimer + 1;
-    }
-    else{
-	skulls.push(spawnPirate(Math.random() * 760 + 10,0));
-	spawnTimer = 0;
-    }
-  
-    window.requestAnimationFrame(update);
-}
-
-
 
 var addPirate = function(e){
     if (playerHealth > 0){
@@ -141,8 +175,7 @@ var addPirate = function(e){
 	var y = Math.random()*2;
 	var newP = spawnPirate(x,y);
 	newP.draw();
-	skulls.push(newP);    
-	window.requestAnimationFrame(addPirate);
+	skulls.push(newP);
     }
 };
 
