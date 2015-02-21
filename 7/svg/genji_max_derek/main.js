@@ -85,10 +85,10 @@ var pushText = function(text, begin, end){
 	    var factor = t/10000 + 1
 	    var newx = 450 * (factor-1)
 	    var newy = 500 * (factor-1)
-	    //translate(-centerX*(factor-1), -centerY*(factor-1))
-	    return 'rotate(' +  t/100 + ' 400 250) ' + 'translate(-' + newx + ', -' + newy + ') ' +  'scale(' + factor +')'}
-	
-    }, text)
+	    return 'rotate(' +  t/100 + ' 400 250) ' + 'translate(-' + newx + ', -' + newy + ') ' +  'scale(' + factor +')'
+	    },
+	'fill': function(t){ return 'rgb(' + Math.floor(Math.random()*100 + 127) + ', ' + Math.floor(t/10+ 70)  + ', ' + Math.floor(Math.random()*100 + 127) + ')'}
+	}, text)
     return anim
 }
 
@@ -111,78 +111,10 @@ var init = function() {
 	'cx'		: function(t){ return 300 + (t/100) },
 	'cy'		: function(t){ return 300 + (t/100) }	
     }));
-    /*
-    animations.push( new Animation("text", 0,4700, {
 
-	'x': 400,
-	'y': 250,
-	'theta': 0,
-	'fill': 'green',
-	'font-size': '20px',
-	'text-anchor': 'middle',
-	'font-family': 'sans-serif',
-	'transform': 'rotate(0) scale(0)' //I feel so bad for doing this
-    }, {
-	//'x': function(t){ return 100 + (t/100)},
-	//'y': function(t){ return 100 + (t/100)},
-	'transform': function(t){ 
-	    var factor = t/10000 + 1
-	    var newx = 450 * (factor-1)
-	    var newy = 500 * (factor-1)
-	    //translate(-centerX*(factor-1), -centerY*(factor-1))
-	    return 'rotate(' +  t/100 + ' 400 250) ' + 'translate(-' + newx + ', -' + newy + ') ' +  'scale(' + factor +')'}
-	
-    }, 'Cause You got that James Dean day dream look in your eye'));
-    
-    animations.push( new Animation("text", 4750, 9100, {
-
-	'x': 400,
-	'y': 250,
-	'theta': 0,
-	'fill': 'green',
-	'font-size': '20px',
-	'text-anchor': 'middle',
-	'font-family': 'sans-serif',
-	'transform': 'rotate(0) scale(0)' //I feel so bad for doing this
-    }, {
-	//'x': function(t){ return 100 + (t/100)},
-	//'y': function(t){ return 100 + (t/100)},
-	'transform': function(t){ 
-	    var factor = t/10000 + 1
-	    var newx = 450 * (factor-1)
-	    var newy = 500 * (factor-1)
-	    //translate(-centerX*(factor-1), -centerY*(factor-1))
-	    return 'rotate(' +  t/100 + ' 400 250) ' + 'translate(-' + newx + ', -' + newy + ') ' +  'scale(' + factor +')'}
-	
-    }, 'And I got that red lip classic thing that you like'));
-
-    animations.push( new Animation("text", 9150, 13510, {
-
-	'x': 400,
-	'y': 250,
-	'theta': 0,
-	'fill': 'green',
-	'font-size': '20px',
-	'text-anchor': 'middle',
-	'font-family': 'sans-serif',
-	'transform': 'rotate(0) scale(0)' //I feel so bad for doing this
-    }, {
-	//'x': function(t){ return 100 + (t/100)},
-	//'y': function(t){ return 100 + (t/100)},
-	'transform': function(t){ 
-	    var factor = t/10000 + 1
-	    var newx = 450 * (factor-1)
-	    var newy = 500 * (factor-1)
-	    //translate(-centerX*(factor-1), -centerY*(factor-1))
-	    return 'rotate(' +  t/100 + ' 400 250) ' + 'translate(-' + newx + ', -' + newy + ') ' +  'scale(' + factor +')'}
-	
-    }, 'And when we go crashing down, we come back every time.'));
-
-    */
     animations.push(pushText('Cause You got that James Dean day dream look in your eye', 0, 4700));
     animations.push(pushText('And I got that red lip classic thing that you like', 4750, 9100));
     animations.push(pushText('And when we go crashing down, we come back every time', 9150, 13510));
-
     animations.push(pushText('Cause we never go out of style', 13710, 15900));
     animations.push(pushText('We never go out of style', 16100, 17890));
     animations.push(pushText('You got that long hair, slicked back, white t-shirt.', 18010, 22610));
