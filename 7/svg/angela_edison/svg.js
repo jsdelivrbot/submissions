@@ -42,7 +42,39 @@ var healthBar = function(){
 healthBar();
 scoreThing();
 
+var gameOver = function(){
+    var rect = document.createElementNS('http://www.w3.org/2000/svg','rect');
+    rect.setAttributeNS(null,'x',0);
+    rect.setAttributeNS(null,'y',0);
+    rect.setAttributeNS(null,'height',height);
+    rect.setAttributeNS(null,'width',width);
+    rect.setAttributeNS(null,'fill','RED');
+    document.getElementById('s').appendChild(rect);
 
+    var gg = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+    gg.setAttributeNS(null,'x','40');
+    gg.setAttributeNS(null,'y','200');
+    gg.setAttributeNS(null,'font-size', '250px');
+    gg.setAttributeNS(null,'fill',"black");
+    gg.textContent = "GAME";
+    document.getElementById('s').appendChild(gg);
+
+    var gg1 = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+    gg1.setAttributeNS(null,'x','40');
+    gg1.setAttributeNS(null,'y','470');
+    gg1.setAttributeNS(null,'font-size', '250px');
+    gg1.setAttributeNS(null,'fill',"black");
+    gg1.textContent = "OVER";
+    document.getElementById('s').appendChild(gg1);
+
+    var ggscore = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+    ggscore.setAttributeNS(null,'x','40');
+    ggscore.setAttributeNS(null,'y','740');
+    ggscore.setAttributeNS(null,'font-size','150px');
+    ggscore.setAttributeNS(null,'fill',"black");
+    ggscore.textContent = "SCORE: " + score;
+    document.getElementById('s').appendChild(ggscore);
+}
 //removal of pirates via clicking
 var removePirate = function(e){
     var x = e.offsetX;
@@ -164,6 +196,7 @@ var update = function(){
 	while (s.lastChild) {
 	    s.removeChild(s.lastChild);
 	}
+	gameOver();
     }
 }
 
