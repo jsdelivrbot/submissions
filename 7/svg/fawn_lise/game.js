@@ -1,5 +1,11 @@
 var svg = document.getElementById("c");
-
+var stripPX = function(pixc){
+    return parseInt(pixc.slice(0,-2));
+}
+var svgStyle = window.getComputedStyle(svg);
+var maxx = stripPX(svgStyle.width);
+var maxy = stripPX(svgStyle.height);
+console.log(maxx,maxy);
 
 var getRandColor = function(){
     var letters = "0123456789ABCDEF".split('');
@@ -9,21 +15,17 @@ var getRandColor = function(){
     }
     return color;
 };
-var stripPX = function(pixc){
-    return pixc.slice(0,-2);
-}
-var svgStyle = window.getComputedStyle(svg);
-var maxx = stripPX(svgStyle.width);
-var maxy = stripPX(svgStyle.height);
-console.log(maxx,maxy);
+
 var buildBlock = function(s,x,y,w,h){
     var rec = document.createElementNS("http://www.w3.org/2000/svg","rect");
+    var remove = false;
     return {
 	x:x,
 	y:y,
 	w:w,
 	h:h,
 	s:s,
+	dx:30,
 	draw:function(){
 	   // console.log(this.x,this.y);
 	    
@@ -39,10 +41,17 @@ var buildBlock = function(s,x,y,w,h){
 	},
 	move:function(){
 	    //figure out algorithm to adjust movements of block
-	    this.x += 1;
+	    this.x += this.dx;
+	    console.log(maxx, this.x);
+	    
+	    if (x >= maxx){
+		this.s.removeChild(rec);
+		remove = true;
+		
+	    }
 	    
 	},
-
+	remove:remove,
 	node:rec,
 
     }
@@ -54,7 +63,7 @@ var addPlayer = function(s,x,y){
 	s:s,
 	x:x,
 	y:y,
-	dy:2,
+	dy:6,
 	draw:function(){
 	    var c = getRandColor();
 
@@ -67,7 +76,7 @@ var addPlayer = function(s,x,y){
 	move:function(){
 	  //figure out algorithm to adjust movements of block
 	    if (this.y <15 || this.y > maxy-15){
-		this.dy*= -1;
+		this.dy *= -1;
 	    }
 	    this.y = this.y + this.dy;	
 	   // console.log(this.y);
@@ -77,7 +86,7 @@ var addPlayer = function(s,x,y){
     }
 }
 
-/* fix block movement */
+/* fix block AND player movement */
 var player = addPlayer(svg,30,250);
 var blocks = [];
 
@@ -85,7 +94,13 @@ var spawnBlock = function(s,x,y,w,h){
     //console.log("listening");
     blocks.push(buildBlock(s,x,y,w,h));
 }
-
+var flipGravity = function(e ){
+    if (e.keyCode == 32){
+	console.log("SpaceBar hit");
+	//flip gravity of player here
+	spawnBlock(svg,20,40,60,60);
+    }
+}
 var update = function(){
     //clear screen by clearing svg
     var fnode = svg.firstChild;
@@ -98,14 +113,26 @@ var update = function(){
     player.draw();
     //console.log(player);
     // adds all blocks
+    var removeindex = [];
     for (var i = 0; i < blocks.length; i++){
 	blocks[i].move();
 	blocks[i].draw();
+	if (blocks[i].remove){
+	    console.log("removable");
+	    removeindex.push(i);
+	}
+    }
+//bug here -> blocks not removing themselves when they go off screen 
+    for (var ind = removeindex.length-1; ind >=0; ind--){
+	blocks.splice(removeindex[ind]);
     }
     //console.log("animation now");
+console.log(blocks.length);
     window.requestAnimationFrame(update);
 }
-spawnBlock(svg,300,200,60,60);
-svg.addEventListener("mousemove",spawnBlock(svg,20,200,60,60));
+spawnBlock(svg,20,270,60,60);
+//document.addEventListener("click",spawnBlock(svg,20,40,60,60));  // <- doesnt work but doesnt matter
+
+document.addEventListener("keyup",flipGravity);
 
 window.requestAnimationFrame(update);
