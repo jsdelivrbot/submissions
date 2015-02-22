@@ -39,7 +39,7 @@ var buildBlock = function(s,x,y,w,h){
 	move:function(){
 	    //figure out algorithm to adjust movements of block
 	    this.x += this.dx;
-	    if (this.x+this.w < 0){
+	    if (this.x+this.w < -10){
 		//this.s.parentNode.removeChild(rec);   //if child is of screen, element is deleted from svg
 		this.remove = true; // send boolean so we can remove this block from block list
 	    }
@@ -111,7 +111,6 @@ var flipGravity = function(e ){
 	if (player.state == 2) {
 		player.state = 3;
 	}
-//	spawnBlock(svg,20,40,60,60);
     }
 }
 var update = function(){
@@ -131,15 +130,13 @@ var update = function(){
 	blocks[i].draw();
 	if (blocks[i].remove){
 	    // push index to remove list if block is out of position
-	    console.log("here",removeindex);
 	    removeindex.push(i);
 	}
 	    //window.cancelAnimationFrame(update);
     }
-    console.log(removeindex);
     //remove all removable blocks from block list
     for (var ind = removeindex.length; ind >0; ind--){
-//	console.log(blocks);
+	console.log(blocks.length);
 	blocks.splice(removeindex[ind],1);
     }
       // console.log(blocks.length);
@@ -151,8 +148,8 @@ var update = function(){
 var initialize = function(){
     window.addEventListener("load",function(e){
 	var randy = Math.random()*50;
-		spawnBlock(svg,maxx,maxy-randy,maxx,randy+10);
-		spawnBlock(svg,maxx,0,maxx,60);
+	spawnBlock(svg,maxx,maxy-randy,maxx,randy+50);
+	spawnBlock(svg,maxx,0,maxx,60);
 	
     });
 }
@@ -167,14 +164,13 @@ var pausescreen = function(e){
     });
 }
 var setmovingBlocks = function(e){
-    console.log("here");
     setInterval(function(){
-	var randy = Math.random()*100 +40;
-	var randw = Math.random()*100 +50;
-	var randw2 = Math.random()*100 +50;
-	spawnBlock(svg,maxx,maxy-randy,randw,randy+0);
+	var randy = 40;
+	var randw =450;
+	var randw2 = randw - 50;
 	spawnBlock(svg,maxx,0,randw2,60);
-    },1000)
+	spawnBlock(svg,maxx,maxy-randy,randw,randy);
+    },700)
 };
 initialize();
 svg.addEventListener("onmouseover",setmovingBlocks());
