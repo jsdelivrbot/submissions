@@ -62,6 +62,8 @@ var addPlayer = function(s,x,y){
 	x:x,
 	y:y,
 	dy:6,
+	//0=moving along bottom, 1=switching to top, 2=moving along top, 3=switching to bottom
+	state:0,
 	draw:function(){
 	    var c = getRandColor();
 
@@ -72,12 +74,26 @@ var addPlayer = function(s,x,y){
 	    this.s.appendChild(cir);
 	},
 	move:function(){
-	  //figure out algorithm to adjust movements of block
-	    if (this.y <15 || this.y > maxy-15){
-		this.dy *= -1;
-	    }
-	    this.y = this.y + this.dy;	
-	   // console.log(this.y);
+	   	if (this.state == 0) {
+	   		this.y = maxy-15;
+	   	}
+	   	else if (this.state == 1) {
+	   		this.y = this.y - this.dy;
+	   		//fix if statements to detect blocks
+	   		if (this.y < 15){
+	   			this.state = 2;
+	   		}
+	   	}
+	   	else if (this.state == 2) {
+	   		this.y = 15;
+	   	}
+	   	else if (this.state == 3) {
+	   		this.y = this.y + this.dy;
+	   		//fix if statements to detect blocks
+	   		if (this.y > maxy-15){
+	   			this.state = 0;
+	   		}
+	   	}
 	},
 	node:cir,
 
@@ -85,7 +101,7 @@ var addPlayer = function(s,x,y){
 }
 
 /* fix block AND player movement */
-var player = addPlayer(svg,30,250);
+var player = addPlayer(svg,30,maxy-15);
 var blocks = [];
 
 var spawnBlock = function(s,x,y,w,h){
@@ -96,6 +112,12 @@ var flipGravity = function(e ){
     if (e.keyCode == 32){
 	console.log("SpaceBar hit");
 	//flip gravity of player here
+	if (player.state == 0) {
+		player.state = 1;
+	}
+	if (player.state == 2) {
+		player.state = 3;
+	}
 	spawnBlock(svg,20,40,60,60);
     }
 }
@@ -135,8 +157,8 @@ var update = function(){
 var initialize = function(){
     window.addEventListener("load",function(e){
 	var randy = Math.random()*50;
-	spawnBlock(svg,maxx,maxy-randy,60,randy+10);
-	spawnBlock(svg,maxx,0,60,60);
+		spawnBlock(svg,maxx,maxy-randy,60,randy+10);
+		spawnBlock(svg,maxx,0,60,60);
 	
     });
 }
