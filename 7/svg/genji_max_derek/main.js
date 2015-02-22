@@ -2,6 +2,18 @@ var media = document.getElementById("style-ts"),
 	reset = document.getElementById("reset"),
 	timber = document.getElementById("timber"),
 	s = document.getElementById("svg"),
+	s1 = document.getElementById("svg1"),
+	wave1 = document.getElementById("wave1"),
+	streak1 = document.getElementById("streak1"),
+	streak2 = document.getElementById("streak2"),
+	glow1 = document.getElementById("glow1"),
+	glow2 = document.getElementById("glow2"),
+	two = document.getElementById("two"),
+	redglow = "#FF5050",
+	redglow2 = "#FF0808",
+	color_r = 15,
+	color_g = 20,
+	offset = 18,
 	animations = [],
 	time = 0,
 	colors = [
@@ -30,13 +42,15 @@ var MEDIA_LENGTH = 18800;
  *	animation
  *		JSON object. Keys are the shape values to change, values are single-variable functions.
  */
-function Animation(shape, start, end, init, animation, text) {	
+function Animation(shape, start, end, init, animation, text) {
 	var o = document.createElementNS("http://www.w3.org/2000/svg", shape);
 	start = start?start:0;
 	end = end?end:MEDIA_LENGTH;
 	var BUFFER = 15;
+	s.appendChild(s1);
 
 	this.animate = function(time) {
+
 		if ( Math.abs(time-start)<BUFFER) {
 			for (attr in init) {
 				o.setAttribute(attr, init[attr]);
@@ -46,6 +60,7 @@ function Animation(shape, start, end, init, animation, text) {
 				o.appendChild(node);
 			}
 			s.appendChild(o);
+
 		} else if( time >= start && time < end ) {
 			for (attr in animation) {
 				o.setAttribute(attr, animation[attr](time-start));
@@ -55,12 +70,12 @@ function Animation(shape, start, end, init, animation, text) {
 		}
 	}
 
-	this.destroy = function() { 
+	this.destroy = function() {
 
-
-		console.log(o);
+		//console.log(s);
+		//console.log(o);
 		try{
-			s.removeChild(o); 	    
+			s.removeChild(o);
 		} catch (err) {}
 		var index;
 		index = animations.indexOf(this);
@@ -70,7 +85,7 @@ function Animation(shape, start, end, init, animation, text) {
 	}
 }
 
-/* 
+/*
  * Reset/init function for the js code.
  * Create the animation code here.
  */
@@ -102,7 +117,7 @@ function burst(startx, starty, cx, cy, fill, r, k) {
 	'fill'		: fill,
 	'r'			: r
 	}, {
-		'r'			: function(t){ return Math.abs(r + (-Math.pow(t,2)+(cy-cx)*t)/k); } 
+		'r'			: function(t){ return Math.abs(r + (-Math.pow(t,2)+(cy-cx)*t)/k); }
 	}));
 }
 function smBurst(startx, cx, cy, fill) {
@@ -124,12 +139,12 @@ function pushText(text, begin, end){
 		'fill': 'green',
 		'font-size': '20px',
 		'text-anchor': 'middle',
-		'font-family': 'sans-serif',
+		'font-family': '"Architects Daughter", "Tangerine", "Avant Garde", sans-serif',
 		'transform': 'rotate(0) scale(0)' //I feel so bad for doing this
 	}, {
 		//'x': function(t){ return 100 + (t/100)},
 		//'y': function(t){ return 100 + (t/100)},
-		'transform': function(t){ 
+		'transform': function(t){
 			var factor = t/10000 + 1;
 			var newx = 450 * (factor-1);
 			var newy = 500 * (factor-1);
@@ -152,24 +167,27 @@ var start = function(e) {
 		console.log("Initializing animations");
 		///////////// Beats by Genji //////////////////////
 
+		console.log(s1);
+		s1.style.zIndex = "-100";
+
 		for(var i=0; i<7; i++) {
-			// Main beats	
+			// Main beats
 			var mainBeatColor = randColor();
 			lgBurst(1100+(i*2300),600,120,mainBeatColor);
-			mdBurst(1700+(i*2300),600,380,mainBeatColor); 
-			mdBurst(2300+(i*2300),200,380,mainBeatColor); 
-			mdBurst(2900+(i*2300),200,120,mainBeatColor); 
-			
+			mdBurst(1700+(i*2300),600,380,mainBeatColor);
+			mdBurst(2300+(i*2300),200,380,mainBeatColor);
+			mdBurst(2900+(i*2300),200,120,mainBeatColor);
+
 			// Offbeats
-			smBurst(1400+(i*2300),Math.random()*800,Math.random()*500,randColor()); 
-			smBurst(1550+(i*2300),Math.random()*800,Math.random()*500,randColor()); 	
-			smBurst(2000+(i*2300),Math.random()*800,Math.random()*500,randColor()); 
-			smBurst(2150+(i*2300),Math.random()*800,Math.random()*500,randColor()); 
-			smBurst(2600+(i*2300),Math.random()*800,Math.random()*500,randColor()); 
-			smBurst(2750+(i*2300),Math.random()*800,Math.random()*500,randColor()); 
-			smBurst(2900+(i*2300),Math.random()*800,Math.random()*500,randColor()); 
-			smBurst(3200+(i*2300),Math.random()*800,Math.random()*500,randColor()); 
-			smBurst(3350+(i*2300),Math.random()*800,Math.random()*500,randColor());	
+			smBurst(1400+(i*2300),Math.random()*800,Math.random()*500,randColor());
+			smBurst(1550+(i*2300),Math.random()*800,Math.random()*500,randColor());
+			smBurst(2000+(i*2300),Math.random()*800,Math.random()*500,randColor());
+			smBurst(2150+(i*2300),Math.random()*800,Math.random()*500,randColor());
+			smBurst(2600+(i*2300),Math.random()*800,Math.random()*500,randColor());
+			smBurst(2750+(i*2300),Math.random()*800,Math.random()*500,randColor());
+			smBurst(2900+(i*2300),Math.random()*800,Math.random()*500,randColor());
+			smBurst(3200+(i*2300),Math.random()*800,Math.random()*500,randColor());
+			smBurst(3350+(i*2300),Math.random()*800,Math.random()*500,randColor());
 		}
 
 		//////////// Lyrics by Max ////////////////////////
@@ -192,13 +210,16 @@ var start = function(e) {
 
 var log = function(e) {
 	e.preventDefault();
-	console.log("Time: " + time);
-	console.log("Animations stored: " + animations.length);
+	//console.log("Time: " + time);
+	//console.log("Animations stored: " + animations.length);
 };
 
 
 var go = function() {
 	time = 0;
+	color_r = 15,
+	color_g = 20,
+	offset = 18,
 
 	interval = setInterval(function(){
 		for (anim in animations) {
@@ -206,6 +227,35 @@ var go = function() {
 		}
 		time+=10;
 		//console.log("Time: "+time);
+
+		if(time % 6000 == 0){
+			color_r+=3;
+			color_g+=2;
+			offset-=4;
+			console.log(wave1);
+			wave1.setAttribute("offset",offset + "%");
+			wave1.setAttribute("stop-color","#"+color_r + color_g+"48");
+		}
+
+		if(time % 1100 == 0){
+			console.log(streak1);
+			streak1.setAttribute("stop-color", redglow);
+			streak2.setAttribute("stop-color", redglow2);
+			glow1.setAttribute("stop-color", redglow);
+			glow2.setAttribute("stop-color", redglow2);
+			//two.setAttribute("fill", "");
+			//two.setAttribute("style", "");
+		}
+
+		if(time % 1100 == 0 && time % 2200 != 0){
+			console.log(streak1);
+			streak1.setAttribute("stop-color", "#1063ca");
+			streak2.setAttribute("stop-color", "#1ced75");
+			glow1.setAttribute("stop-color", "#49F191" );
+			glow2.setAttribute("stop-color", "#1ced75");
+			//two.setAttribute("fill", "url(#streak)");
+			//two.setAttribute("style", "filter: url(#blur1);");
+		}
 
 		if(time>=MEDIA_LENGTH) {
 			clearInterval(interval);
