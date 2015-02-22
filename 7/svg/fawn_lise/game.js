@@ -166,7 +166,8 @@ var pausescreen = function(e){
 var setmovingBlocks = function(e){
     setInterval(function(){
 	var randy = 40;
-	var randw =450;
+	var randw =450;// replace with Math.random * n to fix uniform platforms
+	//algorithm fix needed here - player may be destined to lose in some instances
 	var randw2 = randw - 50;
 	spawnBlock(svg,maxx,0,randw2,60);
 	spawnBlock(svg,maxx,maxy-randy,randw,randy);
