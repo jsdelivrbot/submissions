@@ -28,30 +28,24 @@ var buildBlock = function(s,x,y,w,h){
 	s:s,
 	dx:-8,
 	draw:function(){
-	   // console.log(this.x,this.y);
-	    
 	    rec.setAttribute("x", this.x);
 	    rec.setAttribute("y", this.y);
-	    //rec.setAttribute("rx", 10); //round corners
-	    //rec.setAttribute("ry", 10);
 	    rec.setAttribute("width", this.w);
 	    rec.setAttribute("height", this.h);
 	    //rect class in html file; all blocks should be of similar style
-	    rec.setAttribute("class", "rect"); 
+	     rec.setAttribute("class", "rect"); 
 	    this.s.appendChild(rec);
 	},
 	move:function(){
 	    //figure out algorithm to adjust movements of block
 	    this.x += this.dx;
-	    if (this.x < 0){
+	    if (this.x+this.w < 0){
 		//this.s.parentNode.removeChild(rec);   //if child is of screen, element is deleted from svg
 		this.remove = true; // send boolean so we can remove this block from block list
 	    }
-	    
 	},
 	remove:remove,
 	node:rec,
-
     }
 }
 var addPlayer = function(s,x,y){
@@ -105,8 +99,7 @@ var player = addPlayer(svg,30,maxy-15);
 var blocks = [];
 
 var spawnBlock = function(s,x,y,w,h){
-    //console.log("listening");
-    blocks.push(buildBlock(s,x,y,w,h));
+       blocks.push(buildBlock(s,x,y,w,h));
 }
 var flipGravity = function(e ){
     if (e.keyCode == 32){
@@ -118,7 +111,7 @@ var flipGravity = function(e ){
 	if (player.state == 2) {
 		player.state = 3;
 	}
-	spawnBlock(svg,20,40,60,60);
+//	spawnBlock(svg,20,40,60,60);
     }
 }
 var update = function(){
@@ -138,17 +131,18 @@ var update = function(){
 	blocks[i].draw();
 	if (blocks[i].remove){
 	    // push index to remove list if block is out of position
-	    console.log(removeindex);
+	    console.log("here",removeindex);
 	    removeindex.push(i);
 	}
+	    //window.cancelAnimationFrame(update);
     }
+    console.log(removeindex);
     //remove all removable blocks from block list
     for (var ind = removeindex.length; ind >0; ind--){
-	console.log(blocks);
-	blocks.splice(removeindex[ind]);
+//	console.log(blocks);
+	blocks.splice(removeindex[ind],1);
     }
-    //console.log("animation now");
-    console.log(blocks.length);
+      // console.log(blocks.length);
     window.requestAnimationFrame(update);
 }
 
@@ -157,19 +151,33 @@ var update = function(){
 var initialize = function(){
     window.addEventListener("load",function(e){
 	var randy = Math.random()*50;
-		spawnBlock(svg,maxx,maxy-randy,60,randy+10);
-		spawnBlock(svg,maxx,0,60,60);
+		spawnBlock(svg,maxx,maxy-randy,maxx,randy+10);
+		spawnBlock(svg,maxx,0,maxx,60);
 	
     });
 }
-document.addEventListener("mousemove",function(e){
+/* pause screen doesnt work right now */
+var pausescreen = function(e){
+    //svg.removeEventListener("onmouseover",setmovingBlocks());
+    window.cancelAnimationFrame(update);
+    console.log("paused??");
+//    document.removeEventListener("click",pausescreen);
+    document.addEventListener("click",function(e){
+	//window.requestAnimationFrame(update);
+    });
+}
+var setmovingBlocks = function(e){
+    console.log("here");
     setInterval(function(){
-	var randy = Math.random()*100 +20;
-	var randw = Math.random()*100 +20;
-	var randw2 = Math.random()*100 +20;
+	var randy = Math.random()*100 +40;
+	var randw = Math.random()*100 +50;
+	var randw2 = Math.random()*100 +50;
 	spawnBlock(svg,maxx,maxy-randy,randw,randy+0);
 	spawnBlock(svg,maxx,0,randw2,60);
-    },800)
-});
+    },1000)
+};
+initialize();
+svg.addEventListener("onmouseover",setmovingBlocks());
+document.addEventListener("click",pausescreen);  // temporary... doesnt stop the animation
 document.addEventListener("keyup",flipGravity);
 window.requestAnimationFrame(update);
