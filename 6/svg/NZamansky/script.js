@@ -15,17 +15,16 @@ svg.appendChild(p);
 var addFish = function(){
     var newFish = document.createElementNS("http://www.w3.org/2000/svg","ellipse");
     newFish.setAttribute('class','fish');
-    console.log(newFish.className);
     if(Math.random()<0.5){
 	newFish.setAttribute('cx',0);
-	newFish.setAttribute('speed',Math.random()*4+1);
+	newFish.setAttribute('speed',Math.random()*2+1);
     }
     else{
 	newFish.setAttribute('cx',400);
-	newFish.setAttribute('speed',Math.random()*4-5);
+	newFish.setAttribute('speed',Math.random()*2-3);
     }
     newFish.setAttribute('cy',Math.random()*400);
-    var size = Math.random()*player.size*2;
+    var size = Math.random()*player.size*1.5;
     newFish.setAttribute('rx',size*2);
     newFish.setAttribute('ry', size);
     newFish.setAttribute('fill','#0000FF');
@@ -33,24 +32,67 @@ var addFish = function(){
 }
 
 var moveFish = function(){
+	var score = document.getElementById('score');
+	score.innerHTML = "SCORE: "+player.size;
+	if(Math.random() < 0.01 * player.size){
+		addFish();
+	}
     var fishes = document.getElementsByClassName('fish');
-    console.log[fishes];
     for (var i=0; i<fishes.length; i++){
 	var x = parseFloat(fishes[i].getAttribute('cx'));
+	var y = parseFloat(fishes[i].getAttribute('cy'));
+	var size = parseFloat(fishes[i].getAttribute('ry'));
 	var speed = parseFloat(fishes[i].getAttribute('speed'));
 	x = x+speed;
-	console.log(speed);
 	fishes[i].setAttribute('cx',x);
+
+	if (Math.abs(x-player.x) < player.size + size && Math.abs(y-player.y) < player.size/2 + size/2){
+		if (size <= player.size){
+			player.size = player.size + size/4;
+			p.setAttribute('ry',player.size);
+			p.setAttribute('rx',player.size*2);
+			fishes[i].remove();
+		}
+		else{
+			var gameOver = document.createElementNS("http://www.w3.org/2000/svg","circle");		
+			gameOver.setAttribute('cx',200);
+			gameOver.setAttribute('cy',200);
+			gameOver.setAttribute('r',400);
+			gameOver.setAttribute('fill','#FF0000');
+			svg.appendChild(gameOver);
+
+			score.innerHTML = "GAME OVER: SCORE: "+player.size;
+			window.clearInterval(t);
+		}
+	}
+
+	if (x < 0 || x > 400){
+		fishes[i].remove();
+	}
     }
 };
 
-var go = function(e){
-    e.preventDefault();
-    var t = setInterval(moveFish(),100);
-};
+var t = window.setInterval(function(){moveFish();},20);
 
-addFish();
-addFish();
-addFish();
+document.onkeydown = checkKey;
 
-moveFish();
+function checkKey(e) {
+    e = e || window.event;
+    if (e.keyCode == '38' && player.y > 0) {
+        player.y = player.y - 3;
+		p.setAttribute('cy',player.y);
+    }
+    else if (e.keyCode == '40' && player.y < 400) {
+        player.y = player.y + 3;
+		p.setAttribute('cy',player.y);
+    }
+    else if (e.keyCode == '37' && player.x > 0) {
+        player.x = player.x - 3;
+		p.setAttribute('cx',player.x);
+    }
+    else if (e.keyCode == '39' && player.x < 400) {
+        player.x = player.x + 3;
+		p.setAttribute('cx',player.x);
+    }
+
+}
