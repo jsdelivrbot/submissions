@@ -5,6 +5,27 @@
   </style>
 </head>
 <body>
+
+<form>
+<h3>Choose a Shape:</h3>
+<input type="radio" name="shape" id="shape_circle" value="circle" checked>Circle
+ <input type="radio" name="shape" id="shape_square" value="square">Square
+
+<h3>Choose a Color:</h3>
+<input type="radio" id="color_red" name="color" value="red" checked>Red
+ <input type="radio" id="color_green" name="color" value="green">Green
+ <input type="radio" id="color_blue" name="color" value="blue">Blue
+
+<h3>Width:
+<input type="text" id="width">
+</h3>
+
+
+</form>
+
+<hr>
+
+<h3>Now Click Where You want it!</h3>
 <svg class="where" id="s" height=400 width=400>
 </svg>
 <script src="svg.js"></script>
