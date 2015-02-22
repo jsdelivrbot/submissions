@@ -2,6 +2,7 @@
 <html>
 	<head>
 		<link rel="stylesheet" href="style.css" type="text/css">
+		<link href='http://fonts.googleapis.com/css?family=Architects+Daughter' rel='stylesheet' type='text/css'>
 		<style>
 			#svg {border: 1px solid;}
 		</style>
@@ -9,47 +10,51 @@
 	<body>
 		<br>
 		<center>
+			<!-- //////////// Background SVG by Derek //////////////////////// -->
 			<svg class="svg" id="svg" width="800px" height="500px" viewBox = "0 0 800 500">
+				<g id="svg1" style="z-index: -100;">
 			<!-- <circle id="c1" cx=100 cy=100 r=10 fill="red"></circle> -->
 			<linearGradient id="bg" x1="0" y1="0" x2="0" y2="100%">
 			<stop offset="0%" stop-color="#09123f" />
-			<stop offset="20%" stop-color="#152048" />
+			<stop id = "wave1" offset="18%" stop-color="#152048" />
 			<stop offset="75%" stop-color="#1e2e67" />
 			</linearGradient>
 			<rect x="0" y="0" width="100%" height="100%" fill= "url(#bg)"/>
 
-
 			<linearGradient id="streak" x1="0" y1="0" x2="0" y2="100%">
-			<stop offset="0%" stop-color="#1063ca" />
-			<stop offset="90%" stop-color="#1ced75" />
+			<stop id="streak1" offset="0%" stop-color="#1063ca" />
+			<stop id="streak2"  offset="90%" stop-color="#1ced75" />
 
 			</linearGradient>
 
 			<linearGradient id="glow" x1="0" y1="0" x2="0" y2="100%">
-			<stop offset="0%" stop-color="#49F191" />
-			<stop offset="90%" stop-color="#1ced75" />
+			<stop id="glow1" offset="0%" stop-color="#49F191" />
+			<stop id="glow2"  offset="90%" stop-color="#1ced75" />
 
 			</linearGradient>
 
 			<filter id="blur1" x="-4" y="-4" width="20" height="100">
-			<feGaussianBlur in="SourceGraphic" stdDeviation="12" />
+			<feGaussianBlur in="SourceGraphic" stdDeviation="5" />
 			</filter>
 
 			<filter id="blur2" x="-8" y="-8" width="15" height="100">
-			<feGaussianBlur in="SourceGraphic" stdDeviation="8" />
+			<feGaussianBlur in="SourceGraphic" stdDeviation="6" />
 			</filter>
 
 			<filter id="blur3" x="-8" y="-8" width="15" height="100">
-			<feGaussianBlur in="SourceGraphic" stdDeviation="20" />
+			<feGaussianBlur in="SourceGraphic" stdDeviation="25" />
 			</filter>
 
-			<rect x="100" y="100" width="9" height="400" fill= "url(#streak)" style="filter: url(#blur1);" transform="rotate(2, 100, 100)"/>
-			<rect x="600" y="50" width="6" height="400" fill= "url(#streak)" style="filter: url(#blur1);" transform="rotate(-5, 600, 50)"/>
-			<rect x="500" y="90" width="6" height="400" fill= "url(#streak)" style="filter: url(#blur2);" transform="rotate(-8, 500, 90)"/>
-			<rect x="650" y="95" width="9" height="440" fill= "url(#streak)" style="filter: url(#blur3);" transform="rotate(3, 500, 90)"/>
-			<rect x = "520" y = "500" width="10" height="80" fill= "url(#glow)" style="filter: url(#blur3);" transform="rotate(260, 520, 500)"/>
-			<rect x = "560" y = "480" width="12" height="130" fill= "url(#glow)" style="filter: url(#blur3);" transform="rotate(220, 560, 480)"/>
-			<rect x = "570" y = "470" width="15" height="220" fill= "url(#glow)" style="filter: url(#blur3);" transform="rotate(180, 570, 470)"/>
+			<rect x="200" y="100" width="4" height="400" fill= "url(#streak)" style="filter: url(#blur1);" transform="rotate(3, 100, 100)"/>
+			<rect x="140" y="150" width="5" height="400" fill= "url(#streak)" style="filter: url(#blur1);" transform="rotate(-1, 200, 100)"/>
+			<rect x="600" y="50" width="5" height="450" fill= "url(#streak)" style="filter: url(#blur1);" transform="rotate(-2, 600, 50)"/>
+			<g id="two">
+			<rect x="550" y="90" width="5" height="450" fill= "url(#streak)" style="filter: url(#blur2);" transform="rotate(-3, 500, 90)"/>
+			<rect x="650" y="95" width="7" height="440" fill= "url(#streak)" style="filter: url(#blur2);" transform="rotate(1, 500, 90)"/>
+		</g>
+			<rect x = "500" y = "500" width="28" height="80" fill= "url(#glow)" style="filter: url(#blur3);" transform="rotate(260, 520, 500)"/>
+			<rect x = "580" y = "550" width="34" height="130" fill= "url(#glow)" style="filter: url(#blur3);" transform="rotate(220, 580, 550)"/>
+			<rect x = "640" y = "550" width="50" height="220" fill= "url(#glow)" style="filter: url(#blur3);" transform="rotate(160, 640, 550)"/>
 			<!--
 			<radialGradient id="background" gradientUnits="userSpaceOnUse" cx="100%" cy="50%" r="100%">
 			<stop stop-color="#AAFFAA" offset="0"/>
@@ -87,7 +92,8 @@
 			<use x = "240" y = "150" xlink:href = "#r2" fill = "url(#g1)"/>
 			<use x = "580" y = "105" xlink:href = "#r3" fill = "url(#g1)"/>
 			-->
-
+		</g>
+		<use xlink:href="#one" />
 			</svg>
 			<br>
 			<input type="submit" id="reset" value="Start video!"></input><br>
