@@ -26,7 +26,7 @@ var buildBlock = function(s,x,y,w,h){
 	w:w,
 	h:h,
 	s:s,
-	dx:-30,
+	dx:-8,
 	draw:function(){
 	   // console.log(this.x,this.y);
 	    
@@ -116,6 +116,7 @@ var update = function(){
 	blocks[i].draw();
 	if (blocks[i].remove){
 	    // push index to remove list if block is out of position
+	    console.log(removeindex);
 	    removeindex.push(i);
 	}
     }
@@ -131,7 +132,22 @@ var update = function(){
 
 
 //Initialize everything below
-
-spawnBlock(svg,maxx,270,60,60);
+var initialize = function(){
+    window.addEventListener("load",function(e){
+	var randy = Math.random()*50;
+	spawnBlock(svg,maxx,maxy-randy,60,randy+10);
+	spawnBlock(svg,maxx,0,60,60);
+	
+    });
+}
+document.addEventListener("mousemove",function(e){
+    setInterval(function(){
+	var randy = Math.random()*100 +20;
+	var randw = Math.random()*100 +20;
+	var randw2 = Math.random()*100 +20;
+	spawnBlock(svg,maxx,maxy-randy,randw,randy+0);
+	spawnBlock(svg,maxx,0,randw2,60);
+    },800)
+});
 document.addEventListener("keyup",flipGravity);
 window.requestAnimationFrame(update);
