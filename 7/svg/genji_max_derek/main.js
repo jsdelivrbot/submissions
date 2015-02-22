@@ -1,11 +1,19 @@
 var media = document.getElementById("style-ts"),
 	reset = document.getElementById("reset"),
+	timber = document.getElementById("timber"),
 	s = document.getElementById("svg"),
 	animations = [],
 	time = 0,
+	colors = [
+		'green',
+		'blue',
+		'yellow',
+		'orange',
+		'white',
+		'black'],
 	interval;
 
-var MEDIA_LENGTH = 41000;
+var MEDIA_LENGTH = 18800;
 
 
 /*   Animation object
@@ -22,29 +30,38 @@ var MEDIA_LENGTH = 41000;
  *	animation
  *		JSON object. Keys are the shape values to change, values are single-variable functions.
  */
-function Animation(shape, start, end, init, animation) {	
-    var o = document.createElementNS("http://www.w3.org/2000/svg", shape);
+function Animation(shape, start, end, init, animation, text) {	
+	var o = document.createElementNS("http://www.w3.org/2000/svg", shape);
 	start = start?start:0;
 	end = end?end:MEDIA_LENGTH;
+	var BUFFER = 15;
 
 	this.animate = function(time) {
-		if (time==start) {
+		if ( Math.abs(time-start)<BUFFER) {
 			for (attr in init) {
 				o.setAttribute(attr, init[attr]);
+			}
+			if (shape == 'text'){
+				var node = document.createTextNode(text);
+				o.appendChild(node);
 			}
 			s.appendChild(o);
 		} else if( time >= start && time < end ) {
 			for (attr in animation) {
 				o.setAttribute(attr, animation[attr](time-start));
 			}
-		} else if( time == end) {
+		} else if( Math.abs(time-end)<BUFFER ) {
 			this.destroy();
 		}
 	}
 
 	this.destroy = function() { 
-		s.removeChild(o); 
 
+
+		console.log(o);
+		try{
+			s.removeChild(o); 	    
+		} catch (err) {}
 		var index;
 		index = animations.indexOf(this);
 		if( index>-1) {
@@ -57,6 +74,7 @@ function Animation(shape, start, end, init, animation) {
  * Reset/init function for the js code.
  * Create the animation code here.
  */
+
 var init = function(initAnims) {
 	time=0;
 	clearInterval(interval);
@@ -71,33 +89,61 @@ var init = function(initAnims) {
 	// Callback to initialize the animations
 	initAnims();
 
+	media.currentTime = 0;
+	media.play();
+	go();
 }
 
 // built in animations
 function burst(startx, starty, cx, cy, fill, r, k) {
 	animations.push( new Animation("circle", startx, starty, {
 		'cx'		: cx,
-		'cy'		: cy,
-		'fill'		: fill,
-		'r'			: r
+	'cy'		: cy,
+	'fill'		: fill,
+	'r'			: r
 	}, {
 		'r'			: function(t){ return Math.abs(r + (-Math.pow(t,2)+(cy-cx)*t)/k); } 
 	}));
 }
-//500ms long bursts
-function smallBurst(startx, cx, cy, fill) {
-	burst(startx, startx+500, cx, cy, fill, 25, 20000);
+function smBurst(startx, cx, cy, fill) {
+	burst(startx, startx+200, cx, cy, fill, 15, 20000);
 }
-function medBurst(startx, cx, cy, fill) {
+function mdBurst(startx, cx, cy, fill) {
 	burst(startx, startx+500, cx, cy, fill, 50, 10000);
 }
 function lgBurst(startx, cx, cy, fill) {
 	burst(startx, startx+500, cx, cy, fill, 100, 5000);
 }
 
+function pushText(text, begin, end){
+	var anim = new Animation("text", begin, end, {
 
-	medBurst(1100,250,500,'red'); 
+		'x': 400,
+		'y': 250,
+		'theta': 0,
+		'fill': 'green',
+		'font-size': '20px',
+		'text-anchor': 'middle',
+		'font-family': 'sans-serif',
+		'transform': 'rotate(0) scale(0)' //I feel so bad for doing this
+	}, {
+		//'x': function(t){ return 100 + (t/100)},
+		//'y': function(t){ return 100 + (t/100)},
+		'transform': function(t){ 
+			var factor = t/10000 + 1;
+			var newx = 450 * (factor-1);
+			var newy = 500 * (factor-1);
+			return 'rotate(' +  t/100 + ' 400 250) ' + 'translate(-' + newx + ', -' + newy + ') ' +  'scale(' + factor +')';
+				},
+				'fill': function(t){ return 'rgb(' + Math.floor(Math.random()*100 + 127) + ', ' + Math.floor(t/10+ 70)  + ', ' + Math.floor(Math.random()*100 + 127) + ')'}
+	}, text);
+	return anim;
+}
 
+var randColor = function(){
+	var randNum = Math.random() * colors.length;
+	return colors[Math.floor(randNum)];
+}
 
 var start = function(e) {
 	e.preventDefault();
@@ -106,24 +152,50 @@ var start = function(e) {
 		console.log("Initializing animations");
 		///////////// Beats by Genji //////////////////////
 
-		var tmp = 0;
-		
-		medBurst(1100,750,120,'red'); 
-		medBurst(1700,750,360,'red'); 
-		medBurst(2300,250,360,'red'); 
-		medBurst(2900,250,120,'red'); 
-		medBurst(3500,750,120,'red'); 
-		medBurst(4100,750,360,'red'); 
-		medBurst(4700,250,360,'red'); 
-		medBurst(5300,250,120,'red'); 
+		for(var i=0; i<7; i++) {
+			// Main beats	
+			var mainBeatColor = randColor();
+			lgBurst(1100+(i*2300),600,120,mainBeatColor);
+			mdBurst(1700+(i*2300),600,380,mainBeatColor); 
+			mdBurst(2300+(i*2300),200,380,mainBeatColor); 
+			mdBurst(2900+(i*2300),200,120,mainBeatColor); 
+			
+			// Offbeats
+			smBurst(1400+(i*2300),Math.random()*800,Math.random()*500,randColor()); 
+			smBurst(1550+(i*2300),Math.random()*800,Math.random()*500,randColor()); 	
+			smBurst(2000+(i*2300),Math.random()*800,Math.random()*500,randColor()); 
+			smBurst(2150+(i*2300),Math.random()*800,Math.random()*500,randColor()); 
+			smBurst(2600+(i*2300),Math.random()*800,Math.random()*500,randColor()); 
+			smBurst(2750+(i*2300),Math.random()*800,Math.random()*500,randColor()); 
+			smBurst(2900+(i*2300),Math.random()*800,Math.random()*500,randColor()); 
+			smBurst(3200+(i*2300),Math.random()*800,Math.random()*500,randColor()); 
+			smBurst(3350+(i*2300),Math.random()*800,Math.random()*500,randColor());	
+		}
 
+		//////////// Lyrics by Max ////////////////////////
+		animations.push(pushText('~Cause You got that James Dean day dream look in your eye', 0, 4700));
+		animations.push(pushText('~And I got that red lip classic thing that you like', 4750, 9100));
+		animations.push(pushText('~And when we go crashing down, we come back every time', 9150, 13510));
+		animations.push(pushText('~Cause we never go out of style', 13710, 15900));
+		animations.push(pushText('~We never go out of style', 16100, 17890));
+		/*
+		   animations.push(pushText('You got that long hair, slicked back, white t-shirt.', 18010, 22610));
+		   animations.push(pushText('And I got that good girl faith and a tight little skirt,', 22680, 26950));
+		   animations.push(pushText('And when we go crashing down, we come back every time.', 27000, 31070));
+		   animations.push(pushText('Cause we never go out of style', 31120, 33500));
+		   animations.push(pushText('We never go out of style.', 33630, 35800));
+		   });
+		   */
 	});
-
-
-	media.currentTime = 0;
-	media.play();
-	go();
 };
+
+
+var log = function(e) {
+	e.preventDefault();
+	console.log("Time: " + time);
+	console.log("Animations stored: " + animations.length);
+};
+
 
 var go = function() {
 	time = 0;
@@ -133,8 +205,8 @@ var go = function() {
 			animations[anim].animate(time);
 		}
 		time+=10;
-		console.log("Time: "+time);
-		
+		//console.log("Time: "+time);
+
 		if(time>=MEDIA_LENGTH) {
 			clearInterval(interval);
 			media.pause();
@@ -143,3 +215,4 @@ var go = function() {
 };
 
 reset.addEventListener("click", start);
+timber.addEventListener("click", log);
