@@ -1,5 +1,6 @@
 var v =0;
 var t =0;
+document.body.style.background = "#33cccc";
 
 var addPipes = function(s,x,y,h1,c1) {
     var p1 = document.createElementNS("http://www.w3.org/2000/svg","rect");
@@ -32,7 +33,7 @@ var move = function() {
     }
     v = v+0.5;
     if (Math.random()<0.05){
-	addPipes(s,395,0,Math.random()*100+150,'green');
+	addPipes(s,395,0,Math.random()*120+150,'green');
     }
     var ps = document.getElementsByTagName("rect");
     for (var i=0;i<ps.length;i++) {
