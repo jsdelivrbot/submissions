@@ -1,10 +1,17 @@
 var s = document.getElementById("s");
+var grass = document.createElementNS("http://www.w3.org/2000/svg", "rect");
+grass.setAttribute('x',0);
+grass.setAttribute('y',325);
+    grass.setAttribute('width',400);
+    grass.setAttribute('height',75);
+    grass.setAttribute('fill',"#00cc00");
+    s.appendChild(grass);
 var index = 0;
 var flowers = [];
 var createFlower = function(){
 	var f1= document.createElementNS("http://www.w3.org/2000/svg", "circle");
 	f1.setAttribute('cx',200);
-    f1.setAttribute('cy',300);
+    f1.setAttribute('cy',250);
     f1.setAttribute('r',20);
     f1.setAttribute('fill',"#FF00FF");
     f1.setAttribute('name', String(index));
@@ -12,8 +19,8 @@ var createFlower = function(){
     var l1 = document.createElementNS("http://www.w3.org/2000/svg", "line");
     l1.setAttribute('x1', 200);
     l1.setAttribute('x2', 200);
-    l1.setAttribute('y1', 300);
-    l1.setAttribute('y2', 400);
+    l1.setAttribute('y1', 260);
+    l1.setAttribute('y2', 350);
     l1.setAttribute("style","stroke:rgb(255,0,0);stroke-width:2");
     l1.setAttribute('name', String(index));
     s.appendChild(l1); 
