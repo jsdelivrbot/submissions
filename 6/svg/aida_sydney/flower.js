@@ -15,6 +15,7 @@ var createFlower = function(){
     f1.setAttribute('r',20);
     f1.setAttribute('fill',"#FF00FF");
     f1.setAttribute('name', String(index));
+    f1.setAttribute('life',100);
     s.appendChild(f1);
     var l1 = document.createElementNS("http://www.w3.org/2000/svg", "line");
     l1.setAttribute('x1', 200);
@@ -32,6 +33,10 @@ var createFlower = function(){
             var circle = flower[0];
             var stem = flower[1];
             circle.setAttribute('r', circle.getAttribute('r')*1.1);
+            circle.setAttribute('life', circle.getAttribute('life')-25);
+            if (circle.getAttribute('life')==0){
+                circle.setAttribute('fill','#5B6262');
+            }
         }
     };
     index++;
