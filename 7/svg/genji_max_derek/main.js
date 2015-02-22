@@ -36,7 +36,6 @@ function Animation(shape, start, end, init, animation) {
 		} else if( time >= start && time < end ) {
 			for (attr in animation) {
 				o.setAttribute(attr, animation[attr](time-start));
-				console.log(o);
 			}
 		} else if( time == end) {
 			this.destroy();
@@ -58,31 +57,69 @@ function Animation(shape, start, end, init, animation) {
  * Reset/init function for the js code.
  * Create the animation code here.
  */
-var init = function() {
+var init = function(initAnims) {
 	time=0;
 	clearInterval(interval);
 
-	for(anim in animations) {
-		console.log(animations[anim]);
-		animations[anim].destroy();
+	console.log(animations);
+	while(s.hasChildNodes()) {
+		s.removeChild(s.lastChild);
 	}
 
 	animations = [];
-	animations.push( new Animation("circle", 0, 3000, {
-		'cx'		: 50,
-		'cy'		: 50,
-		'fill'		: 'green',
-		'r'			: 50
+
+	// Callback to initialize the animations
+	initAnims();
+
+}
+
+// built in animations
+function burst(startx, starty, cx, cy, fill, r, k) {
+	animations.push( new Animation("circle", startx, starty, {
+		'cx'		: cx,
+		'cy'		: cy,
+		'fill'		: fill,
+		'r'			: r
 	}, {
-		'cx'		: function(t){ return 300 + (t/100) },
-		'cy'		: function(t){ return 300 + (t/100) }	
+		'r'			: function(t){ return Math.abs(r + (-Math.pow(t,2)+(cy-cx)*t)/k); } 
 	}));
 }
+//500ms long bursts
+function smallBurst(startx, cx, cy, fill) {
+	burst(startx, startx+500, cx, cy, fill, 25, 20000);
+}
+function medBurst(startx, cx, cy, fill) {
+	burst(startx, startx+500, cx, cy, fill, 50, 10000);
+}
+function lgBurst(startx, cx, cy, fill) {
+	burst(startx, startx+500, cx, cy, fill, 100, 5000);
+}
+
+
+	medBurst(1100,250,500,'red'); 
+
 
 var start = function(e) {
 	e.preventDefault();
 
-	init();
+	init(function() {
+		console.log("Initializing animations");
+		///////////// Beats by Genji //////////////////////
+
+		var tmp = 0;
+		
+		medBurst(1100,750,120,'red'); 
+		medBurst(1700,750,360,'red'); 
+		medBurst(2300,250,360,'red'); 
+		medBurst(2900,250,120,'red'); 
+		medBurst(3500,750,120,'red'); 
+		medBurst(4100,750,360,'red'); 
+		medBurst(4700,250,360,'red'); 
+		medBurst(5300,250,120,'red'); 
+
+	});
+
+
 	media.currentTime = 0;
 	media.play();
 	go();
