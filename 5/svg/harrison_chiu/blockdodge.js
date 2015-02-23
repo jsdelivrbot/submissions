@@ -1,9 +1,26 @@
-var c1 = document.createElementNS("http://www.w3.org/2000/svg","circle");
+var game = document.getElementById("game");
 
-c1.setAttribute('cx', 100);
-c1.setAttribute('cy', 50);
-c1.setAttribute('r', 50);
-c1.setAttribute('fill', '#ffff00');
+var makeCircle = function makeCircle(x, y, r, stroke, fill) {
+    var circle = document.createElementNS("http://www.w3.org/2000/svg","circle");
+    circle.setAttribute("cx", x);
+    circle.setAttribute("cy", y);
+    circle.setAttribute("r",  r);
+    circle.setAttribute("stroke", stroke);
+    circle.setAttribute("fill", fill);
+    return circle;
+}
 
-var s = document.getElementById("s");
-s.appendChild(c1);
+var circle = makeCircle((game.getAttribute("width") / 2), (game.getAttribute("height") / 2), 10, "rgb(0, 0, 0)", "rgb(255, 255, 255)");
+var circle_list = [circle];
+
+var updateBG = function updateBG() {
+    for (var index = 0; index < circle_list.length; index++) {
+        var radius = circle_list[index].getAttribute("r")
+        circle_list[index].getAttribute("r") = (radius + 1) % Math.floor(Math.sqrt(game.getAttribute("width") * game.getAttribute("width") + game.getAttribute("height") * game.getAttribute("height")) / 2); // half the diagonal
+    }
+}
+
+game.appendChild(circle);
+while (true) {
+    updateBG();
+}
