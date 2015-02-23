@@ -3,6 +3,7 @@ var objects=document.getElementsByClassName("char");
 var pic=document.getElementById("pic");
 var level=1;
 var path=document.getElementsByTagName("circle");
+var lvl=document.getElementById("lvl");
 var score=0;
 
 var addEllipse = function(s,x,y,rx,ry,c) {
@@ -26,22 +27,31 @@ document.addEventListener("keydown",function(e) {
 	currentcy=parseFloat(objects[i].getAttribute('cy'));
     }
     addEllipse(maze,currentcx,currentcy,2,2,'blue');
-    score++;
-    $('#t').html("BM Score="+score);
-    console.log(score);
     var down=0;
     var right=0;
     if (e.keyCode == 37){
 	right = -4;
+	score++;
+	$('#t').html("BM Score="+score);
+	console.log(score);
     }
     if (e.keyCode==38){
 	down=-4;
+	score++;
+	$('#t').html("BM Score="+score);
+	console.log(score);
     }
     if (e.keyCode==39){
 	right=4;
+	score++;
+	$('#t').html("BM Score="+score);
+	console.log(score);
     }
     if (e.keyCode==40){
 	down=4;
+	score++;
+	$('#t').html("BM Score="+score);
+	console.log(score);
     }
     for(i=0; i<objects.length; i++) {
 	objects[i].setAttribute('cx',currentcx+right);
@@ -55,7 +65,7 @@ document.addEventListener("keydown",function(e) {
 	    $("ellipse").remove();
 	    objects[i].setAttribute('cx',20);
 	    objects[i].setAttribute('cy',138);
-	    
+	    $('#lvl').html("Level "+level);
 	    alert("Woohoo! Level 2");
 	    
 	}
@@ -66,7 +76,7 @@ document.addEventListener("keydown",function(e) {
 	    $("ellipse").remove();
 	    objects[i].setAttribute('cx',70);
 	    objects[i].setAttribute('cy',210);
-	    
+	    $('#lvl').html("Level "+level);
 	    alert("Teehee! Level 3");
 	    
 	}
