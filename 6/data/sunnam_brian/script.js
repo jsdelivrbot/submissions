@@ -1,8 +1,9 @@
-var school_scores = [];
 src_data = src_data.data;
+
+// 1. Convert the raw data to an array of dictionaries as specified in class.
+var school_scores = [];
 for(var i=0; i<src_data.length; i++){
     var obj = src_data[i];
-    //console.log(obj);
     var dict ={
 	'code': obj[8],
 	'name': obj[9],
@@ -12,8 +13,25 @@ for(var i=0; i<src_data.length; i++){
 	'writing':obj[13]
     };
     school_scores.push(dict);
-    
-    
-};
+}
 
-console.log(school_scores);
+// 2. Make a new list from what you made in part one that is the list of all math scores
+var math_scores = [];
+for(var i=0; i<school_scores.length;i++){
+    math_scores.push(school_scores[i].math);
+}
+console.log(math_scores);
+
+// 3. Calculate the mean of the math scores
+var mean = 0;
+var valid = 0;
+for(var i = 0; i < math_scores.length; i++) {
+    var k = parseInt(math_scores[i]);
+    if (! isNaN(k)) { // some scores are 's' instead of a number, so this excludes them
+	mean += k;
+	valid+= 1;
+    }
+}
+mean /= valid;
+
+//TODO: 4. make a new dictionary by pulling out schools from the dictionary in part 1 all schools with math schores > than the average.
