@@ -5,15 +5,7 @@ var colors = ["#1abc9c","#95a5a6","#f1c40f","#f39c12",
 	      "#34495e","#2c3e50","#16a085","#7f8c8d"];
 
 var changeColor = function(ball){
-    var ind = parseInt(ball.getAttribute('ci'));
-    if (ind == 15){
-	ind = 0;
-    }
-    else{
-	ind = ind + 1;
-    }
-    ball.setAttribute('ci',ind);
-    ball.setAttribute('fill',colors[ind]);
+    ball.setAttribute('fill',colors[parseInt(Math.random()*16)]);
 };
 
 var changeSpecColor = function(ball,color){
@@ -33,7 +25,7 @@ var bounce = function(ball,color){
     ball.setAttribute('dy',dy);
     ball.setAttribute('cx',x);
     ball.setAttribute('cy',y);
-    if (color == "blah"){
+    if (color == "single"){
 	changeColor(ball);
     }
     else{
@@ -48,8 +40,8 @@ var addCircle = function(x,y,r){
     ball.setAttribute('r',r);
     ball.setAttribute('dx',(Math.random()*12)-6);
     ball.setAttribute('dy',(Math.random()*12)-6);
-    ball.setAttribute('ci',parseInt(Math.random()*16));
-    ball.setAttribute('fill',colors[ball.getAttribute('ci')]);
+    ball.setAttribute('fill',colors[parseInt(Math.random()*16)]);
+    ball.addEventListener('mouseover',cClicked);
     balls.appendChild(ball);
 };
 
@@ -71,6 +63,11 @@ var clear = function(e){
     }
 };
 	
+var cClicked = function(e){
+    e.preventDefault();
+    bounce(this,"single");
+}
+
 var move = function(e) {
     var bs = document.getElementsByTagName("circle");
     for (var i=0; i<bs.length;i++){
@@ -78,7 +75,6 @@ var move = function(e) {
 	var y = parseFloat(bs[i].getAttribute('cy'));
 	var dx = parseFloat(bs[i].getAttribute('dx'));
 	var dy = parseFloat(bs[i].getAttribute('dy'));
-	var ind = bs[i].getAttribute('ci');
 	if (x < 10 || x > 990){
 	    dx = dx * -1;
 	    bs[i].setAttribute('dx',dx);
@@ -93,9 +89,6 @@ var move = function(e) {
 	y = y + dy;
 	bs[i].setAttribute('cx',x);
 	bs[i].setAttribute('cy',y);
-	/*if ((mouseX<x+15 && mouseX>x-15) && (mouseY<y+15 && mouseY>y-15)){
-	    bounce(bs[i],"blah");
-	}*/
 	for (var j=0; j<bs.length; j++){
 	    var bx = parseFloat(bs[j].getAttribute('cx'));
 	    var by = parseFloat(bs[j].getAttribute('cy'));
@@ -110,9 +103,6 @@ var move = function(e) {
 };
 
 var update = function(e){
-    /*var mouseX = e.offsetX;
-    var mouseY = e.offsetY;
-    console.log(mouseX+" "+mouseY);*/
     move(e);
     window.requestAnimationFrame(update);
 };

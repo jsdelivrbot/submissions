@@ -1,4 +1,3 @@
-
 var svg = document.getElementById("c");
 var stripPX = function(pixc){
     return parseInt(pixc.slice(0,-2));
@@ -28,7 +27,7 @@ var buildBlock = function(s,x,y,w,h){
 	w:w,
 	h:h,
 	s:s,
-	dx:-8,
+	dx:-10,
 	draw:function(){
 	    rec.setAttribute("x", this.x);
 	    rec.setAttribute("y", this.y);
@@ -41,9 +40,12 @@ var buildBlock = function(s,x,y,w,h){
 	move:function(){
 	    //figure out algorithm to adjust movements of block
 	    this.x += this.dx;
-	    if (this.x+this.w < -10){
+	    if (this.x+this.w < 0){
 		//this.s.parentNode.removeChild(rec);   //if child is of screen, element is deleted from svg
 		this.remove = true; // send boolean so we can remove this block from block list
+	    }
+	    if (this.w == 0){
+		console.log(this.x, this.w);
 	    }
 	},
 	remove:remove,
@@ -53,16 +55,16 @@ var buildBlock = function(s,x,y,w,h){
 var addPlayer = function(s,x,y){
     //temporary player is a circle for now
     var cir = document.createElementNS("http://www.w3.org/2000/svg","circle");
+    var charwidth = 20+10;//radius + offset pixel (left)
     return {
 	s:s,
 	x:x,
 	y:y,
-	dy:6,
+	dy:8,
 	//0=moving along bottom, 1=switching to top, 2=moving along top, 3=switching to bottom
-	state:0,
+	state:3,
 	draw:function(){
 	    var c = getRandColor();
-
 	    cir.setAttribute("cx",this.x);
 	    cir.setAttribute("cy",this.y);
 	    cir.setAttribute("r","20");
@@ -70,36 +72,51 @@ var addPlayer = function(s,x,y){
 	    this.s.appendChild(cir);
 	},
 	move:function(){
-	   	if (this.state == 0) {
-	   		this.y = pmaxy;
-	   	}
-	   	else if (this.state == 1) {
-	   		this.y = this.y - this.dy;
-	   		//fix if statements to detect blocks
-	   		if (this.y < pminy){
-	   			this.state = 2;
-	   		}
-	   	}
-	   	else if (this.state == 2) {
-	   		this.y = pminy;
-	   	}
-	   	else if (this.state == 3) {
-	   		this.y = this.y + this.dy;
-	   		//fix if statements to detect blocks
-	   		if (this.y > pmaxy){
-	   			this.state = 0;
-	   		}
-	   	}
-	},
-	node:cir,
+	    console.log(this.state);
+	    if (this.state == 0) {
+		var i = 1;
+		if (blocks[0].y !=0){
+		    i = 0;
+		}//else, by default, the block we should check should be the other one
+		if (this.y >= maxy){ // specifically blocks alternate in this setu
+		    if (blocks[i].x > charwidth){
+			this.state = 4;
+		    }else{
+			this.y = pmaxy;
+		    }
+		    
+		}
+	    }
 
+	    
+	    if (this.state == 1) {
+	   	this.y = this.y - this.dy;
+	   	//fix if statements to detect blocks
+	   	if (this.y < pminy){
+		    this.state = 2;
+		}
+	    }
+	    else if (this.state == 2) {
+	   	this.y = pminy;
+	    }
+	    else if (this.state == 3) {
+		this.y = this.y + this.dy;
+		//fix if statements to detect blocks
+		//	if (blocks[i].x + blocks[i].w > 30 && this.y >= pmaxy){
+		if (this.y > pmaxy){
+	   	    this.state = 0;
+		    // 	    }
+		}
+	    }
+	    else if (this.state == 4){
+	//	alert("stop");
+	    }
+	},
+
+	    node:cir,
+	    
     }
 }
-
-/* fix block AND player movement */
-var player = addPlayer(svg,30,maxy-15);
-var blocks = [];
-
 var spawnBlock = function(s,x,y,w,h){
        blocks.push(buildBlock(s,x,y,w,h));
 }
@@ -147,23 +164,12 @@ var update = function(){
 	}
     //remove all removable blocks from block list
     for (var ind = removeindex.length; ind >0; ind--){
-    	console.log(blocks.length);
-    	blocks.splice(removeindex[ind],1);
+	//console.log(blocks.length);
+	blocks.splice(removeindex[ind],1);
     }
-      // console.log(blocks.length);
-      window.requestAnimationFrame(update);
+    window.requestAnimationFrame(update);
 }
 
-
-//Initialize everything below
-var initialize = function(){
-    window.addEventListener("load",function(e){
-	var randy = Math.random()*50;
-	spawnBlock(svg,maxx,maxy-randy,maxx,randy+50);
-	spawnBlock(svg,maxx,0,maxx,60);
-	
-    });
-}
 /* pause screen doesnt work right now */
 var pausescreen = function(e){
     //svg.removeEventListener("onmouseover",setmovingBlocks());
@@ -176,16 +182,36 @@ var pausescreen = function(e){
 }
 var setmovingBlocks = function(e){
     setInterval(function(){
-	var randy = 40;
-	var randw =450;// replace with Math.random * n to fix uniform platforms
-	//algorithm fix needed here - player may be destined to lose in some instances
-	var randw2 = randw - 50;
-	spawnBlock(svg,maxx,0,randw2,60);
-	spawnBlock(svg,maxx,maxy-randy,randw,randy);
-    },700)
+	var randy = 60;
+	var randw = 500;// replace with Math.random * n to fix uniform platforms
+	if (blocks.length > 0){
+	    var b = blocks[blocks.length-1];
+	    if (b.x + b.w-400< maxx){
+		if (b.y == 0){
+		    spawnBlock(svg,maxx,maxy-randy,randw,randy);
+		}else{
+		    spawnBlock(svg,maxx+randw,0,randw,60);
+		}
+	    }
+	}
+    },700);
 };
+
+//Initialize everything below
+var initialize = function(){
+    var randy= Math.random()*50;
+    var randwid = Math.random()*(maxx);
+    spawnBlock(svg,100,maxy-60,maxx,60)
+    spawnBlock(svg,0,0,maxx,60);
+    //while (blocks[0].x + blocks[0].w > maxx*.75){}
+    svg.addEventListener("onmouseover",setmovingBlocks());
+    document.addEventListener("click",pausescreen);  // temporary... doesnt stop the animation
+    document.addEventListener("keyup",flipGravity);
+    window.requestAnimationFrame(update);
+}
+
+var blocks = [];
+var player = addPlayer(svg,30,maxy/2,blocks);
+
 initialize();
-svg.addEventListener("onmouseover",setmovingBlocks());
-document.addEventListener("click",pausescreen);  // temporary... doesnt stop the animation
-document.addEventListener("keyup",flipGravity);
-window.requestAnimationFrame(update);
+
