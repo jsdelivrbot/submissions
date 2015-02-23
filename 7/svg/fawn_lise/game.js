@@ -8,6 +8,7 @@ var maxy = stripPX(svgStyle.height);
 var pmaxy = maxy-20;
 var pminy = 20;
 //console.log(maxx,maxy);
+var nopause = true;
 
 var getRandColor = function(){
     var letters = "0123456789ABCDEF".split('');
@@ -55,7 +56,7 @@ var buildBlock = function(s,x,y,w,h){
 var addPlayer = function(s,x,y){
     //temporary player is a circle for now
     var cir = document.createElementNS("http://www.w3.org/2000/svg","circle");
-    var charwidth = 20+10;//radius + offset pixel (left)
+    var charwidth = 70+10;//radius + offset pixel (left)
     return {
 	s:s,
 	x:x,
@@ -78,7 +79,7 @@ var addPlayer = function(s,x,y){
 		if (blocks[0].y !=0){
 		    i = 0;
 		}//else, by default, the block we should check should be the other one
-		if (this.y >= maxy){ // specifically blocks alternate in this setu
+		if (this.y >= pmaxy){ // specifically blocks alternate in this setu
 		    if (blocks[i].x > charwidth){
 			this.state = 4;
 		    }else{
@@ -87,8 +88,6 @@ var addPlayer = function(s,x,y){
 		    
 		}
 	    }
-
-	    
 	    if (this.state == 1) {
 	   	this.y = this.y - this.dy;
 	   	//fix if statements to detect blocks
@@ -97,19 +96,30 @@ var addPlayer = function(s,x,y){
 		}
 	    }
 	    else if (this.state == 2) {
-	   	this.y = pminy;
+		var i = 1;
+		if (blocks[0].y !=0){
+		    i = 0;
+		}//else, by default, the block we should check should be the other one
+		if (this.y <= pminy){
+		    if (blocks[i].x > charwidth){
+			this.state = 5;
+		    }else{
+			this.y = pminy;
+		    }
+		}
 	    }
 	    else if (this.state == 3) {
 		this.y = this.y + this.dy;
-		//fix if statements to detect blocks
-		//	if (blocks[i].x + blocks[i].w > 30 && this.y >= pmaxy){
 		if (this.y > pmaxy){
 	   	    this.state = 0;
-		    // 	    }
 		}
 	    }
 	    else if (this.state == 4){
-	//	alert("stop");
+		//alert("stop");
+		this.y = this.y + this.dy;
+	    }
+	    else if (this.state == 5){
+		this.y = this.y - this.dy;
 	    }
 	},
 
@@ -167,23 +177,33 @@ var update = function(){
 	//console.log(blocks.length);
 	blocks.splice(removeindex[ind],1);
     }
+
+    if (nopause){
+	document.removeEventListener("click",resume);  // temporary... doesnt stop the animation
+	window.requestAnimationFrame(update);
+    }else{
+	document.removeEventListener("click",pausescreen);  // temporary... doesnt stop the animation
+	document.addEventListener("click",resume);
+    }
+}
+var resume = function(e){
+    nopause= !nopause;
+    document.addEventListener("click",pausescreen);  // temporary... doesnt stop the animation
     window.requestAnimationFrame(update);
 }
-
 /* pause screen doesnt work right now */
 var pausescreen = function(e){
     //svg.removeEventListener("onmouseover",setmovingBlocks());
     window.cancelAnimationFrame(update);
     console.log("paused??");
+    nopause= !nopause;
 //    document.removeEventListener("click",pausescreen);
-    document.addEventListener("click",function(e){
-	//window.requestAnimationFrame(update);
-    });
+  
 }
 var setmovingBlocks = function(e){
     setInterval(function(){
 	var randy = 60;
-	var randw = 500;// replace with Math.random * n to fix uniform platforms
+	var randw = 800;// replace with Math.random * n to fix uniform platforms
 	if (blocks.length > 0){
 	    var b = blocks[blocks.length-1];
 	    if (b.x + b.w-400< maxx){
@@ -202,7 +222,7 @@ var initialize = function(){
     var randy= Math.random()*50;
     var randwid = Math.random()*(maxx);
     spawnBlock(svg,100,maxy-60,maxx,60)
-    spawnBlock(svg,0,0,maxx,60);
+    spawnBlock(svg,0,0,maxx+300,60);
     //while (blocks[0].x + blocks[0].w > maxx*.75){}
     svg.addEventListener("onmouseover",setmovingBlocks());
     document.addEventListener("click",pausescreen);  // temporary... doesnt stop the animation
