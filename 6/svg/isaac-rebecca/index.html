@@ -4,17 +4,17 @@
     <style>
      #svg {border: 1px solid;}
     </style>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/d3/3.5.5/d3.min.js"></script>
   </head>
   <body>
-    <svg class="where" id="svg" height="700" width="700">
-      <rect x="0" y="0" id="c1" height="700" width="700" fill="black"/>
+    <svg id="svg" height="675" width="1200">
+      <rect x="0" y="0" id="c1" height="675" width="700" fill="black"/>
       <image x="317" y="317" width="70" height="70" xlink:href="jz.png" />
       <circle cx="350" cy="350" r="80" style="stroke: blue; stroke-dasharray: 10 5; stroke-width: 1.5; fill: none;"/>
       <circle cx="350" cy="350" r="130" style="stroke: blue; stroke-dasharray: 10 5; stroke-width: 1.5; fill: none;"/>
       <circle cx="350" cy="350" r="180" style="stroke: blue; stroke-dasharray: 10 5; stroke-width: 1.5; fill: none;"/>
       <circle cx="350" cy="350" r="230" style="stroke: blue; stroke-dasharray: 10 5; stroke-width: 1.5; fill: none;"/>
       <circle cx="350" cy="350" r="280" style="stroke: blue; stroke-dasharray: 10 5; stroke-width: 1.5; fill: none;"/>
-      <circle cx="350" cy="350" r="330" style="stroke: blue; stroke-dasharray: 10 5; stroke-width: 1.5; fill: none;"/>
 
       <image x="350" y="380" width="70" height="70" xlink:href="brown.png">
         <animateTransform attributeName="transform"
@@ -33,30 +33,30 @@
                     repeatCount="indefinite"
           />
       </image>
-      <image x="350" y="440" width="70" height="70" xlink:href="k.png">
-        <!-- <animateTransform attributeName="transform"
+      <image x="350" y="500" width="70" height="70" xlink:href="k.png">
+        <animateTransform attributeName="transform"
                     type="rotate"
                     from="0 350 350" to="360 350 350"
                     begin="0s" dur="15s"
                     repeatCount="indefinite"
-          /> -->
+          />
       </image>
-      <!-- <image x="350" y="440" width="70" height="70" xlink:href="thluffy.png">
+      <image x="425" y="520" width="70" height="70" xlink:href="thluffy.png">
         <animateTransform attributeName="transform"
                     type="rotate"
                     from="0 350 350" to="360 350 350"
-                    begin="0s" dur="18  s"
+                    begin="0s" dur="18s"
                     repeatCount="indefinite"
           />
       </image>
-      <image x="350" y="440" width="70" height="70" xlink:href="z.png">
+      <image x="70" y="180" width="70" height="70" xlink:href="z.png">
         <animateTransform attributeName="transform"
                     type="rotate"
                     from="0 350 350" to="360 350 350"
                     begin="0s" dur="20s"
                     repeatCount="indefinite"
           />
-      </image> -->
+      </image>
 
     </svg>
     <script src="svg.js"></script>
