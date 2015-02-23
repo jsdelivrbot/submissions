@@ -8,42 +8,41 @@ grass.setAttribute('y',325);
     s.appendChild(grass);
 var index = 0;
 var flowers = [];
-var createFlower = function(){
+
+var clicked = function(e) {
+    var x = e.offsetX;
+    var y = e.offsetY;
+    console.log(y);
+    if (y >= 325) {
+        createFlower(x,y);
+    }
+}
+var createFlower = function(x,y){
 	var f1= document.createElementNS("http://www.w3.org/2000/svg", "circle");
-	f1.setAttribute('cx',200);
-    f1.setAttribute('cy',250);
+	f1.setAttribute('cx',x);
+    f1.setAttribute('cy',y-50);
     f1.setAttribute('r',20);
     f1.setAttribute('fill',"#FF00FF");
     f1.setAttribute('name', String(index));
     s.appendChild(f1);
     var l1 = document.createElementNS("http://www.w3.org/2000/svg", "line");
-    l1.setAttribute('x1', 200);
-    l1.setAttribute('x2', 200);
-    l1.setAttribute('y1', 260);
-    l1.setAttribute('y2', 350);
+    l1.setAttribute('x1', x);
+    l1.setAttribute('x2', x);
+    l1.setAttribute('y1', y-50);
+    l1.setAttribute('y2', y);
     l1.setAttribute("style","stroke:rgb(255,0,0);stroke-width:2");
     l1.setAttribute('name', String(index));
     s.appendChild(l1); 
-    return {
+    var interval = setInterval(function(){
+            flower.grow();
+        }, 3000);
+    var flower = {
         life:100,
         name: String(index),
-        die: function() {
-            var flower = document.getElementsByName(String(this.name));
-            var circle = flower[0];
-            var stem = flower[1];
-            console.log("dying");
-            circle.setAttribute('fill','#5B6262');
-            stem.setAttribute('style','stroke:#5B6262;stroke-width:2'); 
-            setTimeout(function() {
-                console.log("dissapearing");
-                flowers.splice(parseInt(this.name),1);
-                circle.parentNode.removeChild(circle);
-                stem.parentNode.removeChild(stem);
-            }, 1000);
-        },
+        interval: interval,
         grow: function() {
             var flower = document.getElementsByName(String(this.name));
-            // console.log(flower);
+            console.log(flower);
             var circle = flower[0];
             var stem = flower[1];
             circle.setAttribute('r', circle.getAttribute('r')*1.1);
@@ -52,16 +51,24 @@ var createFlower = function(){
             if (this.life <= 0) {
                 this.die();
             };
+        },
+        die: function() {
+            var flower = document.getElementsByName(String(this.name));
+            var circle = flower[0];
+            var stem = flower[1];
+            console.log("dying");
+            circle.setAttribute('fill','#5B6262');
+            stem.setAttribute('style','stroke:#5B6262;stroke-width:2'); 
+            clearInterval(this.interval);
+            setTimeout(function() {
+                console.log("dissapearing");
+                circle.parentNode.removeChild(circle);
+                stem.parentNode.removeChild(stem);
+                flowers.splice(parseInt(this.name),1);
+            }, 1000);
         }
     };
+    flowers.push(flower);
     index++;
 };
-
-flowers[index] = createFlower()
-var growFlowers = function() {
-    for (var i=0; i < flowers.length; i++) {
-        flowers[i].grow();
-    };
-}
-window.setInterval(function() {
-    growFlowers();}, 3000);
+s.addEventListener('click', clicked);
