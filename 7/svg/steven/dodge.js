@@ -21,8 +21,8 @@ var collision = function(c) {
     var sx = parseFloat(rect[0].getAttribute("x"));
     var w = parseFloat(rect[0].getAttribute("width"));
     var r = parseFloat(c.getAttribute("r"));
-    if (x + r <= sx + w && x + r >= sx ||
-	x >= sx && x <= sx + w) {
+    if ((x + r <= sx + w && x + r >= sx) ||
+	(x >= sx && x <= sx + w)) {
 	if (y + r >= 550) {
 	    clearInterval(t);
 	    var cs = document.getElementsByTagName("circle");
@@ -35,7 +35,6 @@ var collision = function(c) {
 	    }
 	    document.getElementById("gg").innerText = "GAME OVER! Hit start to play again.";
 	    game = 0;
-	    score = 0;
 	}
     }
 }
@@ -46,14 +45,27 @@ var update = function() {
 	for (var i = 1;i < cs.length;i++) {
 	    var x = parseFloat(cs[i].getAttribute('cx'));
 	    var y = parseFloat(cs[i].getAttribute('cy'));
+	    var r = parseFloat(cs[i].getAttribute('r'));
 	    var vx = parseFloat(cs[i].getAttribute('vx'));
 	    var vy = parseFloat(cs[i].getAttribute('vy'));
+	    if (vx > vy) {
+		vy = vx;
+		cs[i].setAttribute('vy',vy);
+	    }
+	    if (x + r >= 500 || x - r <= 0) {
+		vx = vx * -1;
+		cs[i].setAttribute('vx',vx);
+	    }
 	    x = x + vx;
-	    y = y + vy;
-	    cs[i].setAttribute('cx',x);
-	    cs[i].setAttribute('cy',y);
-	    // Collision check
-	    collision(cs[i]);
+	    if (y - r >= 600) {
+		cs[i].remove();
+	    } else {
+		y = y + vy;
+		cs[i].setAttribute('cx',x);
+		cs[i].setAttribute('cy',y);
+		// Collision check
+		collision(cs[i]);
+	    }
 	};
 	window.requestAnimationFrame(update);
 	score++;
@@ -65,7 +77,8 @@ var t;
 var start = function() {
     document.getElementById("gg").innerText = "";
     game = 1;
-    t = setInterval(function() {addRock(s, Math.random() * 500, 0, Math.random() * 1, Math.random() * 10, Math.random() * 25 + 25, "#000000")}, 1000);
+    score = 0;
+    t = setInterval(function() {addRock(s, Math.random() * 500, 0, (Math.random() + (score / 100)) * (1 - Math.random() * 2), Math.random() * 10 + (score / (100 + score * 0.5)), Math.random() * 25 + 25 + (score / (100 + score * 0.5)), "#000000")}, 1000);
     window.requestAnimationFrame(update);
 }
 
@@ -74,16 +87,18 @@ button.addEventListener("click", start);
 document.addEventListener("keydown", function(e) {
     var dx = 0;
     if (e.keyCode == 65 || e.keyCode == 37) {
-	dx = -5;
+	dx = -25;
     } else if (e.keyCode == 68 || e.keyCode == 39) {
-	dx = 5;
+	dx = 25;
     }
     var cs = document.getElementsByTagName("circle");
     var rect = document.getElementsByTagName("rect");
     var x1 = parseFloat(cs[0].getAttribute('cx'));
     var x2 = parseFloat(rect[0].getAttribute("x"));
-    x1 = x1 + dx;
-    x2 = x2 + dx;
+    if ((x2 >= Math.abs(dx) || dx > 0) && (x2 + 100 <= 500 - Math.abs(dx) || dx < 0)) {
+	x1 = x1 + dx;
+	x2 = x2 + dx;
+    }
     cs[0].setAttribute('cx',x1);
     rect[0].setAttribute("x",x2);
 });
