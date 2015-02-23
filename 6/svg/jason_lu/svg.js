@@ -89,9 +89,11 @@ var collisions = function(){
                     if(distance(cs[i].getAttribute("cx"), 
                                 cs[i].getAttribute("cy"),
                                 cs[j].getAttribute("cx"),
-                                cs[j].getAttribute("cy")) < 50 && j>1){
-                        cs[j].remove();                        
-                        life.innerHTML = a-1;
+                                cs[j].getAttribute("cy")) < 50 && j>1){                       
+                        cs[j].remove();       
+                        if(cs[j].getAttribute("fill") == "red"){
+                            life.innerHTML = a-1;
+                        }
                     }      
                 }
             }else if(cs[i].getAttribute('fill') == "blue"){
