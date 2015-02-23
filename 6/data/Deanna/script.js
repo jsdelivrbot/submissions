@@ -33,6 +33,7 @@ for (var i=0; i<scoresArray.length; i++){
     writing.push(scoresArray[i].writ);
 }
 
+// Gets the mean value of the math scores
 var mean = 0;
 var addValue = 0;
 var amount = 0;
@@ -44,3 +45,17 @@ for (var i=0; i<math.length; i++){
     }
 }
 mean = addValue/amount;
+
+// Makes new dictionary of schools from scoresArray with math scores above mean
+// I am writing this into an array cause im not sure what else to do
+
+var newMath = [];
+for (var i=0; i<scoresArray.length; i++){
+    school = scoresArray[i];
+    mathScore = school.math;
+    if (mathScore.isnumeric()){
+	if (mathScore>mean){
+	    newMath.push(school);
+	}
+    }
+}
