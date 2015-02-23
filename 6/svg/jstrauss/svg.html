@@ -1,16 +1,17 @@
 <!DOCTYPE html>
-<html>
+<html><center>
 		<style>
-		 #s {border:1px solid;}
+		 #s {border : 1px solid}
 		</style>
-		<h1>SVG Demo</h1>
+		<h1>Fill the Buckets by Justin Strauss</h1>
+		<b>How to play:</b> Click above the line to release drops of water. Every time a drop lands in a moving bucket, you earn a point. If the drop misses all buckets and falls off the bottom of the screen, you lose a point. <br> The game is over once one of the buckets overflows by being hit by a drop of water when it has already turned blue. Keep in mind that the highest attainable score is 10.<br><br>
 
-		<svg id="s" height="400" width="400">
-				<!-- 
-				<circle cx="100" cy="100" r="30" fill="red"/>
-				<circle cx="200" cy="100" r="10" fill="#f08332"/>
-				-->
-				<circle id="c1" cx="100" cy="100" r="30" fill="red"/>
+		<b> Score: </b> <div id="points"> 0 </div> <br>
+
+		<svg id="s" height="600" width="600">
+			<line x1="0" y1="50" x2="600" y2="50" style="stroke:rgb(255,0,0);stroke-width:2" />
+			<text x="160" y="25" fill="black">The Clouds: Water Droplet Launch Zone</text>
 		</svg> 
-		<!--<script src="svg1.js"></script>-->
-</html>
+		<script src="svg.js"></script>
+
+</center></html>
