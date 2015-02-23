@@ -1,4 +1,5 @@
-rawdata = {
+var json=
+{
   "meta" : {
     "view" : {
       "id" : "f9bf-2cp4",
