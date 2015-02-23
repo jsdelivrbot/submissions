@@ -443,6 +443,10 @@ var makeCircle = function(x, y, radius, stroke_color, fill_color, ctx) {
         stroke_color : stroke_color,
         fill_color : fill_color,
         ctx : ctx,
+
+        isInside : function(x, y) {
+            return squared(x - this.x) + squared(y - this.y) <= squared(radius);
+        },
         
         draw : function() {
             this.ctx.beginPath();
@@ -660,6 +664,7 @@ var mouseMoved = function(e) {
                 action_circle.stroke_color = stroke_color;
                 action_circle.fill_color = fill_color;
             }
+            
 
             makeMousePointer();
         }
@@ -701,6 +706,15 @@ var mouseClicked = function(e) {
             cure_button.selected = false;
         }
     }
+
+    if (button_selected != "") {
+        for (int i = 0; i < people.length; i++) {
+            var person = people[i];
+            if action_circle.isInside(person.x, person.y) {
+                // apply
+            }
+        }
+    }
 }
 
 // Thanks to http://www.html5canvastutorials.com/advanced/html5-canvas-mouse-coordinates/
@@ -719,6 +733,10 @@ var makeMousePointer = function() {
 var makeMouseSelector = function() {
     if (c.className != "")
         c.className = "";
+}
+
+var squared = function(n) {
+    return Math.pow(n, 2);
 }
 
 var resetGame = function(e) {
