@@ -13,12 +13,17 @@ var clicked = function(e) {
     e.preventDefault();
     s = document.getElementById("s");
     var r = 10;
-    addCircle(s,e.offsetX,e.offsetY,r,'blue');
+    var score = document.getElementById("score");
+    var b = score.innerHTML;
+    if(b >= 20 && e.offsetX < 450 && e.offsetX > 150 && e.offsetY < 450 && e.offsetY > 150 ){
+        score.innerHTML = parseInt(b)-20;
+        addCircle(s,e.offsetX,e.offsetY,r,'blue');
+    }
 };
 
 var enemies = function(){
     var cs = document.getElementsByTagName("circle");   
-    if(cs.length < 30){
+    if(cs.length < 50){
         if(Math.random() < .01){
             var x = 10 ;
             var y = 10 + 300*Math.random();
@@ -26,6 +31,14 @@ var enemies = function(){
         }else if (Math.random() < .01){
             var x = 590 ;
             var y = 10 + 300*Math.random();
+            addCircle(s,x,y,10,'red');
+        }else if (Math.random() < .01){
+            var x = 10 + 300*Math.random();
+            var y = 10 ;
+            addCircle(s,x,y,10,'red');
+        }else if (Math.random() < .01){
+            var x = 10 + 300*Math.random();
+            var y = 590 ;
             addCircle(s,x,y,10,'red');
         }
     }
@@ -57,7 +70,9 @@ var collisions = function(){
     var cs = document.getElementsByTagName("circle");
     var life = document.getElementById("life");
     var a = life.innerHTML;
-    console.log(a);
+    var score = document.getElementById("score");
+    var b = score.innerHTML;
+    score.innerHTML = parseInt(b)+1;
     if(a <= 0){
         var text = document.createElementNS("http://www.w3.org/2000/svg","text");
         text.setAttribute("x", 200);
@@ -74,7 +89,7 @@ var collisions = function(){
                     if(distance(cs[i].getAttribute("cx"), 
                                 cs[i].getAttribute("cy"),
                                 cs[j].getAttribute("cx"),
-                                cs[j].getAttribute("cy")) < 50 && i!=j){
+                                cs[j].getAttribute("cy")) < 50 && j>1){
                         cs[j].remove();                        
                         life.innerHTML = a-1;
                     }      
@@ -103,6 +118,9 @@ var collisions = function(){
 
 /////////////////////////////
 addCircle(s,300,300,40,'green');
+addCircle(s,300,300,150,"#00ffff");
+var cs = document.getElementsByTagName("circle");
+cs[1].setAttribute("fill-opacity",0.3);
 var myevent;
 myevent = setInterval(collisions,100);
 s.addEventListener("click",update);
