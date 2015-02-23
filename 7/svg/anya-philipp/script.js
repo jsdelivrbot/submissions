@@ -31,6 +31,9 @@ var VACCINE_COST = 100;
 var VACCINE_COLOR = "rgb(200, 0, 200)";
 var VACCINE_HOVER_COLOR = "rgb(255, 180, 255)";
 var VACCINE_SVG = "images/vaccine.svg";
+var VACCINE_RADIUS = STREET_SIZE * 1.5;
+var VACCINE_CIRCLE_STROKE = "rgb(200, 0, 200)";
+var VACCINE_CIRCLE_FILL = "rgb(255, 180, 255)";
 
 var CURE_REGENERATION = 5;
 var MAX_CURE_LEVEL = 100;
@@ -38,6 +41,9 @@ var CURE_COST = 100;
 var CURE_COLOR = "rgb(50, 200, 50)";
 var CURE_HOVER_COLOR = "rgb(170, 255, 170)";
 var CURE_SVG = "images/cure.svg";
+var CURE_RADIUS = STREET_SIZE * 1.5;
+var CURE_CIRCLE_STROKE = "rgb(50, 200, 50)";
+var CURE_CIRCLE_FILL = "rgb(170, 255, 170)";
 
 // Fraction of toolbar dimensions
 var BUTTON_WIDTH = 0.20;
@@ -49,6 +55,8 @@ var BUTTON_PADDING = 0.05;
 // In pixels, not fraction
 var DISTANCE_BETWEEN_BUTTONS = 10;
 var BUTTON_TEXT_HEIGHT = 20;
+
+var ACTION_BUTTON_ALPHA = 0.65;
 
 var makePerson = function(x,y,w,h,dx,dy, healthStatus, people, ctx) {
     return {
@@ -427,6 +435,31 @@ var makeToolButton = function(name, x, y, width, height, initial_level, color, h
     }
 }
 
+var makeCircle = function(x, y, radius, stroke_color, fill_color, ctx) {
+    return {
+        x : x,
+        y : y,
+        radius : radius,
+        stroke_color : stroke_color,
+        fill_color : fill_color,
+        ctx : ctx,
+        
+        draw : function() {
+            this.ctx.beginPath();
+            this.ctx.fillStyle = this.fill_color;
+            this.ctx.strokeStyle = this.stroke_color;
+            this.ctx.lineWidth = 2;
+            this.ctx.globalAlpha = ACTION_BUTTON_ALPHA;
+
+            this.ctx.arc(this.x, this.y, this.radius, 0, 2 * Math.PI);
+
+            this.ctx.stroke();
+            this.ctx.fill();
+            this.ctx.globalAlpha = 1;
+        }
+    };
+}
+
 var update = function(){
     ctx.fillStyle = "#ffffff";
     ctx.fillRect(0,0, CANVAS_WIDTH, CANVAS_HEIGHT);
@@ -446,6 +479,9 @@ var update = function(){
 
     vaccine_button.draw();
     cure_button.draw();
+
+    if (action_circle)
+        action_circle.draw();
 
     //for (var i = 0; i < gridIntersections.length; i++) {
     //    gridIntersections[i].draw(); 
@@ -584,16 +620,54 @@ var startGame  = function(e) {
 }
 
 var mouseMoved = function(e) {
+    var x = e.offsetX;
+    var y = e.offsetY;
     if (vaccine_button)
         vaccine_button.checkHover(e.offsetX, e.offsetY);
 
     if (cure_button)
         cure_button.checkHover(e.offsetX, e.offsetY);
 
+    makeMouseSelector();
+
     if (vaccine_button && vaccine_button.hover || cure_button && cure_button.hover)
         makeMousePointer();
-    else
-        makeMouseSelector();
+
+    if (selected_button != "") {
+        if (mouseInGameArea(x, y)) {
+            var radius, stroke_color, fill_color;
+
+            if (selected_button == "vaccine") {
+                radius = VACCINE_RADIUS;
+                stroke_color = VACCINE_CIRCLE_STROKE;
+                fill_color = VACCINE_CIRCLE_FILL;
+            }
+
+            else if (selected_button == "cure") {
+                radius = CURE_RADIUS;
+                stroke_color = CURE_CIRCLE_STROKE
+                fill_color = CURE_CIRCLE_FILL;
+            }
+
+            if (!action_circle) {
+                action_circle = makeCircle(x, y, radius, stroke_color, fill_color, ctx);
+            }
+            else {
+                action_circle.x = x;
+                action_circle.y = y;
+                action_circle.stroke_color = stroke_color;
+                action_circle.fill_color = fill_color;
+            }
+
+            makeMousePointer();
+        }
+        else
+            action_circle = false;
+    }
+}
+
+var mouseInGameArea = function(x, y) {
+    return x >= 0 && x <= GAME_WIDTH && y >= 0 && y <= GAME_HEIGHT;
 }
 
 var mouseClicked = function(e) {
@@ -631,7 +705,8 @@ var makeMousePointer = function() {
 }
 
 var makeMouseSelector = function() {
-    c.className = "";
+    if (c.className != "")
+        c.className = "";
 }
 
 var resetGame = function(e) {
@@ -644,6 +719,8 @@ var gridRectangles = [];
 
 var vaccine_button, cure_button;
 var selected_button = "";
+
+var action_circle;
 
 var c = document.getElementById("game-canvas");
 c.width = CANVAS_WIDTH;
