@@ -620,13 +620,15 @@ var startGame  = function(e) {
 }
 
 var mouseMoved = function(e) {
-    var x = e.offsetX;
-    var y = e.offsetY;
+    var mousePos = getMousePos(c, e);
+    var x = mousePos.x;
+    var y = mousePos.y;
+
     if (vaccine_button)
-        vaccine_button.checkHover(e.offsetX, e.offsetY);
+        vaccine_button.checkHover(x, y);
 
     if (cure_button)
-        cure_button.checkHover(e.offsetX, e.offsetY);
+        cure_button.checkHover(x, y);
 
     makeMouseSelector();
 
@@ -672,8 +674,9 @@ var mouseInGameArea = function(x, y) {
 
 var mouseClicked = function(e) {
     e.preventDefault();
-    var x = e.offsetX;
-    var y = e.offsetY;
+    var mousePos = getMousePos(c, e);
+    var x = mousePos.x;
+    var y = mousePos.y;
 
     if (vaccine_button.mouseOver(x, y) && vaccine_button.level > 0) {
         if (selected_button != "vaccine") {
@@ -698,6 +701,15 @@ var mouseClicked = function(e) {
             cure_button.selected = false;
         }
     }
+}
+
+// Thanks to http://www.html5canvastutorials.com/advanced/html5-canvas-mouse-coordinates/
+function getMousePos(canvas, evt) {
+    var rect = canvas.getBoundingClientRect();
+    return {
+        x: evt.clientX - rect.left,
+        y: evt.clientY - rect.top
+    };
 }
 
 var makeMousePointer = function() {
