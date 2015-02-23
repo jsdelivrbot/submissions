@@ -6,6 +6,8 @@ var stripPX = function(pixc){
 var svgStyle = window.getComputedStyle(svg);
 var maxx = stripPX(svgStyle.width);
 var maxy = stripPX(svgStyle.height);
+var pmaxy = maxy-20;
+var pminy = 20;
 //console.log(maxx,maxy);
 
 var getRandColor = function(){
@@ -69,22 +71,22 @@ var addPlayer = function(s,x,y){
 	},
 	move:function(){
 	   	if (this.state == 0) {
-	   		this.y = maxy-15;
+	   		this.y = pmaxy;
 	   	}
 	   	else if (this.state == 1) {
 	   		this.y = this.y - this.dy;
 	   		//fix if statements to detect blocks
-	   		if (this.y < 15){
+	   		if (this.y < pminy){
 	   			this.state = 2;
 	   		}
 	   	}
 	   	else if (this.state == 2) {
-	   		this.y = 15;
+	   		this.y = pminy;
 	   	}
 	   	else if (this.state == 3) {
 	   		this.y = this.y + this.dy;
 	   		//fix if statements to detect blocks
-	   		if (this.y > maxy-15){
+	   		if (this.y > pmaxy){
 	   			this.state = 0;
 	   		}
 	   	}
@@ -126,21 +128,30 @@ var update = function(){
     // adds all blocks
     var removeindex = [];
     for (var i = 0; i < blocks.length; i++){
-	blocks[i].move();
-	blocks[i].draw();
-	if (blocks[i].remove){
+    	blocks[i].move();
+    	blocks[i].draw();
+    	if (blocks[i].x <= 30) {
+    		//upper
+    		if (blocks[i].y < maxy / 2) {
+    			pminy = blocks[i].h + 20;
+    		}
+    		else {
+    			pmaxy = maxy - blocks[i].h - 20;
+    		}
+    	}
+    	if (blocks[i].remove){
 	    // push index to remove list if block is out of position
 	    removeindex.push(i);
 	}
 	    //window.cancelAnimationFrame(update);
-    }
+	}
     //remove all removable blocks from block list
     for (var ind = removeindex.length; ind >0; ind--){
-	console.log(blocks.length);
-	blocks.splice(removeindex[ind],1);
+    	console.log(blocks.length);
+    	blocks.splice(removeindex[ind],1);
     }
       // console.log(blocks.length);
-    window.requestAnimationFrame(update);
+      window.requestAnimationFrame(update);
 }
 
 
