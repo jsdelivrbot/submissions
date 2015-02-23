@@ -1,4 +1,5 @@
-rawdata = {
+var raw_data= 
+  {
   "meta" : {
     "view" : {
       "id" : "f9bf-2cp4",
@@ -1079,3 +1080,4 @@ rawdata = {
 , [ 478, "49DEC852-EAEA-4E2A-9F7E-1FDE3B635D35", 478, 1361417341, "696969", 1361417341, "696969", null, "79X490", "PHOENIX ACADEMY", "9", "367", "370", "360" ]
  ]
 };
+

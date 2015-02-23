@@ -8,6 +8,7 @@ var maxy = stripPX(svgStyle.height);
 var pmaxy = maxy-20;
 var pminy = 20;
 //console.log(maxx,maxy);
+var nopause = true;
 
 var getRandColor = function(){
     var letters = "0123456789ABCDEF".split('');
@@ -27,20 +28,21 @@ var buildBlock = function(s,x,y,w,h){
 	w:w,
 	h:h,
 	s:s,
-	dx:-10,
+	dx:-6,
 	draw:function(){
 	    rec.setAttribute("x", this.x);
 	    rec.setAttribute("y", this.y);
 	    rec.setAttribute("width", this.w);
 	    rec.setAttribute("height", this.h);
 	    //rect class in html file; all blocks should be of similar style
-	     rec.setAttribute("class", "rect"); 
+	    rec.setAttribute("class", "rect"); 
 	    this.s.appendChild(rec);
 	},
 	move:function(){
 	    //figure out algorithm to adjust movements of block
 	    this.x += this.dx;
-	    if (this.x+this.w < 0){
+	    console.log(this.x, this.w);
+	    if (this.x+this.w <= 0){
 		//this.s.parentNode.removeChild(rec);   //if child is of screen, element is deleted from svg
 		this.remove = true; // send boolean so we can remove this block from block list
 	    }
@@ -55,7 +57,7 @@ var buildBlock = function(s,x,y,w,h){
 var addPlayer = function(s,x,y){
     //temporary player is a circle for now
     var cir = document.createElementNS("http://www.w3.org/2000/svg","circle");
-    var charwidth = 20+10;//radius + offset pixel (left)
+    var charwidth = 70+10;//radius + offset pixel (left)
     return {
 	s:s,
 	x:x,
@@ -72,13 +74,14 @@ var addPlayer = function(s,x,y){
 	    this.s.appendChild(cir);
 	},
 	move:function(){
-	    console.log(this.state);
+//	    console.log(this.state);
 	    if (this.state == 0) {
 		var i = 1;
 		if (blocks[0].y !=0){
 		    i = 0;
 		}//else, by default, the block we should check should be the other one
-		if (this.y >= maxy){ // specifically blocks alternate in this setu
+		if (this.y >= pmaxy){ // specifically blocks alternate in this setup
+		    //console.log(blocks[i]);
 		    if (blocks[i].x > charwidth){
 			this.state = 4;
 		    }else{
@@ -87,8 +90,6 @@ var addPlayer = function(s,x,y){
 		    
 		}
 	    }
-
-	    
 	    if (this.state == 1) {
 	   	this.y = this.y - this.dy;
 	   	//fix if statements to detect blocks
@@ -97,24 +98,35 @@ var addPlayer = function(s,x,y){
 		}
 	    }
 	    else if (this.state == 2) {
-	   	this.y = pminy;
+		var i = 1;
+		if (blocks[0].y == 0){
+		    i = 0;
+		}//else, by default, the block we should check should be the other one
+		if (this.y <= pminy){
+		    if (blocks[i].x > charwidth){
+			this.state = 5;
+		    }else{
+			this.y = pminy;
+		    }
+		}
 	    }
 	    else if (this.state == 3) {
 		this.y = this.y + this.dy;
-		//fix if statements to detect blocks
-		//	if (blocks[i].x + blocks[i].w > 30 && this.y >= pmaxy){
 		if (this.y > pmaxy){
 	   	    this.state = 0;
-		    // 	    }
 		}
 	    }
 	    else if (this.state == 4){
-	//	alert("stop");
+		//alert("stop");
+		this.y = this.y + this.dy;
+	    }
+	    else if (this.state == 5){
+		this.y = this.y - this.dy;
 	    }
 	},
 
-	    node:cir,
-	    
+	node:cir,
+	
     }
 }
 var spawnBlock = function(s,x,y,w,h){
@@ -148,49 +160,56 @@ var update = function(){
     	blocks[i].move();
     	blocks[i].draw();
     	if (blocks[i].x <= 30) {
-    		//upper
-    		if (blocks[i].y < maxy / 2) {
-    			pminy = blocks[i].h + 20;
-    		}
-    		else {
-    			pmaxy = maxy - blocks[i].h - 20;
-    		}
+    	    //upper
+    	    if (blocks[i].y < maxy / 2) {
+    		pminy = blocks[i].h + 20;
+    	    }
+    	    else {
+    		pmaxy = maxy - blocks[i].h - 20;
+    	    }
     	}
-    	if (blocks[i].remove){
+	if (blocks[i].remove){
 	    // push index to remove list if block is out of position
 	    removeindex.push(i);
 	}
-	    //window.cancelAnimationFrame(update);
-	}
+    }
     //remove all removable blocks from block list
-    for (var ind = removeindex.length; ind >0; ind--){
-	//console.log(blocks.length);
+    for (var ind = removeindex.length; ind>0; ind--){
 	blocks.splice(removeindex[ind],1);
     }
+//    console.log(blocks);
+    if (nopause){
+	document.removeEventListener("click",resume);  // temporary... doesnt stop the animation
+	window.requestAnimationFrame(update);
+    }else{
+	document.removeEventListener("click",pausescreen);  // temporary... doesnt stop the animation
+	document.addEventListener("click",resume);
+    }
+}
+var resume = function(e){
+    nopause= !nopause;
+    document.addEventListener("click",pausescreen);  // temporary... doesnt stop the animation
     window.requestAnimationFrame(update);
 }
-
 /* pause screen doesnt work right now */
 var pausescreen = function(e){
     //svg.removeEventListener("onmouseover",setmovingBlocks());
     window.cancelAnimationFrame(update);
-    console.log("paused??");
+//    console.log("paused??");
+    nopause= !nopause;
 //    document.removeEventListener("click",pausescreen);
-    document.addEventListener("click",function(e){
-	//window.requestAnimationFrame(update);
-    });
+  
 }
 var setmovingBlocks = function(e){
     setInterval(function(){
-	var randy = 60;
-	var randw = 500;// replace with Math.random * n to fix uniform platforms
+	var randw = 500;
 	if (blocks.length > 0){
 	    var b = blocks[blocks.length-1];
-	    if (b.x + b.w-400< maxx){
+	    if (b.x+b.w-150 < maxx){
 		if (b.y == 0){
-		    spawnBlock(svg,maxx,maxy-randy,randw,randy);
+		    spawnBlock(svg,maxx,maxy-60,randw+0,60);
 		}else{
-		    spawnBlock(svg,maxx+randw,0,randw,60);
+		    spawnBlock(svg,maxx,0,randw,60);
 		}
 	    }
 	}
@@ -202,7 +221,7 @@ var initialize = function(){
     var randy= Math.random()*50;
     var randwid = Math.random()*(maxx);
     spawnBlock(svg,100,maxy-60,maxx,60)
-    spawnBlock(svg,0,0,maxx,60);
+    spawnBlock(svg,300,0,maxx,60);
     //while (blocks[0].x + blocks[0].w > maxx*.75){}
     svg.addEventListener("onmouseover",setmovingBlocks());
     document.addEventListener("click",pausescreen);  // temporary... doesnt stop the animation
