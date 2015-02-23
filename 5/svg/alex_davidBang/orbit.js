@@ -152,6 +152,8 @@ var mouseAction = function(){
         var color = "#" + Math.random().toString(16).slice(2, 8);
         var p = addPlanet(mouse.x,mouse.y,radius,color,sun);
         p.create();
+    	p.dx = -Math.sqrt(100 / 250);
+
     }else if (mode == "velocity"){
         if (j != -1){
             var theta = Math.atan2(mouse2.y - mouse.y,mouse2.x - mouse.x);
