@@ -1,20 +1,46 @@
 <!DOCTYPE html>
 <head>
   <style>
-    #s {border:1px solid;}
+    #s {border:1px solid;
+    margin-left:30px;
+     margin-top:10px}
   </style>
+<link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.5.0/pure-min.css">
 </head>
 <body>
+<div class="pure-g">
 
-<form>
+<div class="pure-u-1-2">
+<svg class="where" id="s" height=400 width=400 align="center">
+</svg>
+</div>
+
+<div class="pure-u-1-2">
+<form class="pure-form">
 <h3>Choose a Shape:</h3>
-<input type="radio" name="shape" id="shape_circle" value="circle" checked>Circle
- <input type="radio" name="shape" id="shape_square" value="square">Square
+<label for="shape_circle" class="pure-radio">
+<input id="shape_circle" type="radio" name="shape" value="circle" checked>
+Circle
+</label>
 
-<h3>Choose a Color:</h3>
-<input type="radio" id="color_red" name="color" value="red" checked>Red
- <input type="radio" id="color_green" name="color" value="green">Green
- <input type="radio" id="color_blue" name="color" value="blue">Blue
+<label for="shape_square" class="pure-radio"> 
+<input id="shape_square" type="radio" name="shape"  value="square">
+Square
+</label>
+
+<label for="shape_triangle" class="pure-radio">
+<input id="shape_triangle" type="radio" name="shape" value="triange">
+Triangle
+</label>
+
+<label for="shape_star" class="pure-radio">
+<input id="shape_star" type="radio" name="shape" value="star">
+Star
+</label>
+
+<h3>Color:
+<input id="color" class="color">
+</h3>
 
 <h3>Width:
 <input type="text" id="width">
@@ -23,11 +49,15 @@
 
 </form>
 
-<hr>
 
 <h3>Now Click Where You want it!</h3>
-<svg class="where" id="s" height=400 width=400>
-</svg>
+
+<br><hr><br>
+<input id="c" type="button" class="pure-button" value="Clear">
+</div>
+</div>
+
 <script src="svg.js"></script>
+<script type="text/javascript" src="jscolor/jscolor.js"></script>
 </body>
 </html>
