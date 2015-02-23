@@ -28,15 +28,15 @@ var INITIAL_INFECTION_PROBABILITY = 0.10;
 var VACCINE_REGENERATION = 10;
 var MAX_VACCINE_LEVEL = 100;
 var VACCINE_COST = 100;
-var VACCINE_COLOR = "#00ff00";
-var VACCINE_HOVER_COLOR = "#00ff00";
+var VACCINE_COLOR = "rgb(200, 0, 200)";
+var VACCINE_HOVER_COLOR = "rgb(255, 180, 255)";
 var VACCINE_SVG = "images/vaccine.svg";
 
 var CURE_REGENERATION = 5;
 var MAX_CURE_LEVEL = 100;
 var CURE_COST = 100;
-var CURE_COLOR = "#ff00ff";
-var CURE_HOVER_COLOR = "#ff00ff";
+var CURE_COLOR = "rgb(50, 200, 50)";
+var CURE_HOVER_COLOR = "rgb(170, 255, 170)";
 var CURE_SVG = "images/cure.svg";
 
 // Fraction of toolbar dimensions
