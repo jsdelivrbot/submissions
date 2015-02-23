@@ -70,7 +70,7 @@ var makePerson = function(x,y,w,h,dx,dy, healthStatus, people, ctx) {
               else if (this.healthStatus == "infected")
                   this.color = "#ff0000";
               else if (this.healthStatus == "immune")
-                    this.color = "#0000ff";
+                    this.color = "rgb(50, 100, 250)";
 
               ctx.fillStyle = this.color;
               ctx.fillRect(this.x,this.y,this.w,this.h);
@@ -317,6 +317,7 @@ var makeToolButton = function(name, x, y, width, height, initial_level, color, h
         color : color,
         hover_color : hover_color,
         hover : false,
+        selected : false,
         logo_url : logo_url,
         logo : null,
         logo_loaded : false,
@@ -331,13 +332,23 @@ var makeToolButton = function(name, x, y, width, height, initial_level, color, h
             this.ctx.lineWidth = 1;
             
             this.ctx.fillStyle = "#ffffff";
-            if (this.hover)
+            if (this.hover || this.selected)
                 this.ctx.fillStyle = this.hover_color;
+
+            if (this.selected) {
+                this.ctx.shadowColor = this.color;
+                this.ctx.shadowBlur = 100;
+                this.ctx.shadowOffsetX = 0;
+                this.ctx.shadowOffsetY = 0;
+            }
 
             this.ctx.beginPath();
             this.ctx.rect(this.x, this.y, this.width, this.button_height);
             this.ctx.fill();
             this.ctx.stroke();
+
+            this.ctx.shadowBlur = 0;
+            this.ctx.shadowColor = "white";
 
             this.drawLogo();
             this.drawText();
@@ -398,10 +409,14 @@ var makeToolButton = function(name, x, y, width, height, initial_level, color, h
             }
         },
 
-        checkHover : function(x, y) {
+        mouseOver : function(x, y) {
             var right_x = this.x + this.width;
             var bottom_y = this.y + this.full_height;
-            this.hover = (x >= this.x && x <= right_x && y >= this.y && y <= bottom_y);
+            return x >= this.x && x <= right_x && y >= this.y && y <= bottom_y;
+        }, 
+
+        checkHover : function(x, y) {
+            this.hover = this.mouseOver(x, y);
         },
 
         draw : function() {
@@ -575,10 +590,40 @@ var mouseMoved = function(e) {
     if (cure_button)
         cure_button.checkHover(e.offsetX, e.offsetY);
 
-    if (vaccine_button.hover || cure_button.hover)
+    if (vaccine_button && vaccine_button.hover || cure_button && cure_button.hover)
         makeMousePointer();
     else
         makeMouseSelector();
+}
+
+var mouseClicked = function(e) {
+    e.preventDefault();
+    var x = e.offsetX;
+    var y = e.offsetY;
+
+    if (vaccine_button.mouseOver(x, y) && vaccine_button.level > 0) {
+        if (selected_button != "vaccine") {
+            selected_button = "vaccine";
+            vaccine_button.selected = true;
+            cure_button.selected = false;
+        }
+        else {
+            selected_button = "";
+            vaccine_button.selected = false;
+        }
+    }
+
+    else if (cure_button.mouseOver(x, y) && cure_button.level > 0) {
+        if (selected_button != "cure") {
+            selected_button = "cure";
+            cure_button.selected = true;
+            vaccine_button.selected = false;
+        }
+        else {
+            selected_button = "";
+            cure_button.selected = false;
+        }
+    }
 }
 
 var makeMousePointer = function() {
@@ -598,6 +643,7 @@ var gridIntersections = [];
 var gridRectangles = [];
 
 var vaccine_button, cure_button;
+var selected_button = "";
 
 var c = document.getElementById("game-canvas");
 c.width = CANVAS_WIDTH;
@@ -605,10 +651,10 @@ c.height = CANVAS_HEIGHT;
 var ctx = c.getContext("2d");
 
 c.addEventListener("mousemove", mouseMoved);
+c.addEventListener("mousedown", mouseClicked);
 
 var start = document.getElementById("start-button");
 start.addEventListener("click", startGame);
 
 var reset = document.getElementById("reset-button");
 reset.addEventListener("click", resetGame);
-
