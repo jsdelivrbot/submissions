@@ -7,13 +7,29 @@ var addCircle = function(x,y,r){
     c.setAttribute('cx',x);
     c.setAttribute('cy',y);
     c.setAttribute('r',r);
-    c.style('fill',function() {
-	return "hsl(" + Math.random() * 360 + ",100%,50%)";
-    });
+    c.setAttribute('fill', "hsl(" + Math.random() * 360 + ",100%,50%)");
     c.addEventListener('click',disappear);
     s.appendChild(c);
 };
 
+/*var move = function(){
+    var circles = document.getElementsByTagName("circle");
+    for (var i = 0;i<circles.length;i++){
+    var x = parseFloat(circles[i].getAttribute('cx'));
+    var y = parseFloat(circles[i].getAttribute('cy'));
+    var dx = Math.random()*10;
+    var dy = Math.random()*10;
+    if(x+dx>1000 || x + dx < 0)
+        dx = -dx;
+	if(y+dy > 500 || y+dy<0)
+	    dy = -dy;
+	    x += dx;
+	    y += dy;
+	    circles[i].setAttribute('cx',x);
+	    circles[i].setAttribute('cy',y);
+    }
+}
+*/
 var start = function(){
     for (var i = 0;i<50;i++){
 	addCircle(Math.random()*1000,Math.random()*500,Math.random()*30);
@@ -22,3 +38,4 @@ var start = function(){
 
 var st = document.getElementById("Start");
 st.addEventListener("click",start);
+//move();
