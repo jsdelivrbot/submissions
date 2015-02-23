@@ -1,6 +1,19 @@
 var CANVAS_WIDTH = 1000;
 var CANVAS_HEIGHT = 600;
 
+var FULL_TOOLBAR_HEIGHT = 100;
+var FULL_TOOLBAR_WIDTH = CANVAS_WIDTH;
+
+var TOOLBAR_PADDING_VERTICAL = 10;
+var TOOLBAR_PADDING_HORIZ = 10;
+
+var TOOLBAR_WIDTH = FULL_TOOLBAR_WIDTH - 2 * TOOLBAR_PADDING_HORIZ;
+var TOOLBAR_HEIGHT = FULL_TOOLBAR_HEIGHT - 2 * TOOLBAR_PADDING_VERTICAL;
+var TOOLBAR_Y = CANVAS_HEIGHT - TOOLBAR_HEIGHT;
+
+var GAME_WIDTH = CANVAS_WIDTH;
+var GAME_HEIGHT = CANVAS_HEIGHT - FULL_TOOLBAR_HEIGHT;
+
 var STREET_SIZE = 20
 var SPACE_BETWEEN_STREETS = 80
 var BLOCK_SIZE = STREET_SIZE + SPACE_BETWEEN_STREETS;
@@ -11,6 +24,25 @@ var TURN_PROBABILITY = 0.15;
 var PERSON_SIZE = (3 / 4) * STREET_SIZE;
 var PERSON_SPEED = 1;
 var INITIAL_INFECTION_PROBABILITY = 0.10;
+
+var VACCINE_REGENERATION = 10;
+var MAX_VACCINE_LEVEL = 100;
+var VACCINE_COST = 100;
+var VACCINE_COLOR = "#00ff00";
+var VACCINE_SVG = "images/vaccine.svg";
+
+var CURE_REGENERATION = 5;
+var MAX_CURE_LEVEL = 100;
+var CURE_COST = 100;
+var CURE_COLOR = "#ff00ff";
+var CURE_SVG = "images/cure.svg";
+
+// Fraction of toolbar dimensions
+var BUTTON_WIDTH = 0.20;
+var BUTTON_HEIGHT = 1.0;
+
+// In pixels, not fraction
+var DISTANCE_BETWEEN_BUTTONS = 10;
 
 var makePerson = function(x,y,w,h,dx,dy, healthStatus, people, ctx) {
     return {
@@ -31,6 +63,8 @@ var makePerson = function(x,y,w,h,dx,dy, healthStatus, people, ctx) {
                   this.color = "#00ff00";
               else if (this.healthStatus == "infected")
                   this.color = "#ff0000";
+              else if (this.healthStatus == "immune")
+                    this.color = "#0000ff";
 
               ctx.fillStyle = this.color;
               ctx.fillRect(this.x,this.y,this.w,this.h);
@@ -94,9 +128,9 @@ var makePerson = function(x,y,w,h,dx,dy, healthStatus, people, ctx) {
               this.x = this.x + this.dx;
               this.y = this.y + this.dy;
 
-              if (this.x <= 0 || (this.x + PERSON_SIZE) >= CANVAS_WIDTH)
+              if (this.x <= 0 || (this.x + PERSON_SIZE) >= GAME_WIDTH)
                   this.dx = this.dx * -1;
-              if (this.y <= 0 || (this.y + PERSON_SIZE) >= CANVAS_HEIGHT)
+              if (this.y <= 0 || (this.y + PERSON_SIZE) >= GAME_HEIGHT)
                   this.dy = this.dy * -1;
           },
 
@@ -239,9 +273,9 @@ var makeStreet = function(ctx, orientation, size, x, y, color) {
             draw : function() {
                 ctx.fillStyle = this.color;
                 if (orientation == "vertical")
-                    ctx.fillRect(this.x, this.y, this.size, CANVAS_HEIGHT);
+                    ctx.fillRect(this.x, this.y, this.size, GAME_HEIGHT);
                 else if (orientation == "horizontal") {
-                    ctx.fillRect(this.x, this.y, CANVAS_WIDTH, this.size);
+                    ctx.fillRect(this.x, this.y, GAME_WIDTH, this.size);
                 }
             }
     };
@@ -263,9 +297,54 @@ var makeIntersection = function(x, y, width, height) {
     }
 }
 
+var makeToolButton = function(x, y, width, height, initial_level, color, logo_url, ctx) {
+    return {
+        x : x,
+        y : y,
+        width : width,
+        height : height,
+        level : initial_level,
+        color: color,
+        logo_url : logo_url,
+        logo : null,
+        logo_loaded : false,
+        ctx : ctx,
+
+        logoLoaded : function(button_reference) {
+            button_reference.logo_loaded = true;
+        },
+
+        draw : function() {
+            ctx.strokeStyle = this.color;
+            ctx.lineWidth = 1;
+            ctx.beginPath();
+            ctx.rect(x, y, width, height);
+            //ctx.fill();
+            ctx.stroke();
+
+            if (this.logo == null) {
+                this.logo = new Image();
+                var button_reference = this;
+                this.logo.onload = function() { button_reference.logoLoaded(button_reference) };
+                this.logo.src = this.logo_url;
+            }
+
+            if (this.logo_loaded) {
+                var logo_width = 0.3 * this.width;
+                var logo_height = logo_width * (this.logo.height / this.logo.width);
+
+                var logo_left_corner = this.x + 0.05 * this.width;
+                var logo_top_corner = this.y + 0.05 * this.height;
+
+                ctx.drawImage(this.logo, logo_left_corner, logo_top_corner, logo_width, logo_height);
+            }
+        }
+    }
+}
+
 var update = function(){
     ctx.fillStyle = "#ffffff";
-    ctx.fillRect(0,0,CANVAS_WIDTH, CANVAS_HEIGHT);
+    ctx.fillRect(0,0,GAME_WIDTH, GAME_HEIGHT);
 
     for (var i = 0; i < people.length; i++) {
         people[i].move();
@@ -279,6 +358,9 @@ var update = function(){
     for (var i = 0; i < people.length; i++) {
         people[i].draw();
     }
+
+    vaccine_button.draw();
+    cure_button.draw();
 
     //for (var i = 0; i < gridIntersections.length; i++) {
     //    gridIntersections[i].draw(); 
@@ -304,14 +386,14 @@ var generateGrid = function() {
     var intersections = [];
 
     // Fit as many streets as possible
-    var numVerticalStreets = Math.floor(CANVAS_WIDTH / BLOCK_SIZE);
-    var numHorizontalStreets = Math.floor(CANVAS_HEIGHT / BLOCK_SIZE);
+    var numVerticalStreets = Math.floor(GAME_WIDTH / BLOCK_SIZE);
+    var numHorizontalStreets = Math.floor(GAME_HEIGHT / BLOCK_SIZE);
 
     // Added to vertical streets so that they're centered
-    var offsetX = (CANVAS_WIDTH - numVerticalStreets * BLOCK_SIZE) / 2;
+    var offsetX = (GAME_WIDTH - numVerticalStreets * BLOCK_SIZE) / 2;
 
     // Added to horizontal streets so that they're centered
-    var offsetY = (CANVAS_HEIGHT - numHorizontalStreets * BLOCK_SIZE) / 2;
+    var offsetY = (GAME_HEIGHT - numHorizontalStreets * BLOCK_SIZE) / 2;
 
     // Generate vertical streets
     // Each vertical street has some space to its left, then a street, and then some space to its right
@@ -382,12 +464,37 @@ var spawnPeople = function() {
         people.push(newPerson);
     }
 }
+var createVaccineButton = function() {
+    var width = TOOLBAR_WIDTH * BUTTON_WIDTH;
+    var right_corner_x = TOOLBAR_WIDTH + TOOLBAR_PADDING_HORIZ;
+    var left_corner_x = right_corner_x - width;
+
+    var height = TOOLBAR_HEIGHT * BUTTON_HEIGHT;
+    var bisector_y = TOOLBAR_Y + (TOOLBAR_HEIGHT / 2) - TOOLBAR_PADDING_VERTICAL;
+    var top_corner_y = bisector_y - height / 2;
+
+    vaccine_button = makeToolButton(left_corner_x, top_corner_y, width, height, MAX_VACCINE_LEVEL, VACCINE_COLOR, VACCINE_SVG, ctx);
+}
+
+var createCureButton = function() {
+    var width = TOOLBAR_WIDTH * BUTTON_WIDTH;
+    var right_corner_x = vaccine_button.x - DISTANCE_BETWEEN_BUTTONS;
+    var left_corner_x = right_corner_x - width;
+
+    var height = TOOLBAR_HEIGHT * BUTTON_HEIGHT;
+    var bisector_y = TOOLBAR_Y + (TOOLBAR_HEIGHT / 2) - TOOLBAR_PADDING_VERTICAL;
+    var top_corner_y = bisector_y - height / 2;
+
+    cure_button = makeToolButton(left_corner_x, top_corner_y, width, height, MAX_VACCINE_LEVEL, CURE_COLOR, CURE_SVG, ctx);
+}
 
 var startGame  = function(e) {
     var grid = generateGrid();
     gridIntersections = grid[0];
     gridRectangles = grid[1];
-    var people = spawnPeople();
+    spawnPeople();
+    createVaccineButton();
+    createCureButton();
     window.requestAnimationFrame(update);
 }
 
@@ -398,6 +505,8 @@ var resetGame = function(e) {
 var people = [];
 var gridIntersections = [];
 var gridRectangles = [];
+
+var vaccine_button, cure_button;
 
 var c = document.getElementById("game-canvas");
 c.width = CANVAS_WIDTH;
