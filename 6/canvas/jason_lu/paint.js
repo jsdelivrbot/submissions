@@ -77,7 +77,7 @@ function medium(){
 }
 
 function large(){
-    size = 4;
+    size = 10;
 }
 
 function clear(){
