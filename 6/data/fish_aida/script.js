@@ -11,3 +11,8 @@ for (var i = 0; i < raw_scores_data.length; i++){
 	};
 	school_scores.push(t);
 };
+var math_scores = [];
+for (i = 0; i < school_scores.length; i++) {
+	math_scores.push(parseInt(school_scores[i].math));
+};
+console.log(math_scores);
