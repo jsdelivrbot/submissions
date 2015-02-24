@@ -51,6 +51,4 @@ for(var i=0; i<src_data.length; i++) {
 	best_schools.push(dict);
     }
 }
-return best_schools;
-
-Console.log()
+console.log(best_schools);
