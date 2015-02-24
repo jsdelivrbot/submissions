@@ -39,10 +39,11 @@ var mean = sum/math_scores.length;
 console.log(mean);
 
 greater = [];
-for (var i = 0;i<math_scores.length;i++){
-    var tmp = parseInt(math_scores[i]);
+for (var i = 0;i<school_scores.length;i++){
+    var tmp = parseInt(school_scores[i]["math"]);
     if (tmp > mean){
-	greater.push(tmp);
+	greater.push(school_scores[i]["name"]);
+	console.log(school_scores[i]["name"] + "'s math score: "+school_scores[i]["math"])
     }
 };
 
