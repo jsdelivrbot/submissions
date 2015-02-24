@@ -1,5 +1,4 @@
 var school_scores = [];
-
 for (var i=0; i<rawscores['data'].length; i++) {
     var school = rawscores['data'][i];
     school_scores.push( {
@@ -12,10 +11,7 @@ for (var i=0; i<rawscores['data'].length; i++) {
     });
 };
 
-//document.getElementById("a").innerHTML = school_scores.toString();
-
 var math_scores = []
-
 for (var i=0; i<rawscores['data'].length; i++) {
     var school = rawscores['data'][i];
     math_scores.push(school[12]);
@@ -38,5 +34,13 @@ var mean = function(list) {
 }
 
 var mean_math = mean(math_scores);
-
 document.getElementById("b").innerHTML = "Mean math score: " + mean_math.toString();
+
+var top_schools = [];
+for (var i=0; i<school_scores.length; i++) {
+	if (parseInt(school_scores[i]['math']) >= mean_math) {
+		top_schools.push(school_scores[i]['name']);
+	}
+}
+
+document.getElementById("c").innerHTML = "List of above average schools: " + top_schools.toString();
