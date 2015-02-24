@@ -1,5 +1,6 @@
 var s = document.getElementById("s");
 var circles = document.getElementById("circles");
+var high = document.getElementById("high");
 
 var click = function(e) {
     addCircle(e.offsetX, e.offsetY,0,0,1);
@@ -29,6 +30,9 @@ var addCircle = function(x,y,dx,dy,gen) {
     c.setAttribute('gen',gen);//ie: generation
     s.appendChild(c);
     circles.innerHTML=parseInt(circles.innerHTML)+1;
+    if(parseInt(circles.innerHTML)>parseInt(high.innerHTML)){
+	high.innerHTML=parseInt(circles.innerHTML);
+    }
 };
 
 var colorGen = function(gen){ //Color Generator for different generations
