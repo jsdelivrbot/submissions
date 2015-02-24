@@ -1,4 +1,6 @@
-src_data = src_data.data
+src_data = rawscores.data
+console.log("Raw data:");
+console.log(src_data);
 
 var scoresArray = [];
 // into array
