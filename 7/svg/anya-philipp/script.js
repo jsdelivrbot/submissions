@@ -335,6 +335,10 @@ var makeToolButton = function(name, x, y, width, height, initial_level, color, h
             button_reference.logo_loaded = true;
         },
 
+        canUse : function(cost) {
+            return this.level - cost >= 0
+        },
+
         drawButton : function() {
             this.ctx.strokeStyle = this.color;
             this.ctx.lineWidth = 1;
@@ -639,17 +643,17 @@ var mouseMoved = function(e) {
     if (vaccine_button && vaccine_button.hover || cure_button && cure_button.hover)
         makeMousePointer();
 
-    if (selected_button != "") {
+    if (selected_button_string != "") {
         if (mouseInGameArea(x, y)) {
             var radius, stroke_color, fill_color;
 
-            if (selected_button == "vaccine") {
+            if (selected_button_string == "vaccine") {
                 radius = VACCINE_RADIUS;
                 stroke_color = VACCINE_CIRCLE_STROKE;
                 fill_color = VACCINE_CIRCLE_FILL;
             }
 
-            else if (selected_button == "cure") {
+            else if (selected_button_string == "cure") {
                 radius = CURE_RADIUS;
                 stroke_color = CURE_CIRCLE_STROKE
                 fill_color = CURE_CIRCLE_FILL;
@@ -684,36 +688,38 @@ var mouseClicked = function(e) {
     var y = mousePos.y;
 
     if (vaccine_button.mouseOver(x, y) && vaccine_button.level > 0) {
-        if (selected_button != "vaccine") {
-            selected_button = "vaccine";
+        if (selected_button_string != "vaccine") {
+            selected_button_string = "vaccine";
             vaccine_button.selected = true;
             cure_button.selected = false;
         }
         else {
-            selected_button = "";
+            selected_button_string = "";
             vaccine_button.selected = false;
         }
     }
 
     else if (cure_button.mouseOver(x, y) && cure_button.level > 0) {
-        if (selected_button != "cure") {
-            selected_button = "cure";
+        if (selected_button_string != "cure") {
+            selected_button_string = "cure";
             cure_button.selected = true;
             vaccine_button.selected = false;
         }
         else {
-            selected_button = "";
+            selected_button_string = "";
             cure_button.selected = false;
         }
     }
 
-    if (button_selected != "") {
-        for (int i = 0; i < people.length; i++) {
-            var person = people[i];
-            if action_circle.isInside(person.x, person.y) {
-                // apply
-            }
-        }
+    if (selected_button_string != "") {
+        var people_in_circle = people.filter(function(person, index, array_obj) {
+            if (!this)
+                return false;
+
+            return this.isInside(person.x, person.y)
+        }, action_circle);
+
+        
     }
 }
 
@@ -747,8 +753,8 @@ var people = [];
 var gridIntersections = [];
 var gridRectangles = [];
 
-var vaccine_button, cure_button;
-var selected_button = "";
+var vaccine_button, cure_button, selected_button;
+var selected_button_string = "";
 
 var action_circle;
 
