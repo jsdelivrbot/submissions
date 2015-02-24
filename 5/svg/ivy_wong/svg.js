@@ -1,5 +1,7 @@
 var div = document.getElementById("svg-div");
 var svg = document.getElementById("s");
+var mx = 0;
+var my = 0;
 
 var createCircle = function(x,y,r,dx,dy,color){
     return {
@@ -37,6 +39,16 @@ var update = function(){
         s.removeChild(s.lastChild);
     }
     for(var i = 0; i < bubbles.length; i++){
+        if(dist(bubbles[i].cx, bubbles[i].cy, mx, my) < 50){
+            bubbles[i].color = "#00ff00";
+            bubbles[i].dx = bubbles[i].dx*-1;  
+            bubbles[i].dy = bubbles[i].dy*-1;
+            bubbles[i].cx -= bubbles[i].dx;  
+            bubbles[i].cy -= bubbles[i].dy;  
+            //console.log("Found close.");
+        } else {
+            bubbles[i].color = "#ff0000";
+        }
         bubbles[i].move();
         bubbles[i].draw();
     }
@@ -48,19 +60,16 @@ var dist = function(x0, y0, x1, y1){
 };
 
 var hover = function(e){
-    if(dist(e.target.cx, e.target.cy, e.offsetX, e.offsetY) < 100){
-        e.target.color = "#00ff00";
-        e.target.dx = e.target.dx*-1;  
-        e.target.dy = e.target.dy*-1;  
-        console.log("in");
-    }
-    console.log("asklehjasg");
+    mx = e.offsetX;
+    my = e.offsetY;
+    //console.log("Hover!");
 };
 
 bubbles = [];
-for(var i = 0; i < 10; i++){
+for(var i = 0; i < 20; i++){
     bubbles[i] = createCircle(Math.random()*550 + 20, Math.random()*400 + 20, Math.random()*15 + 5, Math.random()*3+2, Math.random()*3+2,"#ff0000");  
     //bubbles[i].addEventListener("mouseover",hover);
 };
 
+svg.addEventListener("mousemove",hover);
 window.requestAnimationFrame(update);

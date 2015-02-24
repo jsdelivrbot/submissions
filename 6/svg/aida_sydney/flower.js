@@ -8,13 +8,14 @@ grass.setAttribute('y',325);
     s.appendChild(grass);
 var index = 0;
 var flowers = [];
+var waterMode = false;
 
 var clicked = function(e) {
     var x = e.offsetX;
     var y = e.offsetY;
     console.log(y);
     if (y >= 325) {
-        createFlower(x,y);
+        createFlower(x,y); 
     }
 }
 var createFlower = function(x,y){
@@ -42,12 +43,12 @@ var createFlower = function(x,y){
         interval: interval,
         grow: function() {
             var flower = document.getElementsByName(String(this.name));
-            console.log(flower);
+            //console.log(flower);
             var circle = flower[0];
             var stem = flower[1];
             circle.setAttribute('r', circle.getAttribute('r')*1.1);
             this.life -= 20;
-            console.log(this.life);
+            //console.log(this.life);
             if (this.life <= 0) {
                 this.die();
             };
@@ -71,4 +72,9 @@ var createFlower = function(x,y){
     flowers.push(flower);
     index++;
 };
+var water = document.getElementById("w");
+water.addEventListener("click", function() {
+    waterMode = !waterMode;
+    console.log(waterMode);
+} )
 s.addEventListener('click', clicked);
