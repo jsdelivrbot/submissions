@@ -13,14 +13,22 @@ var makeCircle = function makeCircle(x, y, r, stroke, fill) {
 var circle = makeCircle((game.getAttribute("width") / 2), (game.getAttribute("height") / 2), 10, "rgb(0, 0, 0)", "rgb(255, 255, 255)");
 var circle_list = [circle];
 
+var count = 0;
 var updateBG = function updateBG() {
-    for (var index = 0; index < circle_list.length; index++) {
-        var radius = circle_list[index].getAttribute("r")
-        circle_list[index].getAttribute("r") = (radius + 1) % Math.floor(Math.sqrt(game.getAttribute("width") * game.getAttribute("width") + game.getAttribute("height") * game.getAttribute("height")) / 2); // half the diagonal
+    if (count == 0) {
+	for (var index = 0; index < circle_list.length; index++) {
+            //var radius = circle_list[index].getAttribute("r");
+	    circle_list[index].setAttribute("r", 
+					    (circle_list[index].getAttribute("r") + 1));//game.getAttribute("height"));
+	    //circle_list[index].setAttribute("r", (radius + 1) % Math.floor(Math.sqrt(game.getAttribute("width") * game.getAttribute("width") + game.getAttribute("height") * game.getAttribute("height")) / 2)); // half the diagonal
+	}
+	count = 10;
     }
+    else {
+	count--;
+    }
+    window.requestAnimationFrame(updateBG);
 }
 
 game.appendChild(circle);
-while (true) {
-    updateBG();
-}
+window.requestAnimationFrame(updateBG);
