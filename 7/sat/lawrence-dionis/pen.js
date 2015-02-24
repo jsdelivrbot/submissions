@@ -1,6 +1,9 @@
 var list = [];
 console.log(raw);
 var data = raw.data;
+var mathscores = [];
+
+
 var convert = function(e){
     return {
 	code: e[8],
@@ -14,4 +17,28 @@ var convert = function(e){
 for(var i = 0; i<data.length;i++){
     list.push(convert(data[i]));
 }
+var extract = function(topic,extracto){
+    for(var i =0; i < list.length; i++){
+	if(topic == "math" || topic == "english" ||topic == "writing" || topic == num){
+	    var temp = parseInt(list[i][topic]);
+	    if(!isNaN(temp)){
+		extracto.push(temp);
+	    }
+	}else if(topic == "name" || topic == "code"){
+	    extracto.push(list[topic]);
+	}
+    }
+};
+var average = function(e){
+    var sum = 0;
+    for(var i =0; i<e.length;i++){
+	sum += e[i];
+    }
+    if(e.length ==0){
+	return 0;
+    }
+    return sum/e.length;
+};
 console.log(list);
+extract("math",mathscores);
+console.log(average(mathscores));

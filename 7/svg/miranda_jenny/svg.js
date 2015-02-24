@@ -26,7 +26,11 @@ var checkWallCollisions = function(cx,cy){
     return false
 };
 
-
+/*var text = document.createElement('text');
+text.innerHTML ="HELLO";
+text.setAttribute('x',"20");
+text.setAttribute('y',"140");
+svg.appendChild(text);*/
 c.addEventListener("mousemove",function(e){
                    if (!checkWallCollisions(e.offsetX,e.offsetY)){
                    z.setAttribute("x",e.offsetX-25);
@@ -40,6 +44,7 @@ finish.addEventListener("mousemove",function(e){
                         win[0].setAttribute("width",'600');
                         win[0].setAttribute("height",'600');
                         win[0].setAttribute('opacity',1);
+                        console.log(win[1])
                         win[1].setAttribute('opacity',1);
                         
                         for(i=0;i<walls.length;i++){
