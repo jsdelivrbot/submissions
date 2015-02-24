@@ -40,3 +40,47 @@ for (j = 0; j < school_scores.length; j++){
 };
 
 console.log(highmath);
+
+
+
+/*
+
+var map = function  (l, f) {
+    var result = [];
+    for (var i = 0;  i < l.length; i ++) {
+	result.push(f(l[i]));//f ->getMath, square (pass a function as a parameter). square
+    };
+    return result;
+};
+
+var filter = function  (l, f) {
+    var result = [];
+    for (var i = 0;  i < l.length; i ++) {
+	if (f(l[i])) {//checks if function returns true
+	    result.push(l[i]);
+	};
+    };
+    return result;
+};
+
+var getMath = function (item) {
+    return item.math;
+};
+
+mathscores = map (school_scores, function (x) {return x.math});
+console.log (mathscores);
+
+school_scores = map (rawschools, function (item) {
+    return {
+	code: item[8],
+	name: item[9],
+	num: item[10],
+	eng: item[11],
+	math: item[12],
+	writing: item[13]
+    };
+});
+   
+mathscores = map (mathscores, function (x) {return parseInt(x);});
+mathscores = filter (mathscores, function (X) {return !isNaN(x);};
+*/
