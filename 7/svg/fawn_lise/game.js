@@ -9,9 +9,9 @@ var pmaxy = maxy-20;
 var pminy = 20;
 var nopause = false;
 var gamecount = 0; // 0 for start screen, 20 for pause msg, 100 for losing screen
-
+var score = 0;
 var getRandColor = function(){
-    var letters = "01346789ABCDEF".split('');
+    var letters = "0123456789ABCDE".split(''); //removed f so that the color of text and player will never be white
     var color = "#";
     for (var i=0;i<6;i++){
 	color += letters[Math.floor(Math.random()*letters.length)];
@@ -196,7 +196,7 @@ var update = function(){
     for (var i = 0; i < blocks.length; i++){
     	blocks[i].move();
     	blocks[i].draw();
-    	if (blocks[i].x <= 30) {
+	if (blocks[i].x <= 30) {
     	    //upper
     	    if (blocks[i].y < maxy / 2) {
     		pminy = blocks[i].h + 20;
@@ -213,7 +213,9 @@ var update = function(){
     //remove all removable blocks from block list
     for (var ind = removeindex.length; ind>0; ind--){
 	blocks.splice(removeindex[ind],1);
+	score++;
     }
+    document.getElementById("s").innerHTML= score;
     if (nopause){
 	document.removeEventListener("click",resume); 
 	window.requestAnimationFrame(update);
@@ -258,8 +260,20 @@ var initialize = function(){
     if (gamecount <1){
 	textNode.nodeValue = "CLICK TO START!!! ";
     }
-    else if (gamecount ==100){
-	textNode.nodeValue = " YOU LOST. CLICK TO START AGAIN!!!! ";
+    else if (gamecount == 100){
+	if (score <10){
+	    textNode.nodeValue = " YOU LOST. CLICK TO START AGAIN!!!! ";
+	}else if(score <30){
+	    txt.setAttribute("x",maxx/24);
+	    txt.setAttribute("y",maxy/3);
+	    textNode.nodeValue = " YOU'RE AWESOME BUT YOU STILL LOST. CLICK TO PLAY AGAIN!!!! ";
+	}else {
+	    txt.setAttribute("x",maxx/22);
+	    txt.setAttribute("y",maxy/3);
+	    textNode.nodeValue = " YOU HAVE OFFICIALLY BECOME ADDICTED TO GRAVITY JUMP. CLICK TO PLAY AGAIN!!!! ";
+	}
+	
+	score = 0;
     }
     txt.appendChild(textNode);
     svg.appendChild(txt);
