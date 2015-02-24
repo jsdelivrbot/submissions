@@ -15,7 +15,7 @@ var clicked = function(e) {
     var y = e.offsetY;
     console.log(y);
     if (y >= 325) {
-        createFlower(x,y);
+        createFlower(x,y); 
     }
 }
 var createFlower = function(x,y){

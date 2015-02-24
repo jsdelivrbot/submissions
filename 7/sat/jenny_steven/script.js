@@ -23,8 +23,10 @@ for ( var i = 0; i < data.length; i++ ) {
 var math_scores = [];
 
 for ( var i = 0; i < school_scores.length; i++ ) {
-    var temp = school_scores["math"];
-    math_scores.push(temp);
+    var temp = school_scores[i]["math"];
+    if (temp != "s") {
+	math_scores.push(parseInt(temp));
+    }
 }
 
 var total_math = 0;
