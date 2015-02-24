@@ -15,7 +15,7 @@ for(var i = 0; i < data.length; i++){
 	"count":data[i][10],
 	"reading":data[i][11],
 	"math":data[i][12],
-	"writing":data[i][13],
+	"writing":data[i][13]
     };
 
     math_scores[i] = math;
