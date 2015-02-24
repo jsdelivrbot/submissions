@@ -31,3 +31,14 @@ average=average/math_scores.length;
 console.log(average);
 
 console.log(math_scores);
+
+above_average = [];
+
+for (var i = 0; i< rawschools.length; i++){
+    if (parseInt(rawschools[i][12]) > average){
+	var t = rawschools[i];
+	above_average.push(t);
+    }
+}
+
+console.log(above_average);
