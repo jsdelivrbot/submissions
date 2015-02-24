@@ -20,7 +20,7 @@ var makeBall = function(x,y,ctx) {
         dy : Math.random()*10-5,
         //dy : 1,
         ctx : ctx,
-    state: "bouncing",
+        state: "bouncing",
         color : getRandomColor(),
         counter : 50,
         setState : function (s) {
