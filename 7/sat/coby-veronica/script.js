@@ -17,7 +17,27 @@ var math = [];
 for (var i = 0; i < arr_dicts.length; i++){
     var cur_score = arr_dicts[i].math;
     if (cur_score != 's'){
-	math.push();
+	math.push(cur_score);
     }
 }
+
+var agg = 0;
+for (var i = 0; i < math.length; i++){
+    agg = agg + parseInt(math[i]);
+}
+
+var average = agg/math.length;
+
+var high_schools = []
+for (var i = 0; i < arr_dicts.length; i++){
+    if (parseInt(arr_dicts[i].math) > average){
+	high_schools.push(arr_dicts[i]);
+    }
+}
+
+var math_h4 = document.getElementById('math');
+math_h4.innerHTML = math;
+
+var avg = document.getElementById('avg');
+avg.innerHTML = average;
 

@@ -6,10 +6,15 @@ var showVelocities = false;
 var mouse = {x: 0, y: 0};
 var mouse2 = {x: 0, y: 0};
 var mode = "create";
+var restart = document.getElementById("restart");
 
 var distance = function(body1,body2){
     return Math.pow(body2.x - body1.x,2) + Math.pow(body2.y - body1.y,2);
 };
+
+restart.addEventListener('click', function(e){
+    window.location.reload(true);
+}, false);
 
 var addPlanet = function(x,y,r,c,parent){
     return {
@@ -43,6 +48,16 @@ var addPlanet = function(x,y,r,c,parent){
             this.svg.setAttribute('cx',this.x);
             this.svg.setAttribute('cy',this.y);
         },
+	collision: function (){
+	    for (var i = 0; i < planets.length; i++){
+		if (Math.pow(planets[i].x - this.x, 2) + Math.pow(planets[i].y - this.y, 2) <= Math.pow(this.r,2) + Math.pow(planets[i].r,2)) {
+		    this.dx = 0 - this.dx;
+		    this.dy = 0 - this.dy;
+		    planets[i].dx = 0- planets[i].dx;
+		    planets[i].dy = 0 - planets[i].dy;
+		};
+	    };	
+	},
         delete : function(){
             s.removeChild(this.svg);
         } 
@@ -107,6 +122,7 @@ var run = function(){
     for (var i = 0; i < planets.length; i++){
         planets[i].updateVelocity();
         planets[i].move();
+	planets[i].collision();
     };
     if (showVelocities){
         drawVelocities();
