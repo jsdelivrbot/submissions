@@ -7,7 +7,6 @@ var maxx = stripPX(svgStyle.width);
 var maxy = stripPX(svgStyle.height);
 var pmaxy = maxy-20;
 var pminy = 20;
-//console.log(maxx,maxy);
 var nopause = true;
 
 var getRandColor = function(){
@@ -39,11 +38,9 @@ var buildBlock = function(s,x,y,w,h){
 	    this.s.appendChild(rec);
 	},
 	move:function(){
-	    //figure out algorithm to adjust movements of block
 	    this.x += this.dx;
-	    console.log(this.x, this.w);
+	    //console.log(this.x, this.w);
 	    if (this.x+this.w <= 0){
-		//this.s.parentNode.removeChild(rec);   //if child is of screen, element is deleted from svg
 		this.remove = true; // send boolean so we can remove this block from block list
 	    }
 	    if (this.w == 0){
@@ -55,39 +52,36 @@ var buildBlock = function(s,x,y,w,h){
     }
 }
 var addPlayer = function(s,x,y){
-    //temporary player is a circle for now
     var cir = document.createElementNS("http://www.w3.org/2000/svg","circle");
-    var charwidth = 70+10;//radius + offset pixel (left)
+    var charwidth = 40+10;//radius + offset pixel (left)
     return {
 	s:s,
 	x:x,
 	y:y,
+	rad:20,
 	dy:8,
-	//0=moving along bottom, 1=switching to top, 2=moving along top, 3=switching to bottom
+	//0=moving along bottom, 1=switching to top, 2=moving along top, 3=switching to bottom, 4=falling downward(losing stage), 5= falling upward (losing stage)
 	state:3,
 	draw:function(){
 	    var c = getRandColor();
 	    cir.setAttribute("cx",this.x);
 	    cir.setAttribute("cy",this.y);
-	    cir.setAttribute("r","20");
+	    cir.setAttribute("r",this.rad);
 	    cir.setAttribute("fill",this.c);
 	    this.s.appendChild(cir);
 	},
 	move:function(){
-//	    console.log(this.state);
 	    if (this.state == 0) {
 		var i = 1;
 		if (blocks[0].y !=0){
 		    i = 0;
 		}//else, by default, the block we should check should be the other one
 		if (this.y >= pmaxy){ // specifically blocks alternate in this setup
-		    //console.log(blocks[i]);
 		    if (blocks[i].x > charwidth){
 			this.state = 4;
 		    }else{
 			this.y = pmaxy;
 		    }
-		    
 		}
 	    }
 	    if (this.state == 1) {
@@ -119,12 +113,17 @@ var addPlayer = function(s,x,y){
 	    else if (this.state == 4){
 		//alert("stop");
 		this.y = this.y + this.dy;
+		if (this.y - this.rad >= maxy){
+		    endscreen();
+		}
 	    }
 	    else if (this.state == 5){
 		this.y = this.y - this.dy;
+		if (this.y + this.rad <= 0){
+		    endscreen();
+		}
 	    }
 	},
-
 	node:cir,
 	
     }
@@ -144,13 +143,30 @@ var flipGravity = function(e ){
 	}
     }
 }
-var update = function(){
-    //clear screen by clearing svg
+var clearscreen = function(){
     var fnode = svg.firstChild;
     while(fnode){
 	svg.removeChild(fnode);
 	fnode = svg.firstChild;
     }
+}
+var endscreen = function(){
+    console.log("here");
+    window.cancelAnimationFrame(update);
+
+    blocks = [];
+    clearscreen();
+    nopause= false;
+    svg.removeEventListener("onmouseover",setmovingBlocks());
+    document.removeEventListener("click",pausescreen);  
+    document.addEventListener("click",function(){
+	initialize();
+	resume();
+    });    
+}
+var update = function(){
+    //clear screen by clearing svg
+    clearscreen();
     //player action
     player.move();
     player.draw();
@@ -179,26 +195,25 @@ var update = function(){
     }
 //    console.log(blocks);
     if (nopause){
-	document.removeEventListener("click",resume);  // temporary... doesnt stop the animation
+	document.removeEventListener("click",resume); 
 	window.requestAnimationFrame(update);
     }else{
-	document.removeEventListener("click",pausescreen);  // temporary... doesnt stop the animation
+	document.removeEventListener("click",pausescreen);  
 	document.addEventListener("click",resume);
     }
 }
 var resume = function(e){
-    nopause= !nopause;
-    document.addEventListener("click",pausescreen);  // temporary... doesnt stop the animation
+    nopause= true;
+    document.addEventListener("click",pausescreen); 
     window.requestAnimationFrame(update);
 }
-/* pause screen doesnt work right now */
 var pausescreen = function(e){
     //svg.removeEventListener("onmouseover",setmovingBlocks());
     window.cancelAnimationFrame(update);
-//    console.log("paused??");
+    //console.log("paused??");
     nopause= !nopause;
-//    document.removeEventListener("click",pausescreen);
-  
+    // document.removeEventListener("click",pausescreen); 
+    clearscreen();
 }
 var setmovingBlocks = function(e){
     setInterval(function(){
@@ -218,19 +233,20 @@ var setmovingBlocks = function(e){
 
 //Initialize everything below
 var initialize = function(){
+    console.log("player here");
     var randy= Math.random()*50;
     var randwid = Math.random()*(maxx);
     spawnBlock(svg,100,maxy-60,maxx,60)
     spawnBlock(svg,300,0,maxx,60);
-    //while (blocks[0].x + blocks[0].w > maxx*.75){}
+    player = addPlayer(svg,30,maxy/2,blocks);
     svg.addEventListener("onmouseover",setmovingBlocks());
-    document.addEventListener("click",pausescreen);  // temporary... doesnt stop the animation
     document.addEventListener("keyup",flipGravity);
-    window.requestAnimationFrame(update);
 }
 
 var blocks = [];
-var player = addPlayer(svg,30,maxy/2,blocks);
+var player;
+document.addEventListener("click",pausescreen);   // one-time action initialize will be reused later
 
 initialize();
+ window.requestAnimationFrame(update);
 
