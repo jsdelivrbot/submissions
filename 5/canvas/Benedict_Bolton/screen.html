@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+		<style>
+		 #Screen {
+       position: relative;
+       top:20%;
+       left: 20%;
+       height: 90%;
+       width: 60%;
+     }
+     audio {
+       display: none;
+     }
+
+     body {
+       background-color: #222222;
+       color: #FFFEFE;
+     }
+
+     canvas {
+       cursor: crosshair;
+       background-color: #D89090;
+       border: 8px #555555 solid;
+       border-radius: 4px;
+       display: block;
+     }
+		</style>
+
+    <audio controls loop autoplay>
+      <source src="Rjd2-Ghostwriter.mp3" type="audio/mp3">
+    </audio>
+
+</head>
+<body>
+  <center><h1> Bad Game </h1></center>
+		<div>
+				<canvas id="Screen">
+				</canvas>
+		</div>
+
+    <center><h3> He Follows Your Mouse, Don't Let Him Hit Anything</h3></center>
+		<script src="game.js"></script>
+</body>
+</html>

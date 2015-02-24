@@ -54,6 +54,14 @@ Game.start = function() {
     Game.obstacle5 = new Obstacle();
     Game.obstacle6 = new Obstacle();
     Game.obstacle7 = new Obstacle();
+    Game.obstacle8 = new Obstacle();
+    Game.obstacle9 = new Obstacle();
+    Game.obstacle10 = new Obstacle();
+    Game.obstacle11 = new Obstacle();
+    Game.obstacle12 = new Obstacle();
+    Game.obstacle13 = new Obstacle();
+    Game.obstacle14 = new Obstacle();
+    Game.obstacle15 = new Obstacle();
     Game._onEachFrame(Game.run);
 };
 
@@ -89,23 +97,90 @@ Game.draw = function() {
     Game.obstacle5.draw(Game.context);
     Game.obstacle6.draw(Game.context);
     Game.obstacle7.draw(Game.context);
-    if (collision(Game.player.x, Game.player.y, 32, 32, Game.obstacle.x, Game.obstacle.y))
-	window.alert("LOSE");
-    if (collision(Game.player.x, Game.player.y, 32, 32, Game.obstacle2.x, Game.obstacle2.y))
-	window.alert("LOSE");
-    if (collision(Game.player.x, Game.player.y, 32, 32, Game.obstacle3.x, Game.obstacle3.y))
-	window.alert("LOSE");
-    if (collision(Game.player.x, Game.player.y, 32, 32, Game.obstacle4.x, Game.obstacle4.y))
-	window.alert("LOSE");
-    if (collision(Game.player.x, Game.player.y, 32, 32, Game.obstacle5.x, Game.obstacle5.y))
-	window.alert("LOSE");
-    if (collision(Game.player.x, Game.player.y, 32, 32, Game.obstacle6.x, Game.obstacle6.y))
-	window.alert("LOSE");
-    if (collision(Game.player.x, Game.player.y, 32, 32, Game.obstacle7.x, Game.obstacle7.y))
-	window.alert("LOSE");
+    Game.obstacle8.draw(Game.context);
+    Game.obstacle9.draw(Game.context);
+    Game.obstacle10.draw(Game.context);
+    Game.obstacle11.draw(Game.context);
+    Game.obstacle12.draw(Game.context);
+    Game.obstacle13.draw(Game.context);
+    Game.obstacle14.draw(Game.context);
+    Game.obstacle15.draw(Game.context);
     
+    if (collision(Game.player, Game.obstacle)) {
+	Game.player.x = 0;
+	Game.player.y = 0;
+    }
+    if (collision(Game.player, Game.obstacle2)) {
+	Game.player.x = 0;
+	Game.player.y = 0;
+    }
 
-    if (collision(Game.player.x, Game.player.y, 32, 32, Game.finish.x, Game.finish.y))
+    if (collision(Game.player, Game.obstacle3)) {
+	Game.player.x = 0;
+	Game.player.y = 0;
+    }
+
+    if (collision(Game.player, Game.obstacle4)) {
+	Game.player.x = 0;
+	Game.player.y = 0;
+    }
+
+    if (collision(Game.player, Game.obstacle5)) {
+	Game.player.x = 0;
+	Game.player.y = 0;
+    }
+
+    if (collision(Game.player, Game.obstacle6)) {
+	Game.player.x = 0;
+	Game.player.y = 0;
+    }
+
+    if (collision(Game.player, Game.obstacle7)) {
+	Game.player.x = 0;
+	Game.player.y = 0;
+    }
+
+    if (collision(Game.player, Game.obstacle8)) {
+	Game.player.x = 0;
+	Game.player.y = 0;
+    }
+
+    if (collision(Game.player, Game.obstacle9)) {
+	Game.player.x = 0;
+	Game.player.y = 0;
+    }
+
+    if (collision(Game.player, Game.obstacle10)) {
+	Game.player.x = 0;
+	Game.player.y = 0;
+    }
+
+    if (collision(Game.player, Game.obstacle11)) {
+	Game.player.x = 0;
+	Game.player.y = 0;
+    }
+
+    if (collision(Game.player, Game.obstacle12)) {
+	Game.player.x = 0;
+	Game.player.y = 0;
+    }
+
+    if (collision(Game.player, Game.obstacle13)) {
+	Game.player.x = 0;
+	Game.player.y = 0;
+    }
+
+    if (collision(Game.player, Game.obstacle14)) {
+	Game.player.x = 0;
+	Game.player.y = 0;
+    }
+
+    if (collision(Game.player, Game.obstacle15)) {
+	Game.player.x = 0;
+	Game.player.y = 0;
+    }
+
+    if (collision(Game.player, Game.finish))
 	window.alert("WIN");
 };
 
@@ -119,13 +194,38 @@ Game.update = function() {
     Game.obstacle5.update();
     Game.obstacle6.update();
     Game.obstacle7.update();
+    Game.obstacle8.update();
+    Game.obstacle9.update();
+    Game.obstacle10.update();
+    Game.obstacle11.update();
+    Game.obstacle12.update();
+    Game.obstacle13.update();
+    Game.obstacle14.update();
+    Game.obstacle15.update();
 };
 
 //collisions
-function collision(x1, y1, w1, h1, x2, y2) {
-    return ((x1 <= x2 && x1+w1 >= x2) &&
-	    (y1 <= y2 && y1+h1 >= y2))
+function collision1(x1, y1, w1, h1, x2, y2) {
+    return ((x2 <= x1 && x1+w1 >= x1) &&
+	    (y2 <= y1 && y1+h1 >= y1))
 }
+
+function collision(player, obstacle) {
+    px = player.x;
+    py = player.y;
+    pw = player.w;
+    ph = player.h;
+    ox = obstacle.x;
+    oy = obstacle.y;
+    ow = obstacle.w;
+    oh = obstacle.h;
+    
+    return ( (px <= ox && px+pw >= ox) &&
+	     (py <= oy && py+ph >= oy)
+	   )
+    
+}
+
 
 //finish line object
 function Finish() {
@@ -140,7 +240,13 @@ Finish.prototype.draw = function(context) {
 
 //obstacle object
 function Obstacle() {
-    this.dx = 5*Math.random();
+    if (Math.random() < 0.5){
+	this.code = true;
+    }
+    else {
+	this.code = false;
+    }
+    this.dx = 7*Math.random();
     this.x = Game.width*Math.random();
     this.y = Game.height*Math.random();
     this.w = 10+Math.random()*40;
@@ -152,14 +258,28 @@ Obstacle.prototype.draw = function(context) {
 }
 
 Obstacle.prototype.update = function(context) {
-    this.x = this.x + this.dx;
-    this.y = this.y + 2*Math.random() -1;
-    if (this.x < 10 || this.x > 580){
-	this.dx = this.dx * -1;
+    if (this.code) {
+	this.x = this.x + this.dx;
+	this.y = this.y + 2*Math.random() -1;
+	
+	if (this.x < 10 || this.x > 580){
+	    this.dx = this.dx * -1;
+	}
+	if (this.y < 20 || this.y > 580){
+	    this.y = 100 + 400*Math.random();
+	}
     }
-    if (this.y < 20 || this.y > 580){
-	this.y = 100 + 400*Math.random();
-    }
+    else {
+	this.y = this.y + this.dx;
+	this.x = this.x + 2*Math.random() -1;
+	
+	if (this.y < 10 || this.y > 580){
+	    this.dx = this.dx * -1;
+	}
+	if (this.x < 20 || this.x > 580){
+	    this.x = 100 + 400*Math.random();
+	}
+    }    
 }
 
 

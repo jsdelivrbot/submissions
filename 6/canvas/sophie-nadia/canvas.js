@@ -151,7 +151,7 @@ var reset = function() {
     ctx.fillStyle = "#ffffff";
     ctx.fillRect(0,0,640,480);
     ctx.closePath();
-    for ( i=0; i<20; i++) {
+    for ( i=0; i<50; i++) {
         balls.push(makeBall(320,240,ctx));
     }
 }

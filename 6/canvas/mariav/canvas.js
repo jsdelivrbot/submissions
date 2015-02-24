@@ -8,6 +8,7 @@ var drawBall() {
     ctx.fillRect(10,590,100,10);
     ctx.fillRect(100,500,10,100);
 
+<<<<<<< HEAD
     ctx.fillStyle="#5200A3";
     ctx.fillRect(290,500,10,100);
     ctx.fillRect(290,590,100,10);
@@ -60,3 +61,25 @@ var clicked = function(e){
 c.addEventListener("click",clicked);
 window.requestAnimationFrame(update);*/
 
+=======
+ctx.fillStyle="#000000";
+ctx.rotate(20*Math.PI/180);
+ctx.fillRect(125,245,150,10);
+
+ctx.fillStyle="#009933";
+ctx.fillRect(0,500,10,100);
+ctx.fillRect(0,590,100,10);
+ctx.fillRect(90,500,10,100);
+
+ctx.fillStyle="#5200A3";
+ctx.fillRect(300,500,10,100);
+ctx.fillRect(300,590,100,10);
+ctx.fillRect(390,500,10,100);
+
+ctx.beginPath();
+ctx.arc(200,235,10,0,2*Math.PI);
+ctx.closePath();
+ctx.fillStyle="#000000";
+ctx.stroke();
+ctx.fill();
+>>>>>>> 54d19e49f6af55981bf4b2f9b183f12cbeb2ed80

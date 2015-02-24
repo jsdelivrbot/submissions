@@ -92,7 +92,7 @@ var p = c.getBoundingClientRect();
 var x = e.pageX- p.left;
 var y = e.pageY - p.top - g;
 for (i = 0; i < receivers.length; i++) {
-	if((Math.abs(receivers[i].x - x) < 10)){
+	if((Math.abs(receivers[i].x - x) < 10) && (Math.abs(receivers[i].y - y) < 10)){
 		rules=1;
                 break;
 	};
@@ -111,13 +111,8 @@ var rules = 0;
 var p = c.getBoundingClientRect();
 var x = e.pageX- p.left;
 var y = e.pageY - p.top - g;
-for (i = 0; i < receivers.length; i++) {
-	if((Math.abs(receivers[i].x - x) < 10)){
-		rules=1;
-                break;
-	};
-}
-if (down ==1 && rules == 1) {
+
+if (down ==1) {
 ctx.lineTo(x,y);
 ctx.stroke();
 
