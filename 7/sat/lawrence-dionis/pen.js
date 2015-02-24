@@ -2,7 +2,7 @@ var list = [];
 console.log(raw);
 var data = raw.data;
 var mathscores = [];
-
+var above_schools =[];
 
 var convert = function(e){
     return {
@@ -41,4 +41,11 @@ var average = function(e){
 };
 console.log(list);
 extract("math",mathscores);
+for(var i = 0; i<list.length;i++){
+    avg=average(mathscores);
+    if(list[i].math>avg){
+	above_schools.push(list[i]);
+    }
+}
 console.log(average(mathscores));
+console.log(above_schools);
