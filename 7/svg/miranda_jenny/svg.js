@@ -1,6 +1,7 @@
 var z = document.getElementById( "z" );
 var c = document.getElementById( "c" );
 var r = c.getAttribute( "r" );
+var dw = document.getElementById( "dw" );
 
 //console.log(rad)
 
@@ -8,6 +9,7 @@ var svg = document.getElementById( "svg" );
 var walls = document.getElementsByClassName( "wall" );
 var win = document.getElementsByClassName( "win" );
 var finish = document.getElementById( "finish" );
+var dwtxt = document.getElementsByClassName( "dwtxt" );
 
 console.log( walls );
 
@@ -40,6 +42,7 @@ var checkWallCollisions = function( cx, cy ){
  text.setAttribute( "y", "140" );
  svg.appendChild( text );
  */
+
 c.addEventListener( "mousemove", function(e) {
                    if (! checkWallCollisions( e.offsetX, e.offsetY ) ){
                    z.setAttribute( "x", e.offsetX - 25 );
@@ -52,14 +55,26 @@ c.addEventListener( "mousemove", function(e) {
 finish.addEventListener( "mousemove", function(e) {
                         win[0].setAttribute( "width", "600" );
                         win[0].setAttribute( "height", "600" );
-                        win[0].setAttribute( "opacity", 1 );
-                        console.log( win[1] )
-                        win[1].setAttribute( "opacity", 1 );
+                        win[0].setAttribute( "opacity", '1' );
+                        //console.log( win[1] );
+                        win[1].setAttribute( "opacity", '1' );
                         
                         for( i = 0; i < walls.length; i++ ) {
-                        walls[i].setAttribute("opacity",'0')
+                        walls[i].setAttribute("opacity", '0')
                         }
                         });
+
+z.addEventListener( "mousemove", function(e) {
+                   if ( e.offsetX >= 510 && e.offsetX <= 590 && e.offsetY > 390 && e.offsetY < 460) {
+                        dwtxt[0].setAttribute( "opacity", '.75' );
+                        dwtxt[1].setAttribute( "opacity", '1' );
+                   }
+                        });
+
+dwtxt[0].addEventListener( "click", function(e) {
+                    dwtxt[0].setAttribute( "opacity", '0' );
+                    dwtxt[1].setAttribute( "opacity", '0' );
+});
 
 win[0].addEventListener( "click", function(e) {
                         win[0].setAttribute( "width", 0 );
@@ -68,6 +83,8 @@ win[0].addEventListener( "click", function(e) {
                         z.setAttribute( "y", 25 );
                         c.setAttribute( "cx", 550 );
                         c.setAttribute( "cy", 50 );
+                        
+                        win[1].setAttribute( "opacity", '0' );
                         
                         for( i = 0; i < walls.length; i++ ){
                         walls[i].setAttribute( "opacity", "1" );
