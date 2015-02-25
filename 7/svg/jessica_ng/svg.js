@@ -34,18 +34,19 @@ var move = function() {
     }
 };
 
-var t =0;
+/*var t =0;
 var go = function(e) {
     e.preventDefault();
-    if (t==0){
-	t = setInterval(move,100);
-    } else {
+    if (t==0){*/
+t = setInterval(move,100);
+  /*  } else {
 	clearInterval(t);
 	t=0;
     }
-};
+};*/
 
 var s = document.getElementById("s");
 s.addEventListener('click',clicked);
-var g = document.getElementById("go");
+/*var g = document.getElementById("go");
 g.addEventListener("click",go);
+*/
