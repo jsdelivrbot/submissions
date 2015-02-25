@@ -1,5 +1,8 @@
 var s = document.getElementById("s");
 
+var ychain = document.getElementById("ychain");
+var chain = 0;
+
 var getRandomColor = function() {
     var letters = '0123456789ABCDEF'.split('');
     var color = '#';
@@ -23,6 +26,7 @@ var addCircle = function (s,x,y,state) {
   }
 
 var update = function () {
+    ychain.innerHTML = "Your Chain: " + chain;
   var cs = document.getElementsByTagName("circle");
   for (var i=0; i<cs.length; i++) {
     x = parseFloat(cs[i].getAttribute('cx'));
@@ -41,6 +45,7 @@ var update = function () {
               var distance = Math.sqrt( Math.pow(x - jx, 2) + Math.pow(y - jy, 2) );
               if (distance < r + jr){
                   if (cs[j].getAttribute('state') == "bouncing") {
+                      chain ++;
                       cs[j].setAttribute('state', "growing");
                   }
               }
@@ -94,21 +99,29 @@ var update = function () {
 var start = function (e) {
   if (!started) {
     started = true;
+      chain = 1;
     addCircle(s, e.offsetX, e.offsetY, "growing");
   }
 }
 
-
-
-for (var i=0;i<50;i++) {
-  addCircle(s, 320, 240,"bouncing");
-  //addCircle(s, Math.random()*640, Math.random()*480);
+var reset = function() {
+    var cs = document.getElementsByTagName("circle");
+    while (cs.length > 0) {
+        cs[0].parentNode.removeChild(cs[0]);
+    }
+    for (var i=0;i<20;i++) {
+        addCircle(s, 320, 240,"bouncing");
+    }
+    chain = 0;
+    started = false;
 }
 
+
+var b = document.getElementById("b");
+b.addEventListener('click', reset);
 
 var started = false;
 s.addEventListener('click', start);
 
+reset()
 window.requestAnimationFrame(update);
-
-//s.addEventListener('click',update)
