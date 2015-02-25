@@ -723,6 +723,22 @@ var mouseClicked = function(e) {
     }
 }
 
+if (people_in_circle.length > 0) {
+    if (selected_button.level > selected_button.cost) {
+        if (selected_button_string == "vaccine") {
+	    for (p = 0; p < people_in_circle.length; p++) {
+	        people_in_circle[p].healthStatus = "immune";
+       	    }
+	}
+	else if (selected_button_string == "cure") {
+	    for (p = 0; p < people_in_circle.length; p++) {
+		people_in_circle[p].healthStatus = "alive";
+	    }
+	}
+	selected_button.level -= selected_button.cost;
+    }
+}
+
 // Thanks to http://www.html5canvastutorials.com/advanced/html5-canvas-mouse-coordinates/
 function getMousePos(canvas, evt) {
     var rect = canvas.getBoundingClientRect();
