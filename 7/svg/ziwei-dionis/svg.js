@@ -53,6 +53,7 @@ var move = function(){
 	}
 	var newx=297-((newsize*texts[i].textContent.length)/5);
 	var newy=235+((newsize*texts[i].textContent.length)/5);
+	texts[i].setAttribute('transform', "translate("+ Math.floor(Math.random() * 80 - 40) + ", " + Math.floor(Math.random() * 80 - 40) +")");
 	texts[i].setAttribute('font-size',newsize);
 	texts[i].setAttribute('x',newx);
     }
