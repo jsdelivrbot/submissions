@@ -3,19 +3,21 @@
 <html>
 <center>
 	<head>
-		<h1>target practice (a concept)</h1>
+		<link rel="shortcut icon" href="target.png">
+		<h1>Target Practice</h1>
 		<style>
 		#s {border : 3px solid black}
 		</style>
 	</head>
-	  	<body>
-			<svg id="s" height=500 width=500>
-			<text x="0" y="15" fill="black">Shoot the targets to increase your score!</text>
-			<path id="blot" d="" stroke="blue"
-			stroke-width="5" fill="blue" />
-			</svg>
-			<input type="submit" id="go" value="go">
-			<script src="svg.js"></script>
-	  </body>
+	<body>
+		Click on as many targets as you can in 60 seconds!<br>
+	  	<span id="countdown"></span><br>
+	    <span id="timer"></span><br>
+		<svg id="s" height = 500 width = 500>
+		</svg>
+		<br>
+		<button onclick="play()">Begin!</button>
+		<script src="svg.js"></script>
+	</body>
 </center>
 </html>
