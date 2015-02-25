@@ -1,4 +1,8 @@
+var c1 = document.createElementNS("http://www.w3.org/2000/svg", "image");
+c1.setAttributeNS('http://www.w3.org/1999/xlink','href',"rock.png");
+c1.setAttribute("Id","rock");
 
+var cups = [[250,250],[450,250],[650,250]];
 
 var cClicked = function(e) {
     e.preventDefault();
@@ -23,6 +27,16 @@ var addCircle = function(s,x,y,r,c) {
     s.appendChild(c1);
     
 };
+var shuffle = function(e) {
+    console.log("hi");
+    var num = Math.floor(Math.random() * 3);
+    c1.setAttribute('x',cups[num][0]);
+    c1.setAttribute('y',cups[num][1]);
+    c1.setAttribute('height',"100px");
+    c1.setAttribute('width',"100px");
+    var game = document.getElementById("s");
+    s.appendChild(c1);
+}
 
 var clicked = function(e) {
     e.preventDefault();
@@ -61,6 +75,6 @@ var go = function(e) {
 };
 
 var s = document.getElementById("s");
-s.addEventListener('click',clicked);
+s.addEventListener('click',shuffle);
 var g = document.getElementById("go");
 g.addEventListener("click",go);
