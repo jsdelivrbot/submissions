@@ -48,16 +48,16 @@ var addPlanet = function(x,y,r,c,parent){
             this.svg.setAttribute('cx',this.x);
             this.svg.setAttribute('cy',this.y);
         },
-	collision: function (){
-	    for (var i = 0; i < planets.length; i++){
-		if (Math.pow(planets[i].x - this.x, 2) + Math.pow(planets[i].y - this.y, 2) <= Math.pow(this.r,2) + Math.pow(planets[i].r,2)) {
-		    this.dx = 0 - this.dx;
-		    this.dy = 0 - this.dy;
-		    planets[i].dx = 0- planets[i].dx;
-		    planets[i].dy = 0 - planets[i].dy;
-		};
-	    };	
-	},
+	    collision: function (){
+	        for (var i = 0; i < planets.length; i++){
+		        if (Math.pow(planets[i].x - this.x, 2) + Math.pow(planets[i].y - this.y, 2) <= Math.pow(this.r,2) + Math.pow(planets[i].r,2)) {
+		            this.dx = 0 - this.dx;
+		            this.dy = 0 - this.dy;
+		            planets[i].dx = 0- planets[i].dx;
+		            planets[i].dy = 0 - planets[i].dy;
+		        };
+	        };	
+	    },
         delete : function(){
             s.removeChild(this.svg);
         } 
@@ -168,14 +168,16 @@ var mouseAction = function(){
         var color = "#" + Math.random().toString(16).slice(2, 8);
         var p = addPlanet(mouse.x,mouse.y,radius,color,sun);
         p.create();
-    	p.dx = -Math.sqrt(100 / 250);
-
+    	//p.dx = -Math.sqrt(100 / 250);
     }else if (mode == "velocity"){
         if (j != -1){
             var theta = Math.atan2(mouse2.y - mouse.y,mouse2.x - mouse.x);
             planets[j].dx = radius * Math.cos(theta) / 30;
             planets[j].dy = radius * Math.sin(theta) / 30;
         };
+    };
+    if (showVelocities){
+        drawVelocities();
     };
 };
 
