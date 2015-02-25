@@ -25,7 +25,7 @@ var PERSON_SIZE = (3 / 4) * STREET_SIZE;
 var PERSON_SPEED = 1;
 var INITIAL_INFECTION_PROBABILITY = 0.10;
 
-var VACCINE_REGENERATION = 10;
+var VACCINE_REFILL_SPEED = 0.4;
 var MAX_VACCINE_LEVEL = 100;
 var VACCINE_COST = 100;
 var VACCINE_COLOR = "rgb(200, 0, 200)";
@@ -35,7 +35,7 @@ var VACCINE_RADIUS = STREET_SIZE * 1.5;
 var VACCINE_CIRCLE_STROKE = "rgb(200, 0, 200)";
 var VACCINE_CIRCLE_FILL = "rgb(255, 180, 255)";
 
-var CURE_REGENERATION = 5;
+var CURE_REFILL_SPEED = 0.2;
 var MAX_CURE_LEVEL = 100;
 var CURE_COST = 100;
 var CURE_COLOR = "rgb(50, 200, 50)";
@@ -78,7 +78,7 @@ var makePerson = function(x,y,w,h,dx,dy, healthStatus, people, ctx) {
               else if (this.healthStatus == "infected")
                   this.color = "#ff0000";
               else if (this.healthStatus == "immune")
-                    this.color = "rgb(50, 100, 250)";
+                    this.color = "rgb(80, 200, 250)";
 
               ctx.fillStyle = this.color;
               ctx.fillRect(this.x,this.y,this.w,this.h);
@@ -311,7 +311,7 @@ var makeIntersection = function(x, y, width, height) {
     }
 }
 
-var makeToolButton = function(name, x, y, width, height, initial_level, color, hover_color, logo_url, ctx) {
+var makeToolButton = function(name, x, y, width, height, cost, initial_level, refill_speed, color, hover_color, logo_url, ctx) {
     return {
         name : name,
         x : x,
@@ -320,8 +320,10 @@ var makeToolButton = function(name, x, y, width, height, initial_level, color, h
         full_height : height,
         button_height : height * 0.8,
         bar_height : height * 0.2,
+        cost : cost,
         level : initial_level,
         max_level : initial_level,
+        refill_speed : refill_speed,
         color : color,
         hover_color : hover_color,
         hover : false,
@@ -336,7 +338,16 @@ var makeToolButton = function(name, x, y, width, height, initial_level, color, h
         },
 
         canUse : function(cost) {
-            return this.level - cost >= 0
+            return this.level -this. cost >= 0
+        },
+
+        useOnce : function(cost) {
+            if (this.canUse())
+                this.level = this.level - this.cost;
+        },
+
+        refill : function() {
+            this.level = (this.level + this.refill_speed).cap(this.max_level);
         },
 
         drawButton : function() {
@@ -485,8 +496,12 @@ var update = function(){
         people[i].draw();
     }
 
+    vaccine_button.refill();
     vaccine_button.draw();
+
+    cure_button.refill();
     cure_button.draw();
+
 
     if (action_circle)
         action_circle.draw();
@@ -602,7 +617,7 @@ var createVaccineButton = function() {
     var bisector_y = TOOLBAR_Y + (TOOLBAR_HEIGHT / 2) - TOOLBAR_PADDING_VERTICAL;
     var top_corner_y = bisector_y - height / 2;
 
-    vaccine_button = makeToolButton("Vaccine", left_corner_x, top_corner_y, width, height, MAX_VACCINE_LEVEL, VACCINE_COLOR, VACCINE_HOVER_COLOR, VACCINE_SVG, ctx);
+    vaccine_button = makeToolButton("vaccine", left_corner_x, top_corner_y, width, height, VACCINE_COST, MAX_VACCINE_LEVEL, VACCINE_REFILL_SPEED, VACCINE_COLOR, VACCINE_HOVER_COLOR, VACCINE_SVG, ctx);
 }
 
 var createCureButton = function() {
@@ -614,7 +629,7 @@ var createCureButton = function() {
     var bisector_y = TOOLBAR_Y + (TOOLBAR_HEIGHT / 2) - TOOLBAR_PADDING_VERTICAL;
     var top_corner_y = bisector_y - height / 2;
 
-    cure_button = makeToolButton("Cure", left_corner_x, top_corner_y, width, height, MAX_VACCINE_LEVEL, CURE_COLOR, CURE_HOVER_COLOR, CURE_SVG, ctx);
+    cure_button = makeToolButton("cure", left_corner_x, top_corner_y, width, height, CURE_COST, MAX_CURE_LEVEL, CURE_REFILL_SPEED, CURE_COLOR, CURE_HOVER_COLOR, CURE_SVG, ctx);
 }
 
 var startGame  = function(e) {
@@ -687,31 +702,32 @@ var mouseClicked = function(e) {
     var x = mousePos.x;
     var y = mousePos.y;
 
-    if (vaccine_button.mouseOver(x, y) && vaccine_button.level > 0) {
-        if (selected_button_string != "vaccine") {
-            selected_button_string = "vaccine";
-            vaccine_button.selected = true;
-            cure_button.selected = false;
+    buttons = [vaccine_button, cure_button];
+    if (! mouseInGameArea(x, y)) {
+        // Loop over the two buttons.
+        for (var i = 0; i < buttons.length; i++) {
+            var button = buttons[i];
+            button.selected = false;
+            // If hovering over this button
+            if (button.mouseOver(x, y) && button.canUse()) {
+                // If that button isn't selected, select
+                if (selected_button_string !== button.name) {
+                    selected_button_string = button.name;
+                    selected_button = button;
+                    button.selected = true;
+                }
+                // If button is selected, de-selected
+                else {
+                    selected_button_string = "";
+                    selected_button = null;
+                    button.selected = false;
+                }
+            }
         }
-        else {
-            selected_button_string = "";
-            vaccine_button.selected = false;
-        }
+
     }
 
-    else if (cure_button.mouseOver(x, y) && cure_button.level > 0) {
-        if (selected_button_string != "cure") {
-            selected_button_string = "cure";
-            cure_button.selected = true;
-            vaccine_button.selected = false;
-        }
-        else {
-            selected_button_string = "";
-            cure_button.selected = false;
-        }
-    }
-
-    if (selected_button_string != "") {
+    if (selected_button_string != "" && mouseInGameArea(x, y)) {
         var people_in_circle = people.filter(function(person, index, array_obj) {
             if (!this)
                 return false;
@@ -719,25 +735,40 @@ var mouseClicked = function(e) {
             return this.isInside(person.x, person.y)
         }, action_circle);
 
-        
+        if (people_in_circle.length > 0) {
+            if (selected_button.canUse()) {
+                var actually_used = false;
+                if (selected_button_string == "vaccine") {
+                    for (var p = 0; p < people_in_circle.length; p++) {
+                        if (people_in_circle[p].healthStatus == "alive") {
+                            people_in_circle[p].healthStatus = "immune";
+                            actually_used = true;
+                        }
+                    }
+                }
+                else if (selected_button_string == "cure") {
+                    for (var p = 0; p < people_in_circle.length; p++) {
+                        if (people_in_circle[p].healthStatus == "infected") {
+                            people_in_circle[p].healthStatus = "alive";
+                            actually_used = true;
+                        }
+                    }
+                }
+               
+                if (actually_used) {
+                    selected_button.useOnce();
+                    if (!selected_button.canUse()) {
+                        selected_button.selected = false;
+                        selected_button_string = "";
+                        selected_button = null;
+                        action_circle = null;
+                    }
+                }
+            }
+        }
     }
 }
 
-if (people_in_circle.length > 0) {
-    if (selected_button.level > selected_button.cost) {
-        if (selected_button_string == "vaccine") {
-	    for (p = 0; p < people_in_circle.length; p++) {
-	        people_in_circle[p].healthStatus = "immune";
-       	    }
-	}
-	else if (selected_button_string == "cure") {
-	    for (p = 0; p < people_in_circle.length; p++) {
-		people_in_circle[p].healthStatus = "alive";
-	    }
-	}
-	selected_button.level -= selected_button.cost;
-    }
-}
 
 // Thanks to http://www.html5canvastutorials.com/advanced/html5-canvas-mouse-coordinates/
 function getMousePos(canvas, evt) {
@@ -764,6 +795,10 @@ var squared = function(n) {
 var resetGame = function(e) {
     location.reload();
 }
+
+Number.prototype.cap = function(cap) {
+  return Math.min(this, cap);
+};
 
 var people = [];
 var gridIntersections = [];
