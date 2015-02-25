@@ -10,7 +10,9 @@
         <svg width="600" height="600" id= "svg" >
             <text x="550" y="90"> Start</text>
             
-            <image id='z'xlink:href="z.png" x= "525" y="25" height="50" width="50"/>
+            <image id="dw" xlink:href="jonalf.png" x="530" y="400" height="60" width="60" />
+            
+            <image id="z" xlink:href="z.png" x= "525" y="25" height="50" width="50"/>
             <circle  id='c'cx="550" cy="50" r="20" fill="yellow"/>
             
             <rect class ="wall" x='0' y='0' height='20' width='600' fill='gray'/>
@@ -28,17 +30,21 @@
             <rect class ="wall" x='200' y='500' height='20' width='500' fill='gray'/>
             
             <rect class ="wall" x='0' y='300' height='20' width='400' fill='gray'/>
-            <rect id="finish" opacity='.5'x="50" y='230' height='50' width='50' fill='blue'/>
             
-            <text x='52' y='250'>Finish</text>
+            <rect class="dwtxt" x='205' y='320' height='50' width='225' fill='blue'  opacity="0"/>
             
-            <image xlink:href="jonalf.png" id="dw" height="60" width="60" y="400" x="530"/>
+            <text class="dwtxt" x='215' y='350' opacity="0">You found DW! (click to close)</text>
+            
+            <rect id="finish" x="50" y='230' height='50' width='50' fill='blue' opacity='.5'/>
+            
+            <text x='55' y='260'>Finish</text>
             
             <rect class='win' x='0' y='0' width='0' height='0' fill='yellow'/>
-            <text x='250' class="win" y='320' >You Won!</text>
             
-            <text x='52' y='250'>Finish</text>
+            <text class="win" x='250' y='315' opacity="0">You won!</text>
+            
         </svg>
     </center>
+    
     <script src="svg.js"></script>
 </body>
