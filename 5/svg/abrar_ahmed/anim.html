@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script src="anim.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.0/jquery-ui.min.js"></script>
+    <style>
+      table, tr, td {
+      vertical-align: top;
+      }
+    </style>
+  </head>
+  <body onload="init();">
+    <svg id="s" height="500" width="500" style="border: 1px solid black;">
+      <!--<circle cx="50" cy="50" r="40" fill-opacity="0" stroke="green" stroke-width="3" fill="red"/>-->
+      <image id="uploadImg" x="0", y="0" height="500px" width="500px" />
+    </svg>
+    <img id="bsImg">
+    <form>
+      <table>
+	<tr>
+	  <td width="120px">
+	    <h3>Shape</h3>
+	    <input type="radio" name="shape" value="line" id="line" checked>Line</input>
+	    <br>
+	    <input type="radio" name="shape" value="circle" id="circle">Circle</input>
+	    <br>
+	    <input type="radio" name="shape" value="rect" id="rect">Rectangle</input>
+	    <br>
+	    <input type="radio" name="shape" value="polyline" id="polyline">Polyline</input>
+	  </td>
+	  <td width="120px">
+	    <h3>Color</h3>
+	    <input type="radio" name="col" value="red" id="red" checked>Red</input>
+	    <br>
+	    <input type="radio" name="col" value="white" id="white">White</input>
+	    <br>
+	    <input type="radio" name="col" value="blue" id="blue">Blue</input>
+	    <br>
+	    <input type="radio" name="col" value="green" id="green">Green</input>
+	    <br>
+	    <input type="radio" name="col" value="black" id="black">Black</input>
+	    <br>
+	  </td>
+	  <td width="120px">
+	  </td>
+	  <td>
+	    <input type="checkbox" id="cool">Something Cool</input>
+	  </td>
+	</tr>
+      </table>
+    </form>
+    <!--<form>
+      <input type="text" onchange="showImage(this)"></input>
+      <br>
+      <input type="submit">
+    </form>-->
+  </body>
+</html>

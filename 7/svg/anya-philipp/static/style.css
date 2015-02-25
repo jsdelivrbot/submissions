@@ -1,0 +1,7 @@
+#game-canvas {
+    border: 1px solid black 
+}
+
+#game-canvas.mouse-pointer {
+    cursor: pointer;
+}

@@ -8,18 +8,29 @@ var addCircle = function(svg,x,y,r,c) {
 };
 
 var happen = function(e) {
-    e.preventDefault();
-    svg = document.getElementById('sv');
-    addCircle(svg,e.offsetX,e.offsetY,10,'Red');
+    var nodes = svg.childNodes;
+    var y = 0;
+    for (var i = 1; i <= svg.childElementCount; i++){
+	if ((Math.abs(e.offsetX - nodes[i].cx.animVal.value) < 10) && (Math.abs(e.offsetY - nodes[i].cy.animVal.value) < 10)){
+	    svg.removeChild(nodes[i]);
+	    y = 1;
+	};
+    };
+    if (y == 0){
+	e.preventDefault();
+	svg = document.getElementById('sv');
+	addCircle(svg,e.offsetX,e.offsetY,10,'Red');
+    };
 }
 
 var resetScreen = function(e) {
-    for (int i = 0; i < svg.childElementCount; i++){
-	
+    while (svg.lastChild && (svg.childElementCount != 0)) {
+	svg.removeChild(svg.lastChild);
     }
 }
+
 
 var svg = document.getElementById('sv');
 svg.addEventListener('click', happen);
 var reset = document.getElementById('reset');
-reset.addEventListener('click', resetScreen)
+reset.addEventListener('click', resetScreen);

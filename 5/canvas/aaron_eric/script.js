@@ -11,7 +11,7 @@ var eyes =
     ["°","º","⚆","ಠ","ಥ","ຈ","@","Ὸ","☉","●","ʘ","◕","◔","◉","Ɵ͆","Ɵ","•","•̀","•́","⎚","σ","ರೃ","☢","☑","╯","╰","◥▶","◀◤","´","｀","ʘ̚","＾","☯","☭","✪","♥","■","˘","▀̿̿","▀̿","▣","'","'́"," ͒"," ͒","ᑊ"];
 
 var brows = 
-  [ "͡","͝","͠", "̿"," ",""];
+    [ "͡","͝","͠", "̿"," ̿","̿ "," ",""];
 
 var mouths = 
   [" ͜ʖ","ʖ"," ͜ʖ͡","~͜ʖ~","╭͜ʖ╮","Ĺ̯̿̿","ل͟","ل͜","⌣","□","ᴥ","౪","◞౪◟","益","ｰ","-","_","▽","(oo)","Д","◡","﹏","ᐛ","▾","ヮ","∀","╾","3","~"," ~ ","┐","∠"," ⌂","⌂","ᘩ","o"," o "];
@@ -132,7 +132,10 @@ var clicked = function(e) {
     var x = e.offsetX;
     var y = e.offsetY;
     if (y > window.innerHeight*8/10) {
-	var i = Math.floor(9*x/window.innerWidth);
+	var b = Math.floor(18*x/window.innerWidth);
+	console.log(b);
+	var i = b/2;
+	var dir = b%2;
 	var p;
 	if (i == 0 || i == 8)
 	    p = arms;
@@ -144,10 +147,19 @@ var clicked = function(e) {
 	    p = brows;
 	else if (i == 4)
 	    p = mouths;
-	if (parts[i] >= p.length-1)
-	    parts[i] = 0;
-	else
-	    parts[i]++;
+	
+	if (dir == 1) {
+	    if (parts[i] >= p.length-1)
+		parts[i] = 0;
+	    else
+		parts[i]++;
+	}
+	else {
+	    if (parts[i] == 0)
+		parts[i] = p.length-1;
+	    else
+		parts[i]--; 
+	}
     }
     else {
 	x = Math.min(e.offsetX,c.width-330);
