@@ -18,7 +18,7 @@ var makePerson = function(x,y,w,h,dx,dy, healthStatus, people, ctx) {
               else if (this.healthStatus == "infected")
                   this.color = "#ff0000";
               else if (this.healthStatus == "immune")
-                    this.color = "rgb(80, 200, 250)";
+                    this.color = VACCINE_COLOR;
 
               ctx.fillStyle = this.color;
               ctx.fillRect(this.x,this.y,this.w,this.h);
