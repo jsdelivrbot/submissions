@@ -16,6 +16,7 @@ var media = document.getElementById("style-ts"),
 	offset = 18,
 	animations = [],
 	time = 0,
+	bgcheck = 0,
 	colors = [
 		'green',
 		'blue',
@@ -47,7 +48,13 @@ function Animation(shape, start, end, init, animation, text) {
 	start = start?start:0;
 	end = end?end:MEDIA_LENGTH;
 	var BUFFER = 15;
-	s.appendChild(s1);
+
+	console.log(bgcheck);
+	if (bgcheck == 0) {
+		bgcheck = 1;
+		console.log("bgcheck = " + bgcheck);
+		s.appendChild(s1);
+	}
 
 	this.animate = function(time) {
 
@@ -94,7 +101,7 @@ var init = function(initAnims) {
 	time=0;
 	clearInterval(interval);
 
-	console.log(animations);
+	//console.log(animations);
 	while(s.hasChildNodes()) {
 		s.removeChild(s.lastChild);
 	}
@@ -168,7 +175,6 @@ var start = function(e) {
 		///////////// Beats by Genji //////////////////////
 
 		console.log(s1);
-		s1.style.zIndex = "-100";
 
 		for(var i=0; i<7; i++) {
 			// Main beats
@@ -216,10 +222,10 @@ var log = function(e) {
 
 
 var go = function() {
-	time = 0;
 	color_r = 15,
 	color_g = 20,
 	offset = 18,
+	time = 0,
 
 	interval = setInterval(function(){
 		for (anim in animations) {
@@ -232,13 +238,13 @@ var go = function() {
 			color_r+=3;
 			color_g+=2;
 			offset-=4;
-			console.log(wave1);
+			//console.log(wave1);
 			wave1.setAttribute("offset",offset + "%");
 			wave1.setAttribute("stop-color","#"+color_r + color_g+"48");
 		}
 
 		if(time % 1100 == 0){
-			console.log(streak1);
+			//console.log(streak1);
 			streak1.setAttribute("stop-color", redglow);
 			streak2.setAttribute("stop-color", redglow2);
 			glow1.setAttribute("stop-color", redglow);
@@ -248,7 +254,7 @@ var go = function() {
 		}
 
 		if(time % 1100 == 0 && time % 2200 != 0){
-			console.log(streak1);
+			//console.log(streak1);
 			streak1.setAttribute("stop-color", "#1063ca");
 			streak2.setAttribute("stop-color", "#1ced75");
 			glow1.setAttribute("stop-color", "#49F191" );
