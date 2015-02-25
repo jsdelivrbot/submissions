@@ -62,7 +62,7 @@ var cClicked = function(e) {
     }
     this.remove();
     items--;
-    score++;
+    if (type != "bomb"){score++;}
     update();
 }
 
