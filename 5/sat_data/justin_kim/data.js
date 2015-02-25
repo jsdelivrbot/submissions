@@ -1,4 +1,4 @@
-var raw_scores = {
+var rawData = {
   "meta" : {
     "view" : {
       "id" : "f9bf-2cp4",

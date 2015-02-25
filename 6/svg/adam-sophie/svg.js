@@ -49,6 +49,20 @@ var move = function() {
         var dy = parseFloat(cs[i].getAttribute('dy'));
         var counter = parseFloat(cs[i].getAttribute('counter'));
         var state = cs[i].getAttribute("state");
+        
+        if (state != "bouncing" && state != "done"){
+            for (var j = 0; j < cs.length; j++){
+                if (cs[j].getAttribute("state") == "bouncing"){
+                    var jx = parseFloat(cs[j].getAttribute('cx'));
+                    var jy = parseFloat(cs[j].getAttribute('cy'));
+                    var jr = parseFloat(cs[j].getAttribute('r'));
+                    var distance = Math.sqrt( Math.pow(x - jx, 2) + Math.pow(y - jy, 2) );
+                    if (distance < r + jr){
+                        cs[j].setAttribute("state", "growing");
+                    }
+                }
+            }
+        }
         if (state == "bouncing"){
             if (x - r < 0 || x + r > 640){
                 dx = dx * -1;
@@ -84,6 +98,7 @@ var move = function() {
         cs[i].setAttribute('r',r);
         cs[i].setAttribute('counter',counter);
         
+        
     }
 };
 
@@ -91,7 +106,7 @@ var t = 0;
 var go = function() {
     //e.preventDefault();
     if (t==0){
-        t = setInterval(move,50);
+        t = setInterval(move,20);
     } else {
         clearInterval(t);
         t=0;

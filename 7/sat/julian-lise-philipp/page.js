@@ -19,4 +19,19 @@ while( s < rawscoredata.length ){
     schoolscores.push(temp);
     s++;
 };
-console.log(schoolscores);
+//console.log(schoolscores);
+
+var i=0;
+var meanmathscore = 0;
+var numscores = 0;
+while(i < rawscoredata.length){
+    if(rawdata["data"][i][11] != "s"){
+	meanmathscore += parseInt(rawdata["data"][i][11]);
+	console.log(meanmathscore);
+	numscores++;
+    }
+    i++;
+
+}
+meanmathscore = meanmathscore / numscores;
+console.log(meanmathscore);
