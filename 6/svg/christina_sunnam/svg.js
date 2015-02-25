@@ -11,7 +11,7 @@ var getRandomColor = function() {
 var click = function(e){
     e.preventDefault();
     console.log("CLICK");
-    var r = Math.random();
+    var r = Math.random()*25;
     addCircle(e.offsetX,e.offsetY,r);
 };
 var addCircle = function(x,y,r){
