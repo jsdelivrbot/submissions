@@ -1,3 +1,5 @@
+var direction = "";
+
 var moveShuffler = function(e) {
     e.preventDefault();
     console.log("moveShuffler");
@@ -5,16 +7,47 @@ var moveShuffler = function(e) {
     this.setAttribute("x",newX);
 };
 
+var moveBall = function() {
+    var ball = document.getElementById("ball");
+    var xcoor = ball.getAttribute('x');
+    var ycoor = ball.getAttribute('y');
+    if (direction==""){
+	direction = "upRight";
+    };
+    if (xcoor < 10){
+	direction = "downRight";
+    };
+    if (xcoor > 910){
+	direction = "upLeft";
+    };
+    if (ycoor < 10){
+	direction = "downLeft";
+    };
+    if (ycoor > 600){
+	direction = "upRight";
+    };
+    if (direction == "upRight"){
+	xcoor = xcoor + 1;
+	ycoor = ycoor - 1;
+    };
+    if (direction == "downRight"){
+	xcoor = xcoor + 1;
+	ycoor = ycoor + 1;
+    };
+    if (direction == "upLeft"){
+	xcoor = xcoor - 1;
+	ycoor = ycoor - 1;
+    };
+    if (direction == "downLeft"){
+	xcoor = xcoor - 1;
+	ycoor = ycoor + 1;
+    };
+    ball.setAttribute("x",xcoor);
+    ball.setAttribute("y",ycoor);
+};
 
 var setUp = function() {
     s = document.getElementById("s");
-    //
-    var ball = document.createElementNS("http://www.w3.org/2000/svg","circle");
-    ball.setAttribute("cx","500");
-    ball.setAttribute("cy","350");
-    ball.setAttribute("r","7");
-    ball.setAttribute("fill","black");
-    s.appendChild(ball);
     //
     var shuffler = makeRect(s,450,600);
     shuffler.setAttribute("width","100");
@@ -87,13 +120,19 @@ var makeRect = function(s,x,y) {
 };
  
 
-/*var changeGreen
-var changeRed
-var deleteRect
-var move
-*/
-
+var t = 0;
+var go = function() {
+    if (t==0){
+	t = setInterval(moveBall(),100);
+    } else {
+	clearInterval(t);
+	t=0;
+    }
+};
 
 setUp();
+go();
+
+
 
 
