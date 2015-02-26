@@ -41,34 +41,30 @@ var updateCircles = function() {
     for (var index = 0; index < circle_list.length; index++) {
         circle = circle_list[index];
         var smallrad = parseInt(circle.getAttribute("r"));
-        var x = parseInt(circle.getAttribute("cx"));
-        var y = parseInt(circle.getAttribute("cy"));
-
-        var dmax = (radius / 4) + ((smallrad - radius) / radius) * (radius / 4);
-        var dmin = 0 - dmax;
-        var dx = x - width / 2;
-        var dy = y - height / 2;
-        var d = smallrad / 100;
+        var x = width / 2;
+        var y = height / 2;
+        var dmax = smallrad / 4;
+        var dr = 1;
 
         if (movement[0] ||
             movement[1] ||
             movement[2] ||
             movement[3]) {
-            if (movement[0] && dx - d > dmin) x -= d;
-            if (movement[1] && dx + d < dmax) x += d;
-            if (movement[2] && dy - d < dmax) y += d;
-            if (movement[3] && dy + d > dmin) y -= d;
+            if (movement[0]) x -= dmax;
+            if (movement[1]) x += dmax;
+            if (movement[2]) y += dmax;
+            if (movement[3]) y -= dmax;
         }
         else {
-            if (dx - d > 0) x -= d;
-            if (dx + d < 0) x += d;
-            if (dy + d < 0) y += d;
-            if (dy - d > 0) y -= d;
+            // if (dx - d > 0) x -= d;
+            // if (dx + d < 0) x += d;
+            // if (dy + d < 0) y += d;
+            // if (dy - d > 0) y -= d;
         }
 
         var shade = 25 * (smallrad / radius);
 
-        smallrad = (smallrad + 1) % (2 * radius);
+        smallrad = (smallrad + dr) % (2 * radius);
 
         circle.setAttribute("r", smallrad);
         circle.setAttribute("cx", x);
