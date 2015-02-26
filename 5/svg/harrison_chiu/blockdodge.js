@@ -40,24 +40,20 @@ var keyupCallback = function(e) {
 var updateCircles = function() {
     for (var index = 0; index < circle_list.length; index++) {
         circle = circle_list[index];
-        var smallrad = parseInt(circle.getAttribute("r")) + 1;
+        var smallrad = parseInt(circle.getAttribute("r"));
         var x = parseInt(circle.getAttribute("cx"));
         var y = parseInt(circle.getAttribute("cy"));
-        var dmax = (radius - smallrad) / 2;
+
+        var dmax = (radius / 4) + ((smallrad - radius) / radius) * (radius / 4);
         var dmin = 0 - dmax;
         var dx = x - width / 2;
         var dy = y - height / 2;
-        var d = smallrad / (100); //(radius - smallrad) / 100;
+        var d = smallrad / 100;
 
-        if (smallrad > radius * 2) {
-            smallrad = 0;
-            x = width / 2 + dmax;
-            y = height / 2 + dmax;
-        }
-        else if (movement[0] ||
-                 movement[1] ||
-                 movement[2] ||
-                 movement[3]) {
+        if (movement[0] ||
+            movement[1] ||
+            movement[2] ||
+            movement[3]) {
             if (movement[0] && dx - d > dmin) x -= d;
             if (movement[1] && dx + d < dmax) x += d;
             if (movement[2] && dy - d < dmax) y += d;
@@ -71,6 +67,8 @@ var updateCircles = function() {
         }
 
         var shade = 25 * (smallrad / radius);
+
+        smallrad = (smallrad + 1) % (2 * radius);
 
         circle.setAttribute("r", smallrad);
         circle.setAttribute("cx", x);
