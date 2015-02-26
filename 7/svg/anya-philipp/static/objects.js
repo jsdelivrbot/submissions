@@ -11,6 +11,13 @@ var makePerson = function(x,y,w,h,dx,dy, healthStatus, people, ctx) {
           people : people,
           just_turned : false,
           color : "#ff0000",
+          speed : PERSON_SPEED,
+
+          // Used when infected
+          life_left : 100,
+
+          // Used when dead
+          decay_left : 100,
 
           draw : function() {
               if (this.healthStatus == "alive")
@@ -19,52 +26,63 @@ var makePerson = function(x,y,w,h,dx,dy, healthStatus, people, ctx) {
                   this.color = "#ff0000";
               else if (this.healthStatus == "immune")
                     this.color = VACCINE_COLOR;
+              else if (this.healthStatus == "dead") {
+                  this.color = "rgb(255, 255, 255)";
+                  // Transparency
+                  ctx.globalAlpha = (this.decay_left / 100);
+              }
 
               ctx.fillStyle = this.color;
               ctx.fillRect(this.x,this.y,this.w,this.h);
+              ctx.globalAlpha = 1;
           },
 
           // IF we find ourselves in intersection:
           // There's a TURN_PROBABILITY chance of going left, and the same probability of going right
           move : function() {
+              // Dead people don't move
+              if (this.healthStatus == "dead")
+                  return;
+
+              // If we didn't just turn and we're on an intersection
               if (!this.just_turned && this.isOnIntersection()) {
                   var rand = Math.random();
                   //Turn right
                   if (rand < TURN_PROBABILITY){
-                      if (this.dx == PERSON_SPEED){
+                      if (this.dx > 0) {
                           this.dx = 0;
-                          this.dy = -1 * PERSON_SPEED;
+                          this.dy = -1 * this.speed;
                       }		
-                      else if (this.dx == -1 * PERSON_SPEED){
+                      else if (this.dx < 0){
                           this.dx = 0;
-                          this.dy = PERSON_SPEED;
+                          this.dy = this.speed;
                       }
-                      else if (this.dy == PERSON_SPEED){
+                      else if (this.dy > 0){
                           this.dy = 0;
-                          this.dx = PERSON_SPEED;
+                          this.dx = this.speed;
                       }
-                      else if (this.dy == -1 * PERSON_SPEED){
+                      else if (this.dy < 0){
                           this.dy = 0;
-                          this.dx = -1 * PERSON_SPEED;
+                          this.dx = -1 * this.speed;
                       }
                   }	
                   //Turn Left
                   else if (rand < 2 * TURN_PROBABILITY){
-                      if (this.dx == PERSON_SPEED){
+                      if (this.dx > 0){
                           this.dx = 0;
-                          this.dy = PERSON_SPEED;
+                          this.dy = this.speed;
                       }		
-                      else if (this.dx == -1 * PERSON_SPEED){
+                      else if (this.dx < 0){
                           this.dx = 0;
-                          this.dy = -1 * PERSON_SPEED;
+                          this.dy = -1 * this.speed;
                       }
-                      else if (this.dy == PERSON_SPEED){
+                      else if (this.dy > 0){
                           this.dy = 0;
-                          this.dx = -1 * PERSON_SPEED;
+                          this.dx = -1 * this.speed;
                       }
-                      else if (this.dy == -1 * PERSON_SPEED){
+                      else if (this.dy < 0){
                           this.dy = 0;
-                          this.dx = PERSON_SPEED;
+                          this.dx = this.speed;
                       }
                   }
                   this.just_turned = true;
@@ -77,11 +95,20 @@ var makePerson = function(x,y,w,h,dx,dy, healthStatus, people, ctx) {
                   this.just_turned = false;
               }
 
-              // If taking a step would run us into a wall, turn around
+              // Update dx & dy to match this.speed, which decreases if person is infected
+              if (this.dx > 0)
+                  this.dx = this.speed;
+              else if (this.dx < 0)
+                  this.dx = -1 * this.speed;
+              else if (this.dy > 0)
+                  this.dy = this.speed;
+              else if (this.dy < 0)
+                  this.dy = -1 * this.speed;
 
               this.x = this.x + this.dx;
               this.y = this.y + this.dy;
 
+              // If taking a step would run us into a wall, turn around
               if (this.x <= 0 || (this.x + PERSON_SIZE) >= GAME_WIDTH)
                   this.dx = this.dx * -1;
               if (this.y <= 0 || (this.y + PERSON_SIZE) >= GAME_HEIGHT)
@@ -132,22 +159,41 @@ var makePerson = function(x,y,w,h,dx,dy, healthStatus, people, ctx) {
                     this.y = (horiz_street.y + STREET_SIZE / 2) - PERSON_SIZE / 2;
             },
 
+          // returns true or false
           isOnPerson : function(person) {
               return (this.x == person.x && this.y == person.y);
           },
+            
+          getInfected : function() {
+            this.healthStatus = "infected";
+
+            // Life span is 100 +- 20
+            this.life_left = 100 - 20 + Math.random() * (2 * 20);
+          },
+
+            getCured : function() {
+                this.healthStatus = "alive";
+                this.speed = PERSON_SPEED;
+                this.life_left = 100;
+            },
+
+            infectable : function() {
+                return this.healthStatus == "alive";
+            }, 
 
           checkForInfections : function(people) {
-              if (this.healthStatus == "infected") {
+              if (this.healthStatus == "infected" || this.healthStatus == "dead") {
                   for (var i = 0; i < this.people.length; i++) {
-                      if (this.people[i].healthStatus != "immune" && this.people[i].healthStatus != "dead") {
+                      if (this.people[i].infectable()) {
                           if ((this.x >= this.people[i].x && this.x <= (this.people[i].x + this.people[i].w) && this.y >= this.people[i].y && this.y <= (this.people[i].y + this.people[i].h))
                                   || ((this.people[i].x >= this.x && this.people[i].x <= (this.x + this.w) && this.people[i].y >= this.y && this.people[i].y <= (this.y + this.h))))
-                              this.people[i].healthStatus = "infected";
+                              this.people[i].getInfected();
                       }
                   }
               }
               return this.people;
           },
+
           // This function returns a function.
           // Every time we're checking intersections we call this function,
           // and it returns a function suitable for our direction.
@@ -210,7 +256,49 @@ var makePerson = function(x,y,w,h,dx,dy, healthStatus, people, ctx) {
                       return true;
               }
               return false;
-          }
+          },
+
+        // Every infected person dies a little every frame
+        dieSlowly : function() {
+            // They lose a little of `life_left`
+            this.life_left -= DYING_RATE;
+            // And they slow down
+            this.speed = (this.life_left / 100) * PERSON_SPEED;
+
+            // And eventually they die :(
+            if (this.life_left <= 0)
+                this.die();
+        },
+
+        // Happens to an infected person when life_left <= 0
+        die : function() {
+            this.healthStatus = "dead";
+            this.speed = 0;
+        },
+
+        // Every dead person decays a little every frame
+        decaySlowly : function() {
+            this.decay_left -= DECAY_RATE;
+
+            // If we've decomposed, disappear
+            if (this.decay_left <= 0) {
+                var index_in_array = people.indexOf(this);
+
+                // Remove self :(
+                people.splice(index_in_array, 1);
+            }
+        },
+
+          update : function() {
+            this.move();
+            this.checkForInfections();
+
+            if (this.healthStatus == "infected")
+                this.dieSlowly();
+
+            else if (this.healthStatus == "dead")
+                this.decaySlowly();
+        }
     };
 };
 
@@ -273,19 +361,22 @@ var makeToolButton = function(name, x, y, width, height, cost, initial_level, re
         logo_loaded : false,
         ctx : ctx,
 
+        // A callback
         logoLoaded : function(button_reference) {
             button_reference.logo_loaded = true;
         },
 
+        // returns true or false
         canUse : function(cost) {
             return this.level -this. cost >= 0
         },
 
         useOnce : function(cost) {
             if (this.canUse())
-                this.level = this.level - this.cost;
+                this.level = (this.level - this.cost).rock_bottom(0);
         },
 
+        // happens every frame, if applies
         refill : function() {
             this.level = (this.level + this.refill_speed).cap(this.max_level);
         },
