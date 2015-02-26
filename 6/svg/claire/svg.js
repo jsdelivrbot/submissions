@@ -1,8 +1,7 @@
 var moveShuffler = function(e) {
     e.preventDefault();
-    console.log("move");
-    var mouseX = e.offsetX;
-    var newX = this.getAttribute("x") + mouseX;
+    console.log("moveShuffler");
+    var newX = this.getAttribute("x") + e.offsetX;
     this.setAttribute("x",newX);
 };
 
@@ -21,7 +20,7 @@ var setUp = function() {
     shuffler.setAttribute("width","100");
     shuffler.setAttribute("height","20");
     shuffler.setAttribute("fill","black");
-    shuffler.addEventListener('onclick', moveShuffler);
+    shuffler.addEventListener('onmove', moveShuffler);
     s.appendChild(shuffler);
     //
     makeRect(s,10,10);
@@ -94,5 +93,7 @@ var deleteRect
 var move
 */
 
+
 setUp();
+
 
