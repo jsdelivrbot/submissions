@@ -1,5 +1,5 @@
 var list = [];
-console.log(raw);
+console.log("Original");
 var data = raw.data;
 var mathscores = [];
 var above_schools =[];
@@ -39,7 +39,6 @@ var average = function(e){
     }
     return sum/e.length;
 };
-console.log(list);
 extract("math",mathscores);
 for(var i = 0; i<list.length;i++){
     avg=average(mathscores);
@@ -47,5 +46,5 @@ for(var i = 0; i<list.length;i++){
 	above_schools.push(list[i]);
     }
 }
-console.log(average(mathscores));
+console.log(Math.floor(average(mathscores)));
 console.log(above_schools);

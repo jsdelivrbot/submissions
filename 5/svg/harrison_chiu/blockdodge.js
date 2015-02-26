@@ -14,49 +14,75 @@ var makeBGCircle = function makeBGCircle(r, stroke) {
 }
 
 var circle_list = []; 
-for (var count = 0; count < 4; count++) {
-    var circle = makeBGCircle(count * radius / 4, "rgb(0, 0, 0)");
+var circles_onscreen = 4;
+for (var count = 0; count < 2 * circles_onscreen; count++) {
+    var circle = makeBGCircle(count * radius / circles_onscreen, "rgb(0, 0, 0)");
     circle_list.push(circle);
     game.appendChild(circle);
 }
-console.log(circle_list);
 
-var keypressCallback = function(e) {
-    for (var index = 0; index < circle_list.length; index++) {
-        circle = circle_list[index];
-        var x = parseInt(circle.getAttribute("cx"));
-        var y = parseInt(circle.getAttribute("cy"));
-        if (
-            (Math.abs((height / 2) - x) < 10)) {
-            x += 1;
-        }
-        else if (true) {
-            x -= 1;
-        }
-        else if (true) {
-            y += 1;
-        }
-        else if (true) {
-            y -= 1;
-        }
-        circle.setAttribute("cx", x);
-        circle.setAttribute("cy", y);
-    }
+var movement = [false, false, false, false];
+//0 = right, 1 = left, 2 = up, 3 = down
+var keydownCallback = function(e) {
+    if (e.keyCode == 87) movement[2] = true; //w
+    if (e.keyCode == 83) movement[3] = true; //s
+    if (e.keyCode == 65) movement[1] = true; //a
+    if (e.keyCode == 68) movement[0] = true; //d
+}
+
+var keyupCallback = function(e) {
+    if (e.keyCode == 87) movement[2] = false; //w
+    if (e.keyCode == 83) movement[3] = false; //s
+    if (e.keyCode == 65) movement[1] = false; //a
+    if (e.keyCode == 68) movement[0] = false; //d
 }
 
 var updateCircles = function() {
     for (var index = 0; index < circle_list.length; index++) {
         circle = circle_list[index];
-        var smallrad = parseInt(circle.getAttribute("r"));
-        circle.setAttribute("r", (smallrad + 2) % radius);
+        var smallrad = parseInt(circle.getAttribute("r")) + 1;
+        var x = parseInt(circle.getAttribute("cx"));
+        var y = parseInt(circle.getAttribute("cy"));
+        var dmax = (radius - smallrad) / 2;
+        var dmin = 0 - dmax;
+        var dx = x - width / 2;
+        var dy = y - height / 2;
+        var d = smallrad / (100); //(radius - smallrad) / 100;
 
+        if (smallrad > radius * 2) {
+            smallrad = 0;
+            x = width / 2 + dmax;
+            y = height / 2 + dmax;
+        }
+        else if (movement[0] ||
+                 movement[1] ||
+                 movement[2] ||
+                 movement[3]) {
+            if (movement[0] && dx - d > dmin) x -= d;
+            if (movement[1] && dx + d < dmax) x += d;
+            if (movement[2] && dy - d < dmax) y += d;
+            if (movement[3] && dy + d > dmin) y -= d;
+        }
+        else {
+            if (dx - d > 0) x -= d;
+            if (dx + d < 0) x += d;
+            if (dy + d < 0) y += d;
+            if (dy - d > 0) y -= d;
+        }
+
+        var shade = 25 * (smallrad / radius);
+
+        circle.setAttribute("r", smallrad);
+        circle.setAttribute("cx", x);
+        circle.setAttribute("cy", y);
+        circle.setAttribute("stroke-width", shade);
     }
 }
 
 var time = 0;
 var updateBG = function updateBG() {
     if (time == 0) {
-        time = setInterval(updateCircles() , 10);
+        time = setInterval(updateCircles, 10);
     }
     else {
         clearInterval(time);
@@ -64,5 +90,6 @@ var updateBG = function updateBG() {
     }
 }
 
-game.addEventListener("click", updateBG);
-game.addEventListener("keypress", keypressCallback);
+updateBG();
+window.addEventListener("keydown", keydownCallback);
+window.addEventListener("keyup", keyupCallback);
