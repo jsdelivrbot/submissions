@@ -1,6 +1,61 @@
 //Alex Zilbersher & Jerry Dai Period 5
 rawschools = rawdata.data;
 
+//map function
+var map = function(lisst, funcction) {
+    var result = [];
+    for (var i=0 ; i < lisst.length ; i++ ) {
+	result.push(funcction(lisst[i]));
+    };
+    return result;
+};
+
+//throw out none numbers
+var filter = function(lisst, funcction) {
+    var result = [];
+    for (var i=0 ; i < lisst.length ; i++ ) {
+	if(funcction(lisst[i])) {
+	    result.push(lisst[i]);
+	}
+    };
+    return result;
+};
+
+//combine to one
+
+var reduce = function(lisst, funcction, init) {
+    var result = init;
+    for (var i=0 ; i < lisst.length ; i++ ) {
+	result += funcction(lisst[i]);
+    };
+    return result;
+};
+
+//get school list
+school_scores = map(rawschools, function(item) {
+    return {
+	code: item[8],
+	name: item[9],
+	num: item[10],
+	eng: item[11],
+	math: item[12],
+	writing: item[13],
+    }
+});
+
+names = map(school_scores, function(x) {return x.name});
+console.log(names);
+math_scores = map(school_scores, function(x) {return x.math});
+math_scores = map(math_scores, function(x) {return parseInt(x)});
+math_scores = filter(math_scores, function(x) {return !isNaN(x)});
+console.log(math_scores);
+mathh = reduce(math_scores, function(a,b) {return a+b;}, 0);
+console.log(mathh);
+matt = mathh / math_scores ;
+console.log(matt);
+
+
+/*
 //(from Mr.Z) convert raw data into a more compact dictionary
 school_scores = [];
 for (var i = 0; i < rawschools.length;i++){
@@ -40,3 +95,4 @@ for (var i = 0; i < math_scores.length; i++){
     }
 }
 console.log(above_math_scores);
+*/
