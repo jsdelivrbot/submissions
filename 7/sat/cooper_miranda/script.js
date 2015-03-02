@@ -49,3 +49,4 @@ for (var school in above_math){
     schools_list.appendChild(li);
     
 }
+var withUnderScore = _.chain(scores).filter(function(x){return parseInt(x.num)>800;}).pluck("reading").map(function(x){return parseInt(x);}).filter(function(x){return !isNaN(x);}).value();
