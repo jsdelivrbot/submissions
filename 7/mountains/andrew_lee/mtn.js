@@ -14,8 +14,6 @@ var greater = _.filter(ranges,function(value){
     return value >= 30;
 }
 
-console.log(greater);
-
 var number = greater.length;
 
 console.log(number);
