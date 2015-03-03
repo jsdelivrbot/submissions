@@ -1,8 +1,3 @@
-mtn = [20, 80, 33,140, 50, 20, 60, 70, 75]
-
-//slice :) slice(1)
-//use lodash
-//no loops in final version!!
 mtn = [20,130,50,40,60,30,80]
 var countIntervals = function(mtn){
     var differ = _.map(mtn,function(x,i,mtn){
