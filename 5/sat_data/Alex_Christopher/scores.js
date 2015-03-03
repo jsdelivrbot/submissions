@@ -11,7 +11,7 @@ for (i = 0; i < scores.length; i++){
 };
 
 var avg = 0,
-    counter = 1,
+    counter = 0,
     sum = 0;
 for (i = 0; i < mathScores.length; i++){
     if (mathScores[i] != "s"){

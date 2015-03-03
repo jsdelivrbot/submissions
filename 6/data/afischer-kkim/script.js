@@ -12,7 +12,7 @@
 
 parsed = []
 schoolData = rawData[0].data
-
+mAvg = 0.00
 
 for(var i=0; i<schoolData.length; i++){
     parsed.push(
@@ -26,3 +26,16 @@ for(var i=0; i<schoolData.length; i++){
 	}
     );
 }
+
+function mathAvg(){
+    var count = 0
+
+    for(var i=0; i<schoolData.length; i++){
+	console.log(parsed[i].math);
+	mAvg += parsed[i].math;
+	count++;
+    }
+    mAvg /= count;
+    return mAvg;
+}
+
