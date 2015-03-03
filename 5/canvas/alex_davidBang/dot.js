@@ -10,14 +10,14 @@ var trails = [];
 
 var makeDot = function(ctx){
     return {
-	    x : 20 + 1200*Math.random(),
-	    y : -15,
-	    r : 12 + 6*Math.random(),
-	    ctx : ctx,
-	    dx : -3 + 2*Math.random(),
-	    dy : 2 + 2*Math.random(),
-	    color : "#ff0000",
-	    spawn : function() {
+	x : 15 + 1200*Math.random(),
+	y : -15,
+	r : 12 + 6*Math.random(),
+	ctx : ctx,
+	dx : -3 + 2*Math.random(),
+	dy : 2 + 2*Math.random(),
+	color : "#ff0000",
+	spawn : function() {
 	        ctx.beginPath();
 	        ctx.arc(this.x,this.y,this.r,0,2*Math.PI);
 	        ctx.fillStyle= this.color;
