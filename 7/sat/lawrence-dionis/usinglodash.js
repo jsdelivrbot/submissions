@@ -1,4 +1,3 @@
-//not working because lazy evaluation is lazy.
 console.log("using lodash");
 var list = _.map(raw.data,function(item){
 		 return {
@@ -10,16 +9,15 @@ var list = _.map(raw.data,function(item){
 		     writing:item[13]
 		 };
 });
-var mathscores = _.chain(list)
-    .map(function(item){return item.math;})
-    .map(function(x){return parseInt(x);})
-    .filter(function(x){return !isNaN(x);});
-var sum = _.chain(list)
-    .map(function(item){return item.math;})
+var len;
+var sum= _.chain(list)
+    .pluck("math")
     .map(function(x){return parseInt(x);})
     .filter(function(x){return !isNaN(x);})
-    .reduce(mathscores,function(a,b){return a+b;});
-var avg = Math.floor(sum/_.size(mathscores));
+    .tap(function(x){len=_.size(x)})
+    .reduce(function(a,b){return a+b;})
+    .value();
+var avg = Math.floor(sum/len);
 var schools = _.filter(list,function(item){
     return parseInt(item.math)>avg;
 });
