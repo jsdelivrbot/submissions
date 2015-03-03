@@ -1,7 +1,7 @@
-var range = [10, 20, 30, 33, 48, 92, 180, 181, 200]
+var range = [0,1,1,2,3,5,8,13,21,34,55,89,144,233,377,610,987]
 
 var mountainer = function(l){
-    var i = 1;
+    var i = 0;
     var delta = _.map(l, function(n){
 	if (i < l.length){
 	    i+=1;
@@ -16,7 +16,8 @@ var mountainer = function(l){
 	else{
 	    return sum;
 	}
-    });
+    }, 0);
+    return answer;
 }
-		      
-		     
+console.log("Mountain range of: "+range);	      
+console.log(mountainer(range));	     
