@@ -1,3 +1,4 @@
+
 mtn = [20,130,50,40,60,30,80]
 var countIntervals = function(mtn){
     var differ = _.map(mtn,function(x,i,mtn){
