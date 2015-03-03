@@ -33,3 +33,12 @@ var filtered_schools = school_scores.filter(function(x) { return x.math > mean }
 
 console.log(mean);
 console.log(filtered_schools);
+/*
+var data = rawscores["data"];
+
+var math_scores = _.map(data, function(x) {return x[12];});
+math_scores = _.filter(math_scores, function(x) {return !isNaN(x);});
+var l = math_scores.length;
+var mean = _.reduce(math_scores, function(sum, x) {return parseInt(sum) + parseInt(x);}) / l;
+var success_schools = _.filter(data, function(x) {return parseInt(x[12]) >= mean;});
+*/

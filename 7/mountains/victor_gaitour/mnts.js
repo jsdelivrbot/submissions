@@ -15,7 +15,18 @@ var calculate = function(){
     return totalover30;
 }
 
-var calculatenoloop = function(){
-}
+var calculatenoloop = function(mountains){
+    var count=0;
+    _.reduce(mountains,function(prev, n, key){
+	if (key!=0){
+	    if (Math.abs(n-prev) > 30){
+		count++;
+	    }
+	}
+	return n;
+    });
+    return count;
+};
 
+console.log(calculatenoloop(mtn));
     
