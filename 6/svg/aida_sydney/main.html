@@ -1,16 +1,28 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <script src="https://code.jquery.com/jquery-2.1.3.min.js"></script>
+    <script>
+    $(document).ready(function() {
+      $("#w").click(function(){
+        waterMode = !waterMode;
+        console.log(waterMode);
+        if(waterMode) {
+          $("#s").css('cursor', "url(images/wateringcan.png), crosshair" );
+        }
+      });
+    });
+    </script>
     <style>
-     #s {border: 1px solid;}
-     .custom {
-      cursor: url(images/wateringcan.png), auto;
-     }
+    #s {
+      border: 1px solid;
+    }
+
     </style>
   </head>
   <body>
   	<h1>Grow your flower!</h1>
-    <svg class="where" id="s" height=400 width=400
+    <svg class="where" id="s" style="cursor:auto;"height=400 width=400
       xmlns="http://www.w3.org/2000/svg" xmlns:xlink= "http://www.w3.org/1999/xlink">
     <rect x="0" y="0" width="400" height="325"
   style="fill:#B2E0FF" />
