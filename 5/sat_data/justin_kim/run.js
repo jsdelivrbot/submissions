@@ -12,27 +12,22 @@ for (var i = 0; i < data.length; i++) {
         writing: school[13]
     });
 }
-
 console.log(scores);
 
 var mathScores = [];
 for (var i = 0; i < scores.length; i++) {
-    mathScores.push(scores[i].math);
-}
-
-console.log(mathScores);
-
-var sum;
-var count;
-for (var i = 0; i < mathScores.length; i++) {
-
-    if (mathScores[i] != 's') {
-        sum += parseInt(mathScores[i]);
-        count++;
+    var score = parseInt(scores[i].math);
+    if (!isNaN(score)) {
+        mathScores.push(score);
     }
 }
+console.log(mathScores);
 
+var sum = 0;
+for (var i = 0; i < mathScores.length; i++) {
+    sum += mathScores[i];
+}
 console.log(sum);
-console.log(count);
 
-console.log(sum / count);
+var avg = sum / mathScores.length;
+console.log(avg);
