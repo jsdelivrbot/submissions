@@ -11,5 +11,7 @@ var bigger30 = _.filter(diffs, function(n){
     }
 );
 
-console.log(bigger30);
+//console.log(mtns);
+//console.log(diffs);
+//console.log(bigger30);
 console.log(bigger30.length);
