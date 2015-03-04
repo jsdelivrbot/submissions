@@ -1,0 +1,22 @@
+Firebase
+- an API that allows for realtime updates and data sync
+- data is stored as JSON blocks into a Firebase "database"
+- "snapshots" are used to return changes to the data back to the webpage,
+or whatever platform is being used
+- basic Firebase is free, pay for more storage and more connections to the Firebase
+
+---show the demo---
+- input data
+- delete data
+- show changes over multiple tabs
+- go to Firebase page
+- show HTTPS
+- show json object
+- live update/delete from Firebase
+
+---documentation---
+- OAuth
+- parent/child nodes
+- query JSON data
+- onDisconnect(): functions that can be run when user leaves
+- DataSnasphot: different ways to return the data
