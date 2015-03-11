@@ -14,12 +14,24 @@
 				<td><button id="del">delete</button></td>
 			</tr>
 		</script>
-		
+
+		<script type="text/template" id="list_template">
+		  <tr>
+		    <td> <%= name %> </td> <td> <%= rating %> </td>
+		  </tr>
+		</script>
 	</head>
+
+
 	<body>
-		<h1>Hello</h1>
+		<h1>Place Ratings</h1>
 		<button>Random button</button>
 		<table border="1" id="place">
+		</table>
+		<hr>
+
+		<h1>Ratings list</h1>
+		<table border="1" id="listitem">
 		</table>
 		<script src="/static/app.js""></script>
 	</body>
