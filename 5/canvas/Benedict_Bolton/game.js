@@ -8,11 +8,11 @@ var randInt = function (min, max) {
   return Math.floor(Math.random()*(max-min + 1) + min);
 };
 
-var createPlayer = function () {
+var createPlayer = function (x, y) {
   return {
-    r: 2,
-    x: game.width/2,
-    y: game.height/2,
+    r: 10,
+    x: x,
+    y: y,
     str: 0,
     end: 2* Math.PI,
     color: "#FFFFFF",
@@ -40,9 +40,9 @@ var createObstacle = function(x, y, h, w, ctx) {
     dir: randInt(0,3),
     color: "#000093",
     draw : function() {
-      ctx.fillStyle=this.color;
-      ctx.fillRect(this.x, this.y, this.width, this.height);
-      ctx.stroke();
+      this.ctx.fillStyle=this.color;
+      this.ctx.fillRect(this.x, this.y, this.width, this.height);
+      this.ctx.stroke();
     },
     move : function() {
       /*if (dir = 0) {
@@ -65,13 +65,24 @@ var createObstacle = function(x, y, h, w, ctx) {
   };
 };
 
+var realMove = function(newX, newY) {
+    return createObstacle(newX, newY);
+}
+    
+
 var time = new Date();
 
 var play = function(e) {
+    console.log(e.clientX - this.offsetLeft);
+    console.log(e.clientY - this.offsetTop);
+    x = e.clientX - this.offsetLeft;
+    console.log(x);
+    y = e.clientY - this.offsetTop;
+    console.log(y);
   console.log(control.x + ", " + control.y);
   console.log("done");
   e.preventDefault();
-  control.move(e.clientX - this.offsetLeft, e.clientY - this.offsetTop);
+  control = realMove(x, y);
   console.log(control.x + ", " + control.y);
 };
 
@@ -79,16 +90,18 @@ var run = function() {
   ctx.fillStyle="#D89090";
   ctx.fillRect(0,0, game.width, game.height);
   //console.log("running");
-  control.draw();
+  
   for (var item= 0; item < obs.length; item++){
     var fin = obs[item].move();
     obs[item].draw();
     if (fin) {
-      obs.splice(item,item);
+      //obs.splice(item,item);
       fin = false;
     }
   }
-  obs.push(createObstacle(0, randInt(10, game.height + 10), 5, 10, ctx))
+  console.log("draw me now");
+  control.draw();
+    obs.push(createObstacle(0, randInt(10, game.height + 10), 5, 10, ctx));
   window.requestAnimationFrame(run);
 };
 
@@ -106,7 +119,7 @@ var clicked = function(e){
 
 var obs = [];
 
-var control = createPlayer();
-game.addEventListener("mousedown", play);
+var control = createPlayer(game.width/2, game.height/2);
+game.addEventListener("mousemove", play);
 game.addEventListener("click",clicked);
 window.requestAnimationFrame(run);
