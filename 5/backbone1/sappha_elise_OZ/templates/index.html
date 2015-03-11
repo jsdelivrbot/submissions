@@ -7,19 +7,19 @@
 
 		<script type="text/template" id="place_template">
 			<tr>
-				<td><%= name %></td><td><%= rating %></td>
+				<td><%= name %></td><td><%= rating %></td><td><%= description %></td>
 				<td><button id="up">up</button><button id="down">down</button><button id="del">delete</button></td>
 			</tr>
 		</script>
 		
 		</head>
 	<body>
-
-		<h1>Hello</h1>
-		<button id="r1">Random button 1</button>
+        <br>
 		<table border="1" id="place">
 		</table>
-		<button>Random button 2</button>
-	<script src="/static/app.js""></script>
+        <br>
+        <input type="text" name="description2" value="Update Description"><br>
+		<button id="update">Update Description</button>
+	<script src="/static/app.js"></script>
 	</body>
 </html>

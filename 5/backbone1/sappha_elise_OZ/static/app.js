@@ -1,5 +1,3 @@
-console.log("HELLO");
-
 var PlaceView = Backbone.View.extend({
 		el:"#place",
 		//template: _.template("<tr><td><%= name %></td><td><%= rating %></td></tr>"),
@@ -22,6 +20,12 @@ var PlaceView = Backbone.View.extend({
 						this.model.set('rating',r);
 						this.render();
 				},
+                "click #update": function(e) {
+                        var d = this.model.get("description2");
+                        console.log(d);
+                        this.model.set('description', d);
+                        this.render();
+                },
 		},
 		initialize:function(){
 				this.render();
@@ -43,7 +47,8 @@ var Place = Backbone.Model.extend({
 						console.log("Changed"+this.toJSON())}});
 		},
 		defaults:{'name':'name goes here',
-							'rating':0},
+							'rating':0,
+                                  'description':'description goes here'},
 		validate:function(attrs,options){
 				if (isNaN(attrs.rating)){
 						return "Rating must be numeric";
