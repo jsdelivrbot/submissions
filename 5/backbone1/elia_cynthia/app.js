@@ -1,5 +1,3 @@
-console.log("HELLO");
-
 var PlaceView = Backbone.View.extend({
     el:"#place",
     //template: _.template("<tr><td><%= name %></td><td><%= rating %></td></tr>"),
@@ -25,7 +23,6 @@ var PlaceView = Backbone.View.extend({
     },
     render: function(){
 	var e = this.template(this.model.toJSON());
-	console.log(e);
 	this.$el.empty();
 	this.$el.append(e);
 	return this;
@@ -34,12 +31,23 @@ var PlaceView = Backbone.View.extend({
 
 var ChangeView = Backbone.View.extend({
     el:"#change",
-    template: _.template($("#change_template").html())
+    template: _.template($("#change_template").html()),
     events: {
 	"click #submit" : function(e){
-	    var input = $(#d)
-	    this.mode.set("description", 
+	    var input = text.value;
+	    console.log(input);
+	    this.model.set("description", input);
+	    this.render();
 	}
+    },
+    initialize:function(){
+	this.render();
+    },
+    render: function(){
+	var e = this.template(this.model.toJSON());
+	this.$el.empty();
+	this.$el.append(e);
+	return this;
     }
 });
 
@@ -61,3 +69,4 @@ var Place = Backbone.Model.extend({
 var p1 = new Place({name:"Terry's", rating:5, description:"Eat"});
 var p2 = new Place({name:"Ferry's", rating:7, description:"Hi"});
 var v1 = new PlaceView({model:p1});
+var v2 = new ChangeView({model:p1});
