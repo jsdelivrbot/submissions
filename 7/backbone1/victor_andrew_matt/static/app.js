@@ -24,21 +24,26 @@ var PlaceView = Backbone.View.extend({
 				},
 		},
 		initialize:function(){
-				this.render();
+				//this.render();
+		    this.model.bind('change:rating', this.render);
+		    this.render();
 		},
 		render: function(){
-				var e = this.template(this.model.toJSON());
-				this.$el.empty();
-				this.$el.append(e);
-				return this;
+		    console.log(this.model.toJSON());
+		   
+		    var e = this.template(this.model.toJSON());
+		    console.log(e);
+		    this.$el.empty();
+		    this.$el.append(e);
+		    return this;
 		}
 
 
 });
-var PlaceView = Backbone.View.extend({
+var PlaceView2 = Backbone.View.extend({
 		el:"#place2",
 		//template: _.template("<tr><td><%= name %></td><td><%= rating %></td></tr>"),
-		template: _.template($("#place_template").html()),
+		template: _.template($("#place_template2").html()),
 		events: {
 				"click #del2" : function(e) {
 						this.remove();
@@ -91,3 +96,4 @@ var Place = Backbone.Model.extend({
 var p1 = new Place({name:"Terry's", rating:5});
 var p2 = new Place({name:"Ferry's", rating:7});
 var v1 = new PlaceView({model:p1});
+var v2 = new PlaceView2({model:p2});
