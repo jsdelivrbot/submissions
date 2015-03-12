@@ -4,22 +4,25 @@
     <script src="/static/lib/jquery.min.js"></script>
     <script src="/static/lib/lodash.js"></script>
     <script src="/static/lib/backbone.js"></script>
-
+    <script type="text/template" id="info_template">
+      <tr>
+        <td><%= name %></td><td><%= rating %></td><td><%= description %></td>
+      </tr>
+    </script>
     <script type="text/template" id="place_template">
       <tr>
-        <td><%= name %></td><td><%= rating %></td>
-        <td><button id="up">up</button><button id="down">down</button><buttonid="del">delete</button></td>
+        <td><%= name %></td><td><%= rating %></td><td><%= description %></td>
+        <td><button id="up">up</button><button id="down">down</button><button id="del">delete</button></td>
 </tr>
 </script>
 
 </head>
 <body>
-
-  <h1>Hello</h1>
-  <button id="r1">Random button 1</button>
+  <h1>Hooray for views</h1>
+  <table border="1" id="info">
+  </table>
   <table border="1" id="place">
   </table>
-  <button>Random button 2</button>
   <script src="/static/app.js"></script>
 </body>
 </html>

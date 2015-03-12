@@ -1,23 +1,16 @@
 <!doctype>
 <html>
 	<head>
-		<script src="/static/lib/jquery.min.js"></script>
-		<script src="/static/lib/lodash.js"></script>
-		<script src="/static/lib/backbone.js"></script>
+		<script src="/static/jquery.min.js"></script>
+		<script src="/static/lodash.js"></script>
+		<script src="/static/backbone.js"></script>
 
 		<script type="text/template" id="place_template">
 			<tr>
 				<td><%= name %></td><td><%= rating %></td>
 				<td><button id="up">up</button><button id="down">down</button><button id="del">delete</button></td>
 			</tr>
-			<tr>
-			  <td><%= description %></td>
-			  <td> 
-			      <input id="newText" type="text"> Enter New Description Here</input><button id="change">Submit</button>
-			  </td>
-			</tr>
 		</script>
-		    
 		
 		</head>
 	<body>
@@ -26,7 +19,9 @@
 		<button id="r1">Random button 1</button>
 		<table border="1" id="place">
 		</table>
+		<table border="1" id="place2">
+		</table>
 		<button>Random button 2</button>
-	<script src="../static/app.js"></script>
+	<script src="/static/app.js""></script>
 	</body>
 </html>

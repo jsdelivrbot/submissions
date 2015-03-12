@@ -1,0 +1,37 @@
+<!doctype>
+<html>
+  <head>
+    <script src="lib/jquery.min.js"></script>
+    <script src="lib/lodash.js"></script>
+    <script src="lib/backbone.js"></script>
+
+    <script type="text/template" id="place_template">
+      <tr>
+	<td><%= name %></td><td><%= rating %></td>
+	<td><%= description %></td>
+	<td><button id="up">up</button><button id="down">down</button><button id="del">delete</button></td>
+      </tr>
+    </script>
+
+    <script type="text/template" id="change_template">
+      <tr>
+	<td><%= description %></td>
+	<td><button id="up">up</button><button id="down">down</button><button id="del">delete</button></td>
+      </tr>
+    </script>
+
+  </head>
+  <body>
+    <h1>Stuff</h1>
+    <table border="1" id="place">
+    </table>
+    <table border="1" id="change">
+      <form>
+	<input type="text" name="description" id="d">
+	<input type="submit" name="submit">
+	<br>
+      </form>
+    </table>
+    <script src="app.js"></script>
+  </body>
+</html>

@@ -1,3 +1,5 @@
+console.log("HELLO");
+
 var PlaceView = Backbone.View.extend({
 		el:"#place",
 		//template: _.template("<tr><td><%= name %></td><td><%= rating %></td></tr>"),
@@ -20,12 +22,41 @@ var PlaceView = Backbone.View.extend({
 						this.model.set('rating',r);
 						this.render();
 				},
-                "click #update": function(e) {
-                        var d = this.model.get("description2");
-                        console.log(d);
-                        this.model.set('description', d);
-                        this.render();
-                },
+		},
+		initialize:function(){
+				this.render();
+		},
+		render: function(){
+				var e = this.template(this.model.toJSON());
+				this.$el.empty();
+				this.$el.append(e);
+				return this;
+		}
+
+
+});
+var PlaceView = Backbone.View.extend({
+		el:"#place2",
+		//template: _.template("<tr><td><%= name %></td><td><%= rating %></td></tr>"),
+		template: _.template($("#place_template").html()),
+		events: {
+				"click #del2" : function(e) {
+						this.remove();
+				},
+				"click #up2" : function(e) {
+						var r = this.model.get("rating");
+						r = parseInt(r);
+						r = r + 1;
+						this.model.set('rating',r);
+						this.render();
+				},
+				"click #down2" : function(e) {
+						var r = this.model.get("rating");
+						r = parseInt(r);
+						r = r - 1;
+						this.model.set('rating',r);
+						this.render();
+				},
 		},
 		initialize:function(){
 				this.render();
@@ -41,14 +72,15 @@ var PlaceView = Backbone.View.extend({
 });
 
 
+
+
 var Place = Backbone.Model.extend({
 		initialize: function() {
 				this.on({"change":function() {
 						console.log("Changed"+this.toJSON())}});
 		},
 		defaults:{'name':'name goes here',
-							'rating':0,
-                                  'description':'description goes here'},
+							'rating':0},
 		validate:function(attrs,options){
 				if (isNaN(attrs.rating)){
 						return "Rating must be numeric";
