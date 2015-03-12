@@ -6,38 +6,38 @@
         <script src="/static/lib/backbone.js"></script>
 
         <script type="text/template" id="place_template">
-	  var reviews = {"reviews": this.model.toJSON()};
-          <tr>
-            <td><%= name %></td><td><%= rating %></td><td><%= description %>
-	    <div id="reviews">
-	      <ul>
-		<% _.each(reviews, function(review) { %>
-		<li><%= review %></li>
-		<% }); %>
-	      </ul>
-	    </div>
-	    </td>
-          </tr>
+        var reviews = {"reviews": this.model.toJSON()};
+            <tr>
+                <td><%= name %></td><td><%= rating %></td><td><%= description %>
+            <div id="reviews">
+            <ul>
+            <% _.each(reviews, function(review) { %>
+            <li><%= review %></li>
+            <% }); %>
+            </ul>
+            </div>
+            </td>
+            </tr>
         </script>
-	
+
         <script type="text/template" id="rating_template">
           <tr>
             <td><%= name %></td><td><%= rating %></td><td id="description" contenteditable="true"><%= description %></td>
             <td>
-	      <button id="up">Up</button>
-	      <button id="down">Down</button>
-	      <button id="del">Delete</button>
-	      <button id="addreview">Add Review</button>
-	      <button id="viewreviews">View Reviews</button>
-	      <div id="txtreview">
-		<input id="review" type="text"></input><button id="subreview">Add</button>
-	      </div>
-	    </td>
+          <button id="up">Up</button>
+          <button id="down">Down</button>
+          <button id="del">Delete</button>
+          <button id="addreview">Add Review</button>
+          <button id="viewreviews">View Reviews</button>
+          <div id="txtreview" style="display: none">
+        <input id="review" type="text"></input><button id="submitreview">Add</button>
+          </div>
+        </td>
           </tr>
         </script>
     </head>
     <body onload="$('#txtreview').hide(); $('#reviews').hide();">
-      
+
       <h1>Hello</h1>
         <table border="1" id="place">
         </table>
@@ -45,6 +45,6 @@
         <br/>
         <table border="1" id="rating">
         </table>
-	<script src="/static/app.js"></script>
+    <script src="/static/app.js"></script>
     </body>
 </html>
