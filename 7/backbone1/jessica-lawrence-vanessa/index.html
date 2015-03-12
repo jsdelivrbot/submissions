@@ -13,14 +13,23 @@
     <tr>
       <td> <%= name %> </td> <td> <%= rating %> </td>
       <td><span>Not a button</span></td>
-      <td><button id="up">up</button></td>
-      <td><button id="down">down</button></td>
-      <td><button id="del">delete</button></td>
+      <td><button class="up">up</button></td>
+      <td><button class="down">down</button></td>
+      <td><button class="del">delete</button></td>
+    </tr>
+  </script>
+  
+  <script type="text/template" id="static_place_template">
+    <tr>
+      <td> <%= name %> </td> <td> <%= rating %> </td>
+      <td><span>Not a button</span></td>
     </tr>
   </script>
 
   <h1>hi</h1>
-  <table border="1" id="place">
-		</table>
+  <table border="1" id="static"></table>
+  <br>
+  <br>
+  <table border="1" id="place"></table>
   <script src="js.js"></script>
 </body>
