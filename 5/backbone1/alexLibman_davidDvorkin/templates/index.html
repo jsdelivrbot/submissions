@@ -1,0 +1,32 @@
+<!doctype>
+<html>
+	<head>
+		<script src="../lib/jquery.min.js"></script>
+		<script src="../lib/lodash.js"></script>
+		<script src="../lib/backbone.js"></script>
+
+		<script type="text/template" id="place_template">
+			<tr>
+			  <td><%= name %></td><td><%= rating %></td>
+			  <td><b>Description:</b> <%=description %></td>
+			</tr>
+		</script>
+		
+		<script type="text/template" id="vote_template">
+			<tr>
+			  <td><%= name %></td><td><%= rating %></td>
+			  <td><button id="up">up</button><button id="down">down</button></td>
+			  <td id="desc" contentEditable="true">Enter description here</td>
+			</tr>
+		</script>
+		
+		</head>
+	<body>
+
+		<h1>Hello</h1>
+		<button id="r1">Switch views</button>
+		<table border="1" id="place">
+		</table>
+	<script src="../app.js""></script>
+	</body>
+</html>
