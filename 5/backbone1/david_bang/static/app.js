@@ -22,7 +22,6 @@ var PlaceView = Backbone.View.extend({
 						this.model.set('rating',r);
 						this.render();
 				},
-		 
 		},
 		initialize:function(){
 				this.render();
@@ -44,16 +43,14 @@ var Place = Backbone.Model.extend({
 						console.log("Changed"+this.toJSON())}});
 		},
 		defaults:{'name':'name goes here',
-							'rating':0, 'description': "Food ripoff sell place"},
+							'rating':0},
 		validate:function(attrs,options){
 				if (isNaN(attrs.rating)){
 						return "Rating must be numeric";
 				}
 		}
 });
-var EditView = Backbone.View.extend({
-    
-});
+
 var p1 = new Place({name:"Terry's", rating:5});
 var p2 = new Place({name:"Ferry's", rating:7});
 var v1 = new PlaceView({model:p1});
