@@ -41,7 +41,9 @@ var Placeview = Backbone.View.extend({
     template: _.template($("#place_template").html()),
     events: {
 	"click #changeview" : function(e) {
+	    
 	    var desc = document.getElementById("desc");
+	    console.log(desc);
 	    this.model.set('desc',desc);
 	    this.render();
 	},
@@ -73,5 +75,5 @@ var Place = Backbone.Model.extend({
 
 var p1 = new Place({name:"Ferry's", rating:7, desc: "Food"});
 
-var v1 = new PlaceView({model:p1});
+var v1 = new Placeview({model:p1});
 var v2 = new DescView({model:p1});
