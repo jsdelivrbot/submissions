@@ -11,17 +11,20 @@
 				<td><button id="up">up</button><button id="down">down</button><button id="del">delete</button></td>
 			</tr>
 		</script>
-		
+		<script type="text/template" id="place_template2">
+			<tr>
+				<td><%= name %></td><td><%= rating %></td>
+				<td><button id="up2">up</button><button id="down2">down</button><button id="del2">delete</button></td>
+			</tr>
+		</script>	
 		</head>
 	<body>
 
 		<h1>Hello</h1>
-		<button id="r1">Random button 1</button>
 		<table border="1" id="place">
-		</table>
+		</table><br><br>
 		<table border="1" id="place2">
 		</table>
-		<button>Random button 2</button>
-	<script src="/static/app.js""></script>
+	<script src="/static/app.js"></script>
 	</body>
 </html>
