@@ -60,7 +60,7 @@ var PlaceView = Backbone.View.extend({
 var View = Backbone.View.extend({
     el : "#view",
     template : _.template($("#view_template").html()),
-    initalize : function() {
+    initialize : function() {
 	this.listenTo(this.model, "change", this.render);
 	this.render();
     },
