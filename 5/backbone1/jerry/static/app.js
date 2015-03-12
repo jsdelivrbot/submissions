@@ -1,9 +1,8 @@
 console.log("HELLO");
 
-var DescView = Backbone.View.extend({
-    el:"#desc",
-    
-    template: _.template($("#desc_template").html()),
+var PlaceView = Backbone.View.extend({
+    el:"#place",
+    template: _.template($("#place_template").html()),
     events: {
 	"click #del" : function(e) {
 	    this.remove();
@@ -22,6 +21,12 @@ var DescView = Backbone.View.extend({
 	    this.model.set('rating',r);
 	    this.render();
 	},
+	"click #change" : function(e) {
+	    var r = this.model.get("description");
+	    var n = this.model.get("text");
+	    this.model.set('description', n);
+	    this.render();
+	},
     },
     initialize:function(){
 	this.render();
@@ -36,27 +41,21 @@ var DescView = Backbone.View.extend({
 
 });
 
-var Placeview = Backbone.View.extend({
+var Display = Backbone.View.extend({
     el:"#place",
     template: _.template($("#place_template").html()),
     events: {
-	"click #changeview" : function(e) {
-	    
-	    var desc = document.getElementById("desc");
-	    console.log(desc);
-	    this.model.set('desc',desc);
-	    this.render();
-	},
     },
     initialize:function(){
 	this.render();
     },
     render: function(){
-    	var e = this.template(this.model.toJSON());
+	var e = this.template(this.model.toJSON());
 	this.$el.empty();
 	this.$el.append(e);
 	return this;
     }
+
 });
 
 
@@ -65,7 +64,11 @@ var Place = Backbone.Model.extend({
 	this.on({"change":function() {
 	    console.log("Changed"+this.toJSON())}});
     },
-    defaults:{'name':'name goes here','rating':0, 'desc':'desc here'},
+    defaults:{'name':'name goes here',
+	      'rating':0,
+	      'description':'description goes here',
+	      'text':'new text here'
+	     },
     validate:function(attrs,options){
 	if (isNaN(attrs.rating)){
 	    return "Rating must be numeric";
@@ -73,7 +76,5 @@ var Place = Backbone.Model.extend({
     }
 });
 
-var p1 = new Place({name:"Ferry's", rating:7, desc: "Food"});
-
-var v1 = new Placeview({model:p1});
-var v2 = new DescView({model:p1});
+var p2 = new Place({name:"Ferry's", rating:7, description: "this is sparta", text: ''});
+var v1 = new PlaceView({model:p2});
