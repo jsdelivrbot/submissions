@@ -1,0 +1,31 @@
+<!doctype>
+<html>
+  <head>
+    <script src="/static/lib/jquery.min.js"></script>
+    <script src="/static/lib/lodash.js"></script>
+    <script src="/static/lib/backbone-min.js"></script>
+  </head>
+  <body>
+    <h1>Hello</h1>
+    <table border="1" id="place">
+      <script type="text/template" id="place_template">
+	<tr>
+	  <td> <%= name %> </td>
+	  <td> <%= rating %> </td>
+	</tr>
+      </script>
+    </table>
+    <hr>
+    <table border="1" id="comments">
+      <script type="text/template" id="comment_template">
+	<tr>
+	  <td> <%= name %> </td>
+	  <td> <%= rating %> </td>
+	  <td><button class="up">up</button></td>
+	  <td><button class="down">down</button></td>
+	</tr>
+      </script>
+    </table>
+    <script src="/static/app.js"></script>
+  </body>
+</html>
