@@ -1,0 +1,44 @@
+<!doctype>
+<html>
+	<head>
+		<script src="/static/lib/jquery.min.js"></script>
+		<script src="/static/lib/lodash.js"></script>
+		<script src="/static/lib/backbone.js"></script>
+
+		<script type="text/template" id="place_template">
+			<tr>
+				<td> <%= name %> </td>
+				<td> <%= rating %> </td>
+			</tr>
+			<tr>
+			  <td> <%= review %> </td>
+			</tr>
+		</script>
+		<script type = "text/template" id = "edit_template">
+			<tr>
+			
+				<td> <%= name %> </td>
+				<td> <%= rating %> </td>
+				<td><button class="up">up</button></td>
+				<td><button class="down">down</button></td>
+				<td><button class="del">del</button></td>
+			</tr>
+			<tr>
+			  <td><input type="textarea"
+				class="review"></input> </td>
+			<td><button class="submit">Submit</button</td>
+			</tr>
+		</script>
+
+		
+	</head>
+	<body>
+		<hr>
+		<table border="1" id="place">
+		</table>
+		<hr>
+		<table border= "1" id="edit">
+		  </table>
+		<script src="/static/app.js""></script>
+	</body>
+</html>

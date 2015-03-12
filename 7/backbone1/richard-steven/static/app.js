@@ -1,8 +1,8 @@
 console.log("HELLO");
-
+var globalPlaces = []
 var Place = Backbone.Model.extend({
     onChange : function() {
-	console.log("I wish i could render");
+	console.log("changed");
     },
     initialize : function(){
 	this.on("change",this.onChange);
@@ -21,6 +21,7 @@ var PlaceViewMaker = function(id,temp,eevees){
 	template :  _.template( $(temp).html() ),
 	events : eevees,
 	initialize : function() {
+	    globalPlaces.push(this);
 	    this.render();
 	},
 	render:function() {
@@ -28,6 +29,12 @@ var PlaceViewMaker = function(id,temp,eevees){
 	    this.$el.empty();
 	    this.$el.append(e);
 	    return this;
+	},
+	renderAll : function(e) {
+	    console.log(e)
+	    for (var i = 0; i < e.length; i++){
+		e[i].render()
+	    }
 	}
     });
 }
@@ -40,14 +47,14 @@ var PlaceView2 = PlaceViewMaker("#number","#number_template",{
 	r = parseInt(r);
 	r = r + 1;
 	this.model.set("rating",r);
-	this.render();
+	this.renderAll(globalPlaces);
     },
     "click .down" : function(e){
 	var r = this.model.get("rating");
 	r = parseInt(r);
 	r = r - 1;
 	this.model.set("rating",r);
-	this.render();
+	this.renderAll(globalPlaces);
     }
 });
 var p1 = new Place({name:"Terry's",rating:5});
