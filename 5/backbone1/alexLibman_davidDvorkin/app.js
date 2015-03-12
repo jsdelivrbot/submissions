@@ -1,4 +1,4 @@
-console.log("HELLO");
+var firstView = true;
 
 var PlaceView1 = Backbone.View.extend({
     el:"#place",
@@ -20,8 +20,9 @@ var PlaceView2 = Backbone.View.extend({
     el:"#place",
     template: _.template($("#vote_template").html()),
     events: {
-	"onchange #desc" : function(e) {
-	    var t = (1);//finish
+	"keydown" : function(e) {
+	    var t = $("#desc").text();
+	    this.model.set('description',t);
 	},
 	"click #up" : function(e) {
 	    var r = this.model.get("rating");
@@ -70,3 +71,13 @@ var Place = Backbone.Model.extend({
 var p1 = new Place({name:"Terry's", rating:5});
 var p2 = new Place({name:"Ferry's", rating:7});
 var v1 = new PlaceView1({model:p1});
+var v2 = new PlaceView2({model:p1});
+
+$("#r1").click(function(e){
+    if (firstView){
+	v2.render();
+    }else{
+	v1.render();
+    }
+    firstView = !firstView;
+});
