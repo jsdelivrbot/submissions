@@ -1,13 +1,34 @@
 <HTML>
-  <body>
-
-    
-
-
+  <head>
     <script src="source/jquery.min.js"></script>
     <script src="source/lodash.js"></script>
     <script src="source/backbone.js"></script>
-    <script src="swosh.js"></script>
-  </body>
+    <script type="text/template" id="place_template">
+    <tr>
+      <td> <%=name %></td>
+      <td> <%= rating %></td>
+      <td> <%= comment %></td>
+    </tr>
+    </script>
 
+    <script type="text/template" id="review_template">
+      <tr>
+	<td> <%= name %> </td>
+	<td> <%= rating %> </td>
+	<td> <button class="up">up</button></td>
+	<td> <button class="down">down</button></td>
+	<td> <button class="del">delete</button></td>
+	<td> <form>COMMENT HERE YAAY<input type="text" id="comment"></input></form></td>
+	<td> <button class="submit">submit</button></td>
+      </tr>  
+    </script>
+  </head>
+  
+  <body>
+    <h1>SWAAG</h1>
+    <table border="1" id="place"></table>
+    <table border="1" id="review"></table>
+    <script src = "swosh.js"></script>
+    
+  </body>
 </HTML>
