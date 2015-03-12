@@ -44,18 +44,44 @@ var PlaceView = Backbone.View.extend({
     initialize : function() {
 	this.render();
 	this.listenTo(this.model, 'change', this.render);
-	console.log("HIIII??");
+	console.log("initPlace");
 	this.listenTo(this.model, 'destroy', this.render);
     },
     render:function() {
 	var e = this.template(this.model.toJSON());
 	this.$el.empty();
 	this.$el.append(e);
+  console.log("rendPlace");
 	return this;
     },
     test:function(){
-	console.log("hi");
+	  console.log("hi");
     }
 });
+
+var ReviewView = Backbone.View.extend({
+  el : "#review",
+  template : _.template( $("#review_template").html() ),
+  events : {
+    // insert events here
+  },
+    initialize : function() {
+  this.render();
+  //this.listenTo(this.model, 'change', this.render);
+  //this.listenTo(this.model, 'destroy', this.render);
+    },
+    render:function() {
+  var e = this.template(this.model.toJSON());
+  this.$el.empty();
+  this.$el.append(e);
+  return this;
+
+    },
+    test:function(){
+    console.log("hi");
+    }
+});
+
 var p1 = new Place({name:"Terry's",rating:5});
 var v1 = new PlaceView({model:p1});
+var v2 = new ReviewView({model:p1});

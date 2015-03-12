@@ -2,8 +2,10 @@
 <html>
   <head>
     <script src="/static/lib/jquery.min.js"></script>
-    <script src="/static/lib/lodash.min.js"></script>
-    <script src="/static/lib/backbone-min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/3.5.0/lodash.min.js"></script>
+    <script src="http://ajax.cdnjs.com/ajax/libs/json2/20110223/json2.js"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/backbone.js/1.1.0/backbone-min.js"></script>
+
     <script type="text/template" id="place_template">
       <tr>
 	<td> <%= name %> </td>
@@ -18,15 +20,26 @@
     <hr>
     <script type="text/template" id="review_template">
       <tr>
+        <td>
+          <textarea class="comment" rows="10" cols="30"></textarea>
+          <button class="edit">edit</button>
+        </td>
+        <td>
+          <button class="del">del</button>
+        </td>
+
       </tr>
     </script>
   </head>
-  
+
   <body>
     <h1>Hello</h1>
     <button>Unrelated button</button>
     <hr>
     <table border="1" id="place">
+    </table>
+    <br>
+    <table border="1" id="review">
     </table>
     <script src="/static/app.js"></script>
   </body>
