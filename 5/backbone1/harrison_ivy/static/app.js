@@ -12,13 +12,17 @@ var InfoView = Backbone.View.extend({
         this.$el.empty();
         this.$el.append(e);
         return this;
+    },
+    events: {
+        "click #del" : function(e) {
+            this.remove();
+        }
     }
 });
 
-var PlaceView = Backbone.View.extend({
-    el:"#place",
-    //template: _.template("<tr><td><%= name %></td><td><%= rating %></td></tr>"),
-    template: _.template($("#place_template").html()),
+var EditView = Backbone.View.extend({
+    el:"#edit",
+    template: _.template($("#edit_template").html()),
     events: {
         "click #del" : function(e) {
             this.remove();
@@ -28,6 +32,11 @@ var PlaceView = Backbone.View.extend({
             r = parseInt(r);
             r = r + 1;
             this.model.set('rating',r);
+            this.render();
+        },
+        "click #ed" : function(e) {
+            this.model.set('description',
+                          $("#newdesc").text());
             this.render();
         },
         "click #down" : function(e) {
@@ -66,6 +75,5 @@ var Place = Backbone.Model.extend({
 });
 
 var p1 = new Place({name:"Terry's", rating:5});
-var p2 = new Place({name:"Ferry's", rating:7});
 var v1 = new InfoView({model:p1});
-var v2 = new PlaceView({model:p1});
+var v2 = new EditView({model:p1});
