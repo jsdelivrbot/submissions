@@ -73,8 +73,8 @@ var ReviewView = Backbone.View.extend({
     },
     initialize : function() {
 	this.render();
-	//this.listenTo(this.model, 'change', this.render);
-	//this.listenTo(this.model, 'destroy', this.render);
+	this.listenTo(this.model, 'change', this.render);
+	this.listenTo(this.model, 'destroy', this.render);
     },
     render:function() {
 	var e = this.template(this.model.toJSON());
