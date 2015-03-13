@@ -1,4 +1,6 @@
-//start of backbone file...
+// The user enters reviews in the input with class "review". Inside the PlaceView we need to listen to when the user clicks the "update review" button", and update the model with the value inside the input "review". -- Philipp
+
+
 console.log("HELLO");
 
 
@@ -56,43 +58,23 @@ var PlaceView = Backbone.View.extend({
     }
 });
 
-//not done here
-var Display = Backbone.Model.extend({
-    onChange : function() {
-	console.log("Changed");
-    },
-    initialize : function(){
-	this.on("change",this.onChange);
-    },
-    destroy:function(){
-	this.off("change",this.onChange);
-    },
-    defaults: {
-	name : "Default Name",
-	rating : 5
-    },
-    validate : function(attr,options){
-	if (isNaN(attr.rating)){
-	    return "Need a number";
-	}
-    }
-});
-
 var DisplayView = Backbone.View.extend({
     el : "#display",
     template :  _.template( $("#display_template").html() ),
     events:{},
     initialize : function() {
+        this.listenTo(this.model, 'change', this.render);
+
 	this.render();
     },
     render:function() {
-	var e = this.template(this.model.toJSON());
-	this.$el.empty();
-	this.$el.append(e);
-	return this;
+        var e = this.template(this.model.toJSON());
+        this.$el.empty();
+        this.$el.append(e);
+        return this;
     }
 })
-var p1 = new Place({name:"Terry's",rating:5});
-var p2 = new Display({name:"Testing-- Display and DisplayView functions are not done.... just copied from place", rating:3});
+
+var p1 = new Place({name:"Terry's",rating:5, review: "Not bad"});
 var v1 = new PlaceView({model:p1});
-var v2 = new DisplayView({model:p2});
+var v2 = new DisplayView({model:p1});
