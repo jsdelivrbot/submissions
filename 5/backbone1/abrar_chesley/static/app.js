@@ -7,10 +7,10 @@ var PlaceView = Backbone.View.extend({
         this.render();
     },
     render: function(){
-	
         var e = this.template(this.model.toJSON());
         this.$el.empty();
         this.$el.append(e);
+        $('#txtreview').hide();
         return this;
     }
 
@@ -26,51 +26,42 @@ var RatingView = Backbone.View.extend({
         },
         "click #up" : function(e) {
             var r = this.model.get("rating");
-            r = parseInt(r);
-            r = r + 1;
+            r = parseInt(r) + 1;
             this.model.set('rating',r);
             this.render();
-	    $('#reviews').hide();
-	    $('#txtreview').hide(); },
+        $('#reviews').hide();
+        $('#txtreview').hide(); },
         "click #down" : function(e) {
             var r = this.model.get("rating");
-            r = parseInt(r);
-            r = r - 1;
+            r = parseInt(r) - 1;
             this.model.set('rating',r);
             this.render();
-	    $('#txtreview').hide();
-	    $('#reviews').hide();
+        $('#txtreview').hide();
+        $('#reviews').hide();
         },
         "blur #description" : function(e) {
             this.model.set('description', e.target.innerHTML);
             this.render();
         },
-	"click #addreview" : function(e) {
-	    $("#txtreview").show();
-	    $('#reviews').hide();
-	    console.log('add review');
-	},
-	"click #subreview" : function(e) {
-	    var reviews = this.model.get('reviews');
-	    var review = $('#review').val();
-	    $('#txtreview').hide();
-	    reviews.push(review);
-	    console.log(reviews);
-	    this.model.set('reviews', reviews);
-	    placeView.render();
-	    $('#txtreview').hide();
-	    $('#reviews').hide();
-	},
-	"click #viewreviews": function(e) {
-	    var reviews = this.model.get('reviews');
-	    console.log("reviews: " + reviews);
-	    //$('#reviews').html(reviews);
-	    //$('#reviews').show();
-	    //this.render();
-	    placeView.render();
-	    $('#txtreview').hide();
-	    //$('#reviews').toggle();
-	}
+        "click #addreview" : function(e) {
+            $("#txtreview").show();
+            $('#addreview').hide();
+            $('#review').focus();
+        },
+        "click #submitreview" : function(e) {
+            var reviews = this.model.get('reviews');
+            var review = $('#review').val();
+            reviews.push(review);
+            $('#review').val('');
+            this.model.set('reviews', reviews);
+            placeView.render();
+            $('#txtreview').hide();
+            $('#reviews').show();
+            $('#addreview').show();
+        },
+        "click #viewreviews": function(e) {
+            placeView.render();
+        }
     },
     initialize:function(){
         this.render();
@@ -90,12 +81,12 @@ var Place = Backbone.Model.extend({
         this.on({"change":function() {
             placeView.render();
             ratingView.render();
-            console.log("Changed"+this.toJSON())}});
+        }});
     },
     defaults:{'name':'name goes here',
               'rating':0,
               'description':'No description available',
-	      'reviews':[]
+          'reviews':[]
              },
     validate:function(attrs,options){
         if (isNaN(attrs.rating)){

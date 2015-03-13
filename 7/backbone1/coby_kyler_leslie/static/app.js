@@ -1,49 +1,29 @@
-console.log("HELLO");
 
 var Place = Backbone.Model.extend({
-		onChange : function() {
-				console.log("Changed");
-		},
-		initialize : function(){
-				this.on("change",this.onChange);
-		},
-		destroy:function(){
-				this.off("change",this.onChange);
-		},
-		defaults: {
-				name : "Name goes here",
-				rating : 5
-		},
-		validate : function(attr,options){
-				if (isNaN(attr.rating)){
-						return "Need a number";
-				}
-		}
+    initialize : function(){
+	this.on({"change":function() {
+	    placeView.render();
+	    console.log("change");
+	}});
+    },
+    destroy:function(){
+	this.off("change",this.onChange);
+    },
+    defaults: {
+	'name' : "Name goes here",
+	'rating' : '5',
+	'review': "text"},
+    validate : function(attr,options){
+	if (isNaN(attr.rating)){
+	    return "Need a number";
+	}
+    }
 });
 
 var PlaceView = Backbone.View.extend({
 		el : "#place",
 		template :  _.template( $("#place_template").html() ),
-		events : {
-				"click .del" : function(e){
-						this.remove();
-				},
-				"click .up" : function(e){
-						var r = this.model.get("rating");
-						r = parseInt(r);
-						r = r + 1;
-						this.model.set("rating",r);
-						this.render();
-				},
-				"click .down" : function(e){
-						var r = this.model.get("rating");
-						r = parseInt(r);
-						r = r - 1;
-						this.model.set("rating",r);
-						this.render();
-				}
-				
-		},
+	
 		initialize : function() {
 				this.render();
 		},
@@ -58,11 +38,11 @@ var PlaceView2 = Backbone.View.extend({
 		el : "#edit",
 		template :  _.template( $("#edit_template").html() ),
 		events : {
-				"click .del" : function(e){
+				"click #del" : function(e){
 						this.remove();
 				    v1.remove()
 				},
-				"click .up" : function(e){
+				"click #up" : function(e){
 						var r = this.model.get("rating");
 						r = parseInt(r);
 						r = r + 1;
@@ -70,7 +50,7 @@ var PlaceView2 = Backbone.View.extend({
 						this.render();
 				    v1.render()
 				},
-				"click .down" : function(e){
+				"click #down" : function(e){
 						var r = this.model.get("rating");
 						r = parseInt(r);
 						r = r - 1;

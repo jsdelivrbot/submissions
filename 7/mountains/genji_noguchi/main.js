@@ -15,8 +15,7 @@ var numDiffsOver = function(data, buffer) {
 			}
 		}
 		return n;	
-	});
-	
+	});	
 	return temp;
 };;
 
