@@ -1,14 +1,3 @@
-<!-- 
-2 views in one model
-model
--name
--review ----to_right---- rating
-
-model on button changes top
--Up and Down buttons (rating)
--Reviews
--->
-
 <!doctype>
 <html>
   <head>
@@ -31,17 +20,17 @@ model on button changes top
 	<td>Not a button</td>
 	<td><button class="up">up</button></td>
 	<td><button class="down">down</button></td>
-    <td><input class="review"></td>
-    <td><button class="update-review">Update review </button</td>
+	<td><input id="textarea"></input></td>
+	<td><button class="update-review">Update review</button></td>
+	<td><button id="del">delete</button></td>
       </tr>
     </script>
     
   </head>
   <body>
-    <h1>Hello</h1>
+    <h1>Hello World- We need our backbones.</h1>
     <table border="1" id="display">
      </table>
-    <hr>
     <hr>
     <table border="1" id="place">
     </table>
