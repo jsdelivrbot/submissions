@@ -1,0 +1,37 @@
+<html>
+  <head>
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/0.4.2/sweet-alert.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/0.4.2/sweet-alert.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/3.5.0/lodash.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/backbone.js/1.1.2/backbone-min.js"></script>
+    <script type="text/template" id="pub_view_temp">
+      <tr>
+	<td> <%= name %> </td>
+	<td> <%= rating %> </td>
+	<td> <%= comment %> </td>
+      </tr>
+    </script>
+    <script type="text/template" id="upboat_slash_review_temp">
+      <tr>
+	<td> <%= name %> </td>
+	<td> <%= rating %> </td>
+	<td><input type="text" id="comment"></input></td>
+	<td> <button class="submit">submit</button></td>
+	<td><button class="up">up</button></td>
+	<td><button class="down">down</button></td>
+	<td><button class="del">del</button></td>
+      </tr>
+    </script>
+  </head>
+  <body>
+    <h1>le epik reddit</h1>
+    <hr>
+    <table border="1" id="place">
+    </table>
+    <table border="1" id="sub">
+    </table>
+    <script src="app.js">
+    </script>
+  </body>
+</html>
