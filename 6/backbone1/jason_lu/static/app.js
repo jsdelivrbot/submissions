@@ -58,31 +58,15 @@ var PlaceView = Backbone.View.extend({
 });
 
 var PlaceView1 = Backbone.View.extend({
-    el			: "#place",
+    //tagName: "tr" -just wraps
+    //el : "tr" - puts in DOM
+    el			: "#v",
     template	:  _.template($("#place_template1").html()),
-    events:{
-	"click #up" : function(e) {
-	    var r = this.model.get("rating");
-	    r = parseInt(r);
-	    r = r + 1;
-	    this.model.set("rating",r);
-	    this.render();
-	},
-	
-	"click #down" : function(e) {
-	    var r = this.model.get("rating");
-	    r = parseInt(r);
-	    r = r - 1;
-	    this.model.set("rating",r);
-	    this.render();
-	},
-	
-	"click #del" : function(e) {
-	    this.remove();
-	}
-    },
+   
     initialize:function(){
-	this.render();
+	var that = this;
+	this.model.on("change",that.render);
+	
     },
     render: function() {
 	var e = this.template(this.model.toJSON());
@@ -95,7 +79,6 @@ var PlaceView1 = Backbone.View.extend({
 
 
 var p1 = new Place({name:"Terry's",rating:5});
-//var p2 = new Place({name:"Ferry's",rating:8});
 var v1 = new PlaceView({model:p1});
 var v2 = new PlaceView1({model:p1});
 
