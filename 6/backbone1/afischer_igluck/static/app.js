@@ -1,4 +1,3 @@
-console.log("HELLO");
 
 var Place = Backbone.Model.extend({
     showchange: function(){
@@ -60,10 +59,12 @@ var PlaceView = Backbone.View.extend({
 var listView = Backbone.View.extend({
     el       : "#listitem",
     template : _.template($("#list_template").html()),
-    events   : {
-	
-    },
     initialize:function(){
+	var that = this;
+	this.model.on("change",function() {
+	    that.render();
+	    
+	});
 	this.render();
     },
     render: function() {
@@ -77,9 +78,7 @@ var listView = Backbone.View.extend({
 
 
 var p1 = new Place({name:"Terry's",rating:5});
-var p2 = new Place({name:"Ferry's",rating:8});
+//var p2 = new Place({name:"Ferry's",rating:8});
+
 var v1 = new PlaceView({model:p1});
-var v2 = new PlaceView({model:p2});
-//OK so it works but they ain't linked :<
 var l1 = new listView({model:p1});
-var l2 = new listView({model:p2});
