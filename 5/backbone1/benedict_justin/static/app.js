@@ -1,4 +1,4 @@
-console.log("HELLO");
+ console.log("HELLO");
 
 var PlaceView = Backbone.View.extend({
 		el:"#place",
@@ -42,7 +42,7 @@ var ZWantsMoarViews = Backbone.View.extend({
 		template: _.template($("#place_template").html()),
 		events: {
 				"click #change" : function(e) {
-						var text = document.getElementById("newText");
+						var text = document.getElementById("newText").innerHTML;
 						this.model.set('description',text);
 						this.render();
 				},
@@ -75,6 +75,5 @@ var Place = Backbone.Model.extend({
 });
 
 var p1 = new Place({name:"Terry's", rating:5, description:"pair program is decent"});
-var p2 = new Place({name:"Ferry's", rating:7});
 var v1 = new PlaceView({model:p1});
 var v2 = new ZWantsMoarViews({model:p1});

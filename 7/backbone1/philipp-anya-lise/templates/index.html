@@ -1,47 +1,42 @@
 <!doctype>
 <html>
-<!-- 
-2 views in one model
-model
--name
--review ----to_right---- rating
-
-model on button changes top
--Up and Down buttons (rating)
--Reviews
-
-
-
--->
-
-
   <head>
-    <script src="/static/lib/jquery.min.js"></script>
-    <script src="/static/lib/lodash.js"></script>
-    <script src="/static/lib/backbone.js"></script>
-
-    <script type="text/template" id="review_temp">
+    <style>
+      td{padding:5px;}
+    </style>
+    <script src="static/lib/jquery.min.js"></script>
+    <script src="static/lib/lodash.min.js"></script>
+    <script src="static/lib/backbone.js"></script>
+    <!-- THIS IS v2 - the view that is changed by v1 -->
+    <script type="text/template" id="display_template">
       <tr>
-	<td> <%=  %> </td>
+	<td> <%= name %> </td>
 	<td> <%= rating %> </td>
-	<td>Not a button</td>
+	<td> <%= review %> </td>
+      </tr>
+    </script>
+    <!--THIS IS v1 - the view where we change stuff -->
+    <script type="text/template" id="place_template">
+      <tr>
+	<td> <%= name %> </td>
+	<td> <%= rating %> </td>
 	<td><button class="up">up</button></td>
 	<td><button class="down">down</button></td>
-	<td><button class="del">del</button></td>
+	<td><input id="textarea"></input></td>
+	<td><button class="update-review">Update review</button></td>
+	<td><button id="del">delete</button></td>
       </tr>
+    </script>
     
   </head>
   <body>
-    <h1>Hello</h1>
-    <button>Unrelated button</button>
+    <h1>Hello World- We need our backbones.</h1>
+    <table border="1" id="display">
+     </table>
     <hr>
-    <table border="1" id="review_temp">
-      <td>sdfsd</td>
+    <table border="1" id="place">
     </table>
     
-
-    </script>
     <script src="/static/app.js"></script>
-				 </body>
+  </body>
 </html>
-

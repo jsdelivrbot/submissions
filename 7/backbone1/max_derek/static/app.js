@@ -1,7 +1,6 @@
 console.log("HELLO");
 var Place = Backbone.Model.extend({
     onChange : function() {
-	console.log("Changed");
     },
     initialize : function(){
 	this.on("change",this.onChange);
@@ -11,7 +10,8 @@ var Place = Backbone.Model.extend({
     },
     defaults: {
 	name : "Name goes here",
-	rating : 5
+	rating : 5,
+	review : ""
     },
     validate : function(attr,options){
 	if (isNaN(attr.rating)){
@@ -22,6 +22,28 @@ var Place = Backbone.Model.extend({
 var PlaceView = Backbone.View.extend({
     el : "#place",
     template : _.template( $("#place_template").html() ),
+   
+    initialize : function() {
+	this.render();
+	this.listenTo(this.model, 'change', this.render);
+	console.log("initPlace");
+	this.listenTo(this.model, 'destroy', this.render);
+    },
+    render:function() {
+	var e = this.template(this.model.toJSON());
+	this.$el.empty();
+	this.$el.append(e);
+	console.log(this.model.review);
+	return this;
+    },
+    test:function(){
+	console.log("hi");
+    }
+});
+
+var ReviewView = Backbone.View.extend({
+    el : "#review",
+    template : _.template( $("#review_template").html() ),
     events : {
 	"click .del" : function(e){
 	    this.remove();
@@ -39,12 +61,19 @@ var PlaceView = Backbone.View.extend({
 	    r = r - 1;
 	    this.model.set("rating",r);
 	    //this.render();
+	},
+	"click .edit" : function(e){
+	    var text = $("textarea").val();
+	    //console.log(text);
+	    this.model.set("review", text);
+	},
+	"click .erase" : function(e){
+	    $("textarea").val('');
 	}
     },
     initialize : function() {
 	this.render();
 	this.listenTo(this.model, 'change', this.render);
-	console.log("HIIII??");
 	this.listenTo(this.model, 'destroy', this.render);
     },
     render:function() {
@@ -52,10 +81,13 @@ var PlaceView = Backbone.View.extend({
 	this.$el.empty();
 	this.$el.append(e);
 	return this;
+
     },
     test:function(){
 	console.log("hi");
     }
 });
+
 var p1 = new Place({name:"Terry's",rating:5});
 var v1 = new PlaceView({model:p1});
+var v2 = new ReviewView({model:p1});
