@@ -18,12 +18,23 @@
 
 		<script type="text/template" id="tracks_template">
 			<tr>
-			  <td> <%= name %> </td> 
-			  <td><span>Tracks:</span></td>
-			  <td> <%= tracks %> </td>
-			  <td><span>New Track Name:</span><form method="get" id="newtrack"><input type="text" name="fname">
-</form><button form="name" id="add">add track</button></td>
-			  <td><button id="rem">remove track</button></td>
+			  <td> <%= name %> 
+			    <span>Tracks:</span> 
+			    <div id="tracks">
+			      <ul>
+				<% _.each(tracks, function(track) { %>
+				<li><%= track %></li>
+				<% }); %>
+			      </ul> 
+			    </div>
+			    <span>New Track Name:</span>
+			    <div id="newtrack">
+			      <input type="text" id="trackname"></input>
+			      <button id="add">add track</button>
+			    </div>
+			    <br>
+			    <button id="rem">remove track</button>
+			  </td>
 			</tr>
 		</script>
 		
