@@ -1,4 +1,8 @@
-console.log("HELLO");
+//Justin Strauss
+//Soft Dev Pd 6
+//Backbone Model View Controller
+
+//console.log("HELLO");
 
 var Place = Backbone.Model.extend({
 		showchange: function(){
@@ -57,9 +61,30 @@ var PlaceView = Backbone.View.extend({
 
 });
 
+var otherView = Backbone.View.extend({
+		el			: "#other",
+		template	:  _.template($("#other_template").html()),
+		events:{
+				"click #del" : function(e) {
+						this.remove();
+				}
+		},
+		initialize:function(){
+				this.listenTo(this.model,"change",this.render);
+				this.render();
+		},
+		render: function() {
+				var e = this.template(this.model.toJSON());
+				this.$el.empty();
+				this.$el.append(e);
+				return this;
+		}
+	});
+
 
 var p1 = new Place({name:"Terry's",rating:5});
-var p2 = new Place({name:"Ferry's",rating:8});
+//var p2 = new Place({name:"Ferry's",rating:8});
 var v1 = new PlaceView({model:p1});
-var v2 = new PlaceView({model:p2});
+//var v2 = new PlaceView({model:p2});
+var o1 = new otherView({model:p1});
 

@@ -10,17 +10,41 @@
 				<td><%= name %></td><td><%= rating %></td>
 				<td><button id="up">up</button><button id="down">down</button><button id="del">delete</button></td>
 			</tr>
+			<tr><td>
+			  Review: <%= review %>
+			  </td></tr>
 		</script>
 		<script type="text/template" id="place_template2">
 			<tr>
 				<td><%= name %></td><td><%= rating %></td>
 				<td><button id="up2">up</button><button id="down2">down</button><button id="del2">delete</button></td>
 			</tr>
+			<tr>
+			  <td>
+			  <form>
+			    Change name to:<input type="text" id="name1" name="place">
+			  <td>
+			    <input type="submit" value="Submit" id="sub">
+			  </form>
+			  </td>
+			  
+			</tr>
+						<tr>
+			  <td>
+			  <form>
+			    Submit review:<input type="text" id="review" name="review">
+			  <td>
+			    <input type="submit" value="Submit" id="sub2">
+			  </form>
+			  </td>
+			  
+			</tr>
+
 		</script>	
 		</head>
 	<body>
 
-		<h1>Hello</h1>
+		<h1>MiniProject!</h1>
 		<table border="1" id="place">
 		</table><br><br>
 		<table border="1" id="place2">

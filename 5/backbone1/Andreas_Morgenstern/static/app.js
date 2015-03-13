@@ -51,7 +51,9 @@ var Place = Backbone.Model.extend({
 				}
 		}
 });
-
+var EditView = Backbone.View.extend({
+    
+});
 var p1 = new Place({name:"Terry's", rating:5});
 var p2 = new Place({name:"Ferry's", rating:7});
 var v1 = new PlaceView({model:p1});
