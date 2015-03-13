@@ -1,9 +1,9 @@
 <!doctype>
 <html>
   <head>
-    <script src="/static/lib/jquery.min.js"></script>
-    <script src="/static/lib/lodash.js"></script>
-    <script src="/static/lib/backbone-min.js"></script>
+    <script src="/static/jquery.min.js"></script>
+    <script src="/static/lodash.js"></script>
+    <script src="/static/backbone.js"></script>
   </head>
   <body>
     <h1>Hello</h1>
@@ -13,16 +13,25 @@
 	  <td> <%= name %> </td>
 	  <td> <%= rating %> </td>
 	</tr>
+	<tr>
+	  <td> <%= comment %> </td>
+	</tr>
       </script>
     </table>
     <hr>
     <table border="1" id="comments">
-      <script type="text/template" id="comment_template">
+      <script type="text/template" id="comments_template">
 	<tr>
 	  <td> <%= name %> </td>
 	  <td> <%= rating %> </td>
 	  <td><button class="up">up</button></td>
 	  <td><button class="down">down</button></td>
+	</tr>
+	<tr>
+	  <td>
+	    <input type="text" id="commentbox">
+	    <button type="submit" class="update">change</button>
+	  </td>
 	</tr>
       </script>
     </table>
