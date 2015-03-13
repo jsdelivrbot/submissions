@@ -12,7 +12,8 @@
       </tr>
       <tr>
 	<td>
-	  <p id="comment"></p>
+	  <!-- <p id="comment"> This is a cool comment. LMAO</p> -->
+	  <%= comment %>
 	</td>
       </tr>
     </script>
@@ -24,14 +25,16 @@
 	<td> <button class="up">up</button></td>
 	<td> <button class="down">down</button></td>
       </tr>
+      <tr>
+	<td> <textarea id="txt" row="4" cols="20">Insert your comment</textarea> </td>
+	<td> <button class="submit">submit</button></td>
+      </tr>
     </script>
   </head>
   <body>
-    <!-- <h1>Hello</h1> -->
-    <!-- <button>Unrelated button</button> -->
-    <!-- <hr> -->
     <table border="1" id="place">
     </table>
+    <hr>
     <table border="1" id="number">
     </table>
     
