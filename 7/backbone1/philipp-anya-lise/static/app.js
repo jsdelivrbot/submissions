@@ -1,8 +1,4 @@
-// The user enters reviews in the input with class "review". Inside the PlaceView we need to listen to when the user clicks the "update review" button", and update the model with the value inside the input "review". -- Philipp
-
-
-console.log("HELLO");
-
+// The user enters reviews in the input with class "review". Inside the PlaceView we need to listen to when the user clicks the "update review" button", and update the model with the value inside the input "textarea". 
 
 var Place = Backbone.Model.extend({
     onChange : function() {
@@ -16,11 +12,12 @@ var Place = Backbone.Model.extend({
     },
     defaults: {
 	name : "Name goes here",
-	rating : 5
+	rating : 0,
+	review : "Okay, not good but not fatally bad."
     },
     validate : function(attr,options){
 	if (isNaN(attr.rating)){
-	    return "Need a number";
+	    return "Need a REAL number";
 	}
     }
 });
@@ -28,7 +25,7 @@ var PlaceView = Backbone.View.extend({
     el : "#place",
     template :  _.template( $("#place_template").html() ),
     events : {
-	"click .del" : function(e){
+	"click #del" : function(e){
 	    this.remove();
 	},
 	"click .up" : function(e){
@@ -44,8 +41,12 @@ var PlaceView = Backbone.View.extend({
 	    r = r - 1;
 	    this.model.set("rating",r);
 	    this.render();
-	}
-	
+	},
+	"click .update-review" : function(e){
+	    var r = this.$("#textarea").val();
+	    this.model.set("review",r);
+	    this.render();
+	},
     },
     initialize : function() {
 	this.render();
@@ -64,7 +65,6 @@ var DisplayView = Backbone.View.extend({
     events:{},
     initialize : function() {
         this.listenTo(this.model, 'change', this.render);
-
 	this.render();
     },
     render:function() {
