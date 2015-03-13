@@ -1,0 +1,43 @@
+<!doctype>
+<html>
+  <head>
+    <script src="/static/lib/jquery.min.js"></script>
+    <script src="/static/lib/lodash.js"></script>
+    <script src="/static/lib/backbone.js"></script>
+    <script type="text/template" id="show_template">
+      <tr>
+	<td> <%= name %> </td> <td> <b>Rating: </b><%= rating %> </td>
+      </tr>
+      <tr>
+	<td> <b>Review: </b> <%= review %> </td>
+      </tr>
+    </script>
+    <script type="text/template" id="edit_template">
+      <tr>
+	<td> <b>Edit Name: </b><input type="text" id="name" value=<%= name %>> </input></td>
+	<td> <input type="submit" id="namesub" name="Update" value="Update"> </input> </td>      
+      </tr>
+      <tr>
+<td> <b>Rating: </b><%= rating %> </td>
+	<td><button id="up">Up Vote </button></td>
+	<td><button id="down">Down Vote </button></td>
+      </tr>   
+      <tr>
+	<td> <b>Edit Review: </b><input type="text" id="review" value=<%= review %>> </input></td>
+	<td> <input type="submit" id="reviewsub" name="Update" value="Update"> </input> </td>
+      </tr>
+      <tr>
+	<td> <input type="submit" id="del" name="Delete" value="Delete"> </input></td>
+      </tr>
+    </script>
+    
+  </head>
+  <body>
+    <h1>Hello</h1>
+    <table border="1" id="view">
+    </table><br><br>
+    <table border="1" id="edit">
+    </table>
+    <script src="/static/app.js""></script>
+				 </body>
+</html>
