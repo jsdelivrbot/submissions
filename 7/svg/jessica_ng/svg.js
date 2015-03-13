@@ -32,20 +32,21 @@ var move = function() {
 	var o = parseFloat(cs[i].getAttribute('opacity'));
 	cs[i].setAttribute('opacity',o-0.05);
     }
+    /*
+    var dot = document.getElementById("dot");
+    console.log(dot.getAttribute("cy"));
+    s = document.getElementById("a");
+    var y = parseFloat(dot.getAttribute('cy'));
+    var x = parseFloat(dot.getAttribute('cx'));
+    addCircle(s,x,y,"5",'gold',"1.0");
+    console.log ("hi");
+    */
 };
 
-var t =0;
-var go = function(e) {
-    e.preventDefault();
-    if (t==0){
-	t = setInterval(move,100);
-    } else {
-	clearInterval(t);
-	t=0;
-    }
-};
+
+t = setInterval(move,100);
+
 
 var s = document.getElementById("s");
 s.addEventListener('click',clicked);
-var g = document.getElementById("go");
-g.addEventListener("click",go);
+

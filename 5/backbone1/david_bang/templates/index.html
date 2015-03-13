@@ -1,0 +1,37 @@
+<!doctype>
+<html>
+	<head>
+		<script src="../static/lib/jquery.min.js"></script>
+		<script src="../static/lib/lodash.js"></script>
+		<script src="../static/lib/backbone.js"></script>
+
+		<script type="text/template" id="place_template">
+			<tr>
+				<td><%= name %></td>
+				<td><%= rating %></td>
+				<td><%= description %></td>
+			</tr>
+		</script>
+		<script type="text/template" id="edit_template">
+		  <tr>
+		    <td><%= name %></td>
+		    <td><%= rating %></td>
+		    <td>
+		      <button id="up">up</button>
+		      <button id="down">down</button></td><td>
+
+		      <textarea id="d"></textarea>
+		      <button id="dedit">Submit</button>
+		    </td>
+		  </tr>
+		</script>
+		</head>
+	<body>
+	  <h1> Ferries Reviews </h1>
+
+		<button id="change">Change Views</button>
+		<table border="1" id="place">
+		</table>
+	<script src="../static/app.js"></script>
+	</body>
+</html>

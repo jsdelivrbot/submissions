@@ -1,7 +1,7 @@
 //console.log(rawscores);
 
 var data = rawscores["data"];
-
+/*
 //console.log(data);
 
 var school_scores = [];
@@ -23,8 +23,10 @@ for ( var i = 0; i < data.length; i++ ) {
 var math_scores = [];
 
 for ( var i = 0; i < school_scores.length; i++ ) {
-    var temp = school_scores["math"];
-    math_scores.push(temp);
+    var temp = school_scores[i]["math"];
+    if (temp != "s") {
+	math_scores.push(parseInt(temp));
+    }
 }
 
 var total_math = 0;
@@ -43,3 +45,9 @@ for ( var i = 0; i < school_scores.length; i++ ) {
         success_schools[temp["name"]] = temp["math"];
     }
 }
+*/
+var math_scores = _.map(data, function(x) {return x[12];});
+math_scores = _.filter(math_scores, function(x) {return !isNaN(x);});
+var l = math_scores.length
+var mean = _.reduce(math_scores, function(sum, x) {return parseInt(sum) + parseInt(x);}) / l;
+var success_schools = _.filter(data, function(x) {return parseInt(x[12]) >= mean;});

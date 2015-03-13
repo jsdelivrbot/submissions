@@ -70,9 +70,7 @@ var collisions = function(){
     var cs = document.getElementsByTagName("circle");
     var life = document.getElementById("life");
     var a = life.innerHTML;
-    var score = document.getElementById("score");
-    var b = score.innerHTML;
-    score.innerHTML = parseInt(b)+1;
+    
     if(a <= 0){
         var text = document.createElementNS("http://www.w3.org/2000/svg","text");
         text.setAttribute("x", 200);
@@ -82,7 +80,9 @@ var collisions = function(){
         text.innerHTML = "YOU LOSE";
         s.appendChild(text);
     }else{
-    
+        var score = document.getElementById("score");
+        var b = score.innerHTML;
+        score.innerHTML = parseInt(b)+1;
         for (var i=0;i < cs.length; i++){
             if(cs[i].getAttribute('fill') == "green"){
                 for (var j=0;j < cs.length; j++){

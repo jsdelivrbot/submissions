@@ -7,15 +7,35 @@ grass.setAttribute('y',325);
     grass.setAttribute('fill',"#00cc00");
     s.appendChild(grass);
 var index = 0;
+var dindex = 0;
 var flowers = [];
+var drops = [];
 var waterMode = false;
+var water = function(x,y) {
+    var d = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+    d.setAttribute('cx',x+11);
+    d.setAttribute('cy',y+20);
+    d.setAttribute('r',3);
+    d.setAttribute('fill',"#00F5FF");
+    s.appendChild(d);
+    var a = document.createElementNS("http://www.w3.org/2000/svg", "animate");
+    a.setAttribute("attributeName", "cy");
+    a.setAttribute("from",y);
+    a.setAttribute("to","500");
+    a.setAttribute("dur","5s");
+    d.appendChild(a);
+    console.log(d.children)
+}
 
 var clicked = function(e) {
     var x = e.offsetX;
     var y = e.offsetY;
     console.log(y);
+    if(waterMode){
+        water(x,y);
+    }
     if (y >= 325) {
-        createFlower(x,y);
+        createFlower(x,y); 
     }
 }
 var createFlower = function(x,y){
@@ -72,9 +92,4 @@ var createFlower = function(x,y){
     flowers.push(flower);
     index++;
 };
-var water = document.getElementById("w");
-water.addEventListener("click", function() {
-    waterMode = !waterMode;
-    console.log(waterMode);
-} )
 s.addEventListener('click', clicked);
