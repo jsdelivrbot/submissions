@@ -7,19 +7,28 @@
 
 		<script type="text/template" id="place_template">
 			<tr>
-				<td><%= name %></td><td><%= rating %></td>
-				<td><button id="up">up</button><button id="down">down</button><button id="del">delete</button></td>
+				<td><%= name %></td>
+				<td><%= rating %></td>
+				<td><%=description %></td>
 			</tr>
 		</script>
-		
+		<script type="text/template" id="edit_template">
+		  <tr>
+		    <td><%= name %></td>
+		    <td><%= rating %></td>
+		    <td>
+		      <button id="up">up</button>
+		      <button id="down">down</button>
+		      <textarea id="descriptoin"></textarea>
+		    </td>
+		  </tr>
+		</script>
 		</head>
 	<body>
 
-		<h1>Hello</h1>
-		<button id="r1">Random button 1</button>
+		<button id="change">Change Views</button>
 		<table border="1" id="place">
 		</table>
-		<button>Random button 2</button>
-	<script src="/static/app.js""></script>
+	<script src="/static/app.js"></script>
 	</body>
 </html>
