@@ -5,24 +5,22 @@
     <script src="/static/lib/lodash.js"></script>
     <script src="/static/lib/backbone.js"></script>
     <script type="text/template" id="info_template">
-      <tr>
-        <td><%= name %></td><td><%= rating %></td><td><%= description %></td>
-      </tr>
+      <td><%= name %></td><td><%= rating %></td><td><%= description %></td>
     </script>
-    <script type="text/template" id="place_template">
-      <tr>
-        <td><%= name %></td><td><%= rating %></td><td><%= description %></td>
-        <td><button id="up">up</button><button id="down">down</button><button id="del">delete</button></td>
-</tr>
-</script>
+    <script type="text/template" id="edit_template">
+      <td></td><td></td><td id="newdesc" contenteditable="true"><%= description %></td>
+      <td><button id="up">up</button><button id="down">down</button><button id="ed">update description</button><button id="del">delete</button></td>
+    </script>
 
-</head>
-<body>
-  <h1>Hooray for views</h1>
-  <table border="1" id="info">
-  </table>
-  <table border="1" id="place">
-  </table>
-  <script src="/static/app.js"></script>
-</body>
+  </head>
+  <body>
+    <h1>Hooray for views</h1>
+    <table>
+      <tr id="info">
+      </tr>
+      <tr id="edit">
+      </tr>
+    </table>
+    <script src="/static/app.js"></script>
+  </body>
 </html>
