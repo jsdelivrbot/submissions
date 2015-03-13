@@ -75,5 +75,3 @@ var PlaceView2 = Backbone.View.extend({
 var p1 = new Place({name:"Terry's",rating:5});
 var v1 = new PlaceView2({model:p1, view:v2});
 var v2 = new PlaceView({model:p1});
-v1.render();
- _.template( $("#edit_template").html() );
