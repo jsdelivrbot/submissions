@@ -12,15 +12,13 @@ var PlaceView1 = Backbone.View.extend({
 	this.$el.append(e);
 	return this;
     }
-
-
 });
 
 var PlaceView2 = Backbone.View.extend({
     el:"#place",
     template: _.template($("#vote_template").html()),
     events: {
-	"keydown" : function(e) {
+	"keyup": function(e) {
 	    var t = $("#desc").text();
 	    this.model.set('description',t);
 	},
