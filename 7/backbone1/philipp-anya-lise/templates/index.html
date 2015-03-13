@@ -7,40 +7,45 @@ model
 model on button changes top
 -Up and Down buttons (rating)
 -Reviews
-
-
-
 -->
-
-
-
 
 <!doctype>
 <html>
-	<head>
-		<script src="static/lib/jquery.min.js"></script>
-		<script src="static/lib/lodash.min.js"></script>
-		<script src="static/lib/backbone.js"></script>
-
-		<script type="text/template" id="place_template">
-			<tr>
-				<td> <%= name %> </td>
-				<td> <%= rating %> </td>
-				<td>Not a button</td>
-				<td><button class="up">up</button></td>
-				<td><button class="down">down</button></td>
-				<td><button class="del">del</button></td>
-			</tr>
-		</script>
-		
-	</head>
-	<body>
-		<h1>Hello</h1>
-		<button>Unrelated button</button>
-		<hr>
-		<table border="1" id="place">
-		</table>
-		
-		<script src="/static/app.js"></script>
-	</body>
+  <head>
+    <script src="static/lib/jquery.min.js"></script>
+    <script src="static/lib/lodash.min.js"></script>
+    <script src="static/lib/backbone.js"></script>
+    <!-- THIS IS v2 - the view that is changed by v1 -->
+    <script type="text/template" id="display_template">
+      <tr>
+	<td> <%= name %> </td>
+	<td> <%= rating %> </td>
+	<td> <%= review %> </td>
+      </tr>
+    </script>
+    <!--THIS IS v1 - the view where we change stuff -->
+    <script type="text/template" id="place_template">
+      <tr>
+	<td> <%= name %> </td>
+	<td> <%= rating %> </td>
+	<td>Not a button</td>
+	<td><button class="up">up</button></td>
+	<td><button class="down">down</button></td>
+    <td><input class="review"></td>
+    <td><button class="update-review">Update review </button</td>
+      </tr>
+    </script>
+    
+  </head>
+  <body>
+    <h1>Hello</h1>
+    <table border="1" id="display">
+     </table>
+    <hr>
+    <hr>
+    <table border="1" id="place">
+    </table>
+    
+    <script src="/static/app.js"></script>
+  </body>
 </html>

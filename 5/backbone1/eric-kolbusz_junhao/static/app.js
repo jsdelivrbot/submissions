@@ -1,10 +1,8 @@
-var PlaceView = Backbone.View.extend({
-    el:"#place",
-    //template: _.template("<tr><td><%= name %></td><td><%= rating %></td></tr>"),
-    template: _.template($("#place_template").html()),
-    events: {
-    },
+var DataView = Backbone.View.extend({
+    el:"#data",
+    template: _.template($("#data_template").html()),
     initialize:function(){
+        this.listenTo(this.model,"edit",this.render);
 	this.render();
     },
     render: function(){
@@ -15,9 +13,9 @@ var PlaceView = Backbone.View.extend({
     }
 });
 
-var ChangeView = Backbone.View.extend({
-    el:"#change",
-    template: _.template($("#change_template").html()),
+var EditView = Backbone.View.extend({
+    el:"#edit",
+    template: _.template($("#edit_template").html()),
     events: {
 	"click #up" : function(e) {
 	    var r = this.model.get("rating");
@@ -33,28 +31,19 @@ var ChangeView = Backbone.View.extend({
 	    this.model.set('rating',r);
 	    this.render();
 	},
-	"click #submit" : function(e){
-	    var input = text.value;
-	    console.log(input);
-	    this.model.set("description", input);
-	    this.render();
+	"click #desc" : function(e) {
 	}
     },
-    view : null,
-    initialize:function(options){
-	//this.view = this.options.view;
-	_.extend(this, _.pick(options, "view"));
+    initialize:function(){
 	this.render();
     },
     render: function(){
 	var e = this.template(this.model.toJSON());
 	this.$el.empty();
 	this.$el.append(e);
-	this.view.render();
 	return this;
     }
 });
-
 
 var Place = Backbone.Model.extend({
     initialize: function() {
@@ -62,7 +51,8 @@ var Place = Backbone.Model.extend({
 	    console.log("Changed"+this.toJSON())}});
     },
     defaults:{'name':'name goes here',
-	      'rating':0},
+	      'rating':0,
+	      'desc':'review goes here'},
     validate:function(attrs,options){
 	if (isNaN(attrs.rating)){
 	    return "Rating must be numeric";
@@ -70,10 +60,8 @@ var Place = Backbone.Model.extend({
     }
 });
 
-var p1 = new Place({name:"Terry's", rating:5, description:"Eat"});
-var p2 = new Place({name:"Ferry's", rating:7, description:"Hi"});
-var v1 = new PlaceView({model:p1});
-var v2 = new ChangeView({
-    model:p1,
-    view:v1,
-});
+var p1 = new Place({name:"Ferry's", rating:7});
+var d1 = new DataView({model:p1});
+var e1 = new EditView({model:p1});
+
+console.log("DONE");
