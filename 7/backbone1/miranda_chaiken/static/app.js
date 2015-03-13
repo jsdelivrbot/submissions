@@ -10,9 +10,9 @@ var Place = Backbone.Model.extend({
 
     },
     /*destroy:function(){
-	this.off("change",this.onChange);
-	console.log("destroy");
-    },*/
+      this.off("change",this.onChange);
+      console.log("destroy");
+      },*/
     defaults: {
 	name : "Name goes here",
 	rating : 5,
@@ -71,17 +71,16 @@ var EditView = Backbone.View.extend({
 	this.$el.append(e);
 	return this;
     },
-   modelChanged: function (model, changes) {
-                console.log("modelChanged:" + model.get("title"));
-                this.render();
-   }
+    modelChanged: function (model, changes) {
+        console.log("modelChanged:" + model.get("title"));
+        this.render();
+    }
 
 
 });
 
 
-var p1 = new Place({name:"Terry's",rating:5,review:"Good food"});
-var v2 = new EditView({model:p1});
+
 
 
 var PlaceView = Backbone.View.extend({
@@ -98,19 +97,23 @@ var PlaceView = Backbone.View.extend({
 	this.$el.append(e);
 	return this;
     },
-   modelChanged: function (model, changes) {
-                console.log("modelChanged:" + model.get("title"));
-       if (this.model.alive){
-                this.render();
-       }
-       else{
-	   this.remove();
-       }
-   }
+    modelChanged: function (model, changes) {
+        console.log("modelChanged:" + model.get("title"));
+	if (this.model.attributes.alive){
+            this.render();
+	    console.log("render");
+	    
+	}
+	else{
+	    console.log(this.model.attributes.alive);
+	    this.remove();
+	}
+    }
 
 
 });
 
-
+var p1 = new Place({name:"Terry's",rating:5,review:"Good food",alive:true});
+var v2 = new EditView({model:p1});
 var v1 = new PlaceView({model:p1});
 
