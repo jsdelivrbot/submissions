@@ -15,10 +15,10 @@
 			  <td><button id="del">delete</button></td>
 			</tr>
 		</script>
-
 		<script type="text/template" id="tracks_template">
 			<tr>
-			  <td> <%= name %> 
+			  <td> <%= name %><br>
+			    <span>Rating:</span> <%= rating %><br>
 			    <span>Tracks:</span> 
 			    <div id="tracks">
 			      <ul>
@@ -41,8 +41,10 @@
 	</head>
 	<body>
 		<h1>Albums</h1>
-		<button id = "change">Change View</button>
 		<table border="1" id="place">
+		</table>
+		<h1>Tracklists</h1>
+		<table border="1" id="tracks">
 		</table>
 		<script src="/static/app.js""></script>
 	</body>
