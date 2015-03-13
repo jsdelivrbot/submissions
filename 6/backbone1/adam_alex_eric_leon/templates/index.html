@@ -4,10 +4,17 @@
 		<script src="/static/lib/jquery.min.js"></script>
 		<script src="/static/lib/lodash.js"></script>
 		<script src="/static/lib/backbone.js"></script>
+<script type="text/template" id="view_template">
+			<tr>
+				<td> <%= name %> </td> <td> <%= rating%> </td>
 
+			
+			</tr>
+		</script>
 		<script type="text/template" id="place_template">
 			<tr>
-				<td> <%= name %> </td> <td> <%= rating %> </td>
+				<td> <%= name %> </td> <td> <%= rating%> </td>
+
 				<td><span>Not a button</span></td>
 				<td><button id="up">up</button></td>
 				<td><button id="down">down</button></td>
@@ -15,12 +22,15 @@
 			</tr>
 		</script>
 		
+		
 	</head>
 	<body>
-		<h1>Hello</h1>
-		<button>Random button</button>
+		
 		<table border="1" id="place">
 		</table>
+	<hr>
+		<table border= "1" id="edit">
+		  </table>
 		<script src="/static/app.js""></script>
 	</body>
 </html>
