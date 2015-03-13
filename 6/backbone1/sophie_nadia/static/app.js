@@ -1,24 +1,27 @@
 console.log("HELLO");
 
 var Place = Backbone.Model.extend({
-  showchange: function(){
-      console.log("Changing: "+this.toString());
-  },
-  initialize:function(){
-      this.on("change",this.showchange);
-  },
-  destroy: function() {
-      this.off("change",showchange);
-  },
-  defaults: {
-      name :"Place name",
-      rating:0
-  },
-  validate : function(attrs,options) {
-      if (isNaN(attrs.rating)){
-	  return "need number";
-      }
-  }
+    onchange : function() {
+	console.log("Changed");
+    },
+    showchange: function(){
+	console.log("Changing: "+this.toString());
+    },
+    initialize:function(){
+	this.on("change",this.onchange);
+    },
+    destroy: function() {
+	this.off("change",showchange);
+    },
+    defaults: {
+	name :"Place name",
+	rating:0,
+    },
+    validate : function(attrs,options) {
+	if (isNaN(attrs.rating)){
+	    return "need number";
+	}
+    }
 });
 
 var EditView = Backbone.View.extend({
