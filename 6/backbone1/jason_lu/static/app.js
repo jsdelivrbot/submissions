@@ -65,8 +65,10 @@ var PlaceView1 = Backbone.View.extend({
    
     initialize:function(){
 	var that = this;
-	this.model.on("change",that.render);
-	
+	this.model.on("change",function(){
+        that.render();
+        });
+        this.render();
     },
     render: function() {
 	var e = this.template(this.model.toJSON());
