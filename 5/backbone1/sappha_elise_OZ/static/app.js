@@ -1,31 +1,55 @@
-var PlaceView = Backbone.View.extend({
-		el:"#place",
+var V1View = Backbone.View.extend({
+		el:"#v1",
 		//template: _.template("<tr><td><%= name %></td><td><%= rating %></td></tr>"),
-		template: _.template($("#place_template").html()),
-		events: {
-				"click #del" : function(e) {
-						this.remove();
-				},
-				"click #up" : function(e) {
-						var r = this.model.get("rating");
-						r = parseInt(r);
-						r = r + 1;
-						this.model.set('rating',r);
-						this.render();
-				},
-				"click #down" : function(e) {
-						var r = this.model.get("rating");
-						r = parseInt(r);
-						r = r - 1;
-						this.model.set('rating',r);
-						this.render();
-				},
+		template: _.template($("#v1_template").html()),
+        initialize:function(){
+                var that = this;
+                this.model.on("change", function(){
+                        that.render();
+                });
+                this.render();
+        },
+        render: function(){
+                var e = this.template(this.model.toJSON());
+                this.$el.empty();
+                this.$el.append(e);
+                return this;
+        }
+});
+
+var V2View = Backbone.View.extend({
+        el:"#v2",
+        //template: _.template($("#v2_template").html()),
+        events: {
+
+                "click #del" : function(e) {
+                        this.remove();
+                        v2.remove();
+                },
+                "click #up" : function(e) {
+                        var r = this.model.get("rating");
+                        r = parseInt(r);
+                        r = r + 1;
+                        this.model.set('rating',r);
+                        this.render();
+                        v2.render();
+                },
+                "click #down" : function(e) {
+                        var r = this.model.get("rating");
+                        r = parseInt(r);
+                        r = r - 1;
+                        this.model.set('rating',r);
+                        this.render();
+                        v2.render();
+                },
                 "click #update": function(e) {
+                        console.log("hello");
                         var d = this.model.get("description2");
-                        console.log(d);
                         this.model.set('description', d);
                         this.render();
+                        v2.render();
                 },
+
 		},
 		initialize:function(){
 				this.render();
@@ -48,7 +72,7 @@ var Place = Backbone.Model.extend({
 		},
 		defaults:{'name':'name goes here',
 							'rating':0,
-                                  'description':'description goes here'},
+                            'description':'description goes here'},
 		validate:function(attrs,options){
 				if (isNaN(attrs.rating)){
 						return "Rating must be numeric";
@@ -57,5 +81,5 @@ var Place = Backbone.Model.extend({
 });
 
 var p1 = new Place({name:"Terry's", rating:5});
-var p2 = new Place({name:"Ferry's", rating:7});
-var v1 = new PlaceView({model:p1});
+var v1 = new V1View({model:p1});
+var v2 = new V2View({model:p1});

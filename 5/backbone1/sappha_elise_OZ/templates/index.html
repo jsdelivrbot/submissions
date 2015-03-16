@@ -5,21 +5,32 @@
 		<script src="/static/lib/lodash.js"></script>
 		<script src="/static/lib/backbone.js"></script>
 
-		<script type="text/template" id="place_template">
+		<script type="text/template" id="v1_template">
 			<tr>
 				<td><%= name %></td><td><%= rating %></td><td><%= description %></td>
-				<td><button id="up">up</button><button id="down">down</button><button id="del">delete</button></td>
 			</tr>
+        </script>
+        <script type="text/template" id="v2_template">
+            <tr>
+            <td><%= name %></td><td><%= rating %></td><td><%= description %></td>
+            <td><button id="up">up</button><button id="down">down</button><button id="del">delete</button></td>
+            </tr>
 		</script>
-		
 		</head>
 	<body>
+        <h1> View 1 </h1>
         <br>
-		<table border="1" id="place">
+		<table border="1" id="v1">
 		</table>
         <br>
+        <h1> View 2 </h1>
+        <table border="1" id="v2">
+        </table>
+        <br>
+        <!--
         <input type="text" name="description2" value="Update Description"><br>
 		<button id="update">Update Description</button>
+         -->
 	<script src="/static/app.js"></script>
 	</body>
 </html>
