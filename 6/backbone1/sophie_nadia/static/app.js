@@ -1,9 +1,6 @@
 console.log("HELLO");
 
 var Place = Backbone.Model.extend({
-    onchange : function() {
-	console.log("Changed");
-    },
     showchange: function(){
 	console.log("Changing: "+this.toString());
     },
@@ -16,6 +13,7 @@ var Place = Backbone.Model.extend({
     defaults: {
 	name :"Place name",
 	rating:0,
+	review:''
     },
     validate : function(attrs,options) {
 	if (isNaN(attrs.rating)){
@@ -43,9 +41,9 @@ var EditView = Backbone.View.extend({
 	    this.model.set("rating",r);
 	    this.render();
 	},
-     
-	"click #del" : function(e) {
-	    this.remove();
+	"click #change" : function(e){
+	    var r = $("#t").val();
+	    this.model.set('review',r);
 	}
     },
     initialize:function(){
@@ -65,7 +63,10 @@ var PlaceView = Backbone.View.extend({
     el : "#place",
     template :  _.template($("#place_template").html()),
     initialize:function(){
-	this.render();
+	var that = this;
+	this.model.on("change",function(){
+	    that.render();
+	});
     },
     render: function() {
 	var e = this.template(this.model.toJSON());
@@ -75,7 +76,26 @@ var PlaceView = Backbone.View.extend({
     }
 });
 
+var MultiView = Backbone.View.extend({
+    el: "#places",
+    initialize : function(){
+	var that = this;	
+	this.render();
+    },
+    render: function(){
+	this.$el.empty();
+	for (var i = 0 ; i < this.model.length; i++ ){
+	    var v = new PlaceView({model:this.model[i]});
+	    this.$el.append(v.$el);
+	}
+	return this;
+    } 
+});
+
 
 var p1 = new Place({name:"Terry's",rating:5});
 var v1 = new PlaceView({model:p1});
 var e1 = new EditView({model:p1});
+
+var c = [p1,p2];
+var mv = new MultiView({model:c});

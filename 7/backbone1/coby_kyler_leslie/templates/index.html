@@ -9,7 +9,7 @@
 			<tr>
 				<td> <%= name %> </td>
 				<td> <%= rating %> </td>
-				<td>Not a button</td>
+				<td> <%= review %></td>
 			
 			</tr>
 		</script>
@@ -17,10 +17,9 @@
 			<tr>
 				<td> <%= name %> </td>
 				<td> <%= rating %> </td>
-				<td>Not a button</td>
+				<td><textarea id="review"><%= review %></textarea><br><button id="r">save</button></td>
 				<td><button id="up">up</button></td>
 				<td><button id="down">down</button></td>
-				<td><button id="del">del</button></td>
 			</tr>
 		</script>
 		
@@ -30,7 +29,7 @@
 		<hr>
 		<table border="1" id="place">
 		</table>
-		<table id="2" id="edit">
+		<table border="1"  id="edit">
 		  </table>
 		
 		<script src="../static/app.js"></script>
