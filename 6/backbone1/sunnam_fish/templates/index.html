@@ -1,0 +1,43 @@
+<!doctype>
+<html>
+  <head>
+    <script src="../static/lib/jquery.min.js"></script>
+    <script src="../static/lib/lodash.min.js"></script>
+    <script src="../static/lib/backbone-min.js"></script>
+
+    <script type="text/template" id="place_template">
+      <tr>
+	<td> <%= name %> </td>
+	<td> <%= rating %> </td>
+      </tr>
+      <tr>
+	<td>
+	  <!-- <p id="comment"> </p> -->
+	  <%= comment %>
+	</td>
+      </tr>
+    </script>
+
+    <script type="text/template" id="number_template">
+      <tr>
+	<td> <%= name %> </td>
+	<td> <%= rating %> </td>
+	<td> <button class="up">up</button></td>
+	<td> <button class="down">down</button></td>
+      </tr>
+      <tr>
+	<td> <textarea id="txt" row="4" cols="20">Insert your comment</textarea> </td>
+	<td> <button class="submit">submit</button></td>
+      </tr>
+    </script>
+  </head>
+  <body>
+    <table border="1" id="place">
+    </table>
+    <hr>
+    <table border="1" id="number">
+    </table>
+    
+    <script src="../static/app.js""></script>
+				 </body>
+</html>
