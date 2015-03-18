@@ -8,7 +8,15 @@
 		<script type="text/template" id="place_template">
 			<tr>
 				<td><%= name %></td><td><%= rating %></td>
-				<td><button id="up">up</button><button id="down">down</button><button id="del">delete</button></td><td>Description: <%= description %></td>
+				<td><button id="up">up</button><button id="down">down</button><button id="del">delete</button></td><td>Description: <input type="text" id="d" value="<%= description %>"><button id="change">change</button></td>
+			</tr>
+		</script>
+		
+	<script type="text/template" id="place_template1">
+			<tr>
+				<td><%= name %></td><td><%= rating %></td>
+				<td><%= description %></td>
+				
 			</tr>
 		</script>
 		
@@ -21,6 +29,9 @@
 		<table border="1" id="place">
 		</table>
 		<button>Random button 2</button>
-	<script src="/static/app.js""></script>
+		<table border="1" id="place1">
+		</table>
+
+	<script src="/static/app.js"></script>
 	</body>
 </html>
