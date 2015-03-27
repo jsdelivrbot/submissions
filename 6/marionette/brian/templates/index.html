@@ -1,0 +1,45 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+	<script type="text/javascript" src="static/lib/jquery.js"></script>
+	<script type="text/javascript" src="static/lib/lodash.js"></script>
+	<script type="text/javascript" src="static/lib/backbone.js"></script>
+	<script type="text/javascript" src="static/lib/backbone.marionette.js"></script>
+
+	<!--TODO: insert css link here later -->
+
+    </head>
+    <body>
+	<script type="text/template" id="layout-template">
+	    Super-Duper General Overall Stuff Goes Here
+	</script>
+	<script type="text/template" id="entry-collection-template">
+	    <table>
+		<thead>
+		    <tr><th>Name</th></tr>
+		</thead>
+		<tbody>
+		</tbody>
+	    </table>
+	</script>
+	<script type="text/template" id="entry-template">
+	    <td><%- name %></td>
+	</script>
+	<script type="text/template" id="comment-collection-template">
+	    <h3><%= name %></h3>
+	    <table>
+		<thead>
+		    <tr><th>Name</th><th>Body</th></tr>
+		</thead>
+		<tbody>
+		</tbody>
+	    </table>
+	</script>
+	<script type="text/template" id="comment-template">
+	    <td><%- name %></td>
+	    <td><%- body %></td>
+	</script>
+	
+	<script type="text/javascript" src="static/app.js"></script>
+    </body>
+</html>
