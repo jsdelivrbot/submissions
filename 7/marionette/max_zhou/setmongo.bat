@@ -1,0 +1,1 @@
+set MONGO_URL=mongodb://admin:password@ds045107.mongolab.com:45107/meteor-story

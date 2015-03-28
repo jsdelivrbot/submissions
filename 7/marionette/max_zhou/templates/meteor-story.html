@@ -1,0 +1,44 @@
+<head>
+  <title>meteor-story</title>
+  <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.6.0/pure-min.css">
+</head>
+
+<body>
+  <h1>Welcome to Meteor!</h1>
+  <h2>List of stories!</h2>
+  {{> titles}}
+  <h2>Each story!</h2>
+  {{> lines}}
+  {{> hello}}
+</body>
+
+<template name="hello">
+  Title: <input id="title"><br>
+  Add on!:<input id="words"><br>
+
+  <button class="pure-button pure-button-primary" id="submit">Submit!</button>
+  <br>
+  <p>You've pressed the button {{counter}} times.</p>
+</template>
+
+<template name="titles">
+  {{#each titles}}
+  {{this.title}}<br> 
+  {{/each}}
+</template>
+
+<template name="lines">
+  <!--From handlebars for eaching a basic array -->
+  {{#each lines}}
+  <h3>{{title}}</h3>
+  {{#each text}}
+  {{this}}<br>
+  {{/each}}
+  {{/each}}
+</template>
+
+<template name="storyText">
+  {{#each text}}
+  {{/each}}
+  
+</template>
