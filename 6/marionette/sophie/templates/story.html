@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block body %} 
+
+
+<!-- templates --> 
+
+<script type="text/template" id="line">
+    <%- l %>
+</script>
+
+<script type="text/template" id="add-line-template">
+    
+    <ol></ol>
+  <h3> add a line to the story! </h3>
+  <input type="text" id="newline">
+  <button class="pure-button pure-button-primary" id="add">Add Line!</button>
+</script>
+
+
+<!-- HTML page with divs, etc -->
+<div class="pure-g">
+  <div class="pure-u-1-12"></div>
+  <div class="pure-u-5-6">
+  <h1> MAKE A STORY </h1>
+  <h3>Story:</h3>
+    <div id="add-line-display"></div>
+    
+    <!-- <h3> add a line to the story! </h3>
+    <input type="text" id="newline">
+    <button class="pure-button pure-button-primary" id="add">add</button>
+     -->
+    
+<script src="static/story-app.js"></script>
+
+{% endblock body %} 
