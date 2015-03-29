@@ -7,7 +7,7 @@ App.addRegions({
 App.on("start", function(){
     console.log("Blog engine started.");
 
-    var blogsview = new App.BlogsView({collection:testBlogs});
+    var blogsview = new App.BlogsView({collection:currentBlogs});
     App.blogArea.show(blogsview);
 });
 
@@ -17,7 +17,7 @@ App.BlogView = Marionette.ItemView.extend({
     events: {
 		"click #delete" : function(){
 			this.remove();
-		}
+        }
 	},
 	modelEvents: {
 		"change" : function(){
@@ -26,26 +26,46 @@ App.BlogView = Marionette.ItemView.extend({
 	}
 });
 
-App.BlogsView = Marionette.CollectionView.extend({
-    childView: App.BlogView
+App.BlogsView = Marionette.CompositeView.extend({
+    template: "#overall-template",
+    childView: App.BlogView,
+    childViewContainer : "#blogs-wrapper",
+    events: {
+        "click #submit": function(){
+            var t = $("#title").val();
+            var n = $("#name").val();
+            var c = $("#content").val();
+            if (_.every([t,n,c],function(i){return i.length > 0;})){
+                $.ajax({
+                    type: "POST",
+                    url: "blogs",
+                    dataType: "json",
+                    contentType: "application/json",
+                    data: JSON.stringify({
+                        title: t,
+                        name: n,
+                        content: c
+                    })
+                });
+                this.collection.add(new Blog({title:t, name:n, content:c}));
+                $("#title").val("");
+                $("#name").val("");
+                $("#content").val("");
+            };
+        }
+    }
 });
 
 
 var Blog = Backbone.Model.extend({});
 var Blogs = Backbone.Collection.extend({
-    model: Blog
+    url: "blogs",
+    model: Blog,
+    initialize: function(){
+        this.fetch();
+    }
 });
 
-var testBlog = new Blog({
-    title: "Testing",
-    name: "John Doe",
-    content: "Blah blah blah"
-});
-var testBlog2 = new Blog({
-    title: "Testing2",
-    name: "John Doe2",
-    content: "Blah blah 2blah"
-});
-var testBlogs = new Blogs([testBlog,testBlog2]);
+var currentBlogs = new Blogs();
 
 App.start();
