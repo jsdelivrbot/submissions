@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% block body %}
+
+<script type="text/template" id="todoItem-template">
+    <td id="urgency" align="center" contenteditable="true"><%= urgency %></td>
+    <td id="description" contenteditable="true"><%= description %></td>
+    <td id="checkbox" align="center">
+    <% if (done) { %>
+        <input type="checkbox" checked=true></input></td>
+    <% } else { %>
+        <input type="checkbox"></input></td>
+    <% } %>
+</script>
+
+<script type="text/template" id="todoList-template">
+    <table class="pure-table pure-table-bordered">
+        <thead>
+            <tr>
+                <th>Urgency</th>
+                <th>Description</th>
+                <th>Done?</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+    <h3 style="color:green">Add item</h3>
+    <hr/>
+    <br/>
+    <form class="pure-form" action="javascript:void(0)">
+        <input type="text" id="input" placeholder="What's your objective?"></input>
+        <button id="add" class="pure-button pure-button-primary">Add</button>
+    </form>
+    <br/>
+    <h3 style="color:#D70000">Delete an item</h3>
+    <hr/>
+    <span>To delete an item, it's as simple as deleting its description!</span>
+</script>
+
+<div class="pure-g">
+    <div class="pure-u-1-5"></div>
+    <div class="pure-u-3-5">
+        <h1 style="color:#00AFAF">TODO</h1>
+        <div id="todoList"></div>
+    </div>
+    <div class="pure-u-1-5"></div>
+</div>
+
+<script src="static/app.js"></script>
+{% endblock body %}
