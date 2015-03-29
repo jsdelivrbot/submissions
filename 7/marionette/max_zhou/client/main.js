@@ -38,7 +38,7 @@ Template.submitButton.events({
 	Session.set('counter', Session.get('counter') + 1);
 	console.log("context:" + this);	
 	if(_.isEmpty(this)){ //empty object if no data param (like on home)
-	    var storyTitle = $('#title').val();
+	    var storyTitle = $('#title').val().trim();
 	}
 	else{
 	    var storyTitle = this.title;
