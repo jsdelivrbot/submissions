@@ -16,6 +16,24 @@
         </style>
 	</head>
 	<body>
+        <script type="text/template" id="overall-template">
+            <h1 style="color:blue">New Post</h1>
+            <div id="addpost">
+                <form class="pure-form pure-form-stacked" action="">
+                    <fieldset>
+                        <label for="title">Title</label>
+                        <input id="title" type="text" class="pure-input-1-3" placeholder="Title">       
+                        <label for="name">Name</label>
+                        <input id="name" type="text" class="pure-input-1-3" placeholder="Name">
+                        <label for="content">Text</label>
+                        <textarea id="content" class="pure-input-1-2"></textarea>
+                        <br>
+                        <button type="button" class="pure-button pure-input-1-8 pure-button-primary" id="submit">Submit</button>
+                    </fieldset>
+                </form>
+            </div>
+            <div id="blogs-wrapper"></div>
+        </script>
         <script type="text/template" id="blogs-template">
             <table class="pure-table pure-table-bordered">
                 <thead>
@@ -37,24 +55,10 @@
             <br>
         </script>
         
-        <div id="title">
+        <div>
             <center>
                 <h2>Blog Engine</h2>
             </center>
-        </div>
-        <div id="addpost" class="space">
-            <form class="pure-form pure-form-stacked" action="">
-                <fieldset>
-                        <label for="title">Title</label>
-                        <input id="title" type="text" class="pure-input-1-3" placeholder="Title">       
-                        <label for="name">Name</label>
-                        <input id="name" type="text" class="pure-input-1-3" placeholder="Name">
-                        <label for="content">Text</label>
-                        <textarea id="content" class="pure-input-1-2"></textarea>
-                    <br>
-                        <button type="button" class="pure-button pure-input-1-8 pure-button-primary" id="submit">Submit</button>
-                </fieldset>
-            </form>
         </div>
         <div id="blogs" class="space">
         </div>
