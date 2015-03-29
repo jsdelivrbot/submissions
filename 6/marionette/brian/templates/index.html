@@ -10,10 +10,12 @@
 
     </head>
     <body>
-	<script type="text/template" id="layout-template">
-	    Super-Duper General Overall Stuff Goes Here
-	</script>
-	<script type="text/template" id="entry-collection-template">
+	<!-- <script type="text/template" id="layout-template">
+		Super-Duper General Overall Stuff Goes Here
+		</script> -->
+	<script type="text/template" id="entry-composite-template">
+	    New Entry: <input id="newentryname">
+	    <button id="addentry">New Entry</button>
 	    <table>
 		<thead>
 		    <tr><th>Name</th></tr>
@@ -39,6 +41,13 @@
 	    <td><%- name %></td>
 	    <td><%- body %></td>
 	</script>
+
+	<div id="wrapper">
+	    Blog Entries Go Here
+	    <table id="entries"></table>
+	    Comments for Selected Blog Go Here
+	    <table id="comments"></table>
+	</div>
 	
 	<script type="text/javascript" src="static/app.js"></script>
     </body>
