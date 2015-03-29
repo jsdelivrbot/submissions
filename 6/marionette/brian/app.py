@@ -69,14 +69,21 @@ def index():
     return render_template("index.html")
 
 @app.route('/entries',methods=["GET","POST"])
-def handle_request():
+def handle_entry_request():
     if request.method=="GET":
         return json.dumps(get_entries())
     else:
         add_entry(request.json['name'])
         return 'Added Entry'
         
-    
+@app.route('/comments',methods=["GET"])
+def handle_comment_request():
+    if request.method=="GET":
+        print request.args.get('entry')
+        return "not yet"
+        #IM UP TO HERE RIGHT NOW#
+
+        
 @app.route('/resetdb')
 def create_tables():
     drop_table('entries')

@@ -27,15 +27,17 @@
 	<script type="text/template" id="entry-template">
 	    <td><%- name %></td>
 	</script>
-	<script type="text/template" id="comment-collection-template">
+	<script type="text/template" id="comment-composite-template">
 	    <h3><%= name %></h3>
 	    <table>
 		<thead>
-		    <tr><th>Name</th><th>Body</th></tr>
+		    <tr><th>Name</th></tr>
 		</thead>
 		<tbody>
 		</tbody>
 	    </table>
+	    New Comment: <input id="newcommentname">
+	    <button id="addcomment">Add Comment</button>
 	</script>
 	<script type="text/template" id="comment-template">
 	    <td><%- name %></td>
