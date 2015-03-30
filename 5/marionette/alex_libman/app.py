@@ -20,11 +20,14 @@ def addBlog(title,name,text):
     }
     blogs.insert(blog)
 
+def deleteBlog(id):
+    blogs.remove({_id:id})
+
 @app.route("/")
 def index():
     return render_template("index.html")
 
-@app.route("/blogs", methods=["GET","POST"])
+@app.route("/blogs", methods=["GET","POST","DELETE"])
 def places():
     if request.method == "GET":
         return myJSON([i for i in blogs.find()])
@@ -32,11 +35,10 @@ def places():
         data = request.get_json()
         addBlog(data["title"],data["name"],data["content"])
         return ""      
-    
-@app.route("/blogs/<data>", methods=["POST"])
-def edit(data=None):
-    pass
-        
+    elif request.method == "DELETE":
+        data = request.get_json()      
+        deleteBlog(data["id"])
+        return ""
 
 if __name__ == "__main__":
     app.debug = True
