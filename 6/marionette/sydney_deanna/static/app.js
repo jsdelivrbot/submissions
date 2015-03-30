@@ -7,7 +7,7 @@ App.addRegions({
 App.on("start",function(){
     console.log("onStart");
 
-    var bloggy = new App.CompView({collection:c});
+    var bloggy = new App.CompView();
     App.blog.show(bloggy);
 
     Backbone.history.start();
