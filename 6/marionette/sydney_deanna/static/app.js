@@ -12,26 +12,26 @@ App.on("start",function(){
 });
 
 App.CompView = Marionette.CompositeView.extend({
-	template: "#newPost",
-	childView : App.BlogView,
-	childViewContainer: "tbody",
+    template: "#newPost",
+    childView : App.BlogView,
+    childViewContainer: "tbody",
     modelEvents : {
-    "change" : function() { this.render(); }
+	"change" : function() { this.render(); }
     }
     events : {
-                "click #add" : function() {
-                       var n = $("#nPost").val();
-                        if (n.length > 0){
-                               this.collection.add(new Blog({blog:n}));
-                               $("#nPost").val("");
-                       }
-                }
-
+        "click #add" : function() {
+            var n = $("#nPost").val();
+            if (n.length > 0){
+                this.collection.add(new Blog({blog:n}));
+                $("#nPost").val("");
+	    }
+	}
+    }	
 });
-
+					       
 App.BlogView = Marionette.ItemView.extend({
     template : "#blogPost",
-    
+						   
     
 });
 
