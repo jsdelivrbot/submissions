@@ -18,18 +18,8 @@
   </div>
   
   <script type="text/template" id="composite-template">
-    <h2>This is the header stuff</h2>
-    We might have some stuff on top including maybe user interface stuff:
-    <p>
-      <h3><%= last %>, <%= first %></h3>
-      <h4><%= stars %></h4>
-      <h2>
-	<% for (var i = 0; i < stars; i ++)  { %>
-	   <%= "*" %>
-	   <% } %>
-      </h2>
-    <p>
-      New Place name: <input id="newitem"><button class="pure-button" id="add">Add</button>
+    <h2>Currently, you have...</h2>
+      New To-Do: <input id="newitem"><button class="pure-button" id="add">Add Item</button>
       <table class="pure-table pure-table-bordered">
 	<thead>
 	  <tr><th>Name</th><th>Rating</th><th colspan="3">Conrtols</th></tr>

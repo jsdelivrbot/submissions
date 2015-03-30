@@ -19,6 +19,7 @@ App.ToDo = Marionette.CompositeView.extend({
 	"click #add" : function() {
 	    var n = $("#newname").val();
 	    if (n.length > 0){
+		//change this here
 		this.collection.add(new Place({name:n,rating:0}));
 		$("#newname").val("");
 	    }
