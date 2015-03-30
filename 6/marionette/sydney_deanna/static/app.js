@@ -11,26 +11,29 @@ App.on("start",function(){
     App.blog.show(bloggy);
 });
 
-App.HomeView = Marrionette.ItemView.extend({
-    template : "#blogHome",
+App.CompView = Marionette.CompositeView.extend({
+	template: "#newPost",
+	childView : App.BlogView,
+	childViewContainer: "tbody",
+
 });
 
-App.BlogView = Marrionette.ItemView.extend({
+App.BlogView = Marionette.ItemView.extend({
     template : "#blogPost",
     modelEvents : {
 	"change" : function() { this.render(); }
     }
 });
 
-App.PostView = Marrionette.ItemView.extend({
-    template : "#onPost"
-});
+//App.PostView = Marionette.ItemView.extend({
+  //  template : "#onPost"
+//});
 
 // we need some sort of composite view, idk how that works 
 
 var Blog = Backbone.Model.extend();
 
-var start = new Blog({name:"Name",comment:'Comment'});
-var c = new Comments([start]);
+//var start = new Blog({name:"Name"});
+//var c = new Comments([start]);
 
 App.start();

@@ -2,34 +2,36 @@
 {% block body %}
 
 <!-- All the blogs (homepage) -->
-<script type="text/template" id="blogHome">
-  <!-- blogs should be here -->
-  Enter the name of your blog here: <input type="text" id="name">
-  <button class="pure-button pure-button-primary" id="bname">Submit</button>
-</script>
+<h1> Communal Blog! </h1>
 
-<!-- Show blog posts -->
-<script type="text/template" id="blogPost">
-  <h1> Your Posts<h1>
-      <ol></ol>
-</script>
 
-<!-- Add blog post -->
 <script type="text/template" id="newPost">
   <center>
     Update your blog! <br> <input type="text" id="newPost" style="width: 300px; height: 200px"> <br>
     <button class="pure-button pure-button-primary" id="add">Submit</button>
   </center>
+  <tbody>
+  </tbody>
 </script>
 
-<!-- Comments on a blog page, may or may not include this -->
+
+<!-- Show blog posts -->
+<script type="text/template" id="blogPost">
+  <h1> Your Posts<h1>
+      <ol> <%- posts %> </ol>
+</script>
+
+
+
+
+<!-- Comments on a blog page, may or may not include this 
 <script type="text/template" id="onPost">
   <center>
     Comment on this blog!<br> <input type="text" id="newPost" style="width: 300px; height: 200px"> <br>
     <button class="pure-button pure-button-primary" id="add">Submit</button>
   </center>
 </script>
-
+-->
 <div class="pure-g">
   <div class="pure-u-1-12"></div>
   <div class="pure-u-5-6">
