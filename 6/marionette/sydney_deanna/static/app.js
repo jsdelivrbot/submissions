@@ -25,14 +25,18 @@ App.CompView = Marionette.CompositeView.extend({
                 this.collection.add(new Blog({blog:n}));
                 this.collection.sort();
                 $("#nPost").val("");
+<<<<<<< HEAD
         }
     }}	
+=======
+	    }
+	}
+    }
+>>>>>>> 1616e70b75da36979af6c203efb003fa70742c6a
 });
 					       
 App.BlogView = Marionette.ItemView.extend({
     template : "#blogPost",
-						   
-    
 });
 
 //App.PostView = Marionette.ItemView.extend({
