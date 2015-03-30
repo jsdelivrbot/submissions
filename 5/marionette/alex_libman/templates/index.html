@@ -1,0 +1,68 @@
+<!doctype html>
+<html>
+	<head>
+		<script src="static/lib/jquery.js"></script>
+		<script src="static/lib/lodash.js"></script>
+		<script src="static/lib/backbone.js"></script>
+		<script src="static/lib/backbone.marionette.js"></script>
+		<link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.6.0/pure-min.css">
+        <style>
+         .space{
+             padding-left: 15px;
+         }
+         .button-delete {
+            background: rgb(208, 30, 60);
+        }
+        </style>
+	</head>
+	<body>
+        <script type="text/template" id="overall-template">
+            <h1 style="color:blue">New Post</h1>
+            <div id="addpost">
+                <form class="pure-form pure-form-stacked" action="">
+                    <fieldset>
+                        <label for="title">Title</label>
+                        <input id="title" type="text" class="pure-input-1-3" placeholder="Title">       
+                        <label for="name">Name</label>
+                        <input id="name" type="text" class="pure-input-1-3" placeholder="Name">
+                        <label for="content">Text</label>
+                        <textarea id="content" class="pure-input-1-2"></textarea>
+                        <br>
+                        <button type="button" class="pure-button pure-input-1-8 pure-button-primary" id="submit">Submit</button>
+                    </fieldset>
+                </form>
+            </div>
+            <div id="blogs-wrapper"></div>
+        </script>
+        <script type="text/template" id="blogs-template">
+            <table class="pure-table pure-table-bordered">
+                <thead>
+                    <tr>
+                        <th colspan="2"><h4><%= title %></h4></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>By <%= name %></td>
+                        <td><p><%= content %></p></td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <button type="button" class="pure-button" id="comments">Comments</button>
+                            <button type="button" class="pure-button button-delete" id="delete">Delete</button></td>
+                </tbody>
+            </table>
+            <br>
+        </script>
+        
+        <div>
+            <center>
+                <h2>Blog Engine</h2>
+            </center>
+        </div>
+        <div id="blogs" class="space">
+        </div>
+        
+        <script src="static/app.js"></script>
+    </body>
+</html>

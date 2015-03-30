@@ -1,0 +1,67 @@
+<!--
+<body>
+  <h1>Welcome to Meteor!</h1>
+  <h2>List of stories!</h2>
+  {{> titles}}
+  <h2>Each story!</h2>
+  {{> lines}}
+  {{> hello}}
+</body>
+-->
+
+<template name="homepage">
+  {{>titles}}
+  {{>lines}}
+  <br>
+  {{>submitButton}}
+</template>
+
+<template name="story">
+  <h1>STORYTIME!</h1> <!--Data context comes from route, is a single post -->
+  {{#each text}}
+  {{this}}<br>
+  {{/each}}
+  {{>submitButton this}}
+  <!--Sending in just title for data context leads to weird things and string objects.  Just send in a whole object and parse in js. -->
+</template>
+
+<template name="notfound">
+  <h1>Not found.</h1>
+</template>
+
+<template name="submitButton">
+  {{#unless this}}
+  Title: <input id="title"><br>
+  {{/unless}}
+  Add on!:<input id="words"><br>
+
+  <button class="pure-button pure-button-primary" id="submit">Submit!</button>
+  <br>
+  <p>You've pressed the button {{counter}} times.</p>
+</template>
+
+<template name="titles">
+  {{#each titles}}
+  <a href ="/{{this.title}}">{{this.title}}</a><br>
+  {{/each}}
+</template>
+
+<template name="lines">
+  <!--From handlebars for eaching a basic array -->
+  {{#each lines}}
+  <h4><a href ="/{{title}}">{{title}}</a></h4>
+  {{#each text}}
+  {{this}}<br>
+  {{/each}}
+  {{/each}}
+</template>
+
+<template name="storyText">
+  {{#each text}}
+  {{/each}}
+</template>
+
+<template name="footer">
+  Some footer<br>
+  <a href="/">Main page</a>
+</template>
