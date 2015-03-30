@@ -1,85 +1,107 @@
 console.log("HELLO");
+console.log("HEYO2");
+var count = 0;
+var current = null;
 var App = new Marionette.Application();
+
 App.addRegions({
     firstRegion:"#first-region",
-    secondRegion:"#second-region",
-    thirdRegion:"#third-region",
-    fourthRegion:"#fourth-region"
+    secondRegion:"#second-region"
 });
+
 App.on("start",function() {
     console.log("Started");
-    var firstView = new App.FirstView();
-    App.fourthRegion.show(firstView);
-    var placeview = new App.PlaceView({model:p1});
-    App.secondRegion.show(placeview);
-    var placesview = new App.PlacesView({collection:c});
-    App.thirdRegion.show(placesview);
-    var compositeview = new App.CompositeView({model:person, collection:c});
-    App.firstRegion.show(compositeview);
+    var storiesview = new App.StoriesView({collection:c});
+    App.firstRegion.show(storiesview);
+    var compositeview = new App.CompositeView({collection:c});
+    App.secondRegion.show(compositeview);
     Backbone.history.start();
 });
-App.FirstView = Marionette.ItemView.extend({
-    template: "#first-template"
-});
-App.PlaceView = Marionette.ItemView.extend({
-    template : "#place-template",
+
+App.StoryView = Marionette.ItemView.extend({
+    template : "#story-template",
     tagName : "tr",
     events : {
 	"click #delete" : function(){
 	    this.remove();
+	},
+	"click #add" : function(){
+	    var old = this.model.get("text");
+	    var phrase = $("#phrase"+this.model.get("id")).val();
+	    var changed = old + phrase;
+	    //console.log(changed);
+	    this.model.set("text", changed);
 	}
     },
     modelEvents : {
 	"change" : function() {this.render()}
     }
 });
-App.PlacesView = Marionette.CollectionView.extend({
-    childView : App.PlaceView
+
+App.ViewStoryView = Marionette.ItemView.extend({
+    template : "#view-story-template",
+    tagName : "tr",
+    modelEvents : {
+	"change" : function() {this.render()}
+    }
 });
+
+App.StoriesView = Marionette.CollectionView.extend({
+    template: "#collection-template",
+    childView : App.ViewStoryView
+});
+
 App.CompositeView = Marionette.CompositeView.extend({
     template: "#composite-template",
-    childView: App.PlaceView,
+    childView: App.StoryView,
     childViewContainer : "tbody",
     events : {
-	"click #add" : function() {
-	    var n = $("#newname").val();
-	    if (n.length > 0){
-		this.collection.add(new Place({name:n,rating:0}));
-		$("#newname").val("");
+	"click #new" : function() {
+	    var t = $("#text").val();
+	    if (t.length > 0){
+		this.collection.add(new Story({text:t, id:count}));
+		$("#text").val("");		
+		count = count + 1;
 	    }
 	}
     }
 });
-var myController = Marionette.Controller.extend({
-    oneRoute : function(){
-	console.log("OneRoute");
-	App.firstRegion.show(new App.PlaceView({model:p1}));
-	App.secondRegion.show(new App.PlaceView({model:p1}));
-    },
-    twoRoute : function(){
-	App.firstRegion.show(new App.PlaceView({model:p2}));
-	App.secondRegion.show(new App.PlaceView({model:p2}));
-	console.log("TwoRoute");
-    },
+
+//var myController = Marionette.Controller.extend({
+//    editRoute : function(){
+//	var id = null;
+//	var radios = document.getElementsByName('select');
+//	for (var i = 0, length = radios.length; i < length; i++) {
+//	    if (radios[i].checked) {
+//		id = radios[i].value;
+//	    }
+//	}
+//	console.log(id);
+//	for (var i = 0, length = c.length; i < length; i++) {
+//	    if (c[i].get("id")==id) {
+//		current = c[i];
+//	    }
+//	}
+//	console.log(current.get("text"));
+//	App.secondRegion.show(new App.StoryView({model:current}));
+//  }
+//});
+//App.controller = new myController();
+//App.router = new Marionette.AppRouter({
+//    controller: App.controller,
+//    appRoutes:{
+//	'edit':'editRoute'
+//    }
+//});
+
+var Story = Backbone.Model.extend({});
+var Stories = Backbone.Collection.extend({
+    model:Story
 });
-App.controller = new myController();
-App.router = new Marionette.AppRouter({
-    controller: App.controller,
-    appRoutes:{
-	"one":"oneRoute",
-	"two":"twoRoute"
-    }
-});
-var Place = Backbone.Model.extend({});
-var Places = Backbone.Collection.extend({
-    model:Place
-});
-var Person = Backbone.Model.extend({});
-var person = new Person({first:'Archimedes',
-			 last:'Zzzzyyyyyxxx',
-			 stars:5
-			});
-var p1 = new Place({name:"Terry's",rating:5});
-var p2 = new Place({name:"Ferry's",rating:8});
-var c = new Places([p1,p2]);
+
+var p1 = new Story({text:"This is one story ", id:count});
+count = count + 1;
+var p2 = new Story({text:"Another story starts ", id:count});
+count = count + 1;
+var c = new Stories([p1,p2]);
 App.start();
