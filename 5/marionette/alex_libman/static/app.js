@@ -15,15 +15,25 @@ App.on("start", function(){
 App.BlogView = Marionette.ItemView.extend({
     template: "#blogs-template",
     events: {
-		"click #delete" : function(){
-			this.remove();
-        }
-	},
-	modelEvents: {
-		"change" : function(){
+	"click #delete" : function(){
+	    console.log(this._id);
+	    this.remove();
+	    $.ajax({
+		type: "DELETE",
+		url: "blogs",
+		dataType: "json",
+                contentType: "application/json",
+                data: JSON.stringify({
+                    id: this._id,
+		})
+	    });
+	}
+    },
+    modelEvents: {
+	"change" : function(){
             this.render();
         }
-	}
+    }
 });
 
 App.BlogsView = Marionette.CompositeView.extend({
