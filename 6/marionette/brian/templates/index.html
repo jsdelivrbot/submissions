@@ -29,9 +29,10 @@
 	</script>
 	<script type="text/template" id="comment-composite-template">
 	    <h3><%= name %></h3>
+	    <input type="hidden" name="entry" value="<%= id %>">
 	    <table>
 		<thead>
-		    <tr><th>Name</th></tr>
+		    <tr><th>Comments</th></tr>
 		</thead>
 		<tbody>
 		</tbody>
@@ -40,8 +41,7 @@
 	    <button id="addcomment">Add Comment</button>
 	</script>
 	<script type="text/template" id="comment-template">
-	    <td><%- name %></td>
-	    <td><%- body %></td>
+	    <td><%- content %></td>
 	</script>
 
 	<div id="wrapper">
