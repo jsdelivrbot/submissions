@@ -10,28 +10,13 @@ App.addRegions({
 
 
 App.on("start",function(){
-       console.log("Starting");
-       
-
+       console.log("Starting");       
        
        var addline = new App.AddLine({collection:c, model:l1});
        App.AddLineDisplay.show(addline);
        
-       /*
-       var staticview = new App.StaticView();
-       App.fourthRegion.show(staticview);
-       
-       var placeview = new App.PlaceView({model:p1});
-       App.secondRegion.show(placeview);
-       
-       var placesview = new App.PlacesView({collection:c});
-       App.thirdRegion.show(placesview);
-       
-       var compview = new App.CompView({model:person,collection:c});
-       App.firstRegion.show(compview);
-       
        Backbone.history.start();
-       */
+      
        
 });
 
