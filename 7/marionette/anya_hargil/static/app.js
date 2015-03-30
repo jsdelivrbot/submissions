@@ -14,12 +14,12 @@ App.on("start",function(){
 		var staticView = new App.StaticView();
 		App.fourthRegion.show(staticView);
 
-		/*var placeView = new App.TaleView({model:p1});
+		var placeView = new App.PlaceView({model:p1});
 		App.secondRegion.show(placeView);
-		
-		var placesView = new App.TalesView({collection:c});
+
+		var placesView = new App.PlacesView({collection:c});
 		App.thirdRegion.show(placesView);
-*/
+
 		var compView = new App.CompView({collection:c, model : person});
 		App.firstRegion.show(compView);
 
@@ -31,37 +31,25 @@ App.StaticView = Marionette.ItemView.extend({
 		template : "#static-template"
 });
 
-App.TaleView = Marionette.ItemView.extend({
+App.PlaceView = Marionette.ItemView.extend({
 		template : "#place-template",
 		tagName : "tr",
 		events : {
-				"click #delete" : function() { this.remove();},
-		    "click #push" : function(){
-			var name="#"+this.model.get("nameid");
-			console.log(name);
-			var n = $(name).val();
-			console.log(n);
-			var current = this.model.get("story");
-			if (n.length > 0){
-			    this.model.set("story", current + " "+ n);
-			    this.render();
-			}
-		    }
+				"click #delete" : function() { this.remove();}
 		},
 		modelEvents: {
-		    "change":function(){
+				"change":function(){
 						this.render();
 						}}
 });
 
-App.TalesView = Marionette.CollectionView.extend({
-    childView : App.TaleView
-    
+App.PlacesView = Marionette.CollectionView.extend({
+		childView : App.PlaceView
 });
 
 App.CompView = Marionette.CompositeView.extend({
 		template : "#composite-template",
-		childView : App.TaleView,
+		childView : App.PlaceView,
 		childViewContainer : "tbody",
 		modelEvents: {
 				"change":function(){
@@ -70,10 +58,8 @@ App.CompView = Marionette.CompositeView.extend({
 		events : {
 				"click #add" : function(){
 						var n = $("#newname").val();
-				    var replaced= n.replace(/\s+/g, '-');
-				    if (n.length > 0){
-						    
-								this.collection.add(new Tale({name:n, story:"Once upon a",nameid:replaced}));
+						if (n.length > 0){
+								this.collection.add(new Place({name:n, rating:0}));
 								$("#newname").val("");
 								this.collection.sort();
 						}
@@ -81,44 +67,44 @@ App.CompView = Marionette.CompositeView.extend({
 		}
 });
 
-var Tale = Backbone.Model.extend();
-var Tales = Backbone.Collection.extend({
-		model:Tale,
+var Place = Backbone.Model.extend();
+var Places = Backbone.Collection.extend({
+		model:Place,
 		comparator:"name"
 });
 
 var Person = Backbone.Model.extend();
-var person = new Person({last : 'One',
-												 first :'User',
+var person = new Person({last : 'Kat',
+												 first :'Fred',
 												 stars : 12
 												});
 
-/*var p1 = new Tale({name:"Story 1",story:"This story begins", nameid:this.model.get("story").replace(' ', '-'));
-var p2 = new Tale({name:"Bridge to Terabithia",story:"Blah blah blah",nameid:story.replace(' ', '-'));*/
-var c = new Tales([]);
+var p1 = new Place({name:"Terry's",rating:5});
+var p2 = new Place({name:"Ferry's",rating:8});
+var c = new Places([p1,p2]);
 
 var myController = Marionette.Controller.extend({
 		default : function() {
 				var compView = new App.CompView({collection:c, model : person});
 				App.firstRegion.show(compView);
 		},
-	/*	oneRoute : function() {
-				App.firstRegion.show(new App.TaleView({model:p1}));
-				App.secondRegion.show(new App.TaleView({model:p2}));
+		oneRoute : function() {
+				App.firstRegion.show(new App.PlaceView({model:p1}));
+				App.secondRegion.show(new App.PlaceView({model:p2}));
 		},
 		twoRoute : function() {
-				App.firstRegion.show(new App.TaleView({model:p2}));
-				App.secondRegion.show(new App.TaleView({model:p1}));
-		}*/
+				App.firstRegion.show(new App.PlaceView({model:p2}));
+				App.secondRegion.show(new App.PlaceView({model:p1}));
+		}
 });
 App.controller = new myController();
 
 App.router = new Marionette.AppRouter({
 		controller : App.controller,
 		appRoutes : {
-				"" : "default"//,
-				//one : "oneRoute",
-			//	two : "twoRoute"
+				"/" : "default",
+				one : "oneRoute",
+				two : "twoRoute"
 		}
 });
 
