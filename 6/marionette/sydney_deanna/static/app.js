@@ -1,4 +1,4 @@
-var App = new Marionette.Application();
+var App = new Backbone.Marionette.Application();
 
 App.addRegions({
     blog: "#blog",
@@ -7,22 +7,31 @@ App.addRegions({
 App.on("start",function(){
     console.log("onStart");
 
-    var bloggy = new App.CompView({collection:c});
+    var bloggy = new App.CompView();
     App.blog.show(bloggy);
 });
 
 App.CompView = Marionette.CompositeView.extend({
-	template: "#newPost",
-	childView : App.BlogView,
-	childViewContainer: "tbody",
-
-});
-
-App.BlogView = Marionette.ItemView.extend({
-    template : "#blogPost",
+    template: "#newPost",
+    childView : App.BlogView,
+    childViewContainer: "tbody",
     modelEvents : {
 	"change" : function() { this.render(); }
+    } ,
+    events : {
+        "click #add" : function() {
+            var n = $("#nPost").val();
+            if (n.length > 0){
+                this.collection.add(new Blog({blog:n}));
+                this.collection.sort();
+                $("#nPost").val("");
+            }
+	}
     }
+});
+					       
+App.BlogView = Marionette.ItemView.extend({
+    template : "#blogPost",
 });
 
 //App.PostView = Marionette.ItemView.extend({
