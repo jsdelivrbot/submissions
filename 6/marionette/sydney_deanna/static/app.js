@@ -7,7 +7,7 @@ App.addRegions({
 App.on("start",function(){
     console.log("onStart");
 
-    var bloggy = new App.CompView({model:start,collection:c});
+    var bloggy = new App.CompView({collection:c});
     App.blog.show(bloggy);
 });
 
@@ -34,6 +34,7 @@ App.BlogView = Marionette.ItemView.extend({
 var Blog = Backbone.Model.extend();
 
 //var start = new Blog({name:"Name"});
-//var c = new Comments([start]);
+var b = new Blog({blog:"heres my blog"});
+var c = new Blog([b]);
 
 App.start();
