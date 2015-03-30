@@ -17,16 +17,16 @@ App.CompView = Marionette.CompositeView.extend({
     childViewContainer: "tbody",
     modelEvents : {
 	"change" : function() { this.render(); }
-    }
+    } ,
     events : {
         "click #add" : function() {
             var n = $("#nPost").val();
             if (n.length > 0){
                 this.collection.add(new Blog({blog:n}));
+                this.collection.sort();
                 $("#nPost").val("");
-	    }
-	}
-    }	
+        }
+    }}	
 });
 					       
 App.BlogView = Marionette.ItemView.extend({
