@@ -27,9 +27,10 @@ App.EntryView = Marionette.ItemView.extend({
     events : {
 	'click' : function() {
 	    //console.log(this.model);
+	    var that = this;
 	    var comments = new Comments();
 	    comments.entry = this.model.get('id');
-	    var commentsView = new App.CommentsView({collection: comments});
+	    var commentsView = new App.CommentsView({collection: comments, model: that.model});
 	    console.log(commentsView);
 	    App.comments.show(commentsView);
 	}
@@ -91,10 +92,10 @@ App.CommentsView = Marionette.CompositeView.extend({
     childView : App.CommentView,
     childViewContainer : 'tbody',
     initialize: function(){
-	//console.log(this.collection.get('entry'));
+	console.log(this.model);
 	var that = this;
 	//this.collection.fetch({data: $.param({'name':that.get('entry')})});
-	this.collection.setEntry();
+	this.collection.setEntry(this.model.id);
     },
     modelEvents : {
 	'change' : function() {this.render(); }
@@ -103,7 +104,10 @@ App.CommentsView = Marionette.CompositeView.extend({
 	'click #addcomment' : function(){
 	    var n = $('#newcommentname').val();
 	    if (n.length > 0){
-		var newC = new Comment({name:n});
+		console.log(n);
+		var newC = new Comment({content:n, entry:this.model.id});
+		//console.log(this.collection);
+		console.log(newC);
 		this.collection.add(newC);
 		newC.save();
 		$('#newcommentname').val('');
@@ -118,9 +122,9 @@ var Comment = Backbone.Model.extend({
 var Comments = Backbone.Collection.extend({
     model: Comment,
     url: '/comments',
-    setEntry: function(){
+    setEntry: function(n){
 	console.log(this.entry);
-	this.fetch({data: $.param({'entry':this.entry})},function(d){
+	this.fetch({data: $.param({'entry':n})},function(d){
 	    console.log(d);
 	    this.render();
 	});

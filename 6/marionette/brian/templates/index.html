@@ -5,9 +5,7 @@
 	<script type="text/javascript" src="static/lib/lodash.js"></script>
 	<script type="text/javascript" src="static/lib/backbone.js"></script>
 	<script type="text/javascript" src="static/lib/backbone.marionette.js"></script>
-
-	<!--TODO: insert css link here later -->
-
+	<link rel="stylesheet" href="/static/style.css" type="text/css" media="screen" />
     </head>
     <body>
 	<!-- <script type="text/template" id="layout-template">
@@ -29,9 +27,10 @@
 	</script>
 	<script type="text/template" id="comment-composite-template">
 	    <h3><%= name %></h3>
+	    <input type="hidden" name="entry" value="<%= id %>">
 	    <table>
 		<thead>
-		    <tr><th>Name</th></tr>
+		    <tr><th>Comments</th></tr>
 		</thead>
 		<tbody>
 		</tbody>
@@ -40,15 +39,18 @@
 	    <button id="addcomment">Add Comment</button>
 	</script>
 	<script type="text/template" id="comment-template">
-	    <td><%- name %></td>
-	    <td><%- body %></td>
+	    <td><%- content %></td>
 	</script>
 
 	<div id="wrapper">
-	    Blog Entries Go Here
-	    <table id="entries"></table>
-	    Comments for Selected Blog Go Here
-	    <table id="comments"></table>
+	    <div class="box">
+		Blog Entries Go Here
+		<table id="entries"></table>
+	    </div>
+	    <div class="box">
+		Comments for Selected Blog Go Here
+		<table id="comments"></table>
+	    </div>
 	</div>
 	
 	<script type="text/javascript" src="static/app.js"></script>
