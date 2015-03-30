@@ -7,8 +7,10 @@ App.addRegions({
 App.on("start",function(){
     console.log("onStart");
 
-    var bloggy = new App.CompView();
+    var bloggy = new App.CompView({collection:c});
     App.blog.show(bloggy);
+
+    Backbone.history.start();
 });
 
 App.CompView = Marionette.CompositeView.extend({
@@ -25,13 +27,14 @@ App.CompView = Marionette.CompositeView.extend({
                 this.collection.add(new Blog({blog:n}));
                 this.collection.sort();
                 $("#nPost").val("");
+                
+                }
             }
-	}
-    }
+        }
 });
 					       
 App.BlogView = Marionette.ItemView.extend({
-    template : "#blogPost",
+    template : "#blcdogPost",
 });
 
 //App.PostView = Marionette.ItemView.extend({
@@ -41,6 +44,10 @@ App.BlogView = Marionette.ItemView.extend({
 // we need some sort of composite view, idk how that works 
 
 var Blog = Backbone.Model.extend();
+var Blogs = Backbone.Collection.extend({
+    model:Blog
+
+});
 
 //var start = new Blog({name:"Name"});
 var b = new Blog({blog:"heres my blog"});
