@@ -17,8 +17,8 @@ App.on("start",function(){
     var bloggy = new App.CompView({model: , collection:c});
     App.blog.show(bloggy);
 
-   // var pblog = new App.BlogView();
-    //App.blog.show(pblog);
+   var pblog = new App.BlogView();
+    pp.blog.show(pblog);
     Backbone.history.start();
 });
 
