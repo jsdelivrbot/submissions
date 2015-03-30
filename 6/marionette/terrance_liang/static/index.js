@@ -58,6 +58,33 @@ App.CompView = Marionette.CompositeView.extend({
 	}
 });
 
+var myController = Marionette.Controller.extend({
+    default : function(){
+	var compview = new App.CompView({collection:c});
+	App.firstRegion.show(compview);
+    },
+    oneRoute : function() {
+	App.firstRegion.show(new App.StoryView({model:s1}));
+	App.secondRegion.show(new App.StoryView({model:s2}));
+    },
+    twoRoute : function() {
+	App.firstRegion.show(new App.StoryView({model:s2}));
+	App.secondRegion.show(new App.StoryView({model:s1}));
+	
+    } 
+});
+
+App.controller = new myController();
+
+App.router = new Marionette.AppRouter({
+    controller : App.controller,
+    appRoutes : {
+	"/" : "default",
+	one : "oneRoute",
+	two : "twoRoute"
+    }
+});
+
 var Story = Backbone.Model.extend();
 var Stories = Backbone.Collection.extend({
     model:Story

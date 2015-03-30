@@ -25,6 +25,7 @@ var RatingView = Backbone.View.extend({
     el: "#rating",
     template : _.template($("#rating_template").html()),
     initialize: function() {
+	this.listenTo(this.model, 'change', this.render);
     	this.render();
     },
 
@@ -76,5 +77,5 @@ var PlaceView = Backbone.View.extend({
 var p1 = new Place({name:"Terry's",rating:5});
 var v1 = new PlaceView({model:p1});
 var r1 = new RatingView({model:p1});
-r1.listenTo(p1, 'change', r1.render);
+//r1.listenTo(p1, 'change', r1.render);
 
