@@ -105,7 +105,7 @@ App.CommentsView = Marionette.CompositeView.extend({
 	    if (n.length > 0){
 		var newC = new Comment({name:n});
 		this.collection.add(newC);
-		//newE.save();
+		newC.save();
 		$('#newcommentname').val('');
 	    }
 	}
