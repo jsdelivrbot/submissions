@@ -1,0 +1,38 @@
+<!DOCTYPE HTML>
+{% extends "base.html" %}
+{% block body %}
+
+
+<script type="text/template" id="static-template">
+	<h2>The critics have judged the following places to eat...</h2><br>
+	Terrys: <%= Terrys %><br>
+	Ferrys: <%= Ferrys %><br>
+	MacDonalds: <%= MacDonalds %><br>
+	The Cafeteria: <%= Cafeteria %><br>
+
+	<h2>Add to Story</h2>
+	<input id="review"> 
+	<button class="pure-button pure-button-primary" id="TR">Review Terrys!</button>
+	<button class="pure-button pure-button-primary" id="FR">Review Ferrys!</button>
+	<button class="pure-button pure-button-primary" id="MR">Review MacDonalds!</button>
+	<button class="pure-button pure-button-primary" id="CR">Review the Cafeteria!</button>
+
+
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{% endblock %}
