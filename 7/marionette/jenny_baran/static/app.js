@@ -53,8 +53,7 @@ var StoryView = Backbone.Collection.extend({
                                            model:Line
                                            });
 
-var l1 = new Line({l:"Beginning of story."});
-var l2 = new Line({l:"More story."});
-var c = new StoryView([l1,l2]);
+var l1 = new Line({l:"Once upon a time, there lived a..."});
+var c = new StoryView([l1]);
 
 App.start();
