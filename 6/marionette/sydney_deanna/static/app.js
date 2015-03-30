@@ -14,7 +14,7 @@ App.on("start",function(){
     //var allnewPosts = new App.BlogsView({collection: c});
     //App.newPostplace.show(allnewPosts);
 
-    var bloggy = new App.CompView();
+    var bloggy = new App.CompView({model: , collection:c});
     App.blog.show(bloggy);
 
    // var pblog = new App.BlogView();
@@ -72,6 +72,8 @@ var Blogs = Backbone.Collection.extend({
 
 });
 
+var Blogger = Backbone.Model.extend();
+var blogger = new Blogger ({first: "sydney"})
 //var start = new Blog({name:"Name"});
 var b = new Blog({blog:"heres my blog"});
 var c = new Blog([b]);
