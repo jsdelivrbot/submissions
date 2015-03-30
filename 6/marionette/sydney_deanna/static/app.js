@@ -26,13 +26,11 @@ App.CompView = Marionette.CompositeView.extend({
                 $("#nPost").val("");
 	    }
 	}
-    }	
+    }
 });
 					       
 App.BlogView = Marionette.ItemView.extend({
     template : "#blogPost",
-						   
-    
 });
 
 //App.PostView = Marionette.ItemView.extend({
