@@ -16,10 +16,10 @@ App.on("start",function(){
 
 		/*var placeView = new App.TaleView({model:p1});
 		App.secondRegion.show(placeView);
-		*/
+		
 		var placesView = new App.TalesView({collection:c});
 		App.thirdRegion.show(placesView);
-
+*/
 		var compView = new App.CompView({collection:c, model : person});
 		App.firstRegion.show(compView);
 
@@ -49,7 +49,7 @@ App.TaleView = Marionette.ItemView.extend({
 		    }
 		},
 		modelEvents: {
-				"change":function(){
+		    "change":function(){
 						this.render();
 						}}
 });
