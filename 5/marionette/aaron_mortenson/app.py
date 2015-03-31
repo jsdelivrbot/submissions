@@ -4,7 +4,7 @@ from functools import wraps
 import json
 
 mongo = MongoClient()
-db = mongo["teh_database"]
+db = mongo["teh_illest_database"]
 
 app=Flask(__name__)
 
@@ -19,8 +19,13 @@ def create(username, itemname):
     }
     return json.dumps({'_id': str(collection.insert(data))})
 
-def delete(item_id):
-    collection.remove({'_id': ObjectId(item_id)}, multi=False)
+@app.route("/delete/<userName>/<itemName>", methods=["GET","POST","DELETE"])
+def delete(userName,itemName):
+    print "tryna delete stuff here"
+    db.places.remove( { 'username': userName, 'itemname': itemName } );
+    places = [x for x in db.places.find()]
+    print json.dumps(places)
+    return json.dumps(places)
 
 @app.route("/", methods=["GET","POST"])
 def home():    
@@ -29,6 +34,7 @@ def home():
 @app.route("/places")
 def places():
     places = [x  for x in db.places.find()]
+    print json.dumps(places)
     return json.dumps(places)
 
 @app.route("/place",methods=['GET','POST','DELETE','PUT'])
@@ -38,7 +44,7 @@ def place(id=None):
     j = request.get_json();
     print method, id, j
     if id ==None:
-        id =j['username']
+        id =j['time'] #allows two posts with same username
         
     if method == "POST":
         print "HEY BUDDY WE'RE POSTING"
