@@ -2,7 +2,8 @@ var App = new Backbone.Marionette.Application();
 
 App.addRegions({
     blog: "#blog",
-    post: "#post"
+    post : "#post",
+   
 });
 
 App.on("start",function(){
@@ -13,35 +14,35 @@ App.on("start",function(){
 
     //var allnewPosts = new App.BlogsView({collection: c});
     //App.newPostplace.show(allnewPosts);
-
-    var pblog = new App.BlogView();
-    App.blog.show(pblog);
-
+    
     var bloggy = new App.CompView({collection:c, model:b});
     App.post.show(bloggy);
+    
+    var pblog = new App.BlogView();
+    App.blog.show(pblog);
+    
     Backbone.history.start();
 });
-
 
 App.CompView = Marionette.CompositeView.extend({
     template: "#newPost",
     childView : App.BlogView,
+    childViewContainer:"ul",
     modelEvents : {
 	"change" : function() { this.render(); }
     } ,
     events : {
         "click #add" : function() {
             var n = $("#nPost").val();
-            if (n.length > 0){
+            if (n.length != 0){
                 this.collection.add(new Blog({blog:n}));
-                this.collection.sort();
                 $("#nPost").val("");
-                
                 }
             }
         }
 });
 					       
+
 App.BlogView = Marionette.ItemView.extend({
     template : "#blogPost",
     tagname : "li",
@@ -57,7 +58,7 @@ App.BlogView = Marionette.ItemView.extend({
 
 App.BlogsView = Marionette.CollectionView.extend(
     {
-	childView : App.BlogView
+    childView : App.BlogView
     }
 );
 
@@ -76,6 +77,6 @@ var Blogger = Backbone.Model.extend();
 var blogger = new Blogger ({first: "sydney"})
 //var start = new Blog({name:"Name"});
 var b = new Blog({blog:"heres my blog"});
-var c = new Blog([b]);
+var c = new Blogs([b]);
 
 App.start();
