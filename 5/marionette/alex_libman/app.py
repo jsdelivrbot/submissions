@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request
-import json
+import json, bson
 from pymongo import MongoClient
 db = MongoClient()["blogs"]
 blogs = db.blogs
@@ -18,10 +18,10 @@ def addBlog(title,name,text):
             "name": name,
             "content": text
     }
-    blogs.insert(blog)
+    return myJSON({"id":str(blogs.insert(blog))})
 
 def deleteBlog(id):
-    blogs.remove({_id:id})
+    blogs.remove({"_id":bson.ObjectId(id)})
 
 @app.route("/")
 def index():
@@ -33,10 +33,9 @@ def places():
         return myJSON([i for i in blogs.find()])
     elif request.method == "POST":
         data = request.get_json()
-        addBlog(data["title"],data["name"],data["content"])
-        return ""      
+        return addBlog(data["title"],data["name"],data["content"])      
     elif request.method == "DELETE":
-        data = request.get_json()      
+        data = request.get_json()
         deleteBlog(data["id"])
         return ""
 
