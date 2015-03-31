@@ -56,23 +56,30 @@ App.CreateView = Marionette.ItemView.extend({
 								App.story.set({s : b, title : a});
 								//console.log(story.s);
 								App.place.show(new App.StaticView({model : App.story}));
+								this.render();
 						}
 				}
 		}
 });
 
 
-
-/*
-App.AddView = Marionette.CompositeView.extend({
-		template: "#add-template",
-		
+var Collection = Backbone.Collection.extend({
+		url:'stories',
+		model : Story,
+		initialize : function(){
+				this.fetch();
+				this.on({'add':function() {
+						console.log("Added");
+						//console.log(this);
+				}});
+		}
 });
-*/
 
+var c = new Collection();
 
+console.log(c.fetch());
 
-//console.log(App.place);
+//console.log(c);
 
 
 App.start();
