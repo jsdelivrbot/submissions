@@ -64,3 +64,5 @@ App.StaticView = Marionette.ItemView.extend({
 		}
 		
 });
+
+App.start();
