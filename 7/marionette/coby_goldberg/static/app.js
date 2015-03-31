@@ -1,23 +1,24 @@
-console.log("HELLO");
+//console.log("HELLO");
 
 var App = new Marionette.Application();
 
 var Teacher = Backbone.Model.extend({
     idAttribute: '_id',
     defaults: {
-        name: '',
+        name: 'Coby',
         period: 0,
-        comments: ''
+        comments: 't'
     }
 });
 
 var TeacherList = Backbone.Collection.extend({
     model: Teacher,
-    url: 'update', // was sync in chesley code
+    url: 'update',
     comparator: function(item) {
         // Sort by descending urgency
         return -item.get('period');
     },
+    // code for this method based on Chesley, period 5
     initialize: function() {
         // Fetch data from server; sends a GET request to server
         this.fetch();
@@ -27,7 +28,7 @@ var TeacherList = Backbone.Collection.extend({
         // Fetch up-to-date data from server every 10 seconds
         setInterval(function() {
             other_this.fetch();
-        }, 100000);
+        }, 10000);
     }
 });
 
@@ -36,7 +37,7 @@ App.addRegions({
 });
 
 App.on("start", function(){
-    console.log("start");
+    //console.log("start");
 
     var teachers = new TeacherList();
     var createView = new App.CreateView({collection: teachers});
@@ -70,11 +71,22 @@ App.CreateView = Marionette.CompositeView.extend({
     childViewContainer: 'tbody',
     events : {
 	"click #add" : function(){
-	    var n = $("#teacher-name").val();
+	    //console.log('adding');
+	    var n = $("#name").val();
 	    var com = $("#comments").val();
 	    var per = $("#period").val();
-	    if (name.length > 0 && com.length > 0 && period.length > 0){
-		var newTeacher = this.collection.create({name: n, comments: com, period: per}, { wait: true});
+	    console.log(n);
+	    //console.log(com);
+	    $('#name').val('');
+	    $('#comments').val('');
+	    $('#period').val('');
+	    if (n.length > 0 && com.length > 0 && per.length > 0){
+		console.log('ye');
+		console.log(n);
+		var newTeacher = this.collection.create({name: n, period: per, comments: com}, { wait: true});
+	    }
+	    else{
+		console.log('nay');
 	    }
 	}
     }

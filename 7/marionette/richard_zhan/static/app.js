@@ -26,9 +26,29 @@ App.GameView = Marionette.ItemView.extend({
     tagName : "tr",
 	
     events : {
-	"click #delete" : function() {
+	// "click #delete" : function() {
+	//     this.remove();
+	//     this.model.collection.remove(this.model);
+	//     this.model.save();
+	//     console.log("Save Deleted");
+	// }
+	"click #delete" : function(e){
+	    var that=this;
+	    this.model.destroy();
 	    this.remove();
+	    this.render();
+	    $.ajax({
+		type: "DELETE",
+		url: "game",
+		dataType: "json",
+		contentType: "application/json",
+                data: JSON.stringify({
+                    id: this.model.get("_id")
+	        })
+		});
+	    this.model.collection.remove(this.model);
 	}
+			     
     },
     modelEvents: {
 	"change":function(){
@@ -46,7 +66,6 @@ App.CompView = Marionette.CompositeView.extend({
     modelEvents: {
  	"change":function(){
  	    this.render();
-	    this.save();
  	}
     },
     events : {
@@ -56,22 +75,40 @@ App.CompView = Marionette.CompositeView.extend({
 		this.collection.add(new Game({name:n}));
 		$("#newname").val("");
 		this.collection.sort();
+
 	    }
 	}
     }
 });
 
-var Game = Backbone.Model.extend();
-var Games = Backbone.Collection.extend(
-    url:'games',
+var Game = Backbone.Model.extend({
+    url : "game",
+    initialize: function(){
+	this.save();
+	console.log("Saved");
+    },
+    destroy: function(){
+	this.save();
+	//WHY DOESN'T THIS SEND A DELETE REQUEST
+	console.log("Death Saved");
+    }
+    
+});
+var Games = Backbone.Collection.extend({
+    url : 'games',
     model : Game,
     initialize : function(){
 	//if multiple people use this, it won't fetch well
 	this.fetch();
 	this.on({'add':function() {
 	    console.log("Added");
-	}});
-    });
+	}, 'remove':function(){
+	    console.log("Removed");
+	}
+		});
+    }
+    
+});
 var c = new Games([]);
 c.comparator = "name";
 
