@@ -7,10 +7,7 @@
     <br>Period: <%= period %></h3>
   <h3>
   <h2> Leave a comment!</h2>
-    <% for (var i = 0 ; i < period ; i++) { %>
-       &#9733;
-       <% } %>
-       <hr>
+  <hr>
        Name: <input id="newname">
        Age: <input id="age">
        Comment: <input id="comment">
@@ -30,11 +27,11 @@
 	 </table>
 </script>
 
-<script type="text/template" id="place-template">
+<script type="text/template" id="comment-template">
   <td><%- name%></td>
   <td><%- age%></td>
   <td><%- comment %></td>
-  <td><button id="delete">X</button></td>
+  <td><button id="delete">&#9733</button></td>
 </script>
 
 <script type="text/template" id="static-template">

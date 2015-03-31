@@ -29,10 +29,25 @@ App.StaticView = Marionette.ItemView.extend({
 App.PlaceView = Marionette.ItemView.extend({
     template : "#place-template",
     tagName : "tr"
+    events:{
+            "click .like":function(e){
+                    var r = this.model.get('likes');
+                    r = parseInt(r);
+                    r = r + 1;
+                    this.model.set('likes',r);
+                    console.log(this.model);
+                    this.render();
+            },
+            
+            "click .delete":function(e){
+                    this.remove();
+                    this.render();
+            }
+    }
 });
 
 var Post = Backbone.Model.extend();
-var p1 = new Post({name:"Terry's",comment:"hello"});
+var p1 = new Post({name:"Terry's",comment:"hello",likes:0});
 
 
 App.start();

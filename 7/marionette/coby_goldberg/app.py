@@ -9,6 +9,12 @@ client = MongoClient()
 db = client.todo
 collection = db.collection
 
+#for i in collection.find():
+ #   print i
+  #  print i['name']
+
+#print collection.find({'name': 'C'})
+
 #db.collection.remove()
 
 @app.route("/")
@@ -47,6 +53,18 @@ def updateWithID(item_id=None):
         delete(item_id)
         return ""
 
+@app.route('/<name>', methods = ['GET', 'POST'])
+def teacher_page(name):
+    teacher = collection.find({'name': name})
+    #print teacher.count()
+    #print "hey"
+    for i in teacher:
+        name = i['name']
+        comments = i['comments']
+        period = i['period']
+    return render_template("teacher_page.html", name = name, period = period, comments = comments)
+    
+
 ######################## MONGO CODE ####################################
 
 def add(name, period, comments):
@@ -68,14 +86,14 @@ def update(itemId, name, period, comments):
         {'$set': update_dict}
     )
 
+
 ######################## JSON CODE ####################################
 
 def toJSON(cursor):
-    dicts = [cursor[i] for i in range(cursor.count())]
-    # Convert ObjectIds to strings
-    for d in dicts:
+    js = [cursor[i] for i in range(cursor.count())]
+    for d in js:
         d['_id'] = str(d['_id'])
-    return json.dumps(dicts)
+    return json.dumps(js)
 
 def read():
     cursor = collection.find()

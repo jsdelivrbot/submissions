@@ -6,14 +6,15 @@ App.NewTaskView = Marionette.ItemView.extend({
 		"click #complete": function() {
 			console.log(this.model);
 			var t = this.model.get("task");	
+			var d = this.model.get("date");
 			this.model.destroy();
-			c.unshift(new Task({task:t}));
+			c.unshift(new Task({task:t, date:d}));
 		}
 	}
 });
 App.OldTaskView = Marionette.ItemView.extend({
 	template: "#old-task-template",
-	tagName: "tr"
+	tagName:"tr"
 });
 
 App.CollectionView = Marionette.CollectionView.extend({
@@ -22,7 +23,6 @@ App.CollectionView = Marionette.CollectionView.extend({
 	tagName: "tr",
 	modelEvents: {
 		"change": function() {
-			console.log(this.collection.length);
 			if (this.collection.length > 10) {
 				this.collection.pop();
 			}
@@ -38,7 +38,8 @@ App.CompView = Marionette.CompositeView.extend({
 			"click #add_task": function() {
 				var t = $("#new_task").val();
 				if (t.length > 0) {
-					this.collection.unshift(new Task({task:t}));
+					var d = $.datepicker.formatDate('yy/mm/dd', new Date());
+					this.collection.unshift(new Task({task:t, date:d}));
 					$("#new_task").val("");
 				}
 			}
@@ -63,10 +64,6 @@ App.addRegions({
 	main: "#main"
 });
 
-App.RegisterView = Marionette.ItemView.extend({
-	template: "#register-template"
-
-});
 
 App.on("start", function(){
 	var layview = new App.LayoutView();

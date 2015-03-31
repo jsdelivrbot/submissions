@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% block body %}
+
+
+<script type="text/template" id="composite-template">
+	<h2>Store Your Thoughts</h2>
+	<p>
+	New Note: <br><textarea type="text" id="newnote" style="width: 300px;height:100px" ></textarea><br><button class="pure-button" id="add">Add</button>
+	<table class="pure-table pure-table-bordered">
+		<thead>
+			<tr><th>Note</th><th colspan="3">Controls</th></tr>
+		</thead>
+		<tbody>
+			<!-- The Place itemviews will go here -->
+		</tbody>
+	</table>
+	
+</script>
+
+<script type="text/template" id="note-template">
+	<td><%- content %></td>
+	<td><button id="edit">edit</button></td>
+	<td><button id="delete">delete</button></td>
+</script>
+
+
+<div class="pure-g">
+	<div class="pure-u-1-12"></div>
+	<div class="pure-u-5-6">
+		<h1>Notepad</h1>
+
+		<hr>
+		<div id="first-region">
+			This is the first region
+		</div>
+		<hr>
+		<table class="pure-table pure-table-bordered" id="second-region">
+		</table>
+	</div>
+	</div>
+</div>
+
+<script src="static/app.js"></script>
+{% endblock body %}
