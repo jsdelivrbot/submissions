@@ -17,7 +17,7 @@ App.on("start",function(){
     
     
     
-    var pblog = new App.BlogView();
+    var pblog = new App.BlogView({collection: c});
     App.blog.show(pblog);
     
 
@@ -28,29 +28,31 @@ App.on("start",function(){
 });
 
 App.CompView = Marionette.CompositeView.extend({
-    template: "#newPost",
+    template: "#blogPost",
     childView : App.BlogView,
     childViewContainer:"ul",
+    collection : c 
+    
+});
+					       
+
+App.BlogView = Marionette.ItemView.extend({
+    template : "#newPost",
+    tagName: "tr",
     modelEvents : {
-	"change" : function() { this.render(); }
+    "change" : function() { this.render(); }
     } ,
     events : {
         "click #add" : function() {
             var n = $("#nPost").val();
             console.log(n);
             if (n.length != 0);{
+
                 this.collection.add(new Blog({blog:n}));
-                $("nPost").val("");
+                $("#nPost").val("");
                 }
             }
         }
-});
-					       
-
-App.BlogView = Marionette.ItemView.extend({
-    template : "#blogPost",
-    tagName: "tr"
-    
 });
 
 App.BlogsView = Marionette.CollectionView.extend(

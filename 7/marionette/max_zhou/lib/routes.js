@@ -32,8 +32,19 @@ Router.route(':post',{
     data: function() { 
 	if(this.ready()){
 	    var story = Stories.findOne({title: this.params.post});
+	    if(!story){
+		return story; //looks like I broke the notFound when putting in the index
+	    }
 	    console.log(this.params.post);
+	    console.log("before story:");
 	    console.log(story);
+	    story = _.map(story.text, function(text, index){
+		//console.log("text:" + text);
+		//console.log("index:" + index);
+		//console.log("[text, index]:" + [text,index]);
+		return [text,index, story.title]});
+	    //console.log("after story:");
+	    //console.log(story);	    
 	    return story;
 	}
     },
