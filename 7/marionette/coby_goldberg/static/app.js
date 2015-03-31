@@ -74,12 +74,13 @@ App.CreateView = Marionette.CompositeView.extend({
 	    var n = $("#name_val").val();
 	    var com = $("#comments_val").val();
 	    var per = $("#period_val").val();
+	    var p = parseInt(per);
 	    console.log(n);
 	    //console.log(com);
 	    $('#name_val').val('');
 	    $('#comments_val').val('');
 	    $('#period_val').val('');
-	    if (n.length > 0 && com.length > 0 && per.length > 0){
+	    if (n.length > 0 && com.length > 0 && per.length > 0 && p){
 		console.log('ye');
 		console.log(n);
 		var newTeacher = this.collection.create({name: n, period: per, comments: com}, { wait: true});
