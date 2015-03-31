@@ -55,13 +55,15 @@ def get_comments(entry):
     conn = sqlite3.connect('data.db')
     c = conn.cursor()
     """returns comments from given entry"""
-    command = "SELECT comment FROM comments WHERE entry='%s';"%(entry)
-    print "getting comments from "+entry
+    command = "SELECT rowid,comment FROM comments WHERE entry='%s';"%(entry)
+    print "getting comments from "+`entry`
     print "here's the result: "+`c.execute(command)`
+    comments = []
     for row in c.execute(command):
-        print "ROW: "
-    print '\n'
-    return [row[0] for row in c.execute(command).fetchall()]
+        comments.append({'id':row[0], 'content':row[1]})
+    print comments
+    ##return [row[0] for row in c.execute(command).fetchall()]
+    return comments
         
 
 @app.route("/")
@@ -76,14 +78,15 @@ def handle_entry_request():
         add_entry(request.json['name'])
         return 'Added Entry'
         
-@app.route('/comments',methods=["GET"])
+@app.route('/comments',methods=["GET","POST"])
 def handle_comment_request():
     if request.method=="GET":
         e = request.args.get('entry')
-        print get_comments(e)
-        return "not yet"
+        print 'given value for entry: %s' %(e)
+        return json.dumps(get_comments(e))
     else:
-        pass
+        add_comment(request.json['entry'],request.json['content'])
+        return 'Added Comment'
     
 @app.route('/resetdb')
 def create_tables():

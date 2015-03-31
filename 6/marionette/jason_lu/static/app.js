@@ -29,6 +29,28 @@ App.StaticView = Marionette.ItemView.extend({
 App.PlaceView = Marionette.ItemView.extend({
     template : "#place-template",
     tagName : "tr"
+    events:{
+            "click .up":function(e){
+                    var r = this.model.get('rating');
+                    r = parseInt(r);
+                    r = r + 1;
+                    this.model.set('rating',r);
+                    console.log(this.model);
+                    this.render();
+            },
+            "click .down":function(e){
+                    var r = this.model.get('rating');
+                    r = parseInt(r);
+                    r = r - 1;
+                    this.model.set('rating',r);
+                    console.log('down');
+                    this.render();
+            },
+            "click .delete":function(e){
+                    this.remove();
+                    this.render();
+            }
+    }
 });
 
 var Post = Backbone.Model.extend();
