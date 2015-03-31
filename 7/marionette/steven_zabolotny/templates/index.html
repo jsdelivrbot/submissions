@@ -1,6 +1,9 @@
 <!doctype html>
 <html>
   <head>
+    <style>
+      body {font-family: "Verdana";}
+    </style>
     <script src="static/lib/jquery.js"></script>
     <script src="static/lib/lodash.js"></script>
     <script src="static/lib/backbone.js"></script>
@@ -8,13 +11,18 @@
     <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.6.0/pure-min.css">
   </head>
   <body>
-    <script type="text/template" id="temp">
+    <script type="text/template" id="placetemp">
+      <%- story %>
+    </script>
+    <script type="text/template" id="comptemp">
       <h1>The Story</h1>
-      <p><%= story %></p>
+      <table class="pure-table pure-table-bordered">
+	<tr></tr>
+      </table>
       <h3>Add three words: </h3>
       <input id="story"><button class="pure-button pure-button-primary" id="add">Add</button>
     </script>
-    <div class="pure-g" id="main">
+    <div id="main">
     </div>
     <script src="static/app.js"></script>
   </body>
