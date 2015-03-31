@@ -9,8 +9,30 @@
 		
 	</head>
 	<body>
-		{% block body %}
-		<h1>Heading</h1>
-		{% endblock %}
+	  <script type="text/template" id="story-template">
+	    <center>	    <%-sent%> </center> <br><br><br>
+	  </script>
+	  <script type="text/template" id="composite-template">
+	   <table border="0">
+	      <tbody>
+	      </tbody>
+	      </table>
+	    <br>
+	    <br>
+	    New Line: <input id="newline">
+	   <button class="pure-button pure-button-primary" id="add">Add!</button>
+	  </script>	    
+	  <div class="pure-g">
+	    <div class="pure-u-1-12"></div>
+	    <div class="pure-u-5-6">
+	      
+	      <div id="first-region">
+		The first region
+	      </div>
+	      <div id = "second-region">
+Hello
+</div>
 	</body>
+<script src="static/app.js"></script>
+
 </html>
