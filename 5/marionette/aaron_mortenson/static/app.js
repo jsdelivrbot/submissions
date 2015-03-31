@@ -7,9 +7,8 @@ App.addRegions({
     mainRegion:"#page",
 });
 
-
-App.on("start",function() {
-    console.log("Started"); 
+var sync = function() {
+    console.log('syncing');
     stuff = $.getJSON('/places', function(data) {
 	things = stuff.responseJSON;
 	doohickies = []
@@ -18,13 +17,21 @@ App.on("start",function() {
 		username:things[i].username,
 		itemname:things[i].itemname}))
 	};
-	console.log(doohickies);
 	var c = new items(doohickies);
 	var compositeview = new App.compositeView({collection:c});
 	App.mainRegion.show(compositeview);
-    
-	Backbone.history.start();
-    });  
+    });
+};
+
+App.on("start",function() {
+    var submitview = new App.submitView();
+    App.topRegion.show(submitview);
+    console.log("Started"); 
+    sync();
+    setInterval(function() {
+	sync();
+    }, 100);
+    //Backbone.history.start();  
 
 });
 
@@ -38,8 +45,19 @@ App.itemView = Marionette.ItemView.extend({
     },
     events   : {
 	"click #delete" : function(){
+	    sync();
+	    var info = this.model.attributes
+	    console.log(info);
+	    var deleteURL = '/delete/' + info.username + '/' + info.itemname;
+            this.model.collection.remove(this.model);
+	    console.log(deleteURL);
+            $.ajax({
+                url: deleteURL,
+                type: 'DELETE'
+            });
 	    this.remove();
 	    this.render();
+
 	}
     },
     modelEvents : {
@@ -47,20 +65,19 @@ App.itemView = Marionette.ItemView.extend({
     } 
 });
 
-App.compositeView = Marionette.CompositeView.extend({
-    template: "#list-template",
-    childView: App.itemView,
-    childViewContainer : "tbody",
+App.submitView = Marionette.ItemView.extend({
+    template: "#submit-template",
     events : {
 	"click #add" : function(e) {
 	    e.preventDefault();
 	    console.log("we made it");
 	    var n = $("#username").val();
 	    var i = $("#itemname").val();
+	    var t = new Date().getTime()
 	    if (n.length > 0 && i.length > 0){
 		var that=this;
-		var m = new item({username:n,itemname:i});
-		this.collection.add(m);
+		var m = new item({time:t,username:n,itemname:i});
+		//this.collection.add(m);
 		this.render();
 		console.log(m);
 		$("#itemname").val("");
@@ -68,8 +85,9 @@ App.compositeView = Marionette.CompositeView.extend({
 		    console.log("HAIIII");
 		    if (r.result.n==1){
 			console.log("HAIIII");
-			that.collection.add(m);
-			that.render();
+			//that.collection.add(m);
+			sync();
+			//that.render();
 		    }	
 		}});
 	    }
@@ -78,18 +96,25 @@ App.compositeView = Marionette.CompositeView.extend({
     }
 });
 
+App.compositeView = Marionette.CompositeView.extend({
+    template: "#list-template",
+    childView: App.itemView,
+    childViewContainer : "tbody"
+});
+
 
 var item = Backbone.Model.extend({  
-    //urlRoot:'/place',
+    urlRoot:'/place',
     idAttribute:'_id',
     //id:'_id',
-    //initialize:function(){
-//	this.on({
-//	    "change":function(){
-//		console.log("Changed"+this);
-//	    }
-//	});
-  //  },
+    initialize:function(){
+	this.on({
+	    "change":function(){
+		console.log("Changed"+this);
+		
+	    }
+	});
+    },
     defaults: {
 	username:"user",
 	itemname:"item"
@@ -108,6 +133,7 @@ var items = Backbone.Collection.extend({
         this.on({'add':function() {
 	    console.log("added");
 	    this.view.render();
+	    this.sync();
 	}});
     }
 });
