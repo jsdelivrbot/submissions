@@ -27,30 +27,19 @@ def update():
         return read()
     elif request.method == 'POST':
         data = json.loads(request.data)
-        if data.has_key('name') and\
-           data.has_key('period') and\
-           data.has_key('comments'):
-            name = data['name']
-            period = data['period']
-            comments = data['comments']
-            return add(name, period, comments)
-        return ""
+        name = data['name']
+        period = data['period']
+        comments = data['comments']
+        return add(name, period, comments)
 
-@app.route('/update/<item_id>', methods=['PUT', 'DELETE'])
-def updateWithID(item_id=None):
+@app.route('/update/<id>', methods=['PUT'])
+def updateWithID(id=None):
     if request.method == 'PUT':
         data = json.loads(request.data)
-        if data.has_key('_id') and\
-           data.has_key('name') and\
-           data.has_key('period') and\
-           data.has_key('comments'):
-            name = data['name']
-            period = data['period']
-            comments = data['comments']
-            update(item_id, name, period, comments)
-        return ""
-    elif request.method == 'DELETE':
-        delete(item_id)
+        name = data['name']
+        period = data['period']
+        comments = data['comments']
+        update(id, name, period, comments)
         return ""
 
 @app.route('/<name>', methods = ['GET', 'POST'])
@@ -73,7 +62,7 @@ def add(name, period, comments):
         'period': period,
         'comments': comments
     }
-    # Return ID for new item in JSON
+    # Serialize id to a JSON formatted sring, and return.
     return json.dumps({'_id': str(collection.insert(new_teacher))})
 
 def update(itemId, name, period, comments):
