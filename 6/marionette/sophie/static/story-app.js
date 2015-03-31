@@ -26,8 +26,14 @@ App.AddLine = Marionette.CompositeView.extend({
         "click #add" : function() {
             var n = $("#newline").val();
             if (n.length > 0){
-                this.collection.add(new Line({l:n}));
+                m = new Line({l:n});
                 $("#newline").val("");
+		var that = this;
+                m.save(m.toJSON(),{success:function(m,r){
+                    if (r.result.n==1){
+                        that.collection.add(m);
+                        that.render();
+                    }}})                                  
             }
         }
     }
@@ -64,12 +70,25 @@ App.PostTitle = Marionette.ItemView.extend({
 
 App.AllPosts = Marionette.CollectionView.extend({
     childView : App.PostTitle,
+    modelEvents : {
+         "change" : function() { this.render(); }
+     }  
     
 });
 
-var Line = Backbone.Model.extend();
+var Line = Backbone.Model.extend({
+    url:"/line",
+    idAttribute:'_id',
+});
 var StoryView = Backbone.Collection.extend({
-    model:Line
+    model:Line,
+    url:"/lines",
+    initialize:function(){
+        this.fetch(function(d){
+            console.log(d);
+            this.render();
+        });
+    }
 });
 
 var Post = Backbone.Model.extend();
@@ -78,7 +97,7 @@ var Posts = Backbone.Collection.extend({
 });
 
 App.addRegions({
-    //StoryDisplay : "#story-display",
+    StoryDisplay : "#story-display",
     AddLineDisplay: "#add-line-display",
     NewBlogDisplay: "#new-blog-display",
     PostsDisplay: "#all-posts-display"
@@ -88,8 +107,8 @@ App.addRegions({
 App.on("start", function(){
     console.log("Starting");              
        
-    //var addline = new App.AddLine({collection:c, model:l1});
-    //App.AddLineDisplay.show(addline);
+    var addline = new App.AddLine({collection:c, model:l1});
+    App.AddLineDisplay.show(addline);
 
     var newblog = new App.NewPost({collection:p,model:b1});
     App.NewBlogDisplay.show(newblog);
