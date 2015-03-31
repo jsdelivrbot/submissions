@@ -13,9 +13,6 @@ App.on("start",function(){
     var compview = new App.CompView({collection:c});
     App.firstRegion.show(compview);
 
-    var textview = new App.TextCompView({collection:p});
-    App.secondRegion.show(textview);
-
     Backbone.history.start();
 });
 
@@ -26,7 +23,10 @@ App.PlaceView = Marionette.ItemView.extend({
 	"click #update": function(){
 	    App.secondRegion.show(new App.TextView({model:this.model}));
 	},
-	"click #delete" : function(){this.remove();},
+	"click #delete" : function(){
+	    App.secondRegion.empty();
+	    this.remove();
+	},
 	"click #up" : function(){
 	    var r = this.model.get('rating');	
 	    this.model.set('rating',r+1);
@@ -62,15 +62,6 @@ App.TextView = Marionette.ItemView.extend({
     }
 });
 
-App.TextCompView = Marionette.CompositeView.extend({
-    template: "#textcomp-template",
-    childViewContainter:"body",
-    childView: App.TextView,
-    modelEvents : {
-	"change" : function() { this.render(); }
-    }
-});
-
 App.CompView = Marionette.CompositeView.extend({
     template : "#composite-template",
     childView : App.PlaceView,
@@ -83,7 +74,7 @@ App.CompView = Marionette.CompositeView.extend({
 	    var n = $("#newname").val();
 	    var s = $("#story").val();
 	    if (n.length > 0){
-		this.collection.add(new Story({name:n,story:s,rating:0,storyid:n.split(' ').join('-')}));
+		this.collection.add(new Story({name:n,storyintro:s,story:s,rating:0,storyid:n.split(' ').join('-')}));
 		this.collection.comparator="name";
 		this.collection.sort();
 		$("#newname").val("");
@@ -97,8 +88,7 @@ var Stories = Backbone.Collection.extend({
     model:Story
 });
 
-var s1 = new Story({name:"Little Red Riding Hood",story:"A little girl is walking in the woods",rating:5,storyid:"Little Red Riding Hood".split(' ').join('-')});
-var s2 = new Story({name:"Rumplestilskin",story:"A girl is really poor",rating:8,storyid:"Rumplestilskin".split(' ').join('-')});
+var s1 = new Story({name:"Little Red Riding Hood",storyintro:"A little girl is walking in the woods",story:"A little girl is walking in the woods",rating:5,storyid:"Little Red Riding Hood".split(' ').join('-')});
+var s2 = new Story({name:"Rumplestilskin",storyintro:"A girl is really poor",story:"A girl is really poor",rating:8,storyid:"Rumplestilskin".split(' ').join('-')});
 var c = new Stories([s1,s2]);
-var p = new Stories([]);
 App.start();
