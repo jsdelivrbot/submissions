@@ -2,7 +2,8 @@ var App = new Backbone.Marionette.Application();
 
 App.addRegions({
     blog: "#blog",
-    post: "#post"
+    post : "#post",
+   
 });
 
 App.on("start",function(){
@@ -14,17 +15,25 @@ App.on("start",function(){
     //var allnewPosts = new App.BlogsView({collection: c});
     //App.newPostplace.show(allnewPosts);
 
-    var pblog = new App.BlogView();
-    App.blog.show(pblog);
+    
 
     var bloggy = new App.CompView({collection:c, model:b});
     App.post.show(bloggy);
+    
+
+    var pblog = new App.BlogView();
+    App.blog.show(pblog);
+    
     Backbone.history.start();
 });
+
+
+
 
 App.CompView = Marionette.CompositeView.extend({
     template: "#newPost",
     childView : App.BlogView,
+    childViewContainer:"ul",
     modelEvents : {
 	"change" : function() { this.render(); }
     } ,
@@ -32,8 +41,8 @@ App.CompView = Marionette.CompositeView.extend({
         "click #add" : function() {
             var n = $("#nPost").val();
             if (n.length > 0){
-                this.c.add(new Blog({blog:n}));
-                this.c.sort();
+                this.collection.add(new Blog({blog:n}));
+                this.collection.sort();
                 $("#nPost").val("");
                 
                 }
@@ -41,9 +50,10 @@ App.CompView = Marionette.CompositeView.extend({
         }
 });
 					       
+
 App.BlogView = Marionette.ItemView.extend({
     template : "#blogPost",
-    
+    tagname : "li",
     //NEED A DELETE FUNCTION
     //events : {
       //  "click"
@@ -56,7 +66,7 @@ App.BlogView = Marionette.ItemView.extend({
 
 App.BlogsView = Marionette.CollectionView.extend(
     {
-	childView : App.BlogView
+    childView : App.BlogView
     }
 );
 
@@ -69,7 +79,6 @@ App.BlogsView = Marionette.CollectionView.extend(
 var Blog = Backbone.Model.extend();
 var Blogs = Backbone.Collection.extend({
     model:Blog
-
 });
 
 var Blogger = Backbone.Model.extend();
