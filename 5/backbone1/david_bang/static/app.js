@@ -42,7 +42,7 @@ var PlaceViewEdit = Backbone.View.extend({
 var PlaceViewNonEdit = Backbone.View.extend({
     el:"#place",
     template: _.template($("#place_template").html()),
-    initialize:function(){
+    initialize:function(){ 
 	this.render();
     },
     render: function(){
