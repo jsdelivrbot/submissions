@@ -1,88 +1,69 @@
-// I am actually dumbfounded at this point and have absolutely
-// no idea why there are two textboxes and why the submit button
-// does not post the text as I ask it to. I spent some time this weekend
-// working on this. As well as quite a few hours today. So I
-// am sorry that I cannot figure out how to get it to work.
+// So I started doing the blog project, and realized it was a little
+// confustion (I explained that in those files). This sort of feels like
+// a cop out because everyone is doing this sort of thing.
+// But it's what I could throw together tonight.
 
-var App = new Backbone.Marionette.Application();
+
+// Hmm now that I think of it a blog is the same as this isnt it.
+
+// So I changed my mind again, making a blog. But using these old
+// variables and tags so yeah.
+
+// Apparently I comment a lot when I code when I am far too tired, but
+// I just realized all the convenient uses of this! I can make a
+// to do list or packing list or blog or... wow!
+
+var App = new Marionette.Application();
 
 App.addRegions({
-    blog: "#blog",
-    post : "#post",
-   
+    Game: "#game"
 });
 
 App.on("start",function(){
-    console.log("onStart");
-
-    //var new_Posts = new App.BlogView({model: b});
-    //App.newPostplace.show(new_Posts);
-
-    //var allnewPosts = new App.BlogsView({collection: c});
-    //App.newPostplace.show(allnewPosts);
-    
-    var bloggy = new App.CompView({collection:c, model:b});
-    App.post.show(bloggy);
-    
-    var pblog = new App.BlogView();
-    App.blog.show(pblog);
-    
-    Backbone.history.start();
+       console.log("Starty doo bop");       
+       
+       var addword = new App.AddWord({collection:c, model:w1});
+       App.Game.show(addword);
+       Backbone.history.start();
 });
 
-App.CompView = Marionette.CompositeView.extend({
-    template: "#newPost",
-    childView : App.BlogView,
-    childViewContainer:"ul",
-    modelEvents : {
-	"change" : function() { this.render(); }
-    } ,
+App.WordView = Marionette.ItemView.extend({
+     template : "#word",
+     tagName : "li",
+     modelEvents : {
+         "change" : function() { this.render(); }
+     }                                      
+})
+
+App.StoryView = Marionette.CollectionView.extend({
+    childView : App.WordView,
+});
+
+App.AddWord = Marionette.CompositeView.extend({
+    childView : App.WordView,
+    childViewContainer: "ol",
+    template : "#stuff",
     events : {
         "click #add" : function() {
-            var n = $("#nPost").val();
+            var n = $("#newWord").val();
             if (n.length != 0){
-                this.collection.add(new Blog({blog:n}));
-                $("#nPost").val("");
-                }
+                this.collection.add(new Word({w:n}));
+                $("#newWord").val("");
             }
         }
-});
-					       
-
-App.BlogView = Marionette.ItemView.extend({
-    template : "#blogPost",
-    tagname : "li",
-    //NEED A DELETE FUNCTION
-    //events : {
-      //  "click"
-    
-    //  }
-    modelEvents : {
-            "change" : function() {this.render();}
-    },
-});
-
-App.BlogsView = Marionette.CollectionView.extend(
-    {
-    childView : App.BlogView
     }
-);
-
-//App.PostView = Marionette.ItemView.extend({
-  //  template : "#onPost"
-//});
-
-// we need some sort of composite view, idk how that works 
-
-var Blog = Backbone.Model.extend();
-var Blogs = Backbone.Collection.extend({
-    model:Blog
 });
 
-var Blogger = Backbone.Model.extend();
-var blogger = new Blogger ({first: "sydney"})
-//var start = new Blog({name:"Name"});
-var b = new Blog({blog:"heres my blog"});
-var c = new Blogs([b]);
+var Word = Backbone.Model.extend();
+var StoryView = Backbone.Collection.extend({
+    model:Word
+});
+
+var w1 = new Word({w:"Hello World! This is the first blog post, and I am veyr happy that you have come to this site! This is a communal blog, and you can add posts and we can all revel in your amazingness. As the first blogger, I will share some information with you. First of all AND MOST IMPORTANTLY: this blog is also a game. At the end of each post you must add a 6+ letter word that starts with the last letter of the word from the previous post. Fun. Other than that, you may talk about anything. I am Deanna, and this is my amazing Soft Dev project. Wordl - you are welcome. WORD: Tomato."});
+var w2 = new Word({w:"Establish"});
+var c = new StoryView([w1]);
 
 App.start();
+
+
+
