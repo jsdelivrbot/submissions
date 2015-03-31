@@ -22,8 +22,9 @@ App.LineView = Marionette.ItemView.extend({
 	"click #edit" : function(){
 	    var n = $("#editline").val();
 	    console.log(n)
+	    var that = this;
 	    if (n.length != 0){
-		this.model.set('l',n);
+		that.model.set('l',n);
 		$("#editline").val("");
 		this.render();
 	    }
@@ -59,7 +60,7 @@ var Line = Backbone.Model.extend();
 var StoryView = Backbone.Collection.extend({
     model:Line
 });
-var beginning = new Line({l:"Once upon a time, in a land far, far away, there lived a king."});
+var beginning = new Line({l:"Once upon a time,"});
 var c = new StoryView([beginning]);
 
 App.start();
