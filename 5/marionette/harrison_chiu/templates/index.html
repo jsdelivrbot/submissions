@@ -41,9 +41,14 @@
 
     <script id="stat-template" type="text/template">
       <td><input id="checked" type="checkbox"> </td>
-        <td contentEditable="true"><%= name %></td>
-        <td contentEditable="true"><%= value %></td>
-        <td><button id="delete">(delete)</button></td>
+      <!--
+        <td id="name" contentEditable="true"><%= name %></td>
+        <td id="value" contentEditable="true"><%= value %></td>
+        -->
+      <td id="name"><%= name %></td>
+      <td id="value"><%= value %></td>
+      <td><button id="update">update</button></td>
+        <td><button id="delete">delete</button></td>
     </script>
     
     <title>Dice Roller</title>

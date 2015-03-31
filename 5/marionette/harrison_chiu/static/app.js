@@ -15,7 +15,10 @@ App.StatView = Marionette.ItemView.extend({
         },
         "click #checked": function() {
             this.model.attributes.using = !this.model.attributes.using;
-            //HOW TO USE THIS VALUE (SEE BELOW)
+        },
+        "click #update": function() {
+            this.model.attributes.value =
+                parseInt($("#value")[0].innerHTML);
         }
     }
 });
@@ -26,9 +29,9 @@ App.StatsView = Marionette.CompositeView.extend({
     childViewContainer: "tbody",
     events: {
         "click #roll": function() {
-            var m = $("#dice-quantity").val();
-            var n = $("#dice-value").val();
-            var raw_val = $("#bonus").val() * 1; 
+            var m = parseInt($("#dice-quantity").val());
+            var n = parseInt($("#dice-value").val());
+            var raw_val = parseInt($("#bonus").val());
             for (; m > 0; m--) {
                 raw_val += 1 + Math.floor(Math.random() * n);
             }
@@ -48,6 +51,12 @@ App.StatsView = Marionette.CompositeView.extend({
             total.innerHTML = raw_val + modifier_val;
         },
         "click #add": function() {
+            this.collection.models.push(new Stat({
+                name: "Rename",
+                value: 0,
+                using: false
+            }));
+            this.render();
             //BACKBONE COLLECTIONS AND HOW TO USE THEM
         }
     }
