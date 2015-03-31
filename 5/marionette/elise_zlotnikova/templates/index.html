@@ -5,9 +5,10 @@
   <ul>
     <!--The itemviews will go here --> 
 </script>
+<center>
 <script type="text/template" id="composite-template">
-  <h2>Add to a story:</h2>
-  Create new story: <input id="text"><button class="pure-button" id="new">New Story</button>
+  <h1>Keep the stories going!!</h1>
+ Start a new story - <input id="text"><button class="pure-button" id="new">New Story</button><br><br>
   <table class="pure-table pure-table-bordered">
     <tbody>
       <!-- The itemviews will go here -->
@@ -16,13 +17,11 @@
 </script>
 <script type="text/template" id="story-template">
   <td><%- text %></td>
-  <td><button id="delete">delete</button></td>
-  <td><input id="phrase<%- id %>"><button class="pure-button pure-button-primary" id="add">Add phrase</button></td>
+  <td><input id="phrase<%- id %>"><button id="add">Add to this story</button></td>
+  <td><button id="delete">Delete this story</button></td>
 </script>
 <script type="text/template" id="view-story-template">
-  <!--  <input type="radio" name="select" value="<%= id %>"> -->
   <li><%- text %><br></li>
-  <!--  <a href="#edit"><button class="pure-button pure-button-primary">Add to Story</button></a> -->
 </script>
 <div class="pure-g">
   <div class="pure-u-1-12"></div>

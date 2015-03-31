@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% block body %}
+
+<script type="text/template" id="composite-template">
+
+  <h3><%= first %> <%= last %> 
+    <br>Period: <%= period %></h3>
+  <h3>
+  <h2> Leave a comment!</h2>
+  <hr>
+       Name: <input id="newname">
+       Age: <input id="age">
+       Comment: <input id="comment">
+       <button class="pure-button pure-button-primary" id="add">Add!</button>
+       <p>
+	 <table class="pure-table pure-table-bordered pure-table-striped">
+	   <thead>
+	     <tr>
+	       <th>Name</th>
+	       <th>Age</th>
+	       <th>Comment</th>
+	       <th>Delete</th>
+	     </tr>
+	   </thead>
+	   <tbody>
+	   </tbody>
+	 </table>
+</script>
+
+<script type="text/template" id="comment-template">
+  <td><%- name%></td>
+  <td><%- age%></td>
+  <td><%- comment %></td>
+  <td><button id="delete">&#9733</button></td>
+</script>
+
+<script type="text/template" id="static-template">
+  <a href="https://github.com/stuycs-softdev/submissions/tree/master/6/marionette/tianshi"> <h3>Source Code</h3> </a>
+</script>
+
+<div class="pure-g">
+  <div class="pure-u-1-12"></div>
+  <div class="pure-u-5-6">
+    <div id="first-region">
+      The first region
+    </div>
+    <hr>
+    <table class="pure-table pure-table-bordered" id="second-region"></table>
+    <hr>
+    <div id="third-region"></div>
+  </div>
+</div>
+
+<script src="static/app.js"></script>
+{% endblock body %}
