@@ -40,6 +40,7 @@ App.CompView = Marionette.CompositeView.extend({
             var n = $("#nPost").val();
             console.log(n);
             if (n.length != 0);{
+
                 this.collection.add(new Blog({blog:n}));
                 $("#nPost").val("");
                 }
