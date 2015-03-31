@@ -1,0 +1,23 @@
+#wrapper{
+    font-family:"Arial Verdana",Arial,sans-serif;
+}
+
+.box{
+    background-color: #cce;
+    border-radius: 2px;
+    border: solid 1px;
+    margin: 2%;
+    float: left;
+    width: 45%;
+    height:94vh;
+}
+
+button{
+    border: none;
+    background-color: #8e8;
+    height: 35px;
+    border-radius: 5px;
+}
+button:hover{
+    background-color: #6c6;
+}

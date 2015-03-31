@@ -1,41 +1,28 @@
 {% extends "base.html" %}
 {% block body %}
-<script type="text/template" id="collection-template">
-  <ul>
-    <!--The itemviews will go here --> 
+<script type="text/template" id="line">
+    <%- l %>
 </script>
-<script type="text/template" id="composite-template">
-  <h2>Add to a story:</h2>
-  Create new story: <input id="text"><button class="pure-button" id="new">New Story</button>
-  <table class="pure-table pure-table-bordered">
-    <tbody>
-      <!-- The itemviews will go here -->
-    </tbody>
-  </table>
-</script>
-<script type="text/template" id="story-template">
-  <td><%- text %></td>
-  <td><button id="delete">delete</button></td>
-  <td><input id="phrase<%- id %>"><button class="pure-button pure-button-primary" id="add">Add phrase</button></td>
-</script>
-<script type="text/template" id="view-story-template">
-  <!--  <input type="radio" name="select" value="<%= id %>"> -->
-  <li><%- text %><br></li>
-  <!--  <a href="#edit"><button class="pure-button pure-button-primary">Add to Story</button></a> -->
-</script>
-<div class="pure-g">
-  <div class="pure-u-1-12"></div>
-  <div class="pure-u-5-6">
-    <h1>Stories</h1>
-    <hr>
-    <div id="first-region">
-    </div>
-    <hr>
-    <table class="pure-table pure-table-bordered" id="second-region">
-    </table>
-    <hr>
-  </div>
+
+<script type="text/template" id="add-line-template">
+    <div class="panel-body">
+        <div class="well">
+            <h3>Continue</h3>
+            <input type="text" id="newline">
+            <button class="btn btn-primary" id="add">Add</button>
+        </div>
+    </script>
+
+<!-- page -->
+<div class="container">
+    <center>World, Hello</center>
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            <h3>Story:</h3>
+        </div>
+    <div id="add-line-display"></div>
 </div>
-</div>
+
 <script src="static/app.js"></script>
-{% endblock body %}
+
+{% endblock %}

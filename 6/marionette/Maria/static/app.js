@@ -1,5 +1,4 @@
 //just classcode for now
-console.log("HELLO");
 
 var App = new Marionette.Application();
 
