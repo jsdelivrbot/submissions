@@ -1,13 +1,13 @@
 from flask import Flask, render_template, request
-from pymongo import Connection
+#from pymongo import Connection
 #import json, bson
 
 # CANT GET MONGODB TO WORK WITH MARIONETTE
 
-conn = Connection()
-db = conn['story']
+#conn = Connection()
+#db = conn['story']
 
-story = db.story
+#story = db.story
 
 app = Flask(__name__)
 
