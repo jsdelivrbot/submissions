@@ -60,10 +60,11 @@ App.CompView = Marionette.CompositeView.extend({
 				"click #add" : function() {
 						var n = $("#newname").val();
 						if (n.length > 0){
-								this.collection.add(new Place({name:n,rating:0}));
+								this.collection.add(new Comment({name:n,comment:c}));
 								this.collection.comparator="name";
 								this.collection.sort();
 								$("#newname").val("");
+								$("#comment").val("");
 						}
 				}
 		}
@@ -100,16 +101,14 @@ App.router = new Marionette.AppRouter({
 
 var Place = Backbone.Model.extend();
 var Places = Backbone.Collection.extend({
-		model:Place
+		model:Comment
 });
 
 var Person = Backbone.Model.extend();
-var person = new Person({first:'Dennis',
-												 last:'Clyde-Sinclair',
-												 stars:8});
+var person = new Comment({first:'Chris',last:'Kim',});
 
-var p1 = new Place({name:"Terry's",rating:5});
-var p2 = new Place({name:"Ferry's",rating:8});
-var c = new Places([p1,p2]);
+var p1 = new Comment({name:"Chris",comment:"Hi guys"});
+var p2 = new Place({name:"Brian Guo",comment:"I have magic stuff"});
+var c = new Comments([p1,p2]);
 
 App.start();
