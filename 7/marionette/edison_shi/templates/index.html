@@ -1,0 +1,30 @@
+<!DOCTYPE HTML>
+
+{% extends "base.html" %}
+{% block body %}
+
+<script type="text/template" id="result-template">
+  <%- flavor %>
+</script>
+
+<script type="text/template" id="flavor-template">
+  <h1><center>Ice Cream Flavors!</center></h1>
+
+  <center><table class="pure-table pure-table-bordered">
+   <tr></tr>
+  </table></center>
+
+  <center><h3>Add a flavor!</h3></center>
+
+  <center> <input id="flavor">
+
+    <button class="pure-button pure-button-primary" id="add">Insert Flavor!</button></center>
+</script>
+
+
+<div id="view">
+</div>
+
+<script src="static/app.js"></script>
+
+{% endblock %}

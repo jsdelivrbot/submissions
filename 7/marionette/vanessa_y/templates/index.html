@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+
+{% block body %}
+<title>Todo</title>
+
+<script type="text/template" id="collection">
+  List
+  <ul id="list">
+  </ul>
+</script>
+
+<script type="text/template" id="viewthing">
+  <%- thing %>
+</script>
+
+<script type="text/template" id="composite">
+  <div id="itemviews">
+    
+  </div>
+  <hr>
+  New item
+  <input id="item">
+  <button class="pure-button" id="add">Add</button>
+</script>
+
+<script type="text/template" id="thing">
+  <li>
+    <%- thing %> <button class="pure-button" id="del">Done</button>
+  </li>
+</script>
+
+
+<div class="pure-g">
+  <div class="pure-u-1-12"></div>
+  <div class="pure-u-5-6">
+    <h1>ToDo List</h1>
+    
+    <div id="first-region">
+    </div>
+    
+    <table class="pure-table pure-table-bordered" id="second-region">
+    </table>
+      
+  </div>
+</div>
+
+
+<script src="static/app.js"></script>
+{% endblock %}

@@ -1,46 +1,44 @@
-console.log("HELLO");
+//console.log("HELLO");
 
 var App = new Marionette.Application();
 
 var Teacher = Backbone.Model.extend({
     idAttribute: '_id',
     defaults: {
-        name: '',
+        name: 'Coby',
         period: 0,
-        comments: ''
+        comments: 't'
     }
 });
 
 var TeacherList = Backbone.Collection.extend({
     model: Teacher,
-    url: 'update', // was sync in chesley code
-    comparator: function(item) {
+    url: 'update',
+    comparator: function(a) {
         // Sort by descending urgency
-        return -item.get('period');
+        return -a.get('period');
     },
     initialize: function() {
-        // Fetch data from server; sends a GET request to server
+        // GET request to server, getting the stored data
         this.fetch();
-        // Re-sort collection when a child's urgency changes
-        this.on("change:period", this.sort, this);
-        var other_this = this; // gotta love the js this
-        // Fetch up-to-date data from server every 10 seconds
-        setInterval(function() {
-            other_this.fetch();
-        }, 100000);
     }
 });
 
 App.addRegions({
-    place: "#place"
+    place: "#place",
+    page: "#page"
 });
 
 App.on("start", function(){
-    console.log("start");
+    //console.log("start");
 
     var teachers = new TeacherList();
+
     var createView = new App.CreateView({collection: teachers});
     App.place.show(createView);
+
+    var teacherPage = new App.TeacherView({model: Teacher});
+    App.page.show(teacherPage);
 });
 
 App.StaticView = Marionette.ItemView.extend({
@@ -50,15 +48,16 @@ App.StaticView = Marionette.ItemView.extend({
 	
 	"blur #comments": function(e) {
 	    this.model.set('comments', e.target.innerHTML);
-	}
+	},
 	
     },
 
     modelEvents: {
-        // Re-render when the model is changed
+        // if model changes
         "change": function() {
+	    // re-load page
             this.render();
-            // Synchronize changes with server; Sends a PUT request to server
+            // Updates with server-side
             this.model.save();
         }
     }
@@ -69,15 +68,35 @@ App.CreateView = Marionette.CompositeView.extend({
     childView: App.StaticView,
     childViewContainer: 'tbody',
     events : {
-	"click #add" : function(){
-	    var n = $("#teacher-name").val();
-	    var com = $("#comments").val();
-	    var per = $("#period").val();
-	    if (name.length > 0 && com.length > 0 && period.length > 0){
-		var newTeacher = this.collection.create({name: n, comments: com, period: per}, { wait: true});
+	"click #add" : function(e){
+	    //console.log('adding');
+	    e.preventDefault();
+	    var n = $("#name_val").val();
+	    var com = $("#comments_val").val();
+	    var per = $("#period_val").val();
+	    console.log(n);
+	    //console.log(com);
+	    $('#name_val').val('');
+	    $('#comments_val').val('');
+	    $('#period_val').val('');
+	    if (n.length > 0 && com.length > 0 && per.length > 0){
+		console.log('ye');
+		console.log(n);
+		var newTeacher = this.collection.create({name: n, period: per, comments: com}, { wait: true});
+	    }
+	    else{
+		console.log('nay');
 	    }
 	}
     }
+});
+
+App.TeacherView = Marionette.ItemView.extend({
+    template: "#teacher-template",
+    tagName : "tr",
+    events : {
+	"click #delete" : function() { this.destroy();}
+    },
 });
 
 App.start();

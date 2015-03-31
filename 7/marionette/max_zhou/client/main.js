@@ -13,18 +13,32 @@ var getTitles = function(){
 
 var getLastLines = function(){
     var stories = getStories();
-    //console.log(stories);
-    stories = stories.map( function(story){
-	console.log(story.text);
-	console.log(story.text.slice(Math.max(story.text.length - 5, 0)));
-	console.log(Math.max(story.text.length-5));
-	return { title : story.title, 
-		 text : story.text.slice(Math.max(story.text.length - 5, 0))
+    console.log("stories after getStories():");
+    console.log(stories);
+    stories = stories.map(function(story){
+	console.log(story);
+	var len = story.text.length
+	//console.log(story.text);
+	//console.log(story.text.slice(Math.max(len - 5, 0)));
+	//console.log(Math.max(len-5));
+	return {'title': story.title, 
+		'text': _.map(story.text.slice(Math.max(len - 5, 0)), function(text,index){return [text,index + Math.max(len-5, 0), story.title]}) //returns the original index of the text
+		
 	       };
     });
+	
+	//return [story.text]
+    //stories = [{'a': 'b'}, {'b': 'c'}];
+    console.log("stories after processing:");
     console.log(stories);
     return stories;
 }
+
+//var isClicked = function(){
+ //   'click' : function(){
+//	console.log(this.index);
+ //   }
+//}
 
 Template.submitButton.helpers({
     counter: function () {
@@ -36,12 +50,13 @@ Template.submitButton.helpers({
 Template.submitButton.events({
     'click button': function () {
 	Session.set('counter', Session.get('counter') + 1);
-	console.log("context:" + this);	
+	console.log("context:");
+	console.log(this);	
 	if(_.isEmpty(this)){ //empty object if no data param (like on home)
 	    var storyTitle = $('#title').val().trim();
 	}
 	else{
-	    var storyTitle = this.title;
+	    var storyTitle = this[0][2]; //...we changed the data context.
 	}
 	console.log(this);
 	console.log(storyTitle);
@@ -61,6 +76,8 @@ Template.submitButton.events({
 		newText = cur.text;
 		newText.push(words);
 	    }
+	    console.log(newText);
+	    console.log(storyTitle);
 	    Meteor.call('addText', storyTitle, newText);
 	}
 	$('#words').val("");
@@ -70,12 +87,36 @@ Template.submitButton.events({
 
 Template.lines.helpers({
     lines : getLastLines,
-    titles : getTitles
+    titles : getTitles,
+    log : function(){console.log(this)}
+    //isClicked : isClicked
+
 });
 
+Template.storylines.events({
+    'click .text' : function(parent){
+	//console.log(parent.target);
+	//console.log(Template.currentData());
+	console.log("2:");
+	console.log(Template.parentData(2));
+	console.log("3:");
+	console.log(Template.parentData(3));
+	console.log(this); //["text", index, "title"]
+	Meteor.call('updateSelected', this[2], this[1]); //title, index
+    }
+});
 
+Template.storylines.helpers({
+    isChecked : function(){
+	console.log(this);
+	return _.indexOf(Stories.findOne({"title": this[2]}).selected, this[1])>=0;
+    }
+});
+
+		      
 Template.titles.helpers({
-    titles : getTitles
+    titles : getTitles,
+    log : function(){console.log(this)}
     /*
       titles: function(){
       return Stories.find({}, {"_id":0, "title":1});

@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% block body %}
+<script type="text/template" id="story-template">
+  <%- content%>
+</script>
+<script type="text/template" id="submit-template">
+ Username:<input id="userName">
+ <br>
+ Add three words to the story: <input id="addContent"><br><button class="pure-button" id="addstory">Submit</button>
+</script>
+<script type="text/template" id="input-template">
+
+ 
+ <td><%- name%></td><td><%- contents%></td>
+
+</script>
+<script type="text/template" id="total-template">
+ History of Posts<br>
+ <table class="pure-table pure-table-bordered">
+   <thead><tr><th>Name</th><th>Posted</th></thead>
+   </table>
+</script>
+<div class="pure-g">
+  <div class="pure-u-1-12"></div>
+  <div class="pure-u-5-6">
+    <h1>Make A Story!</h1>
+    <div id="story-region">
+      </div>
+    <hr>
+    <div id="submit-region">
+    </div>
+    <hr>
+    Latest Update
+    <table class="pure-table pure-table-bordered" id="input-region">
+       
+       </table>
+    <hr>
+    <div id="total-region">
+    </div>
+    
+    
+  </div>
+</div>
+<script src="static/app.js"></script>
+{% endblock body %}

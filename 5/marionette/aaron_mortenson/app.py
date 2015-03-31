@@ -1,10 +1,10 @@
 from flask import Flask,request,redirect,render_template,session,make_response
-from pymongo import Connection
+from pymongo import MongoClient
 from functools import wraps
+import json
 
-conn = Connection()
-db = conn["teh_database"]
-stuff = db["stuff"]
+mongo = MongoClient()
+db = mongo["teh_database"]
 
 app=Flask(__name__)
 
@@ -26,19 +26,32 @@ def delete(item_id):
 def home():    
     return render_template("index.html")
 
-@app.route('/sync', methods=['GET', 'POST'])
-def sync():
-    if request.method == 'GET':
-        return read()
-    elif request.method == 'POST':
-        data = json.loads(request.data)
-        if data.has_key('username') and data.has_key('itemname') :
-            username = data['username']
-            itemname = data['itemname']
-            return create(username, itemname)
-        return ""
+@app.route("/places")
+def places():
+    places = [x  for x in db.places.find()]
+    return json.dumps(places)
+
+@app.route("/place",methods=['GET','POST','DELETE','PUT'])
+@app.route("/place/<id>",methods=['GET','POST','DELETE','PUT'])
+def place(id=None):
+    method = request.method
+    j = request.get_json();
+    print method, id, j
+    if id ==None:
+        id =j['username']
+        
+    if method == "POST":
+        print "HEY BUDDY WE'RE POSTING"
+        j['_id']=id
+        try:
+            x = db.places.update({'_id':id},j,upsert=True)
+        except:
+            j.pop("_id",None)
+            x = db.places.update({'_id':id},j)    
+
+    return json.dumps({'result':x})
  
 if __name__=="__main__":
-    app.secret_key="b0kun0p1c0c7f"
+    #app.secret_key="b0kun0p1c0c7f"
     app.debug=True
     app.run();
