@@ -5,8 +5,7 @@
 <script type ="text/template" id = "line">
   <%- l %>
 <button id="delete">delete</button>
-<input type = "text" id = "editline">
-  <button id = "edit">edit</button>
+  <button id = "edit">replace</button>
 </script>
 
 <script type = "text/template" id = "add-template">
@@ -21,6 +20,7 @@
   <div class="pure-u-5-6">
   <h1> Describe an adventure </h1>
   <h3>Story</h3>
+     <font size="2"> Replacment text <input type = "text" id = "editline"></font>
 <div id = "adding-region"></div>
 <script src="static/app.js"></script>
 {% endblock body %}
