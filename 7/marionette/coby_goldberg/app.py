@@ -13,7 +13,7 @@ collection = db.collection
  #   print i
   #  print i['name']
 
-print collection.find({'name': 'C'})
+#print collection.find({'name': 'C'})
 
 #db.collection.remove()
 
@@ -90,11 +90,10 @@ def update(itemId, name, period, comments):
 ######################## JSON CODE ####################################
 
 def toJSON(cursor):
-    dicts = [cursor[i] for i in range(cursor.count())]
-    # Convert ObjectIds to strings
-    for d in dicts:
+    js = [cursor[i] for i in range(cursor.count())]
+    for d in js:
         d['_id'] = str(d['_id'])
-    return json.dumps(dicts)
+    return json.dumps(js)
 
 def read():
     cursor = collection.find()
