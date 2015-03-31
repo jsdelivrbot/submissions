@@ -1,0 +1,42 @@
+
+{% extends "base.html" %}
+{% block body %}
+<script type="text/template" id="collection-template">
+  <ul>
+    <!--The itemviews will go here --> 
+</script>
+<script type="text/template" id="composite-template">
+  <h2>Add to a story:</h2>
+  Create new story: <input id="text"><button class="pure-button" id="new">New Story</button>
+  <table class="pure-table pure-table-bordered">
+    <tbody>
+      <!-- The itemviews will go here -->
+    </tbody>
+  </table>
+</script>
+<script type="text/template" id="story-template">
+  <td><%- text %></td>
+  <td><button id="delete">delete</button></td>
+  <td><input id="phrase<%- id %>"><button class="pure-button pure-button-primary" id="add">Add phrase</button></td>
+</script>
+<script type="text/template" id="view-story-template">
+  <!--  <input type="radio" name="select" value="<%= id %>"> -->
+  <li><%- text %><br></li>
+  <!--  <a href="#edit"><button class="pure-button pure-button-primary">Add to Story</button></a> -->
+</script>
+<div class="pure-g">
+  <div class="pure-u-1-12"></div>
+  <div class="pure-u-5-6">
+    <h1>Stories</h1>
+    <hr>
+    <div id="first-region">
+    </div>
+    <hr>
+    <table class="pure-table pure-table-bordered" id="second-region">
+    </table>
+    <hr>
+  </div>
+</div>
+</div>
+<script src="static/app.js"></script>
+{% endblock body %}

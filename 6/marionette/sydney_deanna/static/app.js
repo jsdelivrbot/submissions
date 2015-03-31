@@ -1,36 +1,81 @@
-var App = new Marionette.Application();
+var App = new Backbone.Marionette.Application();
 
 App.addRegions({
     blog: "#blog",
+    post: "#post"
 });
 
 App.on("start",function(){
     console.log("onStart");
 
-    var bloggy = new App.CompView({model:start,collection:c});
-    App.blog.show(bloggy);
+    //var new_Posts = new App.BlogView({model: b});
+    //App.newPostplace.show(new_Posts);
+
+    //var allnewPosts = new App.BlogsView({collection: c});
+    //App.newPostplace.show(allnewPosts);
+
+    var pblog = new App.BlogView();
+    App.blog.show(pblog);
+
+    var bloggy = new App.CompView({collection:c, model:b});
+    App.post.show(bloggy);
+    Backbone.history.start();
 });
 
-App.HomeView = Marrionette.ItemView.extend({
-    template : "#blogHome",
-});
 
-App.BlogView = Marrionette.ItemView.extend({
-    template : "#blogPost",
+App.CompView = Marionette.CompositeView.extend({
+    template: "#newPost",
+    childView : App.BlogView,
     modelEvents : {
 	"change" : function() { this.render(); }
-    }
+    } ,
+    events : {
+        "click #add" : function() {
+            var n = $("#nPost").val();
+            if (n.length > 0){
+                this.collection.add(new Blog({blog:n}));
+                this.collection.sort();
+                $("#nPost").val("");
+                
+                }
+            }
+        }
+});
+					       
+App.BlogView = Marionette.ItemView.extend({
+    template : "#blogPost",
+    tagname : "li",
+    //NEED A DELETE FUNCTION
+    //events : {
+      //  "click"
+    
+    //  }
+    modelEvents : {
+            "change" : function() {this.render();}
+    },
 });
 
-App.PostView = Marrionette.ItemView.extend({
-    template : "#onPost"
-});
+App.BlogsView = Marionette.CollectionView.extend(
+    {
+	childView : App.BlogView
+    }
+);
+
+//App.PostView = Marionette.ItemView.extend({
+  //  template : "#onPost"
+//});
 
 // we need some sort of composite view, idk how that works 
 
 var Blog = Backbone.Model.extend();
+var Blogs = Backbone.Collection.extend({
+    model:Blog
+});
 
-var start = new Blog({name:"Name",comment:'Comment'});
-var c = new Comments([start]);
+var Blogger = Backbone.Model.extend();
+var blogger = new Blogger ({first: "sydney"})
+//var start = new Blog({name:"Name"});
+var b = new Blog({blog:"heres my blog"});
+var c = new Blog([b]);
 
 App.start();
