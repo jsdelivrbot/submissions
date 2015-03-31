@@ -17,7 +17,6 @@ def lines():
     return json.dumps(lines)
 
 @app.route("/line", methods = ["GET", "POST", "DELETE", "PUT"])
-@app.route("/line/<id>", )
 def line():
     method = request.method
     j = request.get_json();
