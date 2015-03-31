@@ -41,10 +41,14 @@ App.CompView = Marionette.CompositeView.extend({
     template : "#composite-template",
     childView : App.GameView,
     childViewContainer : "tbody",
+    //url: "games",
+    
     modelEvents: {
  	"change":function(){
  	    this.render();
- 	}},
+	    this.save();
+ 	}
+    },
     events : {
 	"click #add" : function(){
 	    var n = $("#newname").val();
@@ -58,7 +62,16 @@ App.CompView = Marionette.CompositeView.extend({
 });
 
 var Game = Backbone.Model.extend();
-var Games = Backbone.Collection.extend();
+var Games = Backbone.Collection.extend(
+    url:'games',
+    model : Game,
+    initialize : function(){
+	//if multiple people use this, it won't fetch well
+	this.fetch();
+	this.on({'add':function() {
+	    console.log("Added");
+	}});
+    });
 var c = new Games([]);
 c.comparator = "name";
 

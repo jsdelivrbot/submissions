@@ -1,5 +1,16 @@
 {% extends "base.html" %}
 {% block body %}
-
+<script type="text/template" id="fishies-template">
+  <thead>
+    <tr class="header">
+      <th>Name</th>
+    </tr>
+  </thead>
+  <tbody>
+  </tbody>
+</script>
+<script type="text/template" id="fishy-template">
+  <td><%= name %></td>
+</script>
 <script src="static/app.js"></script>
 {% endblock body %}
