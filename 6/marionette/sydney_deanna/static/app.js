@@ -1,5 +1,5 @@
 var App = new Backbone.Marionette.Application();
-
+var num = 0;
 App.addRegions({
     blog: "#blog",
     post : "#post",
@@ -30,8 +30,9 @@ App.on("start",function(){
 App.CompView = Marionette.CompositeView.extend({
     template: "#blogPost",
     childView : App.BlogView,
-    childViewContainer:"ul",
-    collection : c 
+    
+    //childViewContainer:"ul",
+    //collection : c 
     
 });
 					       
@@ -46,10 +47,11 @@ App.BlogView = Marionette.ItemView.extend({
         "click #add" : function() {
             var n = $("#nPost").val();
             console.log(n);
-            if (n.length != 0);{
-
-                this.collection.add(new Blog({blog:n}));
+            if (n.length > 0);{
+                num++;
+                this.collection.add(new Blog({blog:n,pNumber:num}));
                 $("#nPost").val("");
+                
                 }
             }
         }
@@ -66,7 +68,7 @@ App.BlogsView = Marionette.CollectionView.extend(
 //});
 
 // we need some sort of composite view, idk how that works 
-
+//var currentdate = new Date(); 
 var Blog = Backbone.Model.extend();
 var Blogs = Backbone.Collection.extend({
     model:Blog
@@ -74,7 +76,7 @@ var Blogs = Backbone.Collection.extend({
 
 
 //var start = new Blog({name:"Name"});
-var b = new Blog({blog:"heres my blog"});
+var b = new Blog({blog:"heres my blog", pNumber: 0});
 var x = new Blog({blog:"my second blog"});
 var c = new Blogs([]);
 
