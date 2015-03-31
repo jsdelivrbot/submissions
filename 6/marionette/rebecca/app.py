@@ -1,6 +1,10 @@
-from flask import Flast,render_template
+from flask import Flask,render_template
+from pymongo import Connection,MongoClient
 
 app=Flask(__name__)
+
+#conn = Connection()
+#db = conn['story']
 
 @app.route("/")
 def index():
