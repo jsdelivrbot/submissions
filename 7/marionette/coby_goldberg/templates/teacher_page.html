@@ -1,0 +1,26 @@
+<!DOCTYPE HTML>
+{% extends "base.html" %}
+{% block body %}
+
+  <script type="text/template" id="teacher-template">
+    <td id="name" align="center"><a href=<%= name %>><%= name %></a></td>
+    <td id="period" align="center"><%= period %></td>
+    <td id="comments" contenteditable="true"><%= comments %></td>
+    <button id="delete" class="pure-button pure-button-primary">Delete</button>
+  </script>
+  
+  <div class="pure-g">
+    <div class="pure-u-1-12"></div>
+    <div id="page">
+	  </div>
+    <div class="pure-u-1-12">
+      <h1>{{name}}'s Class Page </h1>
+      <h3>Period {{period}}</h3>
+      <h3>Comments:</h3>
+      <h4>{{comments}}</h4>
+    </div>
+  </div>
+
+<script src="static/app.js"></script>
+
+{% endblock %}
