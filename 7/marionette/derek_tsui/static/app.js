@@ -1,40 +1,28 @@
-console.log("HELLO");
-
 var App = new Marionette.Application();
-
 App.addRegions({
-		firstRegion: "#first-region",
-		secondRegion:"#second-region",
-		thirdRegion: "#third-region",
-		fourthRegion:"#fourth-region"
+		formRegion:"#form-region",
+		storyRegion: "#story-region",
+		newRegion: "#new-region"
 });
 
 App.on("start",function(){
-		console.log("STARTING");
-		var staticView = new App.StaticView();
-		App.fourthRegion.show(staticView);
-
-		var placeView = new App.PlaceView({model:p1});
-		App.secondRegion.show(placeView);
-
-		var placesView = new App.PlacesView({collection:c});
-		App.thirdRegion.show(placesView);
-
-		var compView = new App.CompView({collection:c, model : person});
-		App.firstRegion.show(compView);
-
-		Backbone.history.start();
-
+	console.log("STARTING");
+	var compView = new App.CompView({collection:c});
+	App.newRegion.show(compView);
 });
 
-App.StaticView = Marionette.ItemView.extend({
-		template : "#static-template"
-});
-
-App.PlaceView = Marionette.ItemView.extend({
+App.StoryView = Marionette.ItemView.extend({
 		template : "#place-template",
 		tagName : "tr",
 		events : {
+				"click #view" : function() {
+					var textView = new App.TextView({model:this.model});
+					App.storyRegion.show(textView);
+				},
+				"click #edit" : function() {
+					var editView = new App.EditView({model:this.model});
+					App.formRegion.show(editView);
+				},
 				"click #delete" : function() { this.remove();}
 		},
 		modelEvents: {
@@ -43,13 +31,9 @@ App.PlaceView = Marionette.ItemView.extend({
 						}}
 });
 
-App.PlacesView = Marionette.CollectionView.extend({
-		childView : App.PlaceView
-});
-
 App.CompView = Marionette.CompositeView.extend({
-		template : "#composite-template",
-		childView : App.PlaceView,
+		template : "#new-template",
+		childView : App.StoryView,
 		childViewContainer : "tbody",
 		modelEvents: {
 				"change":function(){
@@ -59,7 +43,7 @@ App.CompView = Marionette.CompositeView.extend({
 				"click #add" : function(){
 						var n = $("#newname").val();
 						if (n.length > 0){
-								this.collection.add(new Place({name:n, rating:0}));
+								this.collection.add(new Story({name:n, text:""}));
 								$("#newname").val("");
 								this.collection.sort();
 						}
@@ -67,45 +51,40 @@ App.CompView = Marionette.CompositeView.extend({
 		}
 });
 
-var Place = Backbone.Model.extend();
-var Places = Backbone.Collection.extend({
-		model:Place,
+App.EditView = Marionette.ItemView.extend({
+		template : "#edit-template",
+		tagName : "table",
+		events : {
+				"click #submit" : function() {
+					var input = $("#name").val();
+					console.log("input:" + input);
+					var temp = this.model.get('text') + input;
+					this.model.set('text',temp);
+					this.render();
+				},
+		},
+		modelEvents: {
+				"change":function(){
+						this.render();
+						}}
+});
+
+App.TextView = Marionette.ItemView.extend({
+		template : "#story-template",
+		tagName : "p",
+		modelEvents: {
+				"change":function(){
+						this.render();
+						}}
+});
+
+var Story = Backbone.Model.extend();
+var Stories = Backbone.Collection.extend({
+		model:Story,
 		comparator:"name"
 });
-
-var Person = Backbone.Model.extend();
-var person = new Person({last : 'Kat',
-												 first :'Fred',
-												 stars : 12
-												});
-
-var p1 = new Place({name:"Terry's",rating:5});
-var p2 = new Place({name:"Ferry's",rating:8});
-var c = new Places([p1,p2]);
-
-var myController = Marionette.Controller.extend({
-		default : function() {
-				var compView = new App.CompView({collection:c, model : person});
-				App.firstRegion.show(compView);
-		},
-		oneRoute : function() {
-				App.firstRegion.show(new App.PlaceView({model:p1}));
-				App.secondRegion.show(new App.PlaceView({model:p2}));
-		},
-		twoRoute : function() {
-				App.firstRegion.show(new App.PlaceView({model:p2}));
-				App.secondRegion.show(new App.PlaceView({model:p1}));
-		}
-});
-App.controller = new myController();
-
-App.router = new Marionette.AppRouter({
-		controller : App.controller,
-		appRoutes : {
-				"/" : "default",
-				one : "oneRoute",
-				two : "twoRoute"
-		}
-});
+var p1 = new Story({name:"Terry's",text:"Terry's is better. "});
+var p2 = new Story({name:"Ferry's",text:"Ferry's is better. "});
+var c = new Stories([p1,p2]);
 
 App.start();

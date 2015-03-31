@@ -9,6 +9,8 @@ App.addRegions({
 App.on("start",function(){
     var resultView = new App.AddFlavor({collection: c, model:f1});
     App.view.show(resultView);
+
+    Backbone.history.start();
 });
 
 App.ResultView = Marionette.ItemView.extend({
@@ -33,8 +35,16 @@ App.AddFlavor = Marionette.CompositeView.extend({
 	"click #add" : function(){
 	    var f = $("#flavor").val();
 	    if (f.length > 0){
-		this.collection.add(new Flavor({flavor:f}));
+		var that = this;
+		var tempf = new Flavor({flavor:f});
+		this.collection.add(tempf);
 		$("#flavor").val("");
+		tempf.save(tempf.toJSON(),{success:function(f,r){
+		    if (r.result.n == 1){
+			that.collection.add(tempf);
+			that.render();
+		    }
+		}
 	    }
 	    this.render();
 	}
@@ -53,7 +63,6 @@ var Flavors = Backbone.Collection.extend({
 });
 
 var Flav = Backbone.Model.extend()
-var flav1 = new Flav({name: "Strawberry"});
 var f1 = new Flavor({flavor: "Chocolate"});
 var f2 = new Flavor({flavor: "Vanilla"});
 var c = new Flavors([f1,f2]);
