@@ -5,9 +5,10 @@ app = Flask(__name__)
 app.secret_key = 'secret'
 
 @app.route("/", methods=["GET","POST"])
+@app.route("/index", methods=["GET","POST"])
 def index():
     if 'username' in session:
-        return redirect(url_for('welcome'))
+        return redirect(url_for('home'))
     else:
         message = ""
         if request.method=="GET":
@@ -42,9 +43,21 @@ def index():
             if request.form['b']=="Cancel":
                 return render_template("index.html", message=message)
 
-@app.route("/home")
+@app.route("/home", methods=["GET","POST"])
 def home():
-    return render_template("home.html")
+    if 'username' in session:
+        if request.method=="GET":
+            return render_template("home.html")
+        else:
+            if request.form['b']=="Log Out":
+                return redirect(url_for('logout'))
+    else:
+        return redirect(url_for('index'))
+
+@app.route("/logout")
+def logout():
+    session.pop('username',None)
+    return redirect(url_for('home'))
 
 
 
