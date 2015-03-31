@@ -32,6 +32,7 @@ App.CompView = Marionette.CompositeView.extend({
 				var a = $("#to_add").val();
 				console.log(a);
 				this.collection.add(new Task({task : a}));
+				$("#to_add").val("")
 			}
 		},
 		modelEvents: {
@@ -45,7 +46,7 @@ var Tasks = Backbone.Collection.extend({
 	model:Task
 });
 
-var t = new Task({task:"Water the plants"});
+var t = new Task({task:"CS project"});
 var c = new Tasks([t]);
 
 
