@@ -2,24 +2,24 @@
 {% block body %}
 
 <!-- All the blogs (homepage) -->
-<h1> Communal Blog! </h1>
+<h1> April Fools! </h1>
+
+<script type="text/template" id="blogPost">
+  <h1> Your Posts<h1>
+  <ul class="js-list"> <%= blog%> </ul>
+</script>
 
 
 <script type="text/template" id="newPost">
 
-    Update your blog! <br> <textarea type="textarea" id="nPost" style="width: 300px; height: 200px"></textarea> <br>
+    Update your blog! <br> <input id="nPost">
     <button class="pure-button pure-button-primary" id="add">Submit</button>
 
-  <tbody>
-  </tbody>
+  
 </script>
 
 
 <!-- Show blog posts -->
-<script type="text/template" id="blogPost">
-  <h1> Your Posts<h1>
-      <ol> <%- posts %> </ol>
-</script>
 
 
 
@@ -36,6 +36,8 @@
   <div class="pure-u-1-12"></div>
   <div class="pure-u-5-6">
     <div id="blog">
+    </div>
+    <div id="post">
     </div>
   </div>
 </div>

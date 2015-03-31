@@ -1,0 +1,46 @@
+<!doctype html>
+<html>
+	<head>
+		<script src="static/lib/jquery.js"></script>
+		<script src="static/lib/lodash.js"></script>
+		<script src="static/lib/backbone.js"></script>
+		<script src="static/lib/backbone.marionette.js"></script>
+		<link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.6.0/pure-min.css">
+	</head>
+	<body>
+        <script type="text/template" id="overall-template">
+			<center>
+            <h1> New Post</h1>
+		</center>
+			<h5 style="color:red">Big thanks to Alex Libman(period 5), who's code for database I used as a reference.</h5>
+		<center>
+            <div id="addpost">
+                <form class="pure-form pure-form-stacked" action="">
+                    <fieldset>
+                        <label for="name">Name</label>
+                        <input id="name" type="text">
+                        <label for="content">Text</label>
+                        <textarea id="content"></textarea>
+                        <br>
+                        <button type="button" id="submit">Submit</button>
+                    </fieldset>
+                </form>
+            </div>
+            <div id="comments-wrapper"></div>
+        </script>
+        <script type="text/template" id="comments-template">
+            <%= name %> says:
+ 		   <p><%= content %></p>
+				</center>
+                        
+            <br>
+        </script>
+        
+        <div>
+        </div>
+        <div id="comments" class="space">
+        </div>
+        
+        <script src="static/app.js"></script>
+    </body>
+</html>

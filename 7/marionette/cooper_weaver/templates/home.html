@@ -1,0 +1,58 @@
+<!doctype html>
+{% extends "base.html" %}
+{% block body %}
+
+
+<script type="text/template" id="static-template">
+	<h2>Current Story: <%= title %></h2>
+	<%= s %>
+
+	<h2>Add to Story</h2>
+	<input id="addWords"> 
+	<button class="pure-button pure-button-primary" id="add">Add</button>
+	
+
+
+</script>
+
+
+<script type="text/template" id="new-template">
+	<h2>Make a New Story</h2>
+	<h4>Title:</h4>
+	<input id="input-title">
+	<h4>How Should it Start?</h4>
+	<input id="input-words">
+	<button class="pure-button pure-button-primary" id="create">Create!</button>
+
+</script>
+
+
+<div class="pure-g">
+	<div class="pure-u-1-12"></div>
+	<div class="pure-u-5-6">
+		<div id="place">
+		</div>
+		<hr><hr>
+		<div id="story-maker"></div>
+		<hr>
+		<div id="other-stories"></div>
+	</div>
+</div>
+
+
+
+<script src="../static/name.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+{% endblock %}
