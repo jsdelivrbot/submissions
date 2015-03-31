@@ -4,27 +4,28 @@
 
 
 <script type="text/template" id="static-template">
-  <h2>The teachers</h2>
-  
-  Topher: <%= Topher %><br>
-  Z: <%= Z %><br>
-  DW: <%= DW %><br>
-
-  <h2>Comment on 'em</h2>
-  <input id="comment">
-  <button class="pure-button pure-button-primary" id="TopherCom">Review Topher!</button>
-  <button class="pure-button pure-button-primary" id="ZCom">Review Z!</button>
-  <button class="pure-button pure-button-primary" id="DWCom">Review DW!</button>
-
+  <td id="name" align="center"><a href=<%= name %>><%= name %></a></td>
+  <td id="period" align="center"><%= period %></td>
+  <td id="comments" contenteditable="true"><%= comments %></td>
 </script>
 
 <script type="text/template" id="new-template">
-	<h2>Add a New Teacher</h2>
-	<h4>Title:</h4>
-	<input id="teacher-name">
-	<h4>Comments?</h4>
-	<input id="comments">
-	<button class="pure-button pure-button-primary" id="add">Add</button>
+      <table class="pure-table pure-table-bordered">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Period</th>
+                <th>Comments</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+    <h3>Add teacher</h3>
+    <hr>
+    <input type="text" id="name" placeholder="Name"></input>
+    <input type="text" id="period" placeholder="Period"></input>
+    <input type="text" id="comments" placeholder="Comments"></input>
+    <button id="add" class="pure-button pure-button-primary">Add</button>
 
 </script>
 
@@ -33,9 +34,10 @@
 	<div class="pure-u-5-6">
 	  <div id="place">
 	  </div>
-	  <hr><hr>
-	  <div id="story-maker"></div>
+	  <hr>
 	</div>
 </div>
+
+<script src="static/app.js"></script>
 
 {% endblock %}
