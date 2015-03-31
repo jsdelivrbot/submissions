@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% block body %}
+
+<!-- All the blogs (homepage) -->
+<h1> April Fools! </h1>
+
+<script type="text/template" id="newPost">
+
+    Update your blog! <br> <textarea type="textarea" id="nPost" style="width: 300px; height: 200px"></textarea> <br>
+    <button class="pure-button pure-button-primary" id="add">Submit</button>
+
+  <ul class="js-list"></ul>
+</script>
+
+
+<!-- Show blog posts -->
+<script type="text/template" id="blogPost">
+  <h1> Your Posts<h1>
+      <ul id="postList"> </ul>
+</script>
+
+
+
+
+<!-- Comments on a blog page, may or may not include this 
+<script type="text/template" id="onPost">
+  <center>
+    Comment on this blog!<br> <input type="text" id="newPost" style="width: 300px; height: 200px"> <br>
+    <button class="pure-button pure-button-primary" id="add">Submit</button>
+  </center>
+</script>
+-->
+<div class="pure-g">
+  <div class="pure-u-1-12"></div>
+  <div class="pure-u-5-6">
+    <div id="blog">
+    </div>
+    <div id="post">
+    </div>
+  </div>
+</div>
+
+<script src="static/app.js"></script>
+{% endblock body %}

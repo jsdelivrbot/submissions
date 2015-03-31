@@ -9,16 +9,30 @@ App.on("start", function() {
     App.main.show(mainView);
 });
 
+App.PlaceView = Marionette.ItemView.extend({
+    template: "#placetemp",
+    tagName: "td",
+    modelEvents: {
+	"change": function() {
+	    this.render();
+	    //this.model.save();
+	}
+    }
+});
+
 App.CompView = Marionette.CompositeView.extend({
-    template: "#temp",
+    template: "#comptemp",
+    childView: App.PlaceView,
+    childViewContainer: "tr",
     events: {
 	"click #add": function() {
 	    //Some saving stuff
-	    var s = $("story").val();
+	    var s = $("#story").val();
 	    if (s.length > 0) {
 		this.collection.add(new Place({story:s}));
-		$("story").val("");
+		$("#story").val("");
 	    }
+	    this.render();
 	}
     },
     modelEvents: {
@@ -28,9 +42,23 @@ App.CompView = Marionette.CompositeView.extend({
     }
 });
 
-var Place = Backbone.Model.extend();
+var Place = Backbone.Model.extend(//{
+    //urlRoot: "/place",
+    //idAttribute: "_id",
+    //id: "_id"
+//});
+);
 var Places = Backbone.Collection.extend({
-    model: Place
+    model: Place,
+    //url: "/places",
+    initialize: function() {
+	//this.fetch();
+    }
 });
+var Person = Backbone.Model.extend()
+var person = new Person({name: "Swag"});
+var p1 = new Place({story: "This is where"});
+var p2 = new Place({story: "the story begins"});
+var c = new Places([p1, p2]);
 
 App.start();
