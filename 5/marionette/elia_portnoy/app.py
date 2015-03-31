@@ -1,5 +1,5 @@
-from flask import Flask, render_template
-
+from flask import Flask, render_template, request
+import json
 app = Flask(__name__)
 
 
@@ -8,12 +8,14 @@ def index():
     return render_template("index.html")
 
 @app.route('/save_data', methods=['GET', 'POST'])
-def sync():
+def save_data():
+    print 'saving'
     if request.method == 'GET':
-        return read()
+        #return top()
+        print 'this HAPPPPPENS'
     elif request.method == 'POST':
         data = json.loads(request.data)
-        if data.has_key('ln')
+        if data.has_key('ln'):
             ln = data['ln']
             return addToStore(ln)
         return ""
