@@ -31,6 +31,7 @@ App.CompView = Marionette.CompositeView.extend({
     template: "#newPost",
     childView : App.BlogView,
     childViewContainer:"ul",
+    collection : c, 
     modelEvents : {
 	"change" : function() { this.render(); }
     } ,
@@ -40,7 +41,7 @@ App.CompView = Marionette.CompositeView.extend({
             console.log(n);
             if (n.length != 0);{
                 this.collection.add(new Blog({blog:n}));
-                $("nPost").val("");
+                $("#nPost").val("");
                 }
             }
         }
