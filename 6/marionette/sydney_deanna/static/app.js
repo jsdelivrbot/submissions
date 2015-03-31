@@ -2,7 +2,7 @@ var App = new Backbone.Marionette.Application();
 
 App.addRegions({
     blog: "#blog",
-    newPostplace :"#poster"
+    post: "#post"
 });
 
 App.on("start",function(){
@@ -14,18 +14,17 @@ App.on("start",function(){
     //var allnewPosts = new App.BlogsView({collection: c});
     //App.newPostplace.show(allnewPosts);
 
-    var bloggy = new App.CompView({collection:c});
-    App.blog.show(bloggy);
+    var pblog = new App.BlogView();
+    App.blog.show(pblog);
 
-   var pblog = new App.BlogView();
-    pp.blog.show(pblog);
+    var bloggy = new App.CompView({collection:c, model:b});
+    App.post.show(bloggy);
     Backbone.history.start();
 });
 
 App.CompView = Marionette.CompositeView.extend({
     template: "#newPost",
     childView : App.BlogView,
-    childViewContainer: "tbody",
     modelEvents : {
 	"change" : function() { this.render(); }
     } ,
@@ -48,17 +47,18 @@ App.BlogView = Marionette.ItemView.extend({
     //NEED A DELETE FUNCTION
     //events : {
       //  "click"
-
-  //  }
+    
+    //  }
     modelEvents : {
             "change" : function() {this.render();}
     },
 });
+
 App.BlogsView = Marionette.CollectionView.extend(
-{
-    childView : App.BlogView
-}
-    );
+    {
+	childView : App.BlogView
+    }
+);
 
 //App.PostView = Marionette.ItemView.extend({
   //  template : "#onPost"
