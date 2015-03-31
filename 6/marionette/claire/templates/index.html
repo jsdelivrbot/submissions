@@ -1,6 +1,33 @@
 <!doctype html>
 <html>
-<body>
-<h1>What's good</h1>
-</body>
+  <body>
+    <h1>Welcome to the Profile Book</h1>
+
+    {{message}}
+
+    <div>
+      <form role="form" class="form-horizontal" method="POST">
+	<h2>Log In</h2>
+	<input type="text" name="logusername" placeholder="Username">
+	<input type="password" name="logpassword" placeholder="Password">
+	<input type="submit" name="b" value="Log In">
+	<input type="submit" name="b" value="Cancel">
+      </form>
+    </div>
+
+    <div>
+      <form role="form" class="form-horizontal" method="POST">
+	<h2>Sign Up</h2>
+	<input type="text" class="form-control" name="signusername" placeholder="Username">
+	<input type="password" class="form-control" name="signpassword" placeholder="Password">
+	<input type="password" class="form-control" name="signpassword2" placeholder="Confirm Password">
+	<input type="text" class="form-control" name="name" placeholder="Name">
+	<input type="submit" name="b" class="btn btn-default" value="Sign Up">
+	<input type="submit" name="b" class="btn btn-default" value="Cancel">
+      </form>
+    </div>
+
+  </body>
+
+
 </html>

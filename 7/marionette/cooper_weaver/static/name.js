@@ -2,23 +2,23 @@ console.log("HELLO WORLD!");
 
 var App = new Marionette.Application();
 
-var Tel = Backbone.Model.extend();
-
-App.tel = new Tel({t : ""});
+var Message = Backbone.Model.extend();
+App.message = new Message({m : "", l : ""});
 
 App.addRegions({
 		place: "#place",
-		telMaker: "#tel-maker",
+		wholeMessage: "#message",
 });
 
 App.on("start",function(){
 		console.log("STARTING");
-		var staticView = new App.StaticView({model : App.tel});
+       
+		var staticView = new App.StaticView({model : App.message});
 		App.place.show(staticView);
 
 		var createView = new App.CreateView();
-		App.telMaker.show(createView);
-
+		App.wholeMessage.show(createView);
+       
 		Backbone.history.start();
 
 });
@@ -28,11 +28,11 @@ App.StaticView = Marionette.ItemView.extend({
 		template: "#static-template",
 		events : {
 				"click #add" : function(){
-						var n = $("#addWords").val();
+						var n = $("#addWord").val();
 						if (n.length > 0){
-								console.log(App.tel.get("t"));
-								var temp = App.tel.get("t")+" ";
-								App.tel.set({t : temp + n});
+								var temp = App.message.get("m")+" ";
+								App.message.set({m : temp + n});
+								App.message.set({l : n});
 								this.render();
 						}
 				}
@@ -43,15 +43,21 @@ App.StaticView = Marionette.ItemView.extend({
 App.CreateView = Marionette.ItemView.extend({
 		template: "#new-template",
 		events : {
-				"click #create" : function(){
-						var a = $("#input-title").val();
-						var b = $("#input-words").val();
-						if (a.length > 0 && b.length > 0){
-								App.tel.set({t : b, title : a});
-								App.place.show(new App.StaticView({model : App.tel}));
-						}
+				"click #reveal" : function(){
+                                            App.wholeMessage.show(new App.DisplayView({model : App.message}));
+
 				}
 		}
+});
+
+
+App.DisplayView = Marionette.ItemView.extend({
+        template: "#reveal-template",
+        events: {
+            "click #hide" : function(){
+                            App.wholeMessage.show(new App.CreateView());
+            }
+        }
 });
 
 
