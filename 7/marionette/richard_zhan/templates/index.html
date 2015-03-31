@@ -1,0 +1,57 @@
+{% extends "base.html"%}
+{% block body %}
+<style>
+  td {
+    text-align : center;
+  }
+</style>
+
+<script type="text/javascript">
+  $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
+</script>
+<script type="text/template" id="static-template">
+  <h1>Rzhan Boardgame Template</h1>
+  <blockquote class="pure-blockquote">No more google docs</blockquote>
+</script>
+
+
+<script type="text/template" id="game-template">
+  <td><p id="delete">x</p></td>
+  <td><%- name %></td>
+</script>
+
+<script type="text/template" id="composite-template">
+  <h2>Insert BGG API Here</h2>
+  <form class="pure-form" method="POST" action="javascript:void(0)">
+    New Game to the Collection: <input id="newname">
+    
+    <button class="pure-button pure-button-primary" name="add" id="add">Add</button>
+  </form>
+  <table class="pure-table pure-table-bordered">
+    <thead>
+      <tr>
+	<td>Delete</td>
+	<td>Name</td>
+      </tr>
+    </thead>
+    <tbody>
+    </tbody>
+  </table>
+</script>
+
+<div class="pure-g">
+  <div class="pure-u-1-12"></div>
+  <div class="pure-u-5-6">
+    <h1>Marionette stuff</h1>
+    <a href="#one"><button class="pure-button pure-button-primary">one</button></a>
+    <a href="#two"><button class="pure-button pure-button-primary">two</button></a>
+    <hr>
+      <div id="first-region"></div>
+      <table class="pure-table pure-table-bordered" id="second-region"></table>
+
+    <div class="pure-u-1-12"></div>
+  </div>
+</div>
+<script src="static/app.js"></script>
+
+{% endblock %}

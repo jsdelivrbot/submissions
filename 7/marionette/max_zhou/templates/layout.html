@@ -1,32 +1,38 @@
 
 <template name="layout">
   <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.6.0/pure-min.css">
-  <header>
-    <h1>Some header</h1>
-  </header>
-  
-  <!-- The other way of doing it...with separate rendering into a region.
-  <titles>
-    <h2>List of stories!</h2>
-    {{> yield "titles"}}
-  </titles>
-  
-  <stories>
-    <h2>Preview of each story!</h2>
-    {{>yield}}
-  </stories>
+  <div class="pure-g">
+    <div class="pure-u-1-12"></div>
+    <div class="pure-u-5-6">
+      <header>
+	<h1>Some header</h1>
+      </header>
+      
+      <!-- The other way of doing it...with separate rendering into a region.
+	   <titles>
+	     <h2>List of stories!</h2>
+	     {{> yield "titles"}}
+	   </titles>
+	   
+	   <stories>
+	     <h2>Preview of each story!</h2>
+	     {{>yield}}
+	   </stories>
 
-  <submitButton>
-    {{> yield "submitButton"}}
-  </submitButton>
-  
--->
-  <main>
-    {{>yield}}
-  </main>
+	   <submitButton>
+	     {{> yield "submitButton"}}
+	   </submitButton>
+	   
+	   -->
+      <main>
 
-  <footer>
-    {{>footer}}
-  </footer>
+	{{>yield}}
+      </main>
+
+      <footer>
+	{{>footer}}
+      </footer>
+    </div>
+  </div>
 
 </template>

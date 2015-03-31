@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block body %}
+
+<script type="text/template" id="composite-template">
+  <table class="pure-table pure-table-bordered pure-table-striped">
+    <thead>
+      <tr><th>Name</th><th>Comment</th></tr>
+    </thead>
+    <tbody>
+    </tbody>
+  </table>
+  Name: <input id="name"> Comment: <input id="comment">
+  <button class="pure-button pure-button-primary" id="add">Add!</button>`
+</script>
+
+<script type="text/template" id="comment-template">
+  <td><%- name%></td><td><%- comment %></td>
+</script>
+
+<div class="pure-g">
+  <div class="pure-u-1-12"></div>
+  <div class="pure-u-5-6">
+    <div id="blog">
+    </div>
+   </div>
+</div>
+
+<script src="static/app.js"></script>
+{% endblock body %}
