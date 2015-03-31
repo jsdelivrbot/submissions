@@ -20,7 +20,7 @@ App.on("start",function(){
 		var placesView = new App.TalesView({collection:c});
 		App.thirdRegion.show(placesView);
 */
-		var compView = new App.CompView({collection:c, model : person});
+		var compView = new App.CompView({collection:c});
 		App.firstRegion.show(compView);
 
 		Backbone.history.start();
@@ -43,7 +43,17 @@ App.TaleView = Marionette.ItemView.extend({
 			console.log(n);
 			var current = this.model.get("story");
 			if (n.length > 0){
+			    console.log("did we get here");
 			    this.model.set("story", current + " "+ n);
+			    this.model.save(this.model.attributes, {
+				success:function(model, response) {
+				    console.log('que');
+				},
+				error: function(model, error) {
+				    console.log(model.toJSON());
+				    console.log('error.responseText');
+				}
+			    });
 			    this.render();
 			}
 		    }
@@ -69,11 +79,14 @@ App.CompView = Marionette.CompositeView.extend({
 				}},
 		events : {
 				"click #add" : function(){
-						var n = $("#newname").val();
+				    
+				    var n = $("#newname").val();
+				   
 				    var replaced= n.replace(/\s+/g, '-');
 				    if (n.length > 0){
 						    
 								this.collection.add(new Tale({name:n, story:"Once upon a",nameid:replaced}));
+					
 								$("#newname").val("");
 								this.collection.sort();
 						}
@@ -81,25 +94,51 @@ App.CompView = Marionette.CompositeView.extend({
 		}
 });
 
-var Tale = Backbone.Model.extend();
-var Tales = Backbone.Collection.extend({
-		model:Tale,
-		comparator:"name"
-});
+var Tale = Backbone.Model.extend({
+    urlRoot:'tale',
+    initialize:function(){
+	this.save(this.attributes, {
+	    success:function(model, response) {
+		console.log('Successfully saved!');
+	    },
+	    error: function(model, error) {
+		console.log(model.toJSON());
+		console.log('error.responseText');
+	    }
+	});
 
-var Person = Backbone.Model.extend();
+    }
+});
+var Tales = Backbone.Collection.extend({
+    model:Tale,
+    url: '/tales',
+    comparator:"name",
+    /*initialize:function(){
+	this.fetch(function (d){
+	    console.log(d);
+	    this.render();
+	});
+	
+	this.on({'add':function() {
+	    console.log("added");
+	    this.view.render();
+	}});
+    }*/
+});
+				       
+/*var Person = Backbone.Model.extend();
 var person = new Person({last : 'One',
 												 first :'User',
 												 stars : 12
 												});
 
-/*var p1 = new Tale({name:"Story 1",story:"This story begins", nameid:this.model.get("story").replace(' ', '-'));
+var p1 = new Tale({name:"Story 1",story:"This story begins", nameid:this.model.get("story").replace(' ', '-'));
 var p2 = new Tale({name:"Bridge to Terabithia",story:"Blah blah blah",nameid:story.replace(' ', '-'));*/
 var c = new Tales([]);
 
 var myController = Marionette.Controller.extend({
 		default : function() {
-				var compView = new App.CompView({collection:c, model : person});
+				var compView = new App.CompView({collection:c});
 				App.firstRegion.show(compView);
 		},
 	/*	oneRoute : function() {
