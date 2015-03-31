@@ -16,13 +16,10 @@ App.on("start", function(){
 });
 
 
-
-//for instructions
 App.StaticView = Marionette.ItemView.extend({
     template : "#static-template"
 });
 
-//the story is separated into lines
 App.LineView = Marionette.ItemView.extend({
     template : "#line",
     tagName : "li",
@@ -32,13 +29,11 @@ App.LineView = Marionette.ItemView.extend({
     }
 })
 
-//the StoryView is an aggregation of the lines
 App.StoryView = Marionette.CollectionView.extend({
     template : "#story-template",
     childView : App.LineView,
 });
 
-//for adding to the story
 App.AddView = Marionette.CompositeView.extend({
     template : "#add-template",
     childView : App.LineView,
@@ -55,17 +50,13 @@ App.AddView = Marionette.CompositeView.extend({
 });
 
 
-
-
-
-
 var Line = Backbone.Model.extend();
 var StoryView = Backbone.Collection.extend({
     model:Line
 });
 
 
-var beginning = new Line({l:"Once upon a time, in a land far, far away, there lived a king."});
+var beginning = new Line({l:"Once upon a time, king Z ruled over the whole CS kingdom!"});
 var c = new StoryView([beginning]);
 
 
