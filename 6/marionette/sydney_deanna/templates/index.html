@@ -1,11 +1,14 @@
 {% extends "base.html" %}
 {% block body %}
 
-<!-- All the blogs (homepage) -->
-<h1> April Fools! </h1>
+<!-- All the blogs (homepage) --> <center>
+<h1> Vent and it will disappear after you reload! </h1>
 
+<img src="http://images4.fanpop.com/image/photos/22000000/Cute-Puppies-puppies-22040876-1280-800.jpg" style="width:304px;height:228px">
+</center>
 <script type="text/template" id="blogPost">
-  <h1> Your Posts<h1>
+  <h1> Post number: <%=pNumber %> <h1>
+  <ul class="js-list"> <%= blog%> </ul>
 </script>
 
 
@@ -14,7 +17,7 @@
     Update your blog! <br> <input id="nPost">
     <button class="pure-button pure-button-primary" id="add">Submit</button>
 
-  <ul class="js-list"> <%= blog%> </ul>
+  
 </script>
 
 

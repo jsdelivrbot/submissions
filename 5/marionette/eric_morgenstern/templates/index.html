@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block body %}
+<script type="text/template" id="composite-template">
+  <h1> THIS IS A PAGE OF RANDOM COMMENTS </h1>
+  <h2> Write whatever you want the world to see </h2>
+  <textarea class="t">Make a comment</textarea>
+  <button id="submit">Submit</button>
+  <table class="pure-table pure-table-bordered">
+    <thead>
+      <tr><th>Author</th><th>Comment</th></tr>
+    </thead>
+    <tbody>
+    </tbody>
+  </table>
+  </script>
+    
+<script src="static/app.js"></script>
+{% enblock body %}

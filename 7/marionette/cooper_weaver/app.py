@@ -2,13 +2,7 @@ from flask import Flask, render_template
 from pymongo import Connection
 
 conn = Connection()
-db = conn['delta']
-
-db.stories.insert({"story":"jesus"})
-
-print db.stories.find({"story":"jesus"})[0]["story"]
-words = db.stories.find({"story":"jesus"})[0]["story"]
-
+db = conn['conn']
 
 
 app = Flask(__name__)
@@ -16,7 +10,7 @@ app = Flask(__name__)
 
 @app.route("/")
 def index():
-    return render_template("app.html", words=words)
+    return render_template("app.html")
 
 
 

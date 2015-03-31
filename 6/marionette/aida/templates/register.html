@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block head %}
+{% endblock %}
+{% block body %}
+<script type="text/template" id="register-template">
+
+	<h2>Register here to make a new To Do List account!</h2>
+	<form method="POST">
+	<label for="username">Username</label>
+        <input id="username" type="text" placeholder="Username">
+    </label>
+    <label for="password">Password</label>
+    <input id="password" type="password" placeholder="Password">
+    <button type="submit"class="pure-button pure-button-primary" name="b" value="register"id="register">Create Account</button>
+    <p><button type="submit" name="b" value="go-to-login"class="pure-button pure-button-primary" id="go-to-login">Already have an account?</button>
+    </form>
+</script>
+{% endblock %}
