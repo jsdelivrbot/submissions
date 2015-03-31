@@ -7,10 +7,11 @@ stuff = db["stuff"]
 
 app = Flask(__name__)
 
-def create(name, comment):
+def create(name, comment, likes):
     data = {
     'name': name,
-    'comment': comment
+    'comment': comment,
+    'likes' : likes
     }
 return json.dumps({'_id': str(collection.insert(data))})
 
@@ -28,10 +29,11 @@ def post():
         return read()
     elif request.method == 'POST':
         data = json.loads(request.data)
-        if data.has_key('name') and data.has_key('comment') :
+        if data.has_key('name') and data.has_key('comment') and data.has_key('likes') :
             name = data['name']
             comment = data['comment']
-            return create(name, comment)
+            likes = data['likes']
+            return create(name, comment, likes)
         return ""
 
 if __name__ == "__main__":
