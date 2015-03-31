@@ -63,10 +63,16 @@ App.CompView = Marionette.CompositeView.extend({
     }
 });
 
-var Place = new Backbone.Model.extend();
+var Place = new Backbone.Model.extend({
+    urlRoot : '/place',
+    idAttribute : '_id',
+    id : '_id',
+});
+
 var Places = Backbone.Collection.extend({
-    model:Place,
-    comparator:"name"
+    model : Place,
+    url : '/places',
+    comparator : "name"
 });
 
 
