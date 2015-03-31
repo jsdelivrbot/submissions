@@ -15,12 +15,15 @@ App.on("start",function(){
     //var allnewPosts = new App.BlogsView({collection: c});
     //App.newPostplace.show(allnewPosts);
     
-    var bloggy = new App.CompView({collection:c, model:b});
-    App.post.show(bloggy);
+    
     
     var pblog = new App.BlogView();
     App.blog.show(pblog);
     
+
+    var bloggy = new App.CompView({collection:c, model:b});
+    App.post.show(bloggy);
+
     Backbone.history.start();
 });
 
@@ -34,10 +37,10 @@ App.CompView = Marionette.CompositeView.extend({
     events : {
         "click #add" : function() {
             var n = $("#nPost").val();
-            if (n.length > 0){
+            console.log(n);
+            if (n.length != 0);{
                 this.collection.add(new Blog({blog:n}));
-                $("#nPost").val("");
-                
+                $("nPost").val("");
                 }
             }
         }
@@ -46,15 +49,8 @@ App.CompView = Marionette.CompositeView.extend({
 
 App.BlogView = Marionette.ItemView.extend({
     template : "#blogPost",
-    tagname : "li",
-    //NEED A DELETE FUNCTION
-    //events : {
-      //  "click"
+    tagName: "tr"
     
-    //  }
-    modelEvents : {
-            "change" : function() {this.render();}
-    },
 });
 
 App.BlogsView = Marionette.CollectionView.extend(
@@ -74,10 +70,10 @@ var Blogs = Backbone.Collection.extend({
     model:Blog
 });
 
-var Blogger = Backbone.Model.extend();
-var blogger = new Blogger ({first: "sydney"})
+
 //var start = new Blog({name:"Name"});
 var b = new Blog({blog:"heres my blog"});
-var c = new Blogs([b]);
+var x = new Blog({blog:"my second blog"});
+var c = new Blogs([]);
 
 App.start();

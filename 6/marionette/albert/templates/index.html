@@ -1,0 +1,26 @@
+<html>
+<head></head>
+
+<body>
+	<input type="text" id="first"></input>
+	<input type="text" id="second"></input>
+	<input type="text" id="third"></input>
+	<input type="submit" id="submitwords"></input>
+
+	<script type="text/template" id="words-template">
+		<td><%- first%></td>
+		<td><%- second%></td>
+		<td><%- third%></td>
+	</script>
+
+	<table id="words">
+	</table>
+</body>
+
+<script src="static/lib/jquery.js"></script>
+<script src="static/lib/lodash.js"></script>
+<script src="static/lib/backbone.js"></script>
+<script src="static/lib/backbone.marionette.js"></script>
+<script src="static/lib/app.js"></script>
+
+</html>
