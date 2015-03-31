@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+
+{% block bodycontent %}
+
+<script type="text/template" id="item-template">
+	<td><%- username %></td><td><%- itemname%></td>
+	<td><button id="delete">delete</button></td>
+</script>
+
+<script type="text/template" id="submit-template">
+	<div class="pure-u-1-6"></div>
+	<div class="pure-u-2-3">
+	  <h2>Add Item</h2>
+	    <input type="text" id="username" placeholder="Username">
+	    <input type="text" id="itemname" placeholder="Item Name">
+	    <button class="pure-button" id="add">Submit</button>
+	    <br>
+	</div>
+	<div class="pure-u-1-6"></div>
+</script>
+
+<script type="text/template" id="list-template">
+	    <h2>To Do:</h2>
+	    <table class="pure-table pure-table-bordered">
+	      <thead>
+		<tr><th>Username</th><th>Item Name</th></tr>
+	      </thead>
+	      <tbody>
+		<!-- The Place itemviews will go here -->
+	      </tbody>
+	  </form>
+</script>
+
+<div id = "top"><h1>TwitchPlaysToDoLists</h1></div>
+<hr>
+<div id = "page"></div>
+
+<script src="static/app.js"></script>
+{% endblock bodycontent %}

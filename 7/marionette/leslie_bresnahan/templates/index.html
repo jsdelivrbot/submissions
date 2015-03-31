@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+{% block body %}
+<script type="text/template" id="comp-template">
+  <font face="verdana">
+ <div class="pure-form" align="center">
+	  
+	  <input class="pure-input-1-1" id="new-title" type="text" placeholder="Write your title here..." name="title">   
+	  <br><br>
+
+	  <input class="pure-input-1-1" id="new-name" type="text" placeholder="Write your name here..." name="name">   
+	  <br><br>
+
+	  <textarea class="form-custom" id="new-content" cols="50" id="entry" type="text"  placeholder="Write your entry here..." name="entry"></textarea>
+	  <br><br>
+	  
+	  <div class="pure-controls">
+	    <button id="new-post" class="pure-button pure-button-primary">Post</button>
+	  </div>
+</div>
+<hr>
+
+<div>
+</div>
+</script>
+<script type="text/template" id="post-template">
+<br><br>
+    <div align="center" style="width:100%;border:3px groove #4D69A2;padding:8px;">
+      
+
+      <h1 align="center"><%=title%></h1> <center> by <b><%=name%></b></center>
+      <hr>
+
+      <p><%=post%></p>
+    </div>
+    <div style="width:100%;border:3px groove #4D69A2;padding:8px;">
+      <br>
+      <% _.each(comments, function(item){ %>
+      <%=item.name %>:
+      <%=item.content%>
+      <br><hr>
+      <% }); %>
+
+      <!-- <form class="pure-form" align="center">
+	   <fieldset>-->
+
+      <input class="pure-input-1-1" id="com-name" type="text" placeholder="Write your name here..." name="name">   
+      <br><br>
+
+      <textarea class="form-custom" id="com-entry" type="text" cols="40"  placeholder="Write your comment here..." name="comment"></textarea>
+      <br><br>
+      
+      
+      <button name="b" id="post" value="Post" class="pure-button pure-button-primary">Post</button>
+      <div class="pure-controls"></div>
+      <!--</fieldset>
+	  </form>-->
+      <div>
+	
+</script>
+
+<h1 align="center"><u> Blog </u></h1><hr>
+
+<div class="pure-g">
+  <div class="pure-u-1-6"></div>
+  <div class="pure-u-2-3">
+    <div id="first-region">
+      
+   
+    </div>
+<hr>
+    <div id="second-region">
+    </div>
+    <!--
+	<div id="third-region">
+	</div>
+	<div id="fourth-region">
+	</div>-->
+  </div>
+</div>
+<script src="static/app.js"></script>
+{% endblock %}

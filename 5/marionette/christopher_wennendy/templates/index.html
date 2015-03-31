@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block body %}
+
+
+<script type="text/template" id="first">
+<td><%= story %></td><td><input id="edit" type="text"></input>
+<button id = "submit">Submit</button></td>
+</script>
+
+<script type="text/template" id="second">
+<td><%= story %></td><td><input id="edit" type="text"></input>
+<button id = "submit">Submit</button></td>
+</script>
+
+<script src="../static/app.js"></script>
+
+{% endblock body %}

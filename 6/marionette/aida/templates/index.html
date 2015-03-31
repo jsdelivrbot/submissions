@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% block head %}
+{% endblock %}
+{% block body %}
+
+<script type="text/template" id="composite-template">
+		<legend>Add a new task</legend>
+		<input type="text" id="new_task"placeholder="New Task">
+		<button id="add_task"class="pure-button pure-button-primary">Add Task</button>
+		<h2>To Do</h2>
+		<table class="pure-table pure-table-bordered pure-table-striped">
+			<thead>
+			<th>Task</th><th>Date Added</th><th>Completed?</th>
+			</thead>
+			<tbody>
+			</tbody>
+		</table>
+</script>
+
+<script type="text/template" id="layout-template">
+	<div class="pure-g">
+		<div class="pure-u-1-2" id="incomplete"></div>
+		<div class="pure-u-1-2">
+			<h2>Completed Tasks</h2>
+
+			<table class="pure-table pure-table-bordered pure-table-striped" 
+			<tbody id="complete">
+			</tbody>
+			</table>
+		</div>
+	</div>
+</script>
+
+<script type="text/template" id="collection-template">
+</script>
+<script type="text/template" id="new-task-template">
+	<td><%- task%></td>
+	<td><%- date%></td>
+	<td>
+		<input id="complete"type="checkbox">
+	</td>
+</script>
+<script type="text/template" id="old-task-template">
+	<td><%- task%></td>
+	<td><%- date%></td>
+</script>
+<script src="static/app.js"></script>
+{% endblock %}

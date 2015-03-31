@@ -1,0 +1,38 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Sample Application</title>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/lodash.js/3.5.0/lodash.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/backbone.js/1.1.2/backbone-min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/backbone.marionette/2.4.1/backbone.marionette.js"></script>
+    <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.6.0/pure-min.css">
+  </head>
+  <body>
+
+    <script type="text/template" id="item-template">
+      <td><%- name %></td><td><%- album %></td><td><%- artist %></td><td><%- rating %></td><td><%- created %></td>
+      <td><button id="delete">delete</button></td>
+    </script>
+
+    <script type="text/template" id="main-template">
+      Name: <input id="newname"><br>
+      Rating: <input id="newrating"><br>
+      Album: <input id="newalbum"><br>
+      Artist: <input id="newartist"><br>
+      <button class="pure-button pure-button-primary" id="add">Add</button>
+      <table class="pure-table pure-table-bordered">
+	<tbody>
+	</tbody>
+      </table>
+    </script>
+
+    <section id="todoapp">
+      <header id="header"></header>
+      <section id="main"></section>
+      <footer id="footer"></footer>
+    </section>
+    <script src="static/index.js"></script>
+</body>
+</html>

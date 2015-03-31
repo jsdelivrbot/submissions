@@ -1,0 +1,23 @@
+{% extends "base.html"%}
+{% block body %}
+<script type="text/template" id="history-template">
+  <%= name %>: <%= content %>
+</script>
+<script type="text/template" id="other-template">
+  <%= content %>
+</script>
+<script type="text/template" id="story-template">
+  <button class="pure-button pure-button-primary" id="add">Submit</button><hr>
+  <center><h3>So far ...</h3><center><br>
+</script>
+<center>
+  <h1> Awesome Story </h1>
+    Your Entry: <input id="name" placeholder="Name"> <input id="entry" placeholder="Entry">
+    <div id="story">
+    </div>
+<hr>
+<h4>History</h4>
+</center>
+<ol id="history"></ol>
+<script src="static/app.js"></script>
+{% endblock %}

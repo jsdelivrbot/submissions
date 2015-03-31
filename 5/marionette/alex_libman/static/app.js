@@ -15,15 +15,24 @@ App.on("start", function(){
 App.BlogView = Marionette.ItemView.extend({
     template: "#blogs-template",
     events: {
-		"click #delete" : function(){
-			this.remove();
-        }
-	},
-	modelEvents: {
-		"change" : function(){
+	    "click #delete" : function(){
+	        this.remove();
+	        $.ajax({
+		        type: "DELETE",
+		        url: "blogs",
+		        dataType: "json",
+                contentType: "application/json",
+                data: JSON.stringify({
+                    id: this.model.get("_id")
+		        })
+	        });
+	    }
+    },
+    modelEvents: {
+	"change" : function(){
             this.render();
         }
-	}
+    }
 });
 
 App.BlogsView = Marionette.CompositeView.extend({
@@ -36,6 +45,14 @@ App.BlogsView = Marionette.CompositeView.extend({
             var n = $("#name").val();
             var c = $("#content").val();
             if (_.every([t,n,c],function(i){return i.length > 0;})){
+                var that = this;
+                //callback function for the ajax request
+                var addToSite = function(id){
+                    that.collection.add(new Blog({title:t, name:n, content:c, _id:id}));
+                    $("#title").val("");
+                    $("#name").val("");
+                    $("#content").val("");
+                };
                 $.ajax({
                     type: "POST",
                     url: "blogs",
@@ -45,12 +62,12 @@ App.BlogsView = Marionette.CompositeView.extend({
                         title: t,
                         name: n,
                         content: c
-                    })
+                    }),
+                    success: function(response){
+                        //recieve id of entry when it is created, and put it onto the page with its id as an attribute
+                        addToSite(response["id"]);
+                    }
                 });
-                this.collection.add(new Blog({title:t, name:n, content:c}));
-                $("#title").val("");
-                $("#name").val("");
-                $("#content").val("");
             };
         }
     }

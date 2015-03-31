@@ -1,19 +1,41 @@
-<!DOCTYPE HTML>
 <html>
   <head>
     <script src="static/lib/jquery.js"></script>
     <script src="static/lib/lodash.js"></script>
     <script src="static/lib/backbone.js"></script>
     <script src="static/lib/backbone.marionette.js"></script>
-    <script src="static/app.js"></script>
     <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.6.0/pure-min.css">
-    
   </head>
-
-  <body>
-    
-    
-    
-  </body>
   
+  <style>
+    .borderless {
+    border: none;
+    }
+    </style>
+  <center>
+  <body>
+    <script type="text/template" id="lines">
+      <%-liner %>
+    </script>
+    
+      <div id="dump">
+	stuff is dumped here and this is not displayed
+      </div>
+
+    <script type="text/template" id="adder">
+      <h1>Once Upon a Time...</h1>
+      <h3> Here is the current story: </h3>
+      <table class="pure-table borderless">
+	<td></td>
+      </table>
+      <br>
+      <hr><hr>
+      <br>
+      <b>Now, add three words:</b>
+      <input type="text" size="30" id="inputted" placeholder="Three Words Here">
+&nbsp;&nbsp;&nbsp;&nbsp;<button class="pure-button pure-button-primary" id="addbutton">Add To Story</button>
+    </script>
+    <script src="static/story.js"></script>
+  </body>
+  </center>
 </html>

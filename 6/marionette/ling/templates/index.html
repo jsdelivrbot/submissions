@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block body %}
+<script type="text/template" id="line">
+    <%- l %>
+</script>
+
+<script type="text/template" id="add-line-template">
+    <div class="panel-body">
+        <div class="well">
+            <h3>Continue</h3>
+            <input type="text" id="newline">
+            <button class="btn btn-primary" id="add">Add</button>
+        </div>
+    </script>
+
+<!-- page -->
+<div class="container">
+    <center>World, Hello</center>
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            <h3>Story:</h3>
+        </div>
+    <div id="add-line-display"></div>
+</div>
+
+<script src="static/app.js"></script>
+
+{% endblock %}

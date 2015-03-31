@@ -1,1 +1,44 @@
 {% extends "base.html"%}
+{% block body %}
+
+<script type = "text/template" id = "composite-template">
+  <h2>Story time</h2>
+  Story:
+  <input id = "newstory" placeholder="Story">
+  <button class = "pure-button pure-button-primary" id="addstory">Add story</button>
+  <table class = "pure-table pure-table-bordered">
+    <thead>
+      <tr>
+	<td>name</td><td>Story</td><td colspan = "3">Controls</td>
+      </tr>
+    </thead>
+    <tbody>
+    </tbody>
+  </table>
+</script>
+
+<script type = "text/template" id = "place-template">
+  <td><%- name %></td><td><%- rating %></td>
+  <td><input id = "newwords" maxlength = "20"></td>
+  <td><button id = "addwords">Add words</button></td>
+  <td><button id = "delete">Delete</button></td>
+</script>
+
+<script type = "text/template" id = "static-template">
+  <h3>Story Building</h3>
+  <p>Add three words to the story each time.</p>
+</script>
+
+<div class = "pure-g">
+  <div class = "pure-u-1-12"></div>
+  <div class = "pure-u-5-6">
+    <div id = "first-region">
+    </div>
+    <hr>
+    <div id = "second-region">
+    </div>
+  </div>
+</div>
+<script src = "static/app.js"></script>
+
+{% endblock %}

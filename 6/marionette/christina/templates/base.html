@@ -1,0 +1,38 @@
+<!doctype html>
+<html>
+	<head>
+		<script src="static/lib/jquery.js"></script>
+		<script src="static/lib/lodash.js"></script>
+		<script src="static/lib/backbone.js"></script>
+		<script src="static/lib/backbone.marionette.js"></script>
+		<link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.6.0/pure-min.css">
+		
+	</head>
+	<body>
+	  <script type="text/template" id="story-template">
+	    <center>	    <%-sent%> </center> <br><br><br>
+	  </script>
+	  <script type="text/template" id="composite-template">
+	   <table border="0">
+	      <tbody>
+	      </tbody>
+	      </table>
+	    <br>
+	    <br>
+	    New Line: <input id="newline">
+	   <button class="pure-button pure-button-primary" id="add">Add!</button>
+	  </script>	    
+	  <div class="pure-g">
+	    <div class="pure-u-1-12"></div>
+	    <div class="pure-u-5-6">
+	      
+	      <div id="first-region">
+		The first region
+	      </div>
+	      <div id = "second-region">
+Hello
+</div>
+	</body>
+<script src="static/app.js"></script>
+
+</html>

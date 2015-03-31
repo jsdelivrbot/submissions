@@ -46,7 +46,7 @@ App.AddView = Marionette.CompositeView.extend({
     childView : App.LineView,
     childViewContainer : "ol",    
     events : {
-	"click #add-line" : function(){
+	"click #add" : function(){
 	    var n = $("#newline").val();
 	    if (n.length != 0){
 		this.collection.add(new Line({l:n}));

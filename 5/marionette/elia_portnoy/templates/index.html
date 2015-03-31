@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block body %}
+
+<h1> This is Story! </h1>
+<div id="region1"></div>
+
+<script type="text/template" id="display-template">
+	<%- storystr %>
+    <button id="delete"> This Line Sucks! </button>
+</script>
+
+	<script type="text/template" id="story_temp-template">
+	<div></div>
+	<tr>
+		<td><input type="text" id="nextWord1"></td>
+		<td><input type="text" id="nextWord2"></td>
+		<td><input type="text" id="nextWord3"></td>
+	</tr>
+	<td><button class="pure-button pure-button-primary" id="addbutt">add to story</button></td>
+</script>
+
+<script src="static/app.js"></script>
+{% endblock body %}
