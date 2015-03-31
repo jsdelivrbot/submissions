@@ -1,41 +1,46 @@
 from flask import Flask, render_template
-from pymongo import MongoClient
+from flask import request
+import sqlite3
 import json
 
 app = Flask(__name__)
 
-mongo = MongoClient()
-stories = mongo['storydb']
+conn = sqlite3.connect('story.db')
+c = conn.cursor()
 
-@app.route("/")
-def index():
-    return render_template("index.html")
+def create_table(name, attr):
+    L = [k+' '+attr[k] for k in attr.keys()]
+    s = ','.join(L)
+    c.execute("CREATE TABLE %s(%s)" % (name, s))
+    conn.commit()
 
-@app.route("/story")
-def places():
-    places = [x  for x in db.stories.find()]
-    return json.dumps(stories)
+def drop_table(name):
+    c.execute("DROP TABLE %s" % (name))
+    conn.commit()
 
-@app.route("/story",methods=['GET','POST','DELETE','PUT'])
-@app.route("/story/<id>",methods=['GET','POST','DELETE','PUT'])
-def place(id=None):
-    method = request.method
-    j = request.get_json();
-    print method, id, j
-    if id == None:
-        id =j['name']
-        
-    if method == "POST":
-        j['_id']=id
-        try:
-            x = db.stories.update({'_id':id},j,upsert=True)
-        except:
-            j.pop("_id",None)
-            x = db.stories.update({'_id':id},j)
-        
+def add_story(title, cont):
+    conn = sqlite3.connect('story.db')
+    c = conn.cursor()
+    c.execute("INSERT INTO stories VALUES ('%s','%s')" % (title,cont))
+    conn.commit()
+
+def get_stories():
+    conn = sqlite3.connect('story.db')
+    c = conn.cursor()
     
-    return json.dumps({'result':x})
-
+    
+@app.route('/', methods=['GET', 'POST'])
+def index():
+    if request.method == 'GET':
+        stories = get_stories()
+        print stories
+        return render_template('stories.html', stories = stories)
+    else:
+        title = request.form['title']
+        story = request.form['story']
+        # Currently, there is no validation of the title/post
+        add_story(title, story)
+        return render_template('stories.html',stories=get_stories())
 
 if __name__ == "__main__":
    app.debug = True
