@@ -18,8 +18,8 @@ App.on("start",function(){
     var bloggy = new App.CompView({collection:c, model:b});
     App.post.show(bloggy);
     
-    var pblog = new App.BlogView();
-    App.blog.show(pblog);
+    //var pblog = new App.BlogView();
+    //App.blog.show(pblog);
     
     Backbone.history.start();
 });
@@ -34,10 +34,9 @@ App.CompView = Marionette.CompositeView.extend({
     events : {
         "click #add" : function() {
             var n = $("#nPost").val();
-            if (n.length > 0){
+            if (n.length != 0){
                 this.collection.add(new Blog({blog:n}));
                 $("#nPost").val("");
-                
                 }
             }
         }
