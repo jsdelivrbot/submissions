@@ -20,18 +20,10 @@ def rem_entry(title,story):
     conn.commit()
     conn.close()
 
-def update_rating(title,story,rating):
+def update_story(title,story,update,rating):
     conn = sqlite3.connect('data.db')
     cursor = conn.cursor()
-    request = "UPDATE stories SET rating='"+"'"+rating+"' WHERE title='"+title+"' AND story='"+story+"'"
-    cursor.execute(request)
-    conn.commit()
-    conn.close()
-
-def update_story(title,story,update):
-    conn = sqlite3.connect('data.db')
-    cursor = conn.cursor()
-    request = "UPDATE stories SET story='"+"'"+update+"' WHERE title='"+title+"' AND story='"+story+"'"
+    request = "UPDATE stories SET rating='"+"'"+rating+"',story='"+"'"+update+"' WHERE title='"+title+"' AND story='"+story+"'"
     cursor.execute(request)
     conn.commit()
     conn.close()
