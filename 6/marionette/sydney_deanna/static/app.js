@@ -14,7 +14,7 @@ App.on("start",function(){
     //var allnewPosts = new App.BlogsView({collection: c});
     //App.newPostplace.show(allnewPosts);
 
-    var bloggy = new App.CompView({model: , collection:c});
+    var bloggy = new App.CompView({collection:c});
     App.blog.show(bloggy);
 
    var pblog = new App.BlogView();
