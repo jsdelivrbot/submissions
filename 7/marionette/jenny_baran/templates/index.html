@@ -3,16 +3,14 @@
 
 <!-- templates -->
 
-<script type="text/template" id="line">
+<script type="text/template" id="story">
     <%- l %>
 </script>
 
 <script type="text/template" id="add-line-template">
-    <div class="panel-body">
-        <ol></ol>
         <div class="well">
             <h3>Continue the story!</h3>
-            <input type="text" id="newline">
+            <input type="text" id="new-line">
             <button class="btn btn-primary" id="add">Add to story!</button>
         </div>
     </script>
@@ -24,7 +22,12 @@
         <div class="panel-heading">
             <h3>Story:</h3>
         </div>
-    <div id="add-line-display"></div>
+        <div class="panel-body">
+            <div id="story"></div>
+            <ol>
+            <div id="add-line-display"></div>
+            </ol>
+        </div>
 </div>
 
 <script src="static/app.js"></script>

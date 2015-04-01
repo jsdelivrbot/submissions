@@ -3,7 +3,7 @@
 var App = new Marionette.Application();
 
 App.addRegions({
-               AddLineDisplay : "#add-line-display"
+               add : "#add-line-display"
                });
 
 App.on( "start", function() {
@@ -13,47 +13,62 @@ App.on( "start", function() {
                                      collection:c,
                                      model:l1
                                      });
-       App.AddLineDisplay.show( addline );
+       App.add.show( addline );
        
        Backbone.history.start();
        });
 
-//display all lines
-App.StoryView = Marionette.CollectionView.extend({
-                                                 childView : App.LineView
-                                                 });
-
 //display individual lines
 App.LineView = Marionette.ItemView.extend({
-                                          template : "#line",
+                                          template : "#story",
                                           tagName : "li",
                                           modelEvents : {
-                                          "change" : function() { this.render(); }
+                                          "change" : function() { this.render(); },
+                                          },
+                                          events: {
                                           }
                                           });
 
 //displaying & adding lines
 App.AddLine = Marionette.CompositeView.extend({
                                               childView : App.LineView,
-                                              childViewContainer: "ol",
                                               template : "#add-line-template",
                                               events : {
                                               "click #add" : function() {
-                                              var n = $("#newline").val();
-                                              if (n.length > 0){
-                                              this.collection.add(new Line({l:n}));
-                                              $("#newline").val("");
+                                              var n = $("#new-line").val();
+                                              if( n.split(".").length === 1 ){
+                                              m = new Line( {l:n} );
+                                              $("#new-line").val("");
+                                              var that = this;
+                                              m.save( m.toJSON(), { success:function(m,r){
+                                                     if( r.result.n == 1 ){
+                                                     that.collection.add(m);
+                                                     that.render();
+                                                     }}})
                                               }
+                                              
                                               }
                                               }
                                               });
 
-var Line = Backbone.Model.extend();
+var Line = Backbone.Model.extend({
+                                 url : "/line",
+                                 idAttribute : '_id'
+                                 });
+
 var StoryView = Backbone.Collection.extend({
-                                           model:Line
+                                           model : Line,
+                                           url : "/lines",
+                                           initialize : function(){
+                                           this.fetch(function(d){
+                                                      console.log(d);
+                                                      this.render();
+                                                      });
+                                           }
                                            });
 
 var l1 = new Line({l:"Once upon a time, there lived a..."});
-var c = new StoryView([l1]);
+var l2 = new Line({l:"CAT."});
+var c = new StoryView([l1,l2]);
 
 App.start();
