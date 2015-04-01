@@ -8,7 +8,7 @@ App.addRegions({
 App.on("start", function(){
     console.log("Initializing");
 
-    var addview = new App.AddView({collection:c, model:beginning});
+    var addview = new App.AddView({collection:c});
     App.addingRegion.show(addview);
 
     var staticview = new App.StaticView();
@@ -51,6 +51,7 @@ App.AddView = Marionette.CompositeView.extend({
 	    if (n.length != 0){
 		this.collection.add(new Line({l:n}));
 		$("#newline").val("");
+		Backbone.sync("create", c);
 	    }
 	}
     }
