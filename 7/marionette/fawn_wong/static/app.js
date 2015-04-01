@@ -16,9 +16,10 @@ App.ThreadView = Marionette.ItemView.extend({
 	template : "#thread-template",
 	tagName : "span",
 	modelEvent : {
-		"all" : function() {
+		"change" : function() {
 			this.render();
-		}
+			this.model.save();
+		},
 	},
 	events : {
 		"click #view" : function() {
@@ -26,8 +27,14 @@ App.ThreadView = Marionette.ItemView.extend({
 			App.postRegion.show(postView);
 		},
 		"click #remove" : function () {
-			this.remove();
-			//$.ajax({url:"/", type: "DELETE"})
+			//this.remove();
+			this.model.collection.remove(this.model);
+			console.log(this.model);	
+			var del = "/thread"
+			// $.ajax({
+			// 	url:del,
+			// 	type: "DELETE",
+			// })
 		},
 	}
 });
@@ -36,29 +43,23 @@ App.ThreadsView = Marionette.CompositeView.extend({
 	template : "#threads-template",
 	childView : App.ThreadView,
 	childViewContainer : "div",
-	collectionEvent : {
-		"all" : function() {
-			this.render();
-		}
-	},
-	modelEvent : {
-		"all" : function() {
-			this.render();
-		}
-	},
 	events : {
 		"click #add" : function(){
 			var n = $("#newthread").val();
 			if (n.length > 0){
 				var text = $("#postcontent").val();
-				//$.ajax({url:"/", type: "POST"});
-				this.collection.add(new Thread({
-					title:n, 
-					content:text,
-					comments: []
-				}));
+				this.collection.add({ title:n, content:text }, {wait : true} );
 				$("#newthread").val("");
 				$("#postcontent").val("");
+				// $.ajax({
+				// 	url:"/", 
+				// 	type: "POST",
+				// 	dataType: "application/json",
+				// 	data:{
+				// 		"title": n,
+				// 		"content" : text
+				// 	}
+				// })
 			}
 		}
 	}
@@ -99,18 +100,18 @@ var Thread = Backbone.Model.extend({
 		content : "na",
 		comments : []
 	},
-	//idAttribute : '_id'
+	idAttribute: '_id',
 });
 var Threads = Backbone.Collection.extend({
-	//url : "/",
+	url : "/",
 	model : Thread,
-	// initialize : function() {
-	// 	this.fetch();
-	// 	var that = this;
-	// 	setInterval(function(){
-	// 		that.fetch();
-	// 	},10000);
-	// }
+	initialize : function() {
+		this.fetch();
+		var that = this;
+		// setInterval(function(){
+		// 	that.fetch();
+		// },10000);
+	}
 });
 
 var c = new Threads([]);
