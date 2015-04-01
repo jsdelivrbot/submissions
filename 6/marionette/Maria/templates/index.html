@@ -2,23 +2,31 @@
 {% block body %}
 
 <script type = "text/template" id = "static-template">
-  <h3> Write your shopping list! </h3>
+  <h3> Add to the list! </h3>
 </script>
 
+
+<script type ="text/template" id = "line">
+  <%- l %>
+</script>
 
 <script type = "text/template" id = "add-template">
   <ol></ol>
-  <h3> Add things you need to buy: </h3>
+  <h3>Add to the list</h3>
   <input type = "text" id = "newline">
-  <a class = "btn btn-success" id = "new_item">Add!</a>
+  <button class="btn btn-success" id = "add">Add!</button>
 </script>
 
-<div>
-  <h1> Shopping List </h1>
-  <h3>Instructions:</h3>
-  <div id="first-region"></div>
-  <div id ="fourth-region"></div>
+<div class="container">
+  <div class="panel panel-success">
+    <div class="panel-heading">
+      <h1> Shopping List: </h1>
+    </div>
+    <div class="panel-body">
+      <h3>To-Do:</h3>
+      <div id = "first-region"></div>
+    </div>
+  </div>
 </div>
-
-<script type="text/javascipt" src="static/app.js"></script>
+<script src="static/app.js"></script>
 {% endblock body %}
