@@ -1,26 +1,28 @@
 {% extends "base.html"%}
 {% block body %}
 
-<script type="text/template" id="addLine">
-<hr>
-	Add three more words: <input id="newLine">
+  <div class="pure-g">
+     <div class="pure-u-1-12"></div>
+     <div class="pure-u-5-6">
+       <div id="first-region"></div>
+     </div>
+   </div>
 
-	<button class="pure-button pure-button-primary" id="add">Add!!</button>
-   <hr>
+
+<script type="text/template" id="addLine">
+  <hr>
+  <input id="newLine">
+
+  <button class="pure-button pure-button-primary" id="add">add line</button>
+  <hr>
 </script>
 
-<script type="text/template" id= "story">
-<td><%- content %></td><td> <button class="rm">remove line</button></td>
-    </script>
+<
+   <script type="text/template" id= "story">
+     <td><%- content %></td> <!--<td> <button class="rm">remove line</button></td>-->
+   </script>
+   
 
-<div class="pure-g">
-	<div class="pure-u-1-12"></div>
-	<div class="pure-u-5-6">
-        <div id="first-region">
-		</div>
-    
-	</div>
-</div>
-<script src="static/app.js"></script>
+   <script src="static/app.js"></script>
 
-{% endblock %}
+   {% endblock %}
