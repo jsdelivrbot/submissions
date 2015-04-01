@@ -12,8 +12,7 @@
 		Super-Duper General Overall Stuff Goes Here
 		</script> -->
 	<script type="text/template" id="entry-composite-template">
-	    New Entry: <input id="newentryname">
-	    <button id="addentry">New Entry</button>
+	    <h3>Entries</h3>
 	    <table>
 		<thead>
 		    <tr><th>Name</th></tr>
@@ -21,6 +20,8 @@
 		<tbody>
 		</tbody>
 	    </table>
+	    New Entry: <input type="text" id="newentryname">
+	    <button id="addentry">Add</button>
 	</script>
 	<script type="text/template" id="entry-template">
 	    <td><%- name %></td>
@@ -35,8 +36,8 @@
 		<tbody>
 		</tbody>
 	    </table>
-	    New Comment: <input id="newcommentname">
-	    <button id="addcomment">Add Comment</button>
+	    New Comment: <input type="text" id="newcommentname">
+	    <button id="addcomment">Add</button>
 	</script>
 	<script type="text/template" id="comment-template">
 	    <td><%- content %></td>
@@ -44,11 +45,9 @@
 
 	<div id="wrapper">
 	    <div class="box">
-		Blog Entries Go Here
 		<table id="entries"></table>
 	    </div>
 	    <div class="box">
-		Comments for Selected Blog Go Here
 		<table id="comments"></table>
 	    </div>
 	</div>

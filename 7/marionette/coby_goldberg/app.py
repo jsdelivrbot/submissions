@@ -78,15 +78,13 @@ def update(itemId, name, period, comments):
 
 ######################## JSON CODE ####################################
 
-def toJSON(cursor):
+
+def read():
+    cursor = collection.find()
     js = [cursor[i] for i in range(cursor.count())]
     for d in js:
         d['_id'] = str(d['_id'])
     return json.dumps(js)
-
-def read():
-    cursor = collection.find()
-    return toJSON(cursor)
 
 if __name__ == "__main__":
     app.debug = True
