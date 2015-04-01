@@ -39,7 +39,18 @@ App.CompView = Marionette.CompositeView.extend({
 				var t = $("#new_task").val();
 				if (t.length > 0) {
 					var d = $.datepicker.formatDate('yy/mm/dd', new Date());
-					this.collection.unshift(new Task({task:t, date:d}));
+					var task = new Task({task:t, date:d});
+					console.log(i);
+					// this.collection.unshift(t);
+					task.save(task.toJSON(),{success:function(p,r){
+						if (r.result.n == 1) {
+							console.log("sucess");
+							this.collection.unshift(t);
+						}
+					}})
+					
+
+
 					$("#new_task").val("");
 				}
 			}
@@ -74,7 +85,10 @@ App.on("start", function(){
 	layview.complete.show(collview);
 });
 
-var Task = Backbone.Model.extend();
+var Task = Backbone.Model.extend({
+	url: "/task",
+	idAttribute: "_id"
+});
 var Tasks = Backbone.Collection.extend({
 	model: Task
 });
