@@ -9,8 +9,8 @@ App.on( "start", function() {
     console.log( "STARTING" );
     
     var addline = new App.AddLine({
-        collection:c,
-        model:p1
+        model:p1,
+        collection:c
     });
     App.add.show( addline );
     
@@ -73,8 +73,10 @@ var StoryView = Backbone.Collection.extend({
 
 
 
-var p1 = new Line({content:"Some words"});
-var p2 = new Line({content:"sdfguhewrdfghj"});
 var c = new StoryView([p1,p2]);
+
+
+var p1 = new Line({content:"three word story"});
+var p2 = new Line({content:"whoa!"});
 
 App.start();
