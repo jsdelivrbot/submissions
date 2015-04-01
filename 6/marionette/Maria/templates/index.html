@@ -1,7 +1,24 @@
 {% extends "base.html" %}
 {% block body %}
 
+<script type = "text/template" id = "static-template">
+  <h3> Write your shopping list! </h3>
+</script>
+
+
+<script type = "text/template" id = "add-template">
+  <ol></ol>
+  <h3> Add things you need to buy: </h3>
+  <input type = "text" id = "newline">
+  <a class = "btn btn-success" id = "new_item">Add!</a>
+</script>
+
+<div>
+  <h1> Shopping List </h1>
+  <h3>Instructions:</h3>
+  <div id="first-region"></div>
+  <div id ="fourth-region"></div>
+</div>
 
 <script type="text/javascipt" src="static/app.js"></script>
-
 {% endblock body %}

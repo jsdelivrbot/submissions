@@ -1,5 +1,3 @@
-//just classcode for now
-
 var App = new Marionette.Application();
 
 App.addRegions({
@@ -10,106 +8,63 @@ App.addRegions({
 });
 
 
-App.on("start",function(){
-		console.log("Starting");
-		var staticview = new App.StaticView();
-		App.fourthRegion.show(staticview);
+App.on("start", function(){
+    console.log("Initializing");
 
-		var placeview = new App.PlaceView({model:p1});
-		App.secondRegion.show(placeview);
+    var addview = new App.AddView({collection:c});
+    App.fourthRegion.show(addview);
 
-		var placesview = new App.PlacesView({collection:c});
-		App.thirdRegion.show(placesview);
-
-		var compview = new App.CompView({model:person,collection:c});
-		App.firstRegion.show(compview);
-
-		Backbone.history.start();
-
+    var staticview = new App.StaticView();
+    App.firstRegion.show(staticview);
 });
+
 
 App.StaticView = Marionette.ItemView.extend({
-		template : "#static-template"
-});
-
-App.PlaceView = Marionette.ItemView.extend({
-		template : "#place-template",
-		tagName : "tr",
-		events : {
-				"click #delete" : function(){this.remove();}
-		},
-		modelEvents : {
-				"change" : function() { this.render(); }
-		}
-		
+    template : "#static-template"
 });
 
 
-App.PlacesView = Marionette.CollectionView.extend({
-		childView : App.PlaceView
+App.LineView = Marionette.ItemView.extend({
+    template : "#line",
+    tagName : "li",
+    modelEvents : {
+	"change" : function(){
+	    this.render();}
+    }
 });
 
-App.CompView = Marionette.CompositeView.extend({
-		template : "#composite-template",
-		childView : App.PlaceView,
-		childViewContainer : "tbody",
-		modelEvents : {
-				"change" : function() { this.render(); }
-		},
-		events : {
-				"click #add" : function() {
-						var n = $("#newname").val();
-						if (n.length > 0){
-								this.collection.add(new Place({name:n,rating:0}));
-								this.collection.comparator="name";
-								this.collection.sort();
-								$("#newname").val("");
-						}
-				}
-		}
+App.StoryView = Marionette.CollectionView.extend({
+    template : "#story-template",
+    childView : App.LineView,
 });
 
-
-var myController = Marionette.Controller.extend({
-		default : function(){
-		var compview = new App.CompView({model:person,collection:c});
-		App.firstRegion.show(compview);
-		},
-		oneRoute : function() {
-				App.firstRegion.show(new App.PlaceView({model:p1}));
-				App.secondRegion.show(new App.PlaceView({model:p2}));
-		},
-		twoRoute : function() {
-				App.firstRegion.show(new App.PlaceView({model:p2}));
-				App.secondRegion.show(new App.PlaceView({model:p1}));
-																					 
-		} 
-});
-
-App.controller = new myController();
-
-App.router = new Marionette.AppRouter({
-		controller : App.controller,
-		appRoutes : {
-				"/" : "default",
-				one : "oneRoute",
-				two : "twoRoute"
-		}
+App.AddView = Marionette.CompositeView.extend({
+    template : "#add-template",
+    childView : App.LineView,
+    childViewContainer : "ol",    
+    events : {
+	"click #new_item" : function(){
+	    var n = $("#newline").val();
+	    if (n.length != 0){
+		this.collection.add(new Line({l:n}));
+		$("#newline").val("");
+		Backbone.sync("create", c);
+	    }
+	}
+    }
 });
 
 
-var Place = Backbone.Model.extend();
-var Places = Backbone.Collection.extend({
-		model:Place
+
+
+
+
+var Line = Backbone.Model.extend();
+var StoryView = Backbone.Collection.extend({
+    model:Line
 });
 
-var Person = Backbone.Model.extend();
-var person = new Person({first:'Dennis',
-												 last:'Clyde-Sinclair',
-												 stars:8});
 
-var p1 = new Place({name:"Terry's",rating:5});
-var p2 = new Place({name:"Ferry's",rating:8});
-var c = new Places([p1,p2]);
-
+var beginning = new Line({l:Milk});
+var c = new StoryView([beginning]);
 App.start();
