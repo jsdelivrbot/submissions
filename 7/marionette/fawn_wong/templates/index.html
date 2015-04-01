@@ -15,9 +15,12 @@
 
 <script type = "text/template" id = "thread-template">
     <br>
+    <span class = "pure-form" action="/" method = "POST">
     <button class = "pure-button" id="remove" style = "margin-right:10px;height:35px">X</button>
     <span style = "font-weight:bold;font-size:24px"><%= title %></span>
     <button class = "pure-button pure-button-primary" id="view" style = "float:right;margin-left:10px;">&gt;&gt;</button>
+    <input type="hidden" name=" " value=" ">
+    </span>
     <br><BR>
 </script>
 
@@ -29,7 +32,7 @@
       <div><%= comments[i] %></div>
     <% } %>
     <br>
-    <span class = "pure-form" action="/" method = "POST">
+    <span class = "pure-form" action="javascript:void(0)" method = "POST">
       <fieldset class = "pure-group">
         <textarea class = "pure-u-1"  id = "commentcontent" placeholder = "Comment"></textarea>
       </fieldset>
@@ -45,7 +48,7 @@
   <div class = "pure-u-1-12"></div>
   <div class = "pure-u-7-8">
     <h1>A blog, I guess?</h1>
-    <h5 style = "text-align:right">things started to break when i attempted to add persistance, will fix when less tired.</h5>
+    <h5 style = "text-align:right">json couldn't decode, for some reason</h5>
   </div>
 </div>
 <div class = "pure-g">
