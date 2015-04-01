@@ -3,8 +3,25 @@ console.log("HELLO");
 var App = new Marionette.Application();
 
 App.addRegions({
-    story: "#story"
+    story: "#story",
+    stored:"#stored"
 });
+
+var Line = Backbone.Model.extend({
+    urlRoot:'/story',
+    idAttribute:'_id',
+    id:'_id',
+});
+
+var Lines = Backbone.Collection.extend({
+    model: Line,
+    url:'/',
+    initialize:function() {
+	this.fetch();
+    }
+});
+
+var b = new Lines();
 
 
 App.on("start",function() {
@@ -12,10 +29,22 @@ App.on("start",function() {
     var storyView = new App.StorysView({collection: currentstory,
 				       model: start});
     App.story.show(storyView);
+  
+    var stored2View = new App.StoredView({collection: currentstory,
+				       model: start});
+    App.stored.show(stored2View);
 
     Backbone.history.start();
 });
 
+App.StoresView = Marionette.ItemView.extend({
+    template: "#stored-template",
+    modelEvents:{
+	"change":function(){
+	    this.render();
+	}
+    }
+});
 App.StoryView = Marionette.ItemView.extend({
     template: "#story-template",
     modelEvents: {
@@ -23,6 +52,10 @@ App.StoryView = Marionette.ItemView.extend({
 	    this.render();
 	}
     }
+});
+
+App.StoredView = Marionette.CollectionView.extend({
+    childView : App.StoresView,
 });
 
 App.AllView = Marionette.CollectionView.extend({
@@ -39,7 +72,15 @@ App.StorysView = Marionette.CompositeView.extend({
 	"click #add" : function(){
 	    var l = $("#line").val();
 	    if (l.length >0){
-		this.collection.add(new Story({line:l}));
+		var m = new Line ({line:l});
+		m.save(m.toJSON(), {success:function() {
+		    console.log("Success")
+
+		}});
+		this.collection.add (new Story({line:l}))
+		this.render();		    
+				    
+		
 	    }
 	    $("#line").val("");
 	}	   
