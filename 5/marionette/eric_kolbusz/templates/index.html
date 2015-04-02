@@ -1,0 +1,51 @@
+<html>
+  <head>
+    <script src="/static/lib/jquery.js"></script>
+    <script src="/static/lib/lodash.js"></script>
+    <script src="/static/lib/backbone.js"></script>
+    <script src="/static/lib/backbone.marionette.js"></script>
+    <script id="input-template" type="text/template">
+      Team:
+      <select id="team">
+	<option value="B">B</option>
+	<option value="W">W</option>
+      </select>
+      Piece:
+      <select id="piece">
+	<option value="K">King</option>
+	<option value="Q">Queen</option>
+	<option value="B">Bishop</option>
+	<option value="Kn">Knight</option>
+	<option value="R">Rook</option>
+	<option value="P">Pawn</option>
+      </select>
+      Moving From:
+      <input id="start" type="text" size="2">
+      Moving To:
+      <input id="end" type="text" size="2">
+      <br>
+      <button id="add">Add to History</button>
+      <p><table border="1"><thead>
+	    <tr>
+              <th>Team</th>
+	      <th>Piece Moved</th>
+	      <th>Moved From</th>
+	      <th>Moved To</th>
+            </tr>
+	  </thead>
+	  <tr>
+            <td id="tableteam"></td>
+            <td id="tablepiece"></td>
+            <td id="tableffrom"></td>
+            <td id="tableto"></td>
+	  </tr>
+      </table></p>
+    </script>
+    <title>Chess Move Tracker</title>
+  </head>
+  <body>
+    <h1>Chess Move Tracker</h1>
+    <div id="input-region"></div>
+    <script src="/static/app.js"></script>
+  </body>
+</html>
