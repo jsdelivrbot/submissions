@@ -2,6 +2,28 @@
 {% block body %}
 
 
-<script type="text/javascipt" src="static/app.js"></script>
 
+<script type ="text/template" id = "line">
+  <%- l %>
+</script>
+
+<script type = "text/template" id = "add-template">
+  <ol></ol>
+  <h3>Add to the list</h3>
+  <input type = "text" id = "newline">
+  <button class="btn btn-success" id = "add">Add!</button>
+</script>
+
+<div class="container">
+  <div class="panel panel-success">
+    <div class="panel-heading">
+      <h1> Shopping List: </h1>
+    </div>
+    <div class="panel-body">
+      <h3>To Buy:</h3>
+      <div id = "first-region"></div>
+    </div>
+  </div>
+</div>
+<script src="static/app.js"></script>
 {% endblock body %}
