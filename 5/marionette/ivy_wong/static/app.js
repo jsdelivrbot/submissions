@@ -34,19 +34,25 @@ App.StoryView = Marionette.ItemView.extend({
     tagName: "tr",
     events: {
         "click #delete":function(){
-            this.remove();
+            this.model.destroy({
+                success:function(m){
+                    this.remove();     
+                }
+            });
         },
         "click #up":function(){
             var r = this.model.get('rating');
             r = parseInt(r);
             r++;
             this.model.set('rating',r);
+            this.model.save();
         },
         "click #down":function(){
             var r = this.model.get('rating');
             r = parseInt(r);
             r--;
             this.model.set('rating',r);
+            this.model.save();
         },
     },
     modelEvents: {
@@ -68,16 +74,23 @@ App.CompositeView = Marionette.CompositeView.extend({
         "click #add":function(){
             var n = $("#newstory").val();
             if(n.length > 0){
-                this.collection.add(new Story({name:n,rating:0}));
                 $("#newstory").val("")
+                var s = new Story({name:n,rating:"0",_id:n});
+                s.save(s.toJSON(),{
+                    success:function(s,r){
+                        if(r.result.n==1){
+                            this.collection.add(s); 
+                        }
+                    }
+                });
             }
         }
     },
     modelEvents: {
         "change":function(){ 
-            this.render();
+            //this.render();
         }
-    }
+    },
 });
 
 var myController = Marionette.Controller.extend({
@@ -101,12 +114,41 @@ App.router = new Marionette.AppRouter({
         "two":"twoRoute"
     }
 });
-var Story = Backbone.Model.extend({});
+var Story = Backbone.Model.extend({
+    urlRoot:"/story",
+    idAttribute:"_id",
+    id:"_id",
+    defaults:{
+        name:"Untitled",
+        rating:0,
+    },
+    initialize:function(){
+        this.on({
+            "change":function(){
+                console.log("Story changed!");
+            }
+        });
+    }
+});
 var Stories = Backbone.Collection.extend({
-    model:Story
+    model:Story,
+    url:"/stories",
+    initialize:function(){
+        this.fetch(function(s){
+            console.log(s);
+            this.render();
+        });
+        this.on({
+            "add":function(){
+                console.log("Added.");
+            }
+        });
+    }
 });
 
-var s1 = new Story({name:"Dystopian YA",rating:10});
+/*var s1 = new Story({name:"Dystopian YA",rating:10});
 var s2 = new Story({name:"Very Realistic YA",rating:8});
-var stories = new Stories([s1,s2]);
+*/
+var stories = new Stories();
+
 App.start();

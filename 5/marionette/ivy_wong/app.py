@@ -22,17 +22,26 @@ def story(id=None):
     method = request.method
     j = request.get_json()
     print method, id, j
+    x = "nop" 
     if id == None:
         id = j['name']
+        return "welp"
 
-    if method=='POST':
+    if method=='PUT':
         j['_id']=id
         try:
             x = db.stories.update({'_id':id},j,upsert=True)
         except:
             j.pop("_id",None)
             x = db.stories.update({"_id":id},j)
+    if method=='DELETE':
+        try:
+            x = db.stories.remove({'_id':id})
+        except:
+            print "Failed."
+
     return json.dumps({"result":x})
+    
 
 if __name__ == "__main__":
    app.debug = True
