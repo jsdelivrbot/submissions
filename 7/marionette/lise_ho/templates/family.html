@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+{% block body %}
+<script>
+  names = prompt("Please enter your name.");
+</script>
+<script type="text/template" id="static-template">
+  <h2> Static Template </h2>
+</script>
+
+<script type="text/template" id="start-template"> 
+  <h2 style="display:inline"> Tamagachi </h2> <img id ="tama_img" width="80px" height="90px" src= <%= img_src %>>
+  <h3> Meet <%= name %>, the Tamagachi</h3>
+  <input id="newname"></input> <button class = "pure-button pure-button-primary" id="changename">Change Name!</button>
+  </script>
+
+<script type="text/template" id ="composite-template">
+  <h2> <%= name %>'s Stats </h2>
+  <table class = "pure-table pure-table-bordered pure-table-striped">
+    <thead>
+      <tr>
+	<td>NAME</td><td>HAPPINESS</td><td>HUNGER</td><td>Sprite</td><td>Remove from Family</td>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- filled by attributes-template -->
+    </tbody>
+
+  </table>
+</script>
+
+<script type="text/template" id="attributes-template">
+  <tr>	
+    <td><%- name %></td>  
+    <td><%- happiness%></td> 
+    <td><%- hunger  %></td> 
+    <td><img src="<%- img_src %>" width="30" height="40"></img></td> 
+    <td><button id="disown">Disown</button></td>
+  </tr> 
+  
+</script>
+
+<div class = "pure-g">
+  <div class = "pure-u-1-12"></div>
+  <div class = "pure-u-5-6">
+
+  <!-- # convention that doesn't go back the server to go to a new page... just goes to a different place on the same page
+  <a href="#one"><button class="pure-button pure-button-primary">one</button></a>
+  <a href="#two"><button class="pure-button pure-button-primary">two</button></a>  -->
+
+  <div id ="first-region">
+    First region
+  </div>
+  <h1> BREAKER <h1>
+  <div>
+    <table class="pure-table pure-table-bordered" id="second-region">
+    </table>
+  </div>
+  <hr>
+  <div id ="third-region">
+    Third region
+  </div>
+  <hr>
+  <div id ="fourth-region">
+    Fourth region
+  </div>
+         
+
+</div>
+
+
+<script src = "static/app2.js"></script>
+
+
+{% endblock %}
