@@ -1,17 +1,17 @@
 {% extends "base.html" %}
 {% block body %}
 
-<script type="text/template" id="composite-template">
+<script type="text/template" id="main-template">
     <h2>Current Stories</h2>
     <p>Start a new Story:
     <form class="pure-form">
-        <input type="text" placeholder="Story Name" id="newstory">
+        <input type="text" placeholder="Story Title" id="newstory">
         <button class="pure-button" id="add">Add</button>
     </form>
     </p>
     <table id="storylist" class="pure-table pure-table-bordered">
         <thead>
-            <tr><th>Name</th><th>Rating</th><th colspan="3">Controls</th></tr>
+            <tr><th>Title</th><th>Story So Far</th><th>Your Line</th><th colspan="2">Controls</th></tr>
         </thead>
         <tbody>
             <!-- The Place itemviews go here -->
@@ -19,22 +19,25 @@
     </table>
 </script>
 
-<script type="text/template" id="story-template">
-    <td><%- name %></td><td><%- rating %></td>
-    <td><button id="up">up</button></td>  
-    <td><button id="down">down</button></td>  
-    <td><button id="delete">delete</button></td>  
+<script type="text/template" id="story-item-template">
+    <td><%- name %></td>
+    <td><% for(var i = 0; i < lines.length; i++){ %>
+        <%- lines[i] %><br>
+        <% } %>
+    </td>
+    <td id="newline" contenteditable="true"></td>
+    <td><button class="pure-button" id="addline">Add Line</button></td>
+    <td><button class="pure-button" id="delete">Delete</button></td>  
+
 </script>
 
 <div class="pure-g">
     <div class="pure-u-1-12"></div>
     <div class="pure-u-5-6">
-        <h1>The Marionette Page</h1>
+        <h1>Story Maker</h1>
         <hr>
         <div class="pure-u-1-6"></div>
         <div class="pure-u-2-3">
-            <a href="#one" class="pure-button pure-button-primary">Go to first page</a> 
-            <a href="#two" class="pure-button pure-button-primary">Go to second page</a> 
             <div id="center-region">
 
             </div>

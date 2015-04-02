@@ -16,7 +16,6 @@ def stories():
     stories = [x for x in db.stories.find()]
     return json.dumps(stories)
 
-@app.route("/story",methods=['GET','POST','DELETE','PUT'])
 @app.route("/story/<id>",methods=['GET','POST','DELETE','PUT'])
 def story(id=None):
     method = request.method
@@ -25,7 +24,9 @@ def story(id=None):
     x = "nop" 
     if id == None:
         id = j['name']
-        return "welp"
+    
+    if method=='GET':
+        x = db.stories.find_one({"_id":id})
 
     if method=='PUT':
         j['_id']=id
@@ -41,7 +42,6 @@ def story(id=None):
             print "Failed."
 
     return json.dumps({"result":x})
-    
 
 if __name__ == "__main__":
    app.debug = True

@@ -1,18 +1,3 @@
-/* Backbone.sync - CRUD
- * (method, model, [options])
- *
- * Collection.fetch
- * - needs collection url
- * - sends request to server
- * - exclude mongo id
- *
- * Model.save
- * - requires Model.urlRoot
- * - is a root - id will complete it
- * - needs Model.id and Model.idAttribute
- *
- */
-
 console.log("HELLO");
 
 var App = new Marionette.Application();
@@ -30,29 +15,28 @@ App.on("start",function(){
 });
 
 App.StoryView = Marionette.ItemView.extend({
-    template: "#story-template",
+    template: "#story-item-template",
     tagName: "tr",
     events: {
+        "click #addline":function(){
+            var l = $("#newline").text();
+            $("#newline").val("");
+            console.log(l);
+            if(l.length > 0){
+                var s = this.model.get("lines");
+                console.log(s);
+                s.push(l)
+                this.model.save();
+                this.render();   
+            }
+            console.log("Line added.")          
+        },
         "click #delete":function(){
             this.model.destroy({
                 success:function(m){
                     this.remove();     
                 }
             });
-        },
-        "click #up":function(){
-            var r = this.model.get('rating');
-            r = parseInt(r);
-            r++;
-            this.model.set('rating',r);
-            this.model.save();
-        },
-        "click #down":function(){
-            var r = this.model.get('rating');
-            r = parseInt(r);
-            r--;
-            this.model.set('rating',r);
-            this.model.save();
         },
     },
     modelEvents: {
@@ -67,15 +51,15 @@ App.StoriesView = Marionette.CollectionView.extend({
 });
 
 App.CompositeView = Marionette.CompositeView.extend({
-    template: "#composite-template",
+    template: "#main-template",
     childView: App.StoryView,
     childViewContainer: "tbody",
     events: {
         "click #add":function(){
             var n = $("#newstory").val();
             if(n.length > 0){
-                $("#newstory").val("")
-                var s = new Story({name:n,rating:"0",_id:n});
+                $("#newstory").val("");
+                var s = new Story({name:n,lines:[],_id:n});
                 s.save(s.toJSON(),{
                     success:function(s,r){
                         if(r.result.n==1){
@@ -120,7 +104,7 @@ var Story = Backbone.Model.extend({
     id:"_id",
     defaults:{
         name:"Untitled",
-        rating:0,
+        lines:[],
     },
     initialize:function(){
         this.on({
