@@ -69,7 +69,7 @@ App.StartView = Marionette.ItemView.extend({
 		name: $("#hunger").val(),
 	    });
 	    console.log(x.attributes.name);
-	    c.
+	    c.render();
 	    // ADD TO MONGO DB
 	    this.render();
 	}	
@@ -84,6 +84,8 @@ App.CompView = Marionette.CompositeView.extend({
 	    console.log("adding something");
 	},
 	"change": function(){
+	    console.log(JSON.stringify(c));
+
 	    this.render();
 	}
     }
