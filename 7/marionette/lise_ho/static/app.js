@@ -49,16 +49,27 @@ App.TamaStatView = Marionette.ItemView.extend({
     }
 });
 
-App.StartView = Marionette.CompositeView.extend({
+App.StartView = Marionette.ItemView.extend({
     template:"#start-template",
     childView:App.ItemView,
     events:{
 	"click #changename": function(){
 	    //mongoadd($("newname").val())
-	    this.model.attributes.name =$("#newname").val();
-	    console.log($("#newname").val());
+	    this.model.set("name", $("#newname").val());
+	    //console.log($("#newname").val());
 	    console.log(this.model.attributes.name);
 	    console.log("adding NEW NAME");	
+	    // ADD TO MONGO DB
+	    this.render();
+	},
+	"click #addnew": function(){
+	    var x = new Tamagachi({
+		name: $("#name2").val(),
+		name: $("#happiness").val(),
+		name: $("#hunger").val(),
+	    });
+	    console.log(x.attributes.name);
+	    c.
 	    // ADD TO MONGO DB
 	    this.render();
 	}	
@@ -71,6 +82,9 @@ App.CompView = Marionette.CompositeView.extend({
     events:{
         "click #add":function(){
 	    console.log("adding something");
+	},
+	"change": function(){
+	    this.render();
 	}
     }
 });
