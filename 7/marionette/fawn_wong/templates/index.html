@@ -4,7 +4,7 @@
 <script type = "text/template" id = "threads-template">
   <div></div>
   <br>
-  <span class = "pure-form" action="/" method = "POST">
+  <span class = "pure-form" action="javascript:void(0)" method = "POST">
     <fieldset class = "pure-group">
       <input name = "title" class = "pure-u-1" id = "newthread" placeholder = "Post Title"> 
       <textarea name = "content" class = "pure-u-1" id = "postcontent" placeholder = "Post Content" style = "resize:none;height:100px"></textarea>
@@ -15,11 +15,12 @@
 
 <script type = "text/template" id = "thread-template">
     <br>
-    <span class = "pure-form" action="/" method = "POST">
-    <button class = "pure-button" id="remove" style = "margin-right:10px;height:35px">X</button>
-    <span style = "font-weight:bold;font-size:24px"><%= title %></span>
-    <button class = "pure-button pure-button-primary" id="view" style = "float:right;margin-left:10px;">&gt;&gt;</button>
-    <input type="hidden" name=" " value=" ">
+    <span class = "pure-form" action="javascript:void(0)" method = "DELETE">
+      <button class = "pure-button" id="remove" style = "margin-right:10px;height:35px">X</button>
+    </span>
+    <span class = "pure-form">
+      <span style = "font-weight:bold;font-size:24px"><%= title %></span>
+      <button class = "pure-button pure-button-primary" id="view" style = "float:right;margin-left:10px;">&gt;&gt;</button>
     </span>
     <br><BR>
 </script>
@@ -48,7 +49,6 @@
   <div class = "pure-u-1-12"></div>
   <div class = "pure-u-7-8">
     <h1>A blog, I guess?</h1>
-    <h5 style = "text-align:right">json didn't agree, i really did try :c<br>will come back to this over the break</h5>
   </div>
 </div>
 <div class = "pure-g">

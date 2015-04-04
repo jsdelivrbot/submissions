@@ -8,7 +8,6 @@ app = Flask(__name__)
 mongo = MongoClient()
 db = mongo['blogthing']
 posts = db.posts
-num = posts.count()
 
 def toJSON(Q):
 	dicts = [Q[i] for i in range(Q.count())]
@@ -22,44 +21,39 @@ def read():
 	return toJSON(cursor)
 	
 def create(t, c):
-	print("HELLLLLOOOOOOOOOO")
 	data = {
-		"_id" : num,
 		"title": t,
 		"content": c
 	}
-	json.dumps({"result":str(posts.insert(data))})
-	print(json)
+	return json.dumps({'_id': str(posts.insert(data))})
 
 def delete(item_id):
-	posts.remove({"_id":item_id}, multi=False)
+	posts.remove({'_id': ObjectId(item_id)}, multi=False)
 
 @app.route("/", methods=["POST", "GET", "DELETE", "PUT"])
 def index():
-	# if request.method == "GET":
-	# 	read()
-	# elif request.method == "POST":	
-	# 	print(request.data)
-	# 	data = json.loads(request.data.decode('utf8'))
-	# 	if data.has_key("title") and data.has_key("content"):
-	# 		create(data["title"], data["content"])
-	# elif request.method == "DELETE":
-	# 	delete(data["_id"])
 	return render_template("index.html")
 
-@app.route("/thread")
+@app.route("/threads", methods=['GET', 'POST'])
 def threads():
-	# if request.method == "GET":
-	# 	return read()
-	# elif request.method == "POST":	
-	# 	data = json.loads(request.data.decode('utf8'))
-	# 	if data.has_key("title") and data.has_key("content"):
-	# 		return create(data["title"], data["content"])
-	# 	elif data.has_key(" "):
-	# 		return delete(data["_id"])
-	# 	return ""
-	pass
+	if request.method == 'GET':
+		return read()
+	elif request.method == 'POST':
+		try:
+			data = json.loads(request.data)
+		except:
+			data = json.loads(request.data.decode("utf8"))
+		if 'title' in data and 'content' in data:
+			return create(data['title'], data['content'])
+		return ""
+
+@app.route('/thread/<id>', methods=['DELETE'])
+def thread(id = None):
+	if request.method == 'DELETE':
+		delete(id)
+		return ""
+
 
 if __name__ == "__main__":
    app.debug = True
-   app.run()
+   app.run(host='0.0.0.0', port=8000)
