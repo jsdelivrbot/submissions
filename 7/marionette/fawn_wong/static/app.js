@@ -5,11 +5,25 @@ App.addRegions({
 	postRegion : "#post"
 });
 
-App.on("start",function(){
-	console.log("HELLO");
-	var threadsView = new App.ThreadsView({collection:c});
-	App.threadsRegion.show(threadsView);
+var Thread = Backbone.Model.extend({
+	idAttribute: '_id',
+	defaults : {
+		title : "na",
+		content : "na",
+		comments : []
+	}
+});
 
+var Threads = Backbone.Collection.extend({
+	model : Thread,
+	url : "threads",
+	initialize : function() {
+		this.fetch();
+		var that = this;
+		// setInterval(function(){
+		// 	that.fetch();
+		// },10000);
+	}
 });
 
 App.ThreadView = Marionette.ItemView.extend({
@@ -27,14 +41,13 @@ App.ThreadView = Marionette.ItemView.extend({
 			App.postRegion.show(postView);
 		},
 		"click #remove" : function () {
-			//this.remove();
 			this.model.collection.remove(this.model);
 			console.log(this.model);	
-			var del = "/thread"
-			// $.ajax({
-			// 	url:del,
-			// 	type: "DELETE",
-			// })
+			var del = "/thread/" + this.model.get('_id');
+			$.ajax({
+                    url: del,
+                    type: 'DELETE'
+            });
 		},
 	}
 });
@@ -48,18 +61,9 @@ App.ThreadsView = Marionette.CompositeView.extend({
 			var n = $("#newthread").val();
 			if (n.length > 0){
 				var text = $("#postcontent").val();
-				this.collection.add({ title:n, content:text }, {wait : true} );
+				var newThread = this.collection.create({ title:n, content:text }, {wait : true} );
 				$("#newthread").val("");
 				$("#postcontent").val("");
-				// $.ajax({
-				// 	url:"/", 
-				// 	type: "POST",
-				// 	dataType: "application/json",
-				// 	data:{
-				// 		"title": n,
-				// 		"content" : text
-				// 	}
-				// })
 			}
 		}
 	}
@@ -94,26 +98,13 @@ App.PostView = Marionette.CompositeView.extend({
 	}
 });
 
-var Thread = Backbone.Model.extend({
-	defaults : {
-		title : "na",
-		content : "na",
-		comments : []
-	},
-	idAttribute: '_id',
-});
-var Threads = Backbone.Collection.extend({
-	url : "/",
-	model : Thread,
-	initialize : function() {
-		this.fetch();
-		var that = this;
-		// setInterval(function(){
-		// 	that.fetch();
-		// },10000);
-	}
+
+App.on("start",function(){
+	console.log("HELLO");
+	var threadsView = new App.ThreadsView({collection:c});
+	App.threadsRegion.show(threadsView);
+
 });
 
 var c = new Threads([]);
-
 App.start();
