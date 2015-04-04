@@ -1,16 +1,19 @@
 {% extends "base.html" %}
 {% block body %}
-<script>
-  
-</script>
+
 <script type="text/template" id="static-template">
+  <hr>
+  
+  <hr>
+
   <h2> Static Template </h2>
 </script>
 
 <script type="text/template" id="start-template"> 
   <h2 style="display:inline"></h2> <img id ="tama_img" width="80px" height="90px" src= <%= img_src %>>
   <h3 style="display:inline"> Meet the Tamagachi family of <span style="font-size:2.0em"><%= name %> </span></h3>
-  <input id="newname"></input> <button class = "pure-button pure-button-primary" id="changename">Change Name!</button>
+  <input id="newname"></input> <button class="pure-button pure-button-primary" id="changename">Change Name!</button>
+  
 </script>
 <script type="text/template" id="add-template">
     <h3>Add new Family Members below:</h3>
@@ -29,15 +32,16 @@
     <tbody>
        
   </table>
+
 </script>
 
 <script type="text/template" id ="composite-template">
-  <h2> <%= name %>'s Family </h2>
-   <table class = "pure-table pure-table-bordered">
+  <h3> THE FAMILY </h3>
+  <table class = "pure-table pure-table-bordered">
      
     <thead>
-      <tr>
-	<td >NAME</td><td>HAPPINESS</td><td>HUNGER</td><td>Sprite</td><td>Remove from Family</td>
+      <tr style="font-weight:bold">
+	<td>NAME</td><td>HAPPINESS</td><td>HUNGER</td><td>SAYS:</td><td>Remove from Family</td>
       </tr>
     </thead>
     <tbody style="vertical-align:inherit">
@@ -48,12 +52,11 @@
 </script>
 
 <script type="text/template" id="attributes-template">
-  <td valign="top"><%- name %></td>  
-    <td><%- happiness%></td> 
-    <td><%- hunger  %></td> 
-    <td><img src="<%= img_src %>" width="30" height="40"></td> 
-    <td><button id="disown">Disown</button></td>
-   
+  <td><img src="<%= img_src %>" width="30" height="40"><%- name %></td>  
+  <td><%- happiness%></td> 
+  <td><%- hunger  %></td> 
+  <td><input id="says"></input><button class="pure-button"><%- name %> SAYS:</button></td>
+  <td><button class="pure-button pure-button-primary" id="disown">Disown</button></td>
 </script>
 
 <div class = "pure-g">
@@ -63,28 +66,22 @@
   <!-- # convention that doesn't go back the server to go to a new page... just goes to a different place on the same page
   <a href="#one"><button class="pure-button pure-button-primary">one</button></a>
   <a href="#two"><button class="pure-button pure-button-primary">two</button></a>  -->
-
+  <br>
   <div id ="first-region">
-    First region
   </div>
   <br>
-  <div id ="third-region">
-    Third region
-  </div>
+   <div id ="third-region">
+   </div>
+    <br>
+
   <div>
     <table class="pure-table pure-table-bordered" id="second-region">
     </table>
   </div>
-  <hr>
-  
-  <hr>
-  <div id ="fourth-region">
-    Fourth region
+   <div id ="fourth-region">
   </div>
-         
-
+  
 </div>
-
 
 <script src = "static/app.js"></script>
 

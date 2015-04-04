@@ -1,34 +1,5 @@
-console.log("ADSFADSFADSFASDFAD");
 var App = new Marionette.Application();
-var names = "Samuel"
-var image ="http://vignette2.wikia.nocookie.net/tamagotchi/images/8/8d/Tamagotchi_blue.png/revision/latest?cb=20110906021758";
-var Tamagachi = Backbone.Model.extend({
-    idAttributes:"_id",
-    url:"/ca"
-});
-// names = prompt("Welcome to the family of Tamagchi! \nPlease enter the name of the first member of your Tamagachi's family (presumably your name).\n");
-var tama = new Tamagachi({
-    happiness:5,
-    name:names, //names comes from in line script in html file
-    hunger:2,
-    priority:10,
-    img_src:image
-});
-tama.save();
-var TamaCollection = Backbone.Collection.extend({
-    model:Tamagachi,
-    comparator:name,
-    
-    initialize:function(){
-	this.fetch();
-
-    }
-});
-
-
-var n = 2;
-var c = new TamaCollection([tama]);
-
+//Backbone.emulateHTTP = true;
 App.addRegions({
     firstRegion:"#first-region",
     secondRegion:"#second-region",
@@ -36,7 +7,6 @@ App.addRegions({
     fourthRegion:"#fourth-region"
 }); 
 // equate regions to html code with id's above
-
 
 App.on("start", function(){
     console.log("started");
@@ -56,8 +26,6 @@ App.on("start", function(){
  //   var tamaView = new App.TamaView({collection:c,model:tama});
    // App.secondRegion.show(tamaView);
 
-   
-
 });
 
 
@@ -70,12 +38,18 @@ App.TamaStatView = Marionette.ItemView.extend({
     tagName:"tr",
     events:{
 	"click #disown":function(){
-	    this.remove();
+	    if (this.model.get("id")>1){
+		this.model.destroy();
+	    }
+	    else{
+		alert("You cannot disown yourself.");
+	    }
 	}
     },
     modelEvents:{
 	"change":function(){
 	    this.render();
+	    //this.model.save();
 	}
     }
 });
@@ -86,32 +60,41 @@ App.StartView = Marionette.ItemView.extend({
     events:{
 	"click #changename": function(){
 	    //mongoadd($("newname").val())
-	    this.model.set("name", $("#newname").val());
-	    //console.log($("#newname").val());
-	    console.log(this.model.attributes.name);
-	    console.log("adding NEW NAME");	
-	    // ADD TO MONGO DB
-	    this.render();
+	    if ($("#newname").val().length >0){
+		this.model.set("name", $("#newname").val());
+		//console.log($("#newname").val());
+		//console.log(this.model.attributes.name);
+		//console.log("adding NEW NAME");	
+		this.render();
+	    }
 	}	
+    },
+    modelEvents:{
+	"change":function(){
+	    this.render();
+	    this.model.save(); // sends Post/Put Request 
+	}
     }
 });
 App.AddView = Marionette.ItemView.extend({
     template:"#add-template",
     events:{
 	"click #addnew": function(){
-	    var x = new Tamagachi({
-		name: $("#name2").val(),
-		happiness:  Math.floor((Math.random() * 5)+3),
-		hunger: Math.floor((Math.random() * 5)+1),
-		_id:n,
-		img_src: image,
-	    });
-	    n += 1;
-	    c.add(x);
-	    console.log(c,x.get("name"));
-	    
-	    // ADD TO MONGO DB
-	    this.render();
+	    if ($("#name2").val().length >0) {
+		n += 1;
+		var x = new Tamagachi({
+		    name: $("#name2").val(),
+		    happiness:  Math.floor((Math.random() * 5)+3),
+		    hunger: Math.floor((Math.random() * 5)+1),
+		    id:n,
+		    img_src: image,
+		});
+		n += 1;
+		c.add(x.toJSON());
+		// ADD TO MONGO DB
+		this.render();
+		x.save();
+	    }
 	}
 
     }
@@ -127,11 +110,37 @@ App.CompView = Marionette.CompositeView.extend({
 	},
 	"change": function(){
 	    console.log(JSON.stringify(c));
-
 	    this.render();
 	}
     }
-});
+})
+var names = prompt("Welcome to the family of Tamagchi! \nPlease enter the name of the first member of your Tamagachi's family (presumably your name).\n");
 
+var image ="http://vignette2.wikia.nocookie.net/tamagotchi/images/8/8d/Tamagotchi_blue.png/revision/latest?cb=20110906021758";
+var Tamagachi = Backbone.Model.extend({
+    idAttributes:"id",
+    urlRoot:"/ca",
+});
+var n = 1;
+var tama = new Tamagachi({
+    happiness:5,
+    name:names, //names comes from in line script in html file
+    hunger:2,
+    id:n, //I turn id into ids later (in app.py)
+    img_src:image
+});
+n += 1 // probably very inefficient way of making sure the keys are never the same....
+
+var TamaCollection = Backbone.Collection.extend({
+    model:Tamagachi,
+    url:"/ca",
+    comparator:name,
+    
+    initialize:function(){
+	this.fetch();
+    }
+});
+tama.save()
+var c = new TamaCollection([tama]);
 
 App.start();
