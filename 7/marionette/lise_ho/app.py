@@ -29,9 +29,11 @@ def ind(id=None):
     print request
     #place holder for id numbers (just in case funky things happen)
     if method == "GET":
-       toBson();
+        #Is it possible to import data from mongodb to marrionette/backbone framework?
+        # 
+        pass;
 
-    if method == "PUT" or method == "POST":
+    elif method == "PUT" or method == "POST":
         #add to mongodb  (model.save in backbone sends post request)
         if db.members.find({"id":mem["id"]}):
             db.members.update({"id":mem["id"]},mem, True)

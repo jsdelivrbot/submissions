@@ -1,12 +1,8 @@
 {% extends "base.html" %}
 {% block body %}
 
-<script type="text/template" id="static-template">
-  <hr>
-  
-  <hr>
-
-  <h2> Static Template </h2>
+<script type="text/template" id="static-template"><hr>
+  <a href="/data"><button class="pure-button" style="background:rgb(28, 184, 65);">Squeak! My family data!! </button></a>
 </script>
 
 <script type="text/template" id="start-template"> 
@@ -41,7 +37,7 @@
      
     <thead>
       <tr style="font-weight:bold">
-	<td>NAME</td><td>HAPPINESS</td><td>HUNGER</td><td>SAYS:</td><td>Remove from Family</td>
+	<td>SPECIES:</td><td>NAME</td><td>HAPPINESS</td><td>HUNGER</td><td>FEED</td><td>Remove from Family</td>
       </tr>
     </thead>
     <tbody style="vertical-align:inherit">
@@ -52,10 +48,11 @@
 </script>
 
 <script type="text/template" id="attributes-template">
-  <td><img src="<%= img_src %>" width="30" height="40"><%- name %></td>  
+  <td><img src="<%= img_src %>" width="30" height="40"></td>  
+  <td><%- name %></td>  
   <td><%- happiness%></td> 
   <td><%- hunger  %></td> 
-  <td><input id="says"></input><button class="pure-button"><%- name %> SAYS:</button></td>
+  <td><button id="don" style="border:0px;background-color:transparent"><img src="http://static.wixstatic.com/media/be8b00_a8df1a7eb5504e4e8ae51fead0900ea0.jpg_srz_p_529_490_75_22_0.50_1.20_0.00_jpg_srz" width="60" height="60"></button></td>  
   <td><button class="pure-button pure-button-primary" id="disown">Disown</button></td>
 </script>
 

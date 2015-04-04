@@ -25,6 +25,7 @@ App.on("start", function(){
     App.secondRegion.show(compositeView);
  //   var tamaView = new App.TamaView({collection:c,model:tama});
    // App.secondRegion.show(tamaView);
+    Backbone.history.start();
 
 });
 
@@ -44,7 +45,17 @@ App.TamaStatView = Marionette.ItemView.extend({
 	    else{
 		alert("You cannot disown yourself.");
 	    }
+	},
+	"click #don":function(){
+	    this.model.set("happiness", this.model.get("happiness")+1);
+	    var hun = this.model.get("hunger")-1;
+	    if (hun < 0){
+		hun = 0;
+	    }
+	    this.model.set("hunger", hun);
+	    this.model.save();
 	}
+	
     },
     modelEvents:{
 	"change":function(){
@@ -85,11 +96,10 @@ App.AddView = Marionette.ItemView.extend({
 		var x = new Tamagachi({
 		    name: $("#name2").val(),
 		    happiness:  Math.floor((Math.random() * 5)+3),
-		    hunger: Math.floor((Math.random() * 5)+1),
+		    hunger: Math.floor((Math.random() * 50)+30),
 		    id:n,
 		    img_src: image,
 		});
-		n += 1;
 		c.add(x.toJSON());
 		// ADD TO MONGO DB
 		this.render();
@@ -123,13 +133,13 @@ var Tamagachi = Backbone.Model.extend({
 });
 var n = 1;
 var tama = new Tamagachi({
-    happiness:5,
     name:names, //names comes from in line script in html file
-    hunger:2,
+    happiness:  Math.floor((Math.random() * 5)+3),
+    hunger: Math.floor((Math.random() * 50)+30),
     id:n, //I turn id into ids later (in app.py)
     img_src:image
 });
-n += 1 // probably very inefficient way of making sure the keys are never the same....
+n += 1 // probably not the best  way of making sure the keys are never the same....
 
 var TamaCollection = Backbone.Collection.extend({
     model:Tamagachi,
