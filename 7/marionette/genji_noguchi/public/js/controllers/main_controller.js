@@ -1,4 +1,4 @@
-var MainController = Marionette.Controller.extend({
+App.MainController = Marionette.Controller.extend({
 	initialize : function(options) {
 		console.log("Initializing controller...");
 	},
@@ -21,3 +21,6 @@ var MainController = Marionette.Controller.extend({
 	}
 })
 
+App.addInitializer(function(options) {
+	App.mainController = new App.MainController();
+})

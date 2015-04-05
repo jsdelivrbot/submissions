@@ -45,12 +45,9 @@ app.get('/projects', function(req, res){
 
 			if (item === null) {
 				db.close();
-				console.log("wtf");
 				res.json(response);
 			} else {
-				console.dir(item);
 				response.projects.push(item);
-				console.dir(response.projects);
 			}
 		});
 	})

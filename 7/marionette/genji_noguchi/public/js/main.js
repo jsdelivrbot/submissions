@@ -1,10 +1,7 @@
 console.log("init");
 
 var App = new Marionette.Application();
+var options = {
+	apiURL : ""
+}
 
-/* Define Regions */
-App.addRegions({
-	headerRegion		: "#header",
-	mainRegion			: "#main",
-	footerRegion		: "#footer"
-})
