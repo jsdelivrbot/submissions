@@ -3,20 +3,19 @@
 
 
 
-
-
 <script type="text/template" id="story-template">
-  <center><%= line %> <br> </center>
+<center> <%- line ["line"] %> <br> </center>
 </script>
 
 <script type="text/template" id="stored-template">
-  <center><%= line %> <br> </center>
+  <center><%- line["line"] %> <br> </center>
 </script>
 
 
 <script type="text/template" id="stories-template">
  <center> <div>
-  Add New Lines to the Story: <br>  <input type="text" name="lines" id="line"><br><button class="pure-button" id="add">Add</button> </div> </center>
+  Add New Lines to the Story: <br>  <input type="text" name="lines" id="line"><br><button class="pure-button" id="add">Add</button> 
+<!--<br><br><button class="pure-button" id="delete">Restart- Dumps the Entire Story</button>--> </div> </center>
 <br>
 <center>Here is an awesome story <br> </center>
 

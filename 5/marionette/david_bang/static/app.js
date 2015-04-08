@@ -26,13 +26,13 @@ var b = new Lines();
 
 App.on("start",function() {
     console.log("Story Started");
-    var storyView = new App.StorysView({collection: currentstory,
-				       model: start});
+    var storyView = new App.StorysView({collection: currentstory
+				       });
     App.story.show(storyView);
   
-    var stored2View = new App.StoredView({collection: currentstory,
-				       model: start});
-    App.stored.show(stored2View);
+   // var stored2View = new App.StoredView({collection: currentstory
+//				       });
+   // App.stored.show(stored2View);
 
     Backbone.history.start();
 });
@@ -42,14 +42,19 @@ App.StoresView = Marionette.ItemView.extend({
     modelEvents:{
 	"change":function(){
 	    this.render();
+	    this.model.save();
+	    window.location.reload();
 	}
     }
 });
 App.StoryView = Marionette.ItemView.extend({
     template: "#story-template",
+   
     modelEvents: {
 	"change" : function(){
 	    this.render();
+	    this.model.save();
+	    window.location.reload();
 	}
     }
 });
@@ -69,25 +74,61 @@ App.StorysView = Marionette.CompositeView.extend({
     template: "#stories-template",
     childViewContainer : "ul",
     events: {
+/*	"click #delete": function(){
+	    var that = this;
+
+	    that.destroy();
+	    $.ajax({
+		    type: "DELETE",
+		    url: "story",
+		    dataType: "json",
+		    success:function() {
+			$("#line").empty();
+			console.log("Success")
+
+		    }});
+	    var currentstor = new Storys();
+	    var story3View = new App.StorysView({collection: currentstor
+				       });
+	    App.story.show(story3View);
+	    console.log ("story dumped");
+	
+	    console.log("Story Dumped");
+	},*/
 	"click #add" : function(){
 	    var l = $("#line").val();
+	    console.log(l);
 	    if (l.length >0){
 		var m = new Line ({line:l});
-		m.save(m.toJSON(), {success:function() {
-		    console.log("Success")
+		console.log(m);
+		//m.save(m.toJSON(), {success:function() {
+		//    console.log("Success")
 
-		}});
-		this.collection.add (new Story({line:l}))
-		this.render();		    
-				    
+		//}});
+		//looked at alex's code
+		$.ajax({
+		    type: "POST",
+		    url: "story",
+		    dataType: "json",
+		    contentType: "application/json",
+		    data: JSON.stringify({
+			line: l
+		    }), success:function() {
+			console.log("Success")
+
+		    }});
+		this.collection.add (new Story({line:l}));
+		console.log(new Story({line:l}));	    
 		
 	    }
 	    $("#line").val("");
+	    window.location.reload();
 	}	   
     },
     modelEvents: {
 	"change" : function(){
 	    this.render();
+	    window.location.reload();
 	}
     }
 
@@ -99,11 +140,14 @@ App.StorysView = Marionette.CompositeView.extend({
 
 var Story = Backbone.Model.extend({});
 var Storys = Backbone.Collection.extend({
-    model: Story
+    url: "story",
+    model: Story,
+    initialize: function(){
+	this.fetch();
+    }
 });
 
 
-var start = new Story ({line: "Here is the start of an amazing story"});
 
 var currentstory = new Storys();
 

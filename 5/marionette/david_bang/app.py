@@ -1,12 +1,13 @@
 from flask import Flask, render_template, request
 from pymongo import MongoClient
-import json
+import json, bson
 
 # CANT GET MONGODB TO WORK WITH MARIONETTE
 
 mongo = MongoClient()
 db = mongo['story']
-tmpid = 0
+lines = db.story
+
 #from pymongo import Connection
 #import json, bson
 
@@ -24,9 +25,19 @@ app = Flask(__name__)
 #    new = {'lines': line}
 #    return json.dumps({'_id':str(story.insert (new))})
 
-def story_add (line):
-   return db.story.insert(line)
+def bsonids(data):
+   for item in data:
+      if "_id" in item:
+         item["_id"] = str(item["_id"])
+   return json.dumps(data)
 
+def story_add (l):
+   line = {"line": l}
+   return bsonids({"id": str(lines.insert(line))})
+
+def story_delete(id):
+   lines.remove({"_id":bson.ObjectId(id)})
+   
 #def story_get(i):
 #    if "_id" in i:
 #        i["_id"] = str(item["_id"])
@@ -43,22 +54,31 @@ def story_add (line):
 #                  "$push": {'lines': line}}
    # )
 #
-@app.route("/")#, methods=["POST"])
+@app.route("/", methods = ['GET', 'POST'])
 def index():
- #   if(request.method=="POST"):
- #       story.story_add(request.form["lines"])
-    return render_template("index.html") #lines2 = story['lines'])
+   #render = lines.find()
+  # ret = []
+
+  # for i in render:
+  #    ret.append(i['line'])
+
+   return render_template("index.html") #lines2 = story['lines'])
 
 @app.route("/story", methods=['GET','POST','DELETE','PUT'])
 def story():
-    global tmpid
-    if request.method=="POST":
-        line = request.get_json()
-        line['_id'] = tmpid
-        tmpid += 1
-        x = story_add (line)
-        return json.dumps(x)
-    return ""
+   if request.method == "GET":
+      return bsonids([i for i in lines.find()])
+   if request.method=="POST":
+      line = request.get_json()
+      return story_add(line)
+   elif request.method == "DELETE":
+      data = request.get_json()
+      story_delete(data["id"])
+      lines.remove({});
+      
+
+   
+   return render_template("index.html")
 
 
 
